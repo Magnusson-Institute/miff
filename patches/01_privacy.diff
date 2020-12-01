@@ -1,0 +1,17 @@
+Index: mozilla-release/browser/app/profile/firefox.js
+===================================================================
+--- mozilla-release.orig/browser/app/profile/firefox.js
++++ mozilla-release/browser/app/profile/firefox.js
+@@ -2486,5 +2486,10 @@ pref("first-startup.timeout", 30000);
+ // The agent still runs as scheduled if this pref is disabled,
+ // but it exits immediately before taking any action.
+ #ifdef XP_WIN
+-  pref("default-browser-agent.enabled", true);
+-#endif
++  pref("default-browser-agent.enabled", false);
++ #endif
++
++//True: Consult a third-party provider to determine whether a site is phishy.
++//False: Compare URLs against a blacklist to determine whether a site is phishy.
++//The blacklist is stored in urlclassifier2.sqlite.
++lockPref("browser.safebrowsing.remoteLookups", false);

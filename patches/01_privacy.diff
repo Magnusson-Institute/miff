@@ -1,7 +1,7 @@
-Index: mozilla-release/browser/app/profile/firefox.js
+Index: m041/mozilla-release/browser/app/profile/firefox.js
 ===================================================================
---- mozilla-release.orig/browser/app/profile/firefox.js
-+++ mozilla-release/browser/app/profile/firefox.js
+--- m041.orig/mozilla-release/browser/app/profile/firefox.js
++++ m041/mozilla-release/browser/app/profile/firefox.js
 @@ -2486,5 +2486,10 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.

@@ -1,0 +1,46 @@
+Index: m041/mozilla-release/browser/components/preferences/search.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/search.js
++++ m041/mozilla-release/browser/components/preferences/search.js
+@@ -297,6 +297,9 @@ var gSearchPane = {
+     // Now clean-up and rebuild the list.
+     list.removeAllItems();
+     gEngineView._engineStore._engines.forEach(e => {
++      if(e.name == "Google" || e.name == "Bing" || e.name == "Amazon.com" || e.name == "eBay"){
++        gSearchPane.remove(e)
++      } else {
+       let item = list.appendItem(e.name);
+       item.setAttribute(
+         "class",
+@@ -309,7 +312,7 @@ var gSearchPane = {
+       if (e.name == currentEngine) {
+         list.selectedItem = item;
+       }
+-    });
++    }});
+ 
+     // We don't currently support overriding the engine for private mode with
+     // extensions.
+Index: m041/mozilla-release/toolkit/components/search/SearchService.jsm
+===================================================================
+--- m041.orig/mozilla-release/toolkit/components/search/SearchService.jsm
++++ m041/mozilla-release/toolkit/components/search/SearchService.jsm
+@@ -513,7 +513,7 @@ SearchService.prototype = {
+    *   The engine that is default.
+    */
+   _originalDefaultEngine(privateMode = false) {
+-    let defaultEngine = this._getEngineByWebExtensionDetails(
++/*    let defaultEngine = this._getEngineByWebExtensionDetails(
+       privateMode && this._searchPrivateDefault
+         ? this._searchPrivateDefault
+         : this._searchDefault
+@@ -531,7 +531,8 @@ SearchService.prototype = {
+ 
+     // Something unexpected as happened. In order to recover the original
+     // default engine, use the first visible engine which is the best we can do.
+-    return this._getSortedEngines(false)[0];
++    return this._getSortedEngines(false)[0];*/
++    return this._getSortedEngines(false).filter(e=>e._name == "DuckDuckGo")[0];
+   },
+ 
+   /**

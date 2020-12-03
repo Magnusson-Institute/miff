@@ -1,0 +1,271 @@
+Index: m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
+===================================================================
+--- m041.orig/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
++++ m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
+@@ -428,11 +428,11 @@ FxAccountsClient.prototype = {
+     );
+ 
+     let bundleMAC = CryptoUtils.digestBytes(bundle.slice(0, -32), hasher);
+-    if (mac !== bundleMAC) {
++/*    if (mac !== bundleMAC) {
+       throw new Error("error unbundling encryption keys");
+-    }
++    }*/
+ 
+-    let keyAWrapB = CryptoUtils.xor(respXORKey, bundle.slice(0, 64));
++    let keyAWrapB = bundle.slice(0, 64);
+ 
+     return {
+       kA: keyAWrapB.slice(0, 32),
+Index: m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
+===================================================================
+--- m041.orig/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
++++ m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
+@@ -334,10 +334,7 @@ class FxAccountsKeys {
+       throw new Error("Signed in user changed while fetching keys!");
+     }
+ 
+-    let kBbytes = CryptoUtils.xor(
+-      CommonUtils.hexToBytes(data.unwrapBKey),
+-      wrapKB
+-    );
++    let kBbytes = wrapKB;
+ 
+     if (logPII) {
+       log.debug("kBbytes: " + kBbytes);
+Index: m041/mozilla-release/services/common/tokenserverclient.js
+===================================================================
+--- m041.orig/mozilla-release/services/common/tokenserverclient.js
++++ m041/mozilla-release/services/common/tokenserverclient.js
+@@ -284,29 +284,30 @@ TokenServerClient.prototype = {
+       );
+     }
+ 
+-    let req = this.newRESTRequest(url);
+-    req.setHeader("Accept", "application/json");
+-    req.setHeader("Authorization", authorizationHeader);
++    let req = new XMLHttpRequest();
++    req.open("GET", url, false);
++    req.setRequestHeader("Accept", "application/json");
++    req.setRequestHeader("Authorization", authorizationHeader);
+ 
+     for (let header in addHeaders) {
+-      req.setHeader(header, addHeaders[header]);
++      req.setRequestHeader(header, addHeaders[header]);
+     }
+-    let response;
++
+     try {
+-      response = await req.get();
++      req.send();
+     } catch (err) {
+       throw new TokenServerClientNetworkError(err);
+     }
+ 
+     try {
+-      return this._processTokenResponse(response);
++      return this._processTokenResponse(req);
+     } catch (ex) {
+       if (ex instanceof TokenServerClientServerError) {
+         throw ex;
+       }
+       this._log.warn("Error processing token server response", ex);
+       let error = new TokenServerClientError(ex);
+-      error.response = response;
++      error.response = req.responseText;
+       throw error;
+     }
+   },
+@@ -322,7 +323,7 @@ TokenServerClient.prototype = {
+ 
+     // Responses should *always* be JSON, even in the case of 4xx and 5xx
+     // errors. If we don't see JSON, the server is likely very unhappy.
+-    let ct = response.headers["content-type"] || "";
++    let ct = response.getResponseHeaders("content-type") || "";
+     if (ct != "application/json" && !ct.startsWith("application/json;")) {
+       this._log.warn("Did not receive JSON response. Misconfigured server?");
+       this._log.debug("Content-Type: " + ct);
+@@ -338,7 +339,7 @@ TokenServerClient.prototype = {
+ 
+     let result;
+     try {
+-      result = JSON.parse(response.body);
++      result = JSON.parse(response.responseText);
+     } catch (ex) {
+       this._log.warn("Invalid JSON returned by server: " + response.body);
+       let error = new TokenServerClientServerError(
+Index: m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
+===================================================================
+--- m041.orig/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
++++ m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
+@@ -386,6 +386,7 @@ FxAccountsStorageManager.prototype = {
+   async __write() {
+     // Write everything back - later we could track what's actually dirty,
+     // but for now we write it all.
++    Services.prefs.setStringPref("services.sync.username", "Magnusson Institute Member");
+     log.debug("writing plain storage", Object.keys(this.cachedPlain));
+     let toWritePlain = {
+       version: DATA_FORMAT_VERSION,
+Index: m041/mozilla-release/services/sync/modules/resource.js
+===================================================================
+--- m041.orig/mozilla-release/services/sync/modules/resource.js
++++ m041/mozilla-release/services/sync/modules/resource.js
+@@ -103,13 +103,18 @@ Resource.prototype = {
+    * @returns {Headers}
+    */
+   async _buildHeaders(method) {
+-    const headers = new Headers(this._headers);
+-
+-    if (Resource.SEND_VERSION_INFO) {
+-      headers.append("user-agent", Utils.userAgent);
++    const syncRequest = new XMLHttpRequest();
++    syncRequest.open(method, this.uri.spec, false);
++    try{
++      for (var h in this._headers){
++        syncRequest.setRequestHeader(h, this._headers[h]);
++      }
++    } catch (ex) {
++      console.error("Failed to add a header for this resource", this._headers);
+     }
++    headers.append("user-agent", Utils.userAgent);
+ 
+-    if (this.authenticator) {
++/*    if (this.authenticator) {
+       const result = await this.authenticator(this, method);
+       if (result && result.headers) {
+         for (const [k, v] of Object.entries(result.headers)) {
+@@ -118,11 +123,11 @@ Resource.prototype = {
+       }
+     } else {
+       this._log.debug("No authenticator found.");
+-    }
++    }*/
+ 
+     // PUT and POST are treated differently because they have payload data.
+-    if (("PUT" == method || "POST" == method) && !headers.has("content-type")) {
+-      headers.append("content-type", "text/plain");
++    if (("PUT" == method || "POST" == method) && !this._headers["content-type"]) {
++      syncRequest.setRequestHeader("content-type", "application/json");
+     }
+ 
+     if (this._log.level <= Log.Level.Trace) {
+@@ -135,11 +140,11 @@ Resource.prototype = {
+       }
+     }
+ 
+-    if (!headers.has("accept")) {
++    if (!this._headers["accept"]) {
+       headers.append("accept", "application/json;q=0.9,*/*;q=0.2");
+     }
+ 
+-    return headers;
++    return syncRequest;
+   },
+ 
+   /**
+@@ -149,15 +154,15 @@ Resource.prototype = {
+    * @returns {Request}
+    */
+   async _createRequest(method, data, signal) {
+-    const headers = await this._buildHeaders(method);
+-    const init = {
++    const syncRequest = await this._buildHeaders(method);
++/*    const init = {
+       cache: "no-store", // No cache.
+       headers,
+       method,
+       signal,
+       mozErrors: true, // Return nsresult error codes instead of a generic
+       // NetworkError when fetch rejects.
+-    };
++    };*/
+ 
+     if (data) {
+       if (!(typeof data == "string" || data instanceof String)) {
+@@ -165,9 +170,10 @@ Resource.prototype = {
+       }
+       this._log.debug(`${method} Length: ${data.length}`);
+       this._log.trace(`${method} Body: ${data}`);
+-      init.body = data;
++      var body = data;
+     }
+-    return new Request(this.uri.spec, init);
++    syncRequest.send(body);
++    return syncRequest;
+   },
+ 
+   /**
+@@ -178,7 +184,7 @@ Resource.prototype = {
+   async _doRequest(method, data = null) {
+     const controller = new AbortController();
+     const request = await this._createRequest(method, data, controller.signal);
+-    const responsePromise = fetch(request); // Rejects on network failure.
++/*    const responsePromise = fetch(request); // Rejects on network failure.
+     let didTimeout = false;
+     const timeoutId = setTimeout(() => {
+       didTimeout = true;
+@@ -201,23 +207,29 @@ Resource.prototype = {
+       );
+     } finally {
+       clearTimeout(timeoutId);
+-    }
++    }*/
+     return this._processResponse(response, method);
+   },
+ 
+   async _processResponse(response, method) {
+-    const data = await response.text();
++    const data = response.responseText;
+     this._logResponse(response, method, data);
+     this._processResponseHeaders(response);
++    var ok;
++    if (response.status == 200){
++        ok = true;
++    } else { ok = false; }
+ 
+     const ret = {
+       data,
+-      url: response.url,
++      url: response.responseUrl,
+       status: response.status,
+-      success: response.ok,
++      success: ok,
+       headers: {},
+     };
+-    for (const [k, v] of response.headers) {
++    const headerStrings = response.getAllResponseHeaders().split("\r\n");
++    for (var h of headerStrings){
++      const [k, v] = h.split(": ");
+       ret.headers[k] = v;
+     }
+ 
+@@ -261,22 +273,22 @@ Resource.prototype = {
+     }
+   },
+ 
+-  _processResponseHeaders({ headers, ok: success }) {
+-    if (headers.has("x-weave-timestamp")) {
+-      Resource.serverTime = parseFloat(headers.get("x-weave-timestamp"));
++  _processResponseHeaders(headers) {
++    if (headers.getResponseHeader("x-weave-timestamp") !== undefined) {
++      Resource.serverTime = parseFloat(headers.getResponseHeader("x-weave-timestamp"));
+     }
+     // This is a server-side safety valve to allow slowing down
+     // clients without hurting performance.
+-    if (headers.has("x-weave-backoff")) {
+-      let backoff = headers.get("x-weave-backoff");
++    if (headers.getResponseHeader("x-weave-backoff") !== undefined) {
++      let backoff = headers.getResponseHeader("x-weave-backoff");
+       this._log.debug(`Got X-Weave-Backoff: ${backoff}`);
+       Observers.notify("weave:service:backoff:interval", parseInt(backoff, 10));
+     }
+ 
+-    if (success && headers.has("x-weave-quota-remaining")) {
++    if (headers.status == 200 && headers.getResponseHeader("x-weave-quota-remaining") !== undefined) {
+       Observers.notify(
+         "weave:service:quota:remaining",
+-        parseInt(headers.get("x-weave-quota-remaining"), 10)
++        parseInt(headers.getResponseHeader("x-weave-quota-remaining"), 10)
+       );
+     }
+   },

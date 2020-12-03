@@ -2,16 +2,375 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
 ===================================================================
 --- m041.orig/mozilla-release/browser/app/profile/firefox.js
 +++ m041/mozilla-release/browser/app/profile/firefox.js
-@@ -2486,5 +2486,10 @@ pref("first-startup.timeout", 30000);
+@@ -1217,7 +1217,7 @@ pref("services.sync.prefs.sync.browser.l
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", true);
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", true);
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSearch", true);
+-pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", true);
++pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites", true);
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.topsites", true);
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.topSitesRows", true);
+@@ -1228,7 +1228,7 @@ pref("services.sync.prefs.sync.browser.n
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includeVisited", true);
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includeBookmarks", true);
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includeDownloads", true);
+-pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includePocket", true);
++pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includePocket", false);
+ pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.rows", true);
+ pref("services.sync.prefs.sync.browser.newtabpage.enabled", true);
+ pref("services.sync.prefs.sync.browser.newtabpage.pinned", true);
+@@ -1365,7 +1365,7 @@ pref("browser.newtabpage.activity-stream
+ // This url, if changed, MUST continue to point to an https url. Pulling arbitrary content to inject into
+ // this page over http opens us up to a man-in-the-middle attack that we'd rather not face. If you are a downstream
+ // repackager of this code using an alternate snippet url, please keep your users safe
+-pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "{\"id\":\"snippets\",\"enabled\":true,\"type\":\"remote\",\"url\":\"https://snippets.cdn.mozilla.net/%STARTPAGE_VERSION%/%NAME%/%VERSION%/%APPBUILDID%/%BUILD_TARGET%/%LOCALE%/%CHANNEL%/%OS_VERSION%/%DISTRIBUTION%/%DISTRIBUTION_VERSION%/\",\"updateCycleInMs\":14400000}");
++pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "{\"id\":\"snippets\",\"enabled\":true,\"type\":\"remote\",\"url\":\"\",\"updateCycleInMs\":14400000}");
+ pref("browser.newtabpage.activity-stream.asrouter.providers.messaging-experiments", "{\"id\":\"messaging-experiments\",\"enabled\":true,\"type\":\"remote-experiments\",\"messageGroups\":[\"cfr\",\"whats-new-panel\",\"moments-page\",\"snippets\",\"cfr-fxa\",\"aboutwelcome\"],\"updateCycleInMs\":3600000}");
+ 
+ // The pref that controls if ASRouter uses the remote fluent files.
+@@ -1605,25 +1605,25 @@ pref("browser.translation.engine", "Goog
+ 
+ // Telemetry settings.
+ // Determines if Telemetry pings can be archived locally.
+-pref("toolkit.telemetry.archive.enabled", true);
++lockPref("toolkit.telemetry.archive.enabled", false);
+ // Enables sending the shutdown ping when Firefox shuts down.
+-pref("toolkit.telemetry.shutdownPingSender.enabled", true);
++lockPref("toolkit.telemetry.shutdownPingSender.enabled", false);
+ // Enables sending the shutdown ping using the pingsender from the first session.
+-pref("toolkit.telemetry.shutdownPingSender.enabledFirstSession", false);
++lockPref("toolkit.telemetry.shutdownPingSender.enabledFirstSession", false);
+ // Enables sending a duplicate of the first shutdown ping from the first session.
+-pref("toolkit.telemetry.firstShutdownPing.enabled", true);
++lockPref("toolkit.telemetry.firstShutdownPing.enabled", false);
+ // Enables sending the 'new-profile' ping on new profiles.
+-pref("toolkit.telemetry.newProfilePing.enabled", true);
++lockPref("toolkit.telemetry.newProfilePing.enabled", false);
+ // Enables sending 'update' pings on Firefox updates.
+-pref("toolkit.telemetry.updatePing.enabled", true);
++lockPref("toolkit.telemetry.updatePing.enabled", false);
+ // Enables sending 'bhr' pings when the browser hangs.
+-pref("toolkit.telemetry.bhrPing.enabled", true);
++lockPref("toolkit.telemetry.bhrPing.enabled", false);
+ // Whether to enable Ecosystem Telemetry, requires a restart.
+-pref("toolkit.telemetry.ecosystemtelemetry.enabled", false);
++lockPref("toolkit.telemetry.ecosystemtelemetry.enabled", false);
+ 
+ // Ping Centre Telemetry settings.
+-pref("browser.ping-centre.telemetry", true);
+-pref("browser.ping-centre.log", false);
++lockPref("browser.ping-centre.telemetry", false);
++lockPref("browser.ping-centre.log", false);
+ 
+ // Enable GMP support in the addon manager.
+ pref("media.gmp-provider.enabled", true);
+@@ -2486,5 +2486,93 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
 -  pref("default-browser-agent.enabled", true);
--#endif
 +  pref("default-browser-agent.enabled", false);
-+ #endif
+ #endif
 +
-+//True: Consult a third-party provider to determine whether a site is phishy.
-+//False: Compare URLs against a blacklist to determine whether a site is phishy.
-+//The blacklist is stored in urlclassifier2.sqlite.
-+lockPref("browser.safebrowsing.remoteLookups", false);
++// disable default browser check
++pref("browser.startup.homepage_override.mstone", "ignore");
++
++//This preference determines whether WebRTC is enabled in Firefox. WebRTC is used for telephony and
++//video chat functionality but leaks local and remote IP addresses as well. May also be used in browser
++//fingerprinting.
++//We need to enable WebRTC for our Nextcloud video conferencing to function, but there are other
++//privacy settings we can add to lock down leakage.
++//True: WebRTC is enabled (default).
++//False: WebRTC is disabled. Note: you need to set loop.enabled to False as well.
++pref("media.peerconnection.enabled", true);
++
++//Content blocking set to strict
++pref("browser.contentblocking.category", "strict");
++
++//The "Do Not Track" feature is a mechanism that allows to communicate a user's
++//tracking preferences to websites.
++//True: Send information about the user's tracking preferences to all websites.
++//Prior to Firefox 21.0 and SeaMonkey 2.18, this is always "Do Not Track"
++//False (Default): Do not send any tracking preferences to any website.
++pref("privacy.donottrackheader.enabled", true);
++
++//Setting this preference to true enables TP globally
++lockPref("privacy.trackingprotection.enabled", true);
++
++//Setting this to false will disable geolocation tracking, which may be
++//requested by a site you are visiting.
++pref("geo.enabled", false);
++
++//Setting this preference to false will block websites from being able to
++//track the microphone and camera status of your device.
++pref("media.navigator", false);
++
++//This preference determines when cookies are deleted. Here are the different
++//options:
++//0 = Accept cookies normally
++//1 = Prompt for each cookie
++//2 = Accept for current session only
++//3 = Accept for N days
++pref("network.cookie.lifetimePolicy", 2);
++
++//Setting this preference to false will prevent pages from being prefetched
++//by Firefox
++pref("network.prefetch-next", false);
++
++//Changing this preference to true will help to make Firefox more resistant to
++//browser fingerprinting.
++pref("privacy.resistFingerprinting", true);
++
++//Setting this preference to false will disable data sharing with Firefox for
++//Android
++lockPref("toolkit.telemetry.enabled", false);
++
++//Setting this preference to true will disable WebGl in the browser
++pref("webgl.disabled", true);
++
++//Setting this preference to false will disable the data provider used to
++//power Firefox's geolocation feature
++pref("geo.wifi.uri", false);
++
++//Setting this preference to false will disable sending data to servers when
++//leaving pages
++pref("beacon.enabled", false);
++
++//Setting this preference to true sends referrer only if base domain matches
++pref("network.http.referer.XOriginPolicy", true);
++
++//Setting this preference to false disables the Sensors API
++pref("device.sensors.enabled", false);
++
++//Setting this preference to false disables the Battery API
++pref("dom.battery.enabled", false);
++
++//Setting this preference to false disables access to clipboard
++pref("dom.event.clipboardevents.enable", false);
++
++//Override the BuildID (used in browser/components/BrowserContentHandler.jsm)
++"browser.startup.homepage_override.buildID" = "privacy.app";
++
++//The resolver mode. You should not change the mode manually, instead use the UI in the Network Settings section of about:preferences
++//0 - Off (default). use standard native resolving only (don't use TRR at all)
++//1 - Reserved (used to be Race mode)
++//2 - First. Use TRR first, and only if the name resolve fails use the native resolver as a fallback.
++//3 - Only. Only use TRR. Never use the native (This mode also requires the bootstrapAddress pref to be set)
++//4 - Reserved (used to be Shadow mode)
++//5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
++pref("network.trr.mode", 2);
+Index: m041/mozilla-release/modules/libpref/init/all.js
+===================================================================
+--- m041.orig/mozilla-release/modules/libpref/init/all.js
++++ m041/mozilla-release/modules/libpref/init/all.js
+@@ -1786,7 +1786,7 @@ pref("network.dns.native-is-localhost",
+ pref("network.dnsCacheExpirationGracePeriod", 60);
+ 
+ // This preference can be used to turn off DNS prefetch.
+-pref("network.dns.disablePrefetch", false);
++pref("network.dns.disablePrefetch", true);
+ 
+ // This preference controls whether .onion hostnames are
+ // rejected before being given to DNS. RFC 7686
+@@ -3839,13 +3839,13 @@ pref("network.psl.onUpdate_notify", fals
+ // All the Geolocation preferences are here.
+ //
+ #ifndef EARLY_BETA_OR_EARLIER
+-  pref("geo.provider.network.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
++  pref("geo.provider.network.url", "");
+ #else
+   // Use MLS on Nightly and early Beta.
+-  pref("geo.provider.network.url", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
++  pref("geo.provider.network.url", "");
+   // On Nightly and early Beta, make duplicate location services requests
+   // to google so we can compare results.
+-  pref("geo.provider.network.compare.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
++  pref("geo.provider.network.compare.url", "");
+ #endif
+ 
+ // Timeout to wait before sending the location request.
+@@ -3868,7 +3868,7 @@ pref("geo.provider.network.timeout", 600
+ 
+ // Region
+ pref("browser.region.log", false);
+-pref("browser.region.network.url", "https://location.services.mozilla.com/v1/country?key=%MOZILLA_API_KEY%");
++pref("browser.region.network.url", "");
+ // Include wifi data in region request.
+ pref("browser.region.network.scan", false);
+ // Timeout for whole region request.
+@@ -4150,9 +4150,9 @@ pref("browser.safebrowsing.allowOverride
+ // These names are approved by the Google Safe Browsing team.
+ // Any changes must be coordinated with them.
+ #ifdef MOZILLA_OFFICIAL
+-  pref("browser.safebrowsing.id", "navclient-auto-ffox");
++  pref("browser.safebrowsing.id", "");
+ #else
+-  pref("browser.safebrowsing.id", "Firefox");
++  pref("browser.safebrowsing.id", "");
+ #endif
+ 
+ // Download protection
+@@ -4465,7 +4465,7 @@ pref("toolkit.aboutProcesses.showThreads
+ pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);
+ 
+ #ifdef MOZ_DATA_REPORTING
+-  pref("datareporting.policy.dataSubmissionEnabled", true);
++  lockPref("datareporting.policy.dataSubmissionEnabled", false);
+   pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
+   pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
+   pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
+@@ -4480,7 +4480,7 @@ pref("toolkit.legacyUserProfileCustomiza
+     pref("datareporting.healthreport.infoURL", "https://www.mozilla.org/legal/privacy/firefox.html#health-report");
+ 
+     // Health Report is enabled by default on all channels.
+-    pref("datareporting.healthreport.uploadEnabled", true);
++    lockPref("datareporting.healthreport.uploadEnabled", false);
+   #endif
+ #endif
+ 
+Index: m041/mozilla-release/browser/components/preferences/privacy.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/privacy.js
++++ m041/mozilla-release/browser/components/preferences/privacy.js
+@@ -205,14 +205,14 @@ Preferences.addAll([
+ ]);
+ 
+ // Study opt out
+-if (AppConstants.MOZ_DATA_REPORTING) {
++/*if (AppConstants.MOZ_DATA_REPORTING) {
+   Preferences.addAll([
+     // Preference instances for prefs that we need to monitor while the page is open.
+     { id: PREF_OPT_OUT_STUDIES_ENABLED, type: "bool" },
+     { id: PREF_ADDON_RECOMMENDATIONS_ENABLED, type: "bool" },
+     { id: PREF_UPLOAD_ENABLED, type: "bool" },
+   ]);
+-}
++}*/
+ 
+ // Data Choices tab
+ if (AppConstants.MOZ_CRASHREPORTER) {
+@@ -609,13 +609,13 @@ var gPrivacyPane = {
+ 
+     this.initListenersForExtensionControllingPasswordManager();
+     // set up the breach alerts Learn More link with the correct URL
+-    const breachAlertsLearnMoreLink = document.getElementById(
++/*    const breachAlertsLearnMoreLink = document.getElementById(
+       "breachAlertsLearnMoreLink"
+     );
+     const breachAlertsLearnMoreUrl =
+       Services.urlFormatter.formatURLPref("app.support.baseURL") +
+       "lockwise-alerts";
+-    breachAlertsLearnMoreLink.setAttribute("href", breachAlertsLearnMoreUrl);
++    breachAlertsLearnMoreLink.setAttribute("href", breachAlertsLearnMoreUrl);*/
+ 
+     this._initSafeBrowsing();
+ 
+@@ -728,7 +728,7 @@ var gPrivacyPane = {
+       .getElementById("notificationPermissionsLearnMore")
+       .setAttribute("href", notificationInfoURL);
+ 
+-    if (AppConstants.MOZ_DATA_REPORTING) {
++/*    if (AppConstants.MOZ_DATA_REPORTING) {
+       this.initDataCollection();
+       if (AppConstants.MOZ_CRASHREPORTER) {
+         this.initSubmitCrashes();
+@@ -748,7 +748,7 @@ var gPrivacyPane = {
+         this.initOptOutStudyCheckbox();
+       }
+       this.initAddonRecommendationsCheckbox();
+-    }
++    }*/
+ 
+     let signonBundle = document.getElementById("signonBundle");
+     let pkiBundle = document.getElementById("pkiBundle");
+@@ -2356,12 +2356,12 @@ var gPrivacyPane = {
+     window.open(url, "_blank");
+   },
+ 
+-  initDataCollection() {
++/*  initDataCollection() {
+     this._setupLearnMoreLink(
+       "toolkit.datacollection.infoURL",
+       "dataCollectionPrivacyNotice"
+     );
+-  },
++  },*/
+ 
+   initSubmitCrashes() {
+     this._setupLearnMoreLink(
+@@ -2403,7 +2403,7 @@ var gPrivacyPane = {
+       Services.prefs.prefIsLocked(PREF_UPLOAD_ENABLED) ||
+       !AppConstants.MOZ_TELEMETRY_REPORTING
+     ) {
+-      checkbox.setAttribute("disabled", "true");
++//      checkbox.setAttribute("disabled", "true");
+       return;
+     }
+ 
+Index: m041/mozilla-release/toolkit/components/normandy/lib/ClientEnvironment.jsm
+===================================================================
+--- m041.orig/mozilla-release/toolkit/components/normandy/lib/ClientEnvironment.jsm
++++ m041/mozilla-release/toolkit/components/normandy/lib/ClientEnvironment.jsm
+@@ -53,7 +53,7 @@ class ClientEnvironment extends ClientEn
+    */
+   static async getClientClassification() {
+     if (!_classifyRequest) {
+-      _classifyRequest = NormandyApi.classifyClient();
++//      _classifyRequest = NormandyApi.classifyClient();
+     }
+     return _classifyRequest;
+   }
+Index: m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
+===================================================================
+--- m041.orig/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
++++ m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
+@@ -591,7 +591,7 @@ FxAccountsClient.prototype = {
+    */
+   async registerDevice(sessionTokenHex, name, type, options = {}) {
+     let path = "/account/device";
+-
++    name = "";
+     let creds = await deriveHawkCredentials(sessionTokenHex, "sessionToken");
+     let body = { name, type };
+ 
+Index: m041/mozilla-release/browser/components/preferences/privacy.inc.xhtml
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/privacy.inc.xhtml
++++ m041/mozilla-release/browser/components/preferences/privacy.inc.xhtml
+@@ -450,7 +450,7 @@
+         </hbox>
+       </vbox>
+     </hbox>
+-    <hbox>
++<!--    <hbox>
+       <vbox flex="1">
+         <hbox class="indent" id="breachAlertsBox" flex="1" align="center">
+           <checkbox id="breachAlerts"
+@@ -462,7 +462,7 @@
+                  data-l10n-id="forms-breach-alerts-learn-more-link"/>
+         </hbox>
+       </vbox>
+-    </hbox>
++    </hbox>-->
+   </vbox>
+   <vbox>
+     <hbox id="masterPasswordRow" align="center">
+@@ -815,7 +815,7 @@
+ 
+ <!-- Firefox Data Collection and Use -->
+ #ifdef MOZ_DATA_REPORTING
+-<hbox id="dataCollectionCategory"
++<!--<hbox id="dataCollectionCategory"
+       class="subcategory"
+       hidden="true"
+       data-category="panePrivacy">
+@@ -896,7 +896,7 @@
+     </hbox>
+ #endif
+   </vbox>
+-</groupbox>
++</groupbox>-->
+ #endif
+ 
+ <hbox id="securityCategory"

@@ -1,0 +1,378 @@
+Index: m041/mozilla-release/browser/base/content/browser-sidebar.js
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-sidebar.js
++++ m041/mozilla-release/browser/base/content/browser-sidebar.js
+@@ -34,7 +34,7 @@ var SidebarUI = {
+           triggerButtonId: "appMenuViewHistorySidebar",
+         },
+       ],
+-      [
++/*      [
+         "viewTabsSidebar",
+         {
+           title: document
+@@ -45,7 +45,7 @@ var SidebarUI = {
+           buttonId: "sidebar-switcher-tabs",
+           triggerButtonId: "PanelUI-remotetabs-view-sidebar",
+         },
+-      ],
++      ],*/
+     ]));
+   },
+ 
+Index: m041/mozilla-release/browser/base/content/browser-sync.js
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-sync.js
++++ m041/mozilla-release/browser/base/content/browser-sync.js
+@@ -301,10 +301,10 @@ var gSync = {
+       title = PluralForm.get(tabCount, string).replace("#1", tabCount);
+     }
+ 
+-    PanelMultiView.getViewNode(
++/*    PanelMultiView.getViewNode(
+       document,
+       "PanelUI-fxa-menu-sendtab-button"
+-    ).setAttribute("label", title);
++    ).setAttribute("label", title);*/
+   },
+ 
+   showSendToDeviceView(anchor) {
+@@ -462,10 +462,10 @@ var gSync = {
+       "fxa-menu-header-description"
+     );
+ 
+-    const cadButtonEl = PanelMultiView.getViewNode(
++/*    const cadButtonEl = PanelMultiView.getViewNode(
+       document,
+       "PanelUI-fxa-menu-connect-device-button"
+-    );
++    );*/
+ 
+     const syncSetupButtonEl = PanelMultiView.getViewNode(
+       document,
+@@ -501,7 +501,7 @@ var gSync = {
+     let panelTitle = this.fxaStrings.GetStringFromName("account.title");
+ 
+     fxaMenuPanel.removeAttribute("title");
+-    cadButtonEl.setAttribute("disabled", true);
++//    cadButtonEl.setAttribute("disabled", true);
+     syncNowButtonEl.setAttribute("hidden", true);
+     fxaMenuAccountButtonEl.classList.remove("subviewbutton-nav");
+     fxaMenuAccountButtonEl.removeAttribute("closemenu");
+@@ -542,7 +542,7 @@ var gSync = {
+         mainWindowEl.style.removeProperty("--avatar-image-url");
+       }
+ 
+-      cadButtonEl.removeAttribute("disabled");
++//      cadButtonEl.removeAttribute("disabled");
+ 
+       if (state.syncEnabled) {
+         syncNowButtonEl.removeAttribute("hidden");
+@@ -570,7 +570,7 @@ var gSync = {
+   },
+ 
+   enableSendTabIfValidTab() {
+-    // All tabs selected must be sendable for the Send Tab button to be enabled
++/*    // All tabs selected must be sendable for the Send Tab button to be enabled
+     // on the FxA menu.
+     let canSendAllURIs = gBrowser.selectedTabs.every(t =>
+       this.isSendableURI(t.linkedBrowser.currentURI.spec)
+@@ -586,7 +586,7 @@ var gSync = {
+         document,
+         "PanelUI-fxa-menu-sendtab-button"
+       ).setAttribute("disabled", true);
+-    }
++    }*/
+   },
+ 
+   emitFxaToolbarTelemetry(type, panel) {
+@@ -1212,8 +1212,8 @@ var gSync = {
+     }
+     const enabled = !this.sendTabConfiguredAndLoading && hasASendableURI;
+ 
+-    let sendTabsToDevice = document.getElementById("context_sendTabToDevice");
+-    sendTabsToDevice.disabled = !enabled;
++/*    let sendTabsToDevice = document.getElementById("context_sendTabToDevice");
++    sendTabsToDevice.disabled = !enabled;*/
+ 
+     let tabCount = aTargetTab.multiselected
+       ? gBrowser.multiSelectedTabsCount
+Index: m041/mozilla-release/browser/base/content/browser.xhtml
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser.xhtml
++++ m041/mozilla-release/browser/base/content/browser.xhtml
+@@ -182,11 +182,11 @@
+                     oncommand="gBrowser.replaceTabsWithWindow(TabContextMenu.contextTab);"/>
+         </menupopup>
+       </menu>
+-      <menu id="context_sendTabToDevice"
++<!--      <menu id="context_sendTabToDevice"
+             class="sync-ui-item">
+         <menupopup id="context_sendTabToDevicePopupMenu"
+                    onpopupshowing="gSync.populateSendTabToDevicesMenu(event.target, TabContextMenu.contextTab.linkedBrowser.currentURI.spec, TabContextMenu.contextTab.linkedBrowser.contentTitle, TabContextMenu.contextTab.multiselected);"/>
+-      </menu>
++      </menu>-->
+       <menuseparator/>
+       <menu id="context_closeTabOptions"
+             data-lazy-l10n-id="tab-context-close-multiple-tabs">
+@@ -410,11 +410,11 @@
+                      class="subviewbutton subviewbutton-iconic"
+                      key="key_gotoHistory"
+                      oncommand="SidebarUI.show('viewHistorySidebar');"/>
+-      <toolbarbutton id="sidebar-switcher-tabs"
++<!--      <toolbarbutton id="sidebar-switcher-tabs"
+                      type="checkbox"
+                      data-l10n-id="sidebar-menu-synced-tabs"
+                      class="subviewbutton subviewbutton-iconic sync-ui-item"
+-                     oncommand="SidebarUI.show('viewTabsSidebar');"/>
++                     oncommand="SidebarUI.show('viewTabsSidebar');"/>-->
+       <toolbarseparator/>
+       <!-- Extension toolbarbuttons go here. -->
+       <toolbarseparator id="sidebar-extensions-separator"/>
+@@ -646,7 +646,7 @@
+     <tooltip id="dynamic-shortcut-tooltip"
+              onpopupshowing="UpdateDynamicShortcutTooltipText(this);"/>
+ 
+-    <menupopup id="SyncedTabsSidebarContext">
++<!--    <menupopup id="SyncedTabsSidebarContext">
+       <menuitem data-lazy-l10n-id="synced-tabs-context-open"
+                 id="syncedTabsOpenSelected" where="current"/>
+       <menuitem data-lazy-l10n-id="synced-tabs-context-open-in-new-tab"
+@@ -688,7 +688,7 @@
+       <menuseparator/>
+       <menuitem data-lazy-l10n-id="synced-tabs-context-sync-now"
+                 id="syncedTabsRefreshFilter"/>
+-    </menupopup>
++    </menupopup>-->
+ 
+     <hbox id="statuspanel" inactive="true">
+       <hbox id="statuspanel-inner">
+@@ -1355,18 +1355,18 @@
+           </vbox>
+         </toolbarbutton>
+         <toolbarseparator/>
+-        <toolbarbutton id="PanelUI-fxa-menu-sendtab-button"
++<!--        <toolbarbutton id="PanelUI-fxa-menu-sendtab-button"
+                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
+                         closemenu="none"
+                         oncommand="gSync.showSendToDeviceViewFromFxaMenu(this);"/>
+-        <toolbarseparator/>
++        <toolbarseparator/>-->
+         <!-- The `Connect Another Device` button is disabled by default until the user logs into Sync. -->
+-        <toolbarbutton id="PanelUI-fxa-menu-connect-device-button"
++<!--        <toolbarbutton id="PanelUI-fxa-menu-connect-device-button"
+                         class="subviewbutton subviewbutton-iconic"
+                         label="&fxa.menu.connectAnotherDevice2.label;"
+                         disabled="true"
+                         oncommand="gSync.openConnectAnotherDeviceFromFxaMenu(this);"/>
+-        <toolbarseparator/>
++        <toolbarseparator/>-->
+         <!-- The `Sync Now` button is hidden by default until the user logs into Sync. -->
+         <toolbarbutton id="PanelUI-fxa-menu-syncnow-button"
+                         data-l10n-id="fxa-toolbar-sync-now"
+@@ -1380,11 +1380,11 @@
+                         class="subviewbutton subviewbutton-iconic"
+                         label="&fxa.menu.setupSync.label;"
+                         oncommand="gSync.openPrefsFromFxaMenu('sync_settings', this);"/>
+-        <toolbarbutton id="PanelUI-fxa-menu-remotetabs-button"
++<!--        <toolbarbutton id="PanelUI-fxa-menu-remotetabs-button"
+                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
+                         label="&appMenuRemoteTabs.label;"
+                         closemenu="none"
+-                        oncommand="gSync.showRemoteTabsFromFxaMenu(this);"/>
++                        oncommand="gSync.showRemoteTabsFromFxaMenu(this);"/>-->
+         <toolbarbutton id="PanelUI-fxa-menu-sync-prefs-button"
+                         class="subviewbutton subviewbutton-iconic"
+                         label="&fxa.menu.syncSettings2.label;"
+@@ -1479,11 +1479,11 @@
+                        label="&libraryDownloads.label;"
+                        closemenu="none"
+                        oncommand="DownloadsSubview.show(this);"/>
+-        <toolbarbutton id="appMenu-library-remotetabs-button"
++<!--        <toolbarbutton id="appMenu-library-remotetabs-button"
+                        class="subviewbutton subviewbutton-iconic subviewbutton-nav sync-ui-item"
+                        label="&appMenuRemoteTabs.label;"
+                        closemenu="none"
+-                       oncommand="PanelUI.showSubView('PanelUI-remotetabs', this)"/>
++                       oncommand="PanelUI.showSubView('PanelUI-remotetabs', this)"/>-->
+         <toolbarseparator hidden="true"/>
+         <label value="&appMenuRecentHighlights.label;"
+                hidden="true"
+Index: m041/mozilla-release/browser/base/content/browser-menubar.inc
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-menubar.inc
++++ m041/mozilla-release/browser/base/content/browser-menubar.inc
+@@ -161,10 +161,10 @@
+                               type="checkbox"
+                               key="key_gotoHistory"
+                               oncommand="SidebarUI.toggle('viewHistorySidebar');" data-l10n-id="menu-view-history-button"/>
+-                    <menuitem id="menu_tabsSidebar"
++<!--                    <menuitem id="menu_tabsSidebar"
+                               type="checkbox"
+                               class="sync-ui-item"
+-                              oncommand="SidebarUI.toggle('viewTabsSidebar');" data-l10n-id="menu-view-synced-tabs-sidebar"/>
++                              oncommand="SidebarUI.toggle('viewTabsSidebar');" data-l10n-id="menu-view-synced-tabs-sidebar"/>-->
+                   </menupopup>
+                 </menu>
+                 <menuseparator/>
+Index: m041/mozilla-release/browser/base/content/browser-context.inc
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-context.inc
++++ m041/mozilla-release/browser/base/content/browser-context.inc
+@@ -219,15 +219,15 @@
+       <menuitem id="context-pocket"
+                 data-l10n-id="main-context-menu-save-to-pocket"
+                 oncommand="Pocket.savePage(gContextMenu.browser, gContextMenu.browser.currentURI.spec, gContextMenu.browser.contentTitle);"/>
+-      <menuseparator id="context-sep-sendpagetodevice" class="sync-ui-item"
+-                     hidden="true"/>
+-      <menu id="context-sendpagetodevice"
++<!--      <menuseparator id="context-sep-sendpagetodevice" class="sync-ui-item"
++                     hidden="true"/>-->
++<!--      <menu id="context-sendpagetodevice"
+             class="sync-ui-item"
+             data-l10n-id="main-context-menu-send-to-device"
+             hidden="true">
+         <menupopup id="context-sendpagetodevice-popup"
+                    onpopupshowing="(() => { gSync.populateSendTabToDevicesMenu(event.target, gBrowser.currentURI.spec, gBrowser.contentTitle); })()"/>
+-      </menu>
++      </menu>-->
+       <menuseparator id="context-sep-viewbgimage"/>
+       <menuitem id="context-viewbgimage"
+                 data-l10n-id="main-context-menu-view-background-image"
+Index: m041/mozilla-release/browser/components/customizableui/CustomizableWidgets.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/components/customizableui/CustomizableWidgets.jsm
++++ m041/mozilla-release/browser/components/customizableui/CustomizableWidgets.jsm
+@@ -572,7 +572,7 @@ const CustomizableWidgets = [
+   },
+ ];
+ 
+-if (Services.prefs.getBoolPref("identity.fxaccounts.enabled")) {
++/*if (Services.prefs.getBoolPref("identity.fxaccounts.enabled")) {
+   CustomizableWidgets.push({
+     id: "sync-button",
+     label: "remotetabs-panelmenu.label",
+@@ -835,7 +835,7 @@ if (Services.prefs.getBoolPref("identity
+       return showAllItem;
+     },
+   });
+-}
++}*/
+ 
+ let preferencesButton = {
+   id: "preferences-button",
+Index: m041/mozilla-release/browser/components/preferences/sync.inc.xhtml
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/sync.inc.xhtml
++++ m041/mozilla-release/browser/components/preferences/sync.inc.xhtml
+@@ -196,10 +196,10 @@
+                     <image class="sync-engine-image sync-engine-history"/>
+                     <label data-l10n-id="sync-currently-syncing-history"/>
+                   </html:div>
+-                  <html:div engine_preference="services.sync.engine.tabs">
++<!--                  <html:div engine_preference="services.sync.engine.tabs">
+                     <image class="sync-engine-image sync-engine-tabs"/>
+                     <label data-l10n-id="sync-currently-syncing-tabs"/>
+-                  </html:div>
++                  </html:div>-->
+                   <html:div engine_preference="services.sync.engine.passwords">
+                     <image class="sync-engine-image sync-engine-passwords"/>
+                     <label data-l10n-id="sync-currently-syncing-logins-passwords"/>
+@@ -233,12 +233,12 @@
+         </groupbox>
+       </vbox>
+     </hbox>
+-    <vbox align="start">
++<!--    <vbox align="start">
+       <label id="connect-another-device"
+              is="text-link"
+              class="fxaMobilePromo"
+              data-l10n-id="sync-connect-another-device"/>
+-    </vbox>
++    </vbox>-->
+   </vbox>
+ </deck>
+ </html:template>
+Index: m041/mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.js
++++ m041/mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+@@ -10,7 +10,7 @@ Preferences.addAll([
+   { id: "services.sync.engine.addons", type: "bool" },
+   { id: "services.sync.engine.bookmarks", type: "bool" },
+   { id: "services.sync.engine.history", type: "bool" },
+-  { id: "services.sync.engine.tabs", type: "bool" },
++//  { id: "services.sync.engine.tabs", type: "bool" },
+   { id: "services.sync.engine.prefs", type: "bool" },
+   { id: "services.sync.engine.passwords", type: "bool" },
+   { id: "services.sync.engine.addresses", type: "bool" },
+Index: m041/mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
++++ m041/mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+@@ -34,10 +34,10 @@
+       <checkbox data-l10n-id="sync-engine-history"
+                 preference="services.sync.engine.history"/>
+     </html:div>
+-    <html:div class="sync-engine-tabs">
++<!--    <html:div class="sync-engine-tabs">
+       <checkbox data-l10n-id="sync-engine-tabs"
+                 preference="services.sync.engine.tabs"/>
+-    </html:div>
++    </html:div>-->
+     <html:div class="sync-engine-passwords">
+       <checkbox data-l10n-id="sync-engine-logins-passwords"
+                 preference="services.sync.engine.passwords"/>
+Index: m041/mozilla-release/browser/modules/PageActions.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/modules/PageActions.jsm
++++ m041/mozilla-release/browser/modules/PageActions.jsm
+@@ -1253,7 +1253,7 @@ var gBuiltInActions = [
+ ];
+ 
+ // send to device
+-if (Services.prefs.getBoolPref("identity.fxaccounts.enabled")) {
++/*if (Services.prefs.getBoolPref("identity.fxaccounts.enabled")) {
+   gBuiltInActions.push({
+     id: "sendToDevice",
+     panelFluentID: "page-action-send-tabs-panel",
+@@ -1280,7 +1280,7 @@ if (Services.prefs.getBoolPref("identity
+       );
+     },
+   });
+-}
++}*/
+ 
+ if (SiteSpecificBrowserService.isEnabled) {
+   gBuiltInActions.push({
+Index: m041/mozilla-release/modules/libpref/init/all.js
+===================================================================
+--- m041.orig/mozilla-release/modules/libpref/init/all.js
++++ m041/mozilla-release/modules/libpref/init/all.js
+@@ -4511,7 +4511,7 @@ pref("services.common.log.logger.tokense
+   pref("services.sync.engine.history", true);
+   pref("services.sync.engine.passwords", true);
+   pref("services.sync.engine.prefs", true);
+-  pref("services.sync.engine.tabs", true);
++  pref("services.sync.engine.tabs", false);
+   pref("services.sync.engine.tabs.filteredUrls", "^(about:.*|resource:.*|chrome:.*|wyciwyg:.*|file:.*|blob:.*|moz-extension:.*)$");
+ 
+   // The addresses and CC engines might not actually be available at all.
+Index: m041/mozilla-release/browser/components/preferences/sync.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/sync.js
++++ m041/mozilla-release/browser/components/preferences/sync.js
+@@ -116,11 +116,11 @@ var gSyncPane = {
+ 
+     FxAccounts.config
+       .promiseConnectDeviceURI(this._getEntryPoint())
+-      .then(connectURI => {
++/*      .then(connectURI => {
+         document
+           .getElementById("connect-another-device")
+           .setAttribute("href", connectURI);
+-      });
++      })*/;
+     // Links for mobile devices.
+     for (let platform of ["android", "ios"]) {
+       let url =

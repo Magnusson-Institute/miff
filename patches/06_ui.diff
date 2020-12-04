@@ -1,0 +1,311 @@
+Index: m041/mozilla-release/browser/base/content/browser.xhtml
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser.xhtml
++++ m041/mozilla-release/browser/base/content/browser.xhtml
+@@ -1344,7 +1344,7 @@
+         <toolbarbutton id="fxa-manage-account-button"
+                        align="center"
+                        class="fxa-menu-header subviewbutton"
+-                       oncommand="gSync.clickFxAMenuHeaderButton(this);">
++                       oncommand="gSync.openFxAManagePageFromFxaMenu(this);">
+           <image role="presentation" id="fxa-menu-avatar"/>
+           <vbox flex="1">
+             <label id="fxa-menu-header-title"
+@@ -1395,7 +1395,7 @@
+                         class="subviewbutton subviewbutton-iconic"
+                         label="&logins.label;"
+                         oncommand="LoginHelper.openPasswordManager(window, { entryPoint: 'fxamenu' })"/>
+-        <toolbarseparator id="fxa-menu-service-separator"/>
++<!--        <toolbarseparator id="fxa-menu-service-separator"/>
+         <label id="fxa-menu-service-label"
+                value="&fxa.menu.firefoxServices.label;"
+                class="subview-subheader"/>
+@@ -1408,7 +1408,7 @@
+                        class="subviewbutton subviewbutton-iconic"
+                        label="&sendFullName;"
+                        type="open-to-new"
+-                       oncommand="gSync.openSendFromFxaMenu(this);"/>
++                       oncommand="gSync.openSendFromFxaMenu(this);"/>-->
+       </vbox>
+     </panelview>
+ 
+Index: m041/mozilla-release/browser/components/preferences/sync.inc.xhtml
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/sync.inc.xhtml
++++ m041/mozilla-release/browser/components/preferences/sync.inc.xhtml
+@@ -64,7 +64,7 @@
+             <!-- logged in and verified and all is good -->
+             <hbox id="fxaLoginVerified" align="center" flex="1">
+               <image id="openChangeProfileImage"
+-                     class="fxaProfileImage actionable"
++                     class="fxaProfileImage"
+                      role="button"
+                      data-l10n-id="sync-profile-picture"/>
+               <vbox flex="1" pack="center">
+@@ -73,10 +73,10 @@
+                     <html:h2 id="fxaDisplayNameHeading"/>
+                   </label>
+                   <label id="fxaEmailAddress" flex="1" crop="end"/>
+-                  <button id="fxaUnlinkButton"
++<!--                  <button id="fxaUnlinkButton"
+                           is="highlightable-button"
+                           class="accessory-button"
+-                          data-l10n-id="sync-sign-out"/>
++                          data-l10n-id="sync-sign-out"/>-->
+                 </hbox>
+                 <hbox>
+                   <html:a id="verifiedManage" class="openLink"
+Index: m041/mozilla-release/browser/components/preferences/sync.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/sync.js
++++ m041/mozilla-release/browser/components/preferences/sync.js
+@@ -227,9 +227,9 @@ var gSyncPane = {
+       gSyncPane.signIn();
+       return false;
+     });
+-    setEventListener("fxaUnlinkButton", "command", function() {
++/*    setEventListener("fxaUnlinkButton", "command", function() {
+       gSyncPane.unlinkFirefoxAccount(true);
+-    });
++    });*/
+     setEventListener(
+       "verifyFxaAccount",
+       "command",
+@@ -487,7 +487,7 @@ var gSyncPane = {
+   },
+ 
+   openChangeProfileImage(event) {
+-    if (this.clickOrSpaceOrEnterPressed(event)) {
++/*    if (this.clickOrSpaceOrEnterPressed(event)) {
+       FxAccounts.config
+         .promiseChangeAvatarURI(this._getEntryPoint())
+         .then(url => {
+@@ -498,7 +498,7 @@ var gSyncPane = {
+         });
+       // Prevent page from scrolling on the space key.
+       event.preventDefault();
+-    }
++    }*/
+   },
+ 
+   openManageFirefoxAccount(event) {
+Index: m041/mozilla-release/services/fxaccounts/FxAccountsConfig.jsm
+===================================================================
+--- m041.orig/mozilla-release/services/fxaccounts/FxAccountsConfig.jsm
++++ m041/mozilla-release/services/fxaccounts/FxAccountsConfig.jsm
+@@ -82,9 +82,9 @@ var FxAccountsConfig = {
+   },
+ 
+   async promiseManageURI(entrypoint, extraParams = {}) {
+-    return this._buildURL("settings", {
++    return this._buildURL("member", {
+       extraParams: { entrypoint, ...extraParams },
+-      addAccountIdentifiers: true,
++      addAccountIdentifiers: false,
+     });
+   },
+ 
+Index: m041/mozilla-release/browser/locales/generic/profile/bookmarks.html.in
+===================================================================
+--- m041.orig/mozilla-release/browser/locales/generic/profile/bookmarks.html.in
++++ m041/mozilla-release/browser/locales/generic/profile/bookmarks.html.in
+@@ -18,32 +18,5 @@
+ <title>@bookmarks_title@</title>
+ <h1>@bookmarks_heading@</h1>
+ 
+-<dl><p>
+-    <dt><h3 personal_toolbar_folder="true">@bookmarks_toolbarfolder@</h3></dt>
+-    <dd>@bookmarks_toolbarfolder_description@
+-#ifndef NIGHTLY_BUILD
+-        <dl>
+-            <p><dt><a href="https://www.mozilla.org/@AB_CD@/firefox/central/" icon="@firefox_icon@">@getting_started@</a></dt>
+-        </dl>
+-    <p><dt><h3>@firefox_heading@</h3></dt>
+-        <dl><p>
+-            <dt><a href="https://support.mozilla.org/@AB_CD@/products/firefox" icon="@firefox_icon@">@firefox_help@</a>
+-            <dt><a href="https://support.mozilla.org/@AB_CD@/kb/customize-firefox-controls-buttons-and-toolbars?utm_source=firefox-browser&utm_medium=default-bookmarks&utm_campaign=customize" icon="@firefox_icon@">@firefox_customize@</a>
+-            <dt><a href="https://www.mozilla.org/@AB_CD@/contribute/" icon="@mozilla_icon@">@firefox_community@</a>
+-            <dt><a href="https://www.mozilla.org/@AB_CD@/about/" icon="@mozilla_icon@">@firefox_about@</a>
+-        </dl>
+-#else
+-        <dl>
+-            <p><dt><a href="https://www.mozilla.org/@AB_CD@/contribute/" icon="@mozilla_icon@">@firefox_community@</a>
+-        </dl>
+-    <p><dt><h3>@nightly_heading@</h3></dt>
+-        <dl><p>
+-            <dt><a href="https://blog.nightly.mozilla.org/" icon="@mozilla_icon@">@nightly_blog@</a>
+-            <dt><a href="https://bugzilla.mozilla.org/" icon="@bugzilla_icon@" shortcuturl="bz">@bugzilla@</a>
+-            <dt><a href="https://developer.mozilla.org/" icon="@mdn_icon@" shortcuturl="mdn">@mdn@</a>
+-            <dt><a href="https://addons.mozilla.org/@AB_CD@/firefox/addon/nightly-tester-tools/" icon="@addon_icon@">@nightly_tester_tools@</a>
+-            <dt><a href="about:crashes" icon="@mozilla_icon@">@crashes@</a>
+-            <dt><a href="https://planet.mozilla.org/" icon="@mozilla_icon@">@planet@</a>
+-        </dl>
+-#endif
++<dl>
+ </dl>
+Index: m041/mozilla-release/browser/components/newtab/lib/DefaultSites.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/components/newtab/lib/DefaultSites.jsm
++++ m041/mozilla-release/browser/components/newtab/lib/DefaultSites.jsm
+@@ -8,39 +8,39 @@ const DEFAULT_SITES_MAP = new Map([
+   // This first item is the global list fallback for any unexpected geos
+   [
+     "",
+-    "https://www.youtube.com/,https://www.facebook.com/,https://www.wikipedia.org/,https://www.reddit.com/,https://www.amazon.com/,https://twitter.com/",
++    "",
+   ],
+   [
+     "US",
+-    "https://www.youtube.com/,https://www.facebook.com/,https://www.amazon.com/,https://www.reddit.com/,https://www.wikipedia.org/,https://twitter.com/",
++    "",
+   ],
+   [
+     "CA",
+-    "https://www.youtube.com/,https://www.facebook.com/,https://www.reddit.com/,https://www.wikipedia.org/,https://www.amazon.ca/,https://twitter.com/",
++    "",
+   ],
+   [
+     "DE",
+-    "https://www.youtube.com/,https://www.facebook.com/,https://www.amazon.de/,https://www.ebay.de/,https://www.wikipedia.org/,https://www.reddit.com/",
++    "",
+   ],
+   [
+     "PL",
+-    "https://www.youtube.com/,https://www.facebook.com/,https://allegro.pl/,https://www.wikipedia.org/,https://www.olx.pl/,https://www.wykop.pl/",
++    "",
+   ],
+   [
+     "RU",
+-    "https://vk.com/,https://www.youtube.com/,https://ok.ru/,https://www.avito.ru/,https://www.aliexpress.com/,https://www.wikipedia.org/",
++    "",
+   ],
+   [
+     "GB",
+-    "https://www.youtube.com/,https://www.facebook.com/,https://www.reddit.com/,https://www.amazon.co.uk/,https://www.bbc.co.uk/,https://www.ebay.co.uk/",
++    "",
+   ],
+   [
+     "FR",
+-    "https://www.youtube.com/,https://www.facebook.com/,https://www.wikipedia.org/,https://www.amazon.fr/,https://www.leboncoin.fr/,https://twitter.com/",
++    "",
+   ],
+   [
+     "CN",
+-    "https://www.baidu.com/,https://www.zhihu.com/,https://www.ifeng.com/,https://weibo.com/,https://www.ctrip.com/,https://www.iqiyi.com/",
++    "",
+   ],
+ ]);
+ 
+Index: m041/mozilla-release/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ m041/mozilla-release/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+@@ -186,13 +186,14 @@ class AboutWelcomeParent extends JSWindo
+         SpecialMessageActions.handleAction(data, browser);
+         break;
+       case "AWPage:FXA_METRICS_FLOW_URI":
+-        return FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");
++//        return FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");
++        break;
+       case "AWPage:GET_ATTRIBUTION_DATA":
+         return AttributionCode.getAttrDataAsync();
+       case "AWPage:IMPORTABLE_SITES":
+         return getImportableSites();
+       case "AWPage:TELEMETRY_EVENT":
+-        Telemetry.sendTelemetry(data);
++//        Telemetry.sendTelemetry(data);
+         break;
+       case "AWPage:LOCATION_CHANGED":
+         this.AboutWelcomeObserver.terminateReason =
+Index: m041/mozilla-release/browser/components/preferences/preferences.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/preferences.js
++++ m041/mozilla-release/browser/components/preferences/preferences.js
+@@ -159,7 +159,7 @@ function init_all() {
+     let helpButton = document.getElementById("helpButton");
+     let helpUrl =
+       Services.urlFormatter.formatURLPref("app.support.baseURL") +
+-      "preferences";
++      "";
+     helpButton.setAttribute("href", helpUrl);
+ 
+     document.getElementById("addonsButton").addEventListener("click", e => {
+Index: m041/mozilla-release/browser/app/profile/firefox.js
+===================================================================
+--- m041.orig/mozilla-release/browser/app/profile/firefox.js
++++ m041/mozilla-release/browser/app/profile/firefox.js
+@@ -253,11 +253,11 @@ pref("browser.defaultbrowser.notificatio
+ // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
+ // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
+ pref("browser.startup.page",                1);
+-pref("browser.startup.homepage",            "about:home");
+-pref("browser.startup.homepage.abouthome_cache.enabled", false);
++pref("browser.startup.homepage",            "https://privacy.app/member");
++pref("browser.startup.homepage.abouthome_cache.enabled", true);
+ 
+ // Whether we should skip the homepage when opening the first-run page
+-pref("browser.startup.firstrunSkipsHomepage", true);
++pref("browser.startup.firstrunSkipsHomepage", false);
+ 
+ // Show an about:blank window as early as possible for quick startup feedback.
+ // Held to nightly on Linux due to bug 1450626.
+@@ -2489,6 +2489,11 @@ pref("first-startup.timeout", 30000);
+   pref("default-browser-agent.enabled", false);
+ #endif
+ 
++//Sets the overrided homepage url to the link in the second parameter
++pref("homepage_override_url", "https://privacy.app/member");
++
++pref("startup.homepage_welcome_url", "https://privacy.app/member");
++
+ // disable default browser check
+ pref("browser.startup.homepage_override.mstone", "ignore");
+ 
+Index: m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
+===================================================================
+--- m041.orig/mozilla-release/docshell/base/nsAboutRedirector.cpp
++++ m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
+@@ -94,8 +94,6 @@ static const RedirEntry kRedirMap[] = {
+          nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+          nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
+          nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS},
+-    {"mozilla", "chrome://global/content/mozilla.html",
+-     nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT},
+     {"neterror", "chrome://global/content/netError.xhtml",
+      nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+          nsIAboutModule::URI_CAN_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
+Index: m041/mozilla-release/toolkit/content/jar.mn
+===================================================================
+--- m041.orig/mozilla-release/toolkit/content/jar.mn
++++ m041/mozilla-release/toolkit/content/jar.mn
+@@ -51,8 +51,6 @@ toolkit.jar:
+    content/global/filepicker.properties
+    content/global/customElements.js
+    content/global/globalOverlay.js
+-   content/global/mozilla.html
+-   content/global/aboutMozilla.css
+    content/global/preferencesBindings.js
+    content/global/process-content.js
+    content/global/resetProfile.css
+Index: m041/mozilla-release/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ m041/mozilla-release/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+@@ -551,7 +551,7 @@ class WelcomeScreen extends react__WEBPA
+ 
+   renderTiles() {
+     switch (this.props.content.tiles.type) {
+-      case "topsites":
++/*      case "topsites":
+         return this.props.topSites && this.props.topSites.data ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+           className: `tiles-container ${this.props.content.tiles.info ? "info" : ""}`
+         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+@@ -577,7 +577,7 @@ class WelcomeScreen extends react__WEBPA
+           } : {}
+         }, icon ? "" : label && label[0].toUpperCase()), this.props.content.tiles.showTitles && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+           className: "host"
+-        }, title || label))))) : null;
++        }, title || label))))) : null;*/
+ 
+       case "theme":
+         return this.props.content.tiles.data ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

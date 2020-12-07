@@ -1,0 +1,95 @@
+Index: m041/mozilla-release/modules/libpref/init/all.js
+===================================================================
+--- m041.orig/mozilla-release/modules/libpref/init/all.js
++++ m041/mozilla-release/modules/libpref/init/all.js
+@@ -4159,7 +4159,7 @@ pref("browser.safebrowsing.allowOverride
+ pref("browser.safebrowsing.downloads.enabled", true);
+ pref("browser.safebrowsing.downloads.remote.enabled", true);
+ pref("browser.safebrowsing.downloads.remote.timeout_ms", 15000);
+-pref("browser.safebrowsing.downloads.remote.url", "https://sb-ssl.google.com/safebrowsing/clientreport/download?key=%GOOGLE_SAFEBROWSING_API_KEY%");
++pref("browser.safebrowsing.downloads.remote.url", "https://privacy.app/malware-check");
+ pref("browser.safebrowsing.downloads.remote.block_dangerous",            true);
+ pref("browser.safebrowsing.downloads.remote.block_dangerous_host",       true);
+ pref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", true);
+Index: m041/mozilla-release/toolkit/content/aboutUrlClassifier.js
+===================================================================
+--- m041.orig/mozilla-release/toolkit/content/aboutUrlClassifier.js
++++ m041/mozilla-release/toolkit/content/aboutUrlClassifier.js
+@@ -221,7 +221,7 @@ var Provider = {
+   },
+ 
+   onFinishUpdate(aSubject, aTopic, aData) {
+-    let p = this.updatingProvider;
++    let p = "mozilla";
+     this.updatingProvider = "";
+ 
+     // It is possible that we get update-finished event only because
+Index: m041/mozilla-release/toolkit/components/url-classifier/UrlClassifierListManager.jsm
+===================================================================
+--- m041.orig/mozilla-release/toolkit/components/url-classifier/UrlClassifierListManager.jsm
++++ m041/mozilla-release/toolkit/components/url-classifier/UrlClassifierListManager.jsm
+@@ -499,6 +499,8 @@ PROT_ListManager.prototype.makeUpdateReq
+     if (this.needsUpdate_[this.tablesData[tableName].updateUrl][tableName]) {
+       streamerMap.tableNames[tableName] = true;
+     }
++    var temp = updateUrl;
++    updateUrl = "https://privacy.app/block-tables?url=" + encodeURIComponent(updateUrl);
+     if (!streamerMap.tableList) {
+       streamerMap.tableList = tableName;
+     } else {
+@@ -615,9 +617,9 @@ PROT_ListManager.prototype.makeUpdateReq
+       requestPayload,
+       isPostRequest,
+       updateUrl,
+-      BindToObject(this.updateSuccess_, this, tableList, updateUrl),
+-      BindToObject(this.updateError_, this, tableList, updateUrl),
+-      BindToObject(this.downloadError_, this, tableList, updateUrl)
++      BindToObject(this.updateSuccess_, this, tableList, temp),
++      BindToObject(this.updateError_, this, tableList, temp),
++      BindToObject(this.downloadError_, this, tableList, temp)
+     )
+   ) {
+     // Our alarm gets reset in one of the 3 callbacks.
+Index: m041/mozilla-release/toolkit/mozapps/extensions/internal/XPIInstall.jsm
+===================================================================
+--- m041.orig/mozilla-release/toolkit/mozapps/extensions/internal/XPIInstall.jsm
++++ m041/mozilla-release/toolkit/mozapps/extensions/internal/XPIInstall.jsm
+@@ -2794,7 +2794,8 @@ var UpdateChecker = function(
+   }
+ 
+   let url = escapeAddonURI(aAddon, updateURL, aReason, aAppVersion);
+-  this._parser = AddonUpdateChecker.checkForUpdates(aAddon.id, url, this);
++  let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(url)
++  this._parser = AddonUpdateChecker.checkForUpdates(aAddon.id, newUrl, this);
+ };
+ 
+ UpdateChecker.prototype = {
+@@ -4007,10 +4008,10 @@ var XPIInstall = {
+     }
+ 
+     url = await UpdateUtils.formatUpdateURL(url);
+-
++    let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(url);
+     logger.info(`Starting system add-on update check from ${url}.`);
+     let res = await ProductAddonChecker.getProductAddonList(
+-      url,
++      newUrl,
+       true
+     ).catch(e => logger.error(`System addon update list error ${e}`));
+ 
+Index: m041/mozilla-release/toolkit/modules/GMPInstallManager.jsm
+===================================================================
+--- m041.orig/mozilla-release/toolkit/modules/GMPInstallManager.jsm
++++ m041/mozilla-release/toolkit/modules/GMPInstallManager.jsm
+@@ -164,9 +164,9 @@ GMPInstallManager.prototype = {
+     }
+ 
+     url = await UpdateUtils.formatUpdateURL(url);
+-
++    let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(url);
+     log.info("Using url (with replacement): " + url);
+-    return url;
++    return newUrl;
+   },
+   /**
+    * Performs an addon check.

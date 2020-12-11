@@ -72,6 +72,18 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsCommon.js
 ===================================================================
 --- m041.orig/mozilla-release/services/fxaccounts/FxAccountsCommon.js
 +++ m041/mozilla-release/services/fxaccounts/FxAccountsCommon.js
+@@ -112,9 +112,9 @@ exports.COMMAND_SENDTAB = exports.COMMAN
+ exports.FX_OAUTH_CLIENT_ID = "5882386c6d801776";
+ exports.SCOPE_PROFILE = "profile";
+ exports.SCOPE_PROFILE_WRITE = "profile:write";
+-exports.SCOPE_OLD_SYNC = "https://identity.mozilla.com/apps/oldsync";
++exports.SCOPE_OLD_SYNC = "mi_sso";
+ exports.SCOPE_ECOSYSTEM_TELEMETRY =
+-  "https://identity.mozilla.com/ids/ecosystem_telemetry";
++  "mi_sso";
+ // This scope and its associated key material are used by the old Kinto webextension
+ // storage backend. We plan to remove that at some point (ref Bug 1637465) and when
+ // we do, all uses of this legacy scope can be removed.
 @@ -288,17 +288,18 @@ exports.LEGACY_DERIVED_KEYS_NAMES = ["kS
  // The fields we save in the plaintext JSON.
  // See bug 1013064 comments 23-25 for why the sessionToken is "safe"
@@ -84,10 +96,9 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsCommon.js
    "sessionToken",
 -  "uid",
 -  "ecosystemAnonId",
--  "ecosystemUserId",
 +//  "uid",
 +//  "ecosystemAnonId",
-+//  "ecosystemUserId",
+   "ecosystemUserId",
    "oauthTokens",
 -  "profile",
 +//  "profile",
@@ -271,7 +282,7 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsProfileClient.jsm
  
      // "response.success" means status code is 200
 -    if (!request.response.success) {
-+    if (!request.status != 200) {
++    if (request.status != 200) {
        throw new FxAccountsProfileClientError({
          error: body.error || ERROR_UNKNOWN,
          errno: body.errno || ERRNO_UNKNOWN_ERROR,
@@ -399,3 +410,34 @@ Index: m041/mozilla-release/services/sync/modules/UIState.jsm
        // for better or worse, this module renames these attribues.
        state.avatarURL = userData.avatar;
        state.avatarIsDefault = userData.avatarDefault;
+Index: m041/mozilla-release/dom/push/PushService.jsm
+===================================================================
+--- m041.orig/mozilla-release/dom/push/PushService.jsm
++++ m041/mozilla-release/dom/push/PushService.jsm
+@@ -446,8 +446,8 @@ var PushService = {
+       return [];
+     }
+ 
+-    let service = getServiceForServerURI(uri);
+-    return [service, uri];
++//    let service = getServiceForServerURI(uri);
++//    return [service, uri];
+   },
+ 
+   _changeServerURL(serverURI, event, options = {}) {
+Index: m041/mozilla-release/browser/base/content/browser-sync.js
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-sync.js
++++ m041/mozilla-release/browser/base/content/browser-sync.js
+@@ -804,9 +804,9 @@ var gSync = {
+ 
+   async openFxAManagePageFromFxaMenu(panel = undefined) {
+     this.emitFxaToolbarTelemetry("account_settings", panel);
+-    let entryPoint = "fxa_discoverability_native";
++    let entryPoint = "";
+     if (this.isPanelInsideAppMenu(panel)) {
+-      entryPoint = "fxa_app_menu";
++      entryPoint = "";
+     }
+     this.openFxAManagePage(entryPoint);
+   },

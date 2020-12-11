@@ -33,6 +33,24 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
  
      if (logPII) {
        log.debug("kBbytes: " + kBbytes);
+@@ -391,7 +388,7 @@ class FxAccountsKeys {
+    * the derived value in order to support key rotation.
+    */
+   async _fetchScopedKeysMetadata(sessionToken) {
+-/*    // Hard-coded list of scopes that we know about.
++    // Hard-coded list of scopes that we know about.
+     // This list will probably grow in future.
+     // Note that LEGACY_SCOPE_WEBEXT_SYNC is not in this list, it gets special-case handling below.
+     const scopes = [SCOPE_OLD_SYNC, SCOPE_ECOSYSTEM_TELEMETRY].join(" ");
+@@ -420,7 +417,7 @@ class FxAccountsKeys {
+       ...scopedKeysMetadata[SCOPE_OLD_SYNC],
+       identifier: LEGACY_SCOPE_WEBEXT_SYNC,
+     };
+-    return scopedKeysMetadata;*/
++    return scopedKeysMetadata;
+   }
+ 
+   /**
 Index: m041/mozilla-release/services/common/tokenserverclient.js
 ===================================================================
 --- m041.orig/mozilla-release/services/common/tokenserverclient.js
@@ -81,7 +99,7 @@ Index: m041/mozilla-release/services/common/tokenserverclient.js
      // Responses should *always* be JSON, even in the case of 4xx and 5xx
      // errors. If we don't see JSON, the server is likely very unhappy.
 -    let ct = response.headers["content-type"] || "";
-+    let ct = response.getResponseHeaders("content-type") || "";
++    let ct = response.getResponseHeader("content-type") || "";
      if (ct != "application/json" && !ct.startsWith("application/json;")) {
        this._log.warn("Did not receive JSON response. Misconfigured server?");
        this._log.debug("Content-Type: " + ct);
@@ -94,6 +112,15 @@ Index: m041/mozilla-release/services/common/tokenserverclient.js
      } catch (ex) {
        this._log.warn("Invalid JSON returned by server: " + response.body);
        let error = new TokenServerClientServerError(
+@@ -446,7 +447,7 @@ TokenServerClient.prototype = {
+     if (!this.observerPrefix) {
+       return;
+     }
+-    let headerVal = response.headers[headerName];
++    let headerVal = response.getResponseHeader(headerName);
+     if (!headerVal) {
+       return;
+     }
 Index: m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
 --- m041.orig/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
@@ -127,7 +154,7 @@ Index: m041/mozilla-release/services/sync/modules/resource.js
 +    } catch (ex) {
 +      console.error("Failed to add a header for this resource", this._headers);
      }
-+    headers.append("user-agent", Utils.userAgent);
++    syncRequest.setRequestHeader("user-agent", Utils.userAgent);
  
 -    if (this.authenticator) {
 +/*    if (this.authenticator) {
@@ -154,8 +181,9 @@ Index: m041/mozilla-release/services/sync/modules/resource.js
      }
  
 -    if (!headers.has("accept")) {
+-      headers.append("accept", "application/json;q=0.9,*/*;q=0.2");
 +    if (!this._headers["accept"]) {
-       headers.append("accept", "application/json;q=0.9,*/*;q=0.2");
++      syncRequest.setRequestHeader("accept", "application/json;q=0.9,*/*;q=0.2");
      }
  
 -    return headers;
@@ -209,8 +237,9 @@ Index: m041/mozilla-release/services/sync/modules/resource.js
      } finally {
        clearTimeout(timeoutId);
 -    }
+-    return this._processResponse(response, method);
 +    }*/
-     return this._processResponse(response, method);
++    return this._processResponse(request, method);
    },
  
    async _processResponse(response, method) {

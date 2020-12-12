@@ -1,5 +1,5 @@
 
-##MIFF build - with patches
+## MIFF build - with patches
 
 
 Win10 build setup
@@ -37,7 +37,7 @@ cd mozilla-release
 ./mach run
 
 
-
+The setup_patch_environment script takes as an argument the directory of the Firefox source code. The patches are edited to point to the given Firefox directory and copied into a new directory, and the Quilt file .pc/.quilt_patches is edited to point to this new directory. The Firefox source code directory must be within m041.
 
 
 

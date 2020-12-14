@@ -2,6 +2,15 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
 ===================================================================
 --- m041.orig/mozilla-release/browser/app/profile/firefox.js
 +++ m041/mozilla-release/browser/app/profile/firefox.js
+@@ -37,7 +37,7 @@ pref("extensions.webextOptionalPermissio
+ pref("extensions.postDownloadThirdPartyPrompt", true);
+ 
+ // Preferences for AMO integration
+-pref("extensions.getAddons.cache.enabled", true);
++pref("extensions.getAddons.cache.enabled", false);
+ pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/api/v3/addons/search/?guid=%IDS%&lang=%LOCALE%");
+ pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/search?q=%TERMS%&platform=%OS%&appver=%VERSION%");
+ pref("extensions.getAddons.link.url", "https://addons.mozilla.org/%LOCALE%/firefox/");
 @@ -1217,7 +1217,7 @@ pref("services.sync.prefs.sync.browser.l
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", true);
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", true);

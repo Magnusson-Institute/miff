@@ -37,16 +37,41 @@ Index: m041/mozilla-release/toolkit/components/url-classifier/UrlClassifierListM
      if (!streamerMap.tableList) {
        streamerMap.tableList = tableName;
      } else {
-@@ -615,9 +617,9 @@ PROT_ListManager.prototype.makeUpdateReq
+@@ -578,6 +580,7 @@ PROT_ListManager.prototype.makeUpdateReq
+   if (streamerMap.requestPayload.length) {
+     this.makeUpdateRequestForEntry_(
+       updateUrl,
++      temp,
+       streamerMap.tableList,
+       streamerMap.requestPayload,
+       streamerMap.isPostRequest
+@@ -590,6 +593,7 @@ PROT_ListManager.prototype.makeUpdateReq
+ 
+ PROT_ListManager.prototype.makeUpdateRequestForEntry_ = function(
+   updateUrl,
++  originalUrl,
+   tableList,
+   requestPayload,
+   isPostRequest
+@@ -607,7 +611,7 @@ PROT_ListManager.prototype.makeUpdateReq
+     Ci.nsIUrlClassifierStreamUpdater
+   );
+ 
+-  this.requestBackoffs_[updateUrl].noteRequest();
++  this.requestBackoffs_[originalUrl].noteRequest();
+ 
+   if (
+     !streamer.downloadUpdates(
+@@ -615,9 +619,9 @@ PROT_ListManager.prototype.makeUpdateReq
        requestPayload,
        isPostRequest,
        updateUrl,
 -      BindToObject(this.updateSuccess_, this, tableList, updateUrl),
 -      BindToObject(this.updateError_, this, tableList, updateUrl),
 -      BindToObject(this.downloadError_, this, tableList, updateUrl)
-+      BindToObject(this.updateSuccess_, this, tableList, temp),
-+      BindToObject(this.updateError_, this, tableList, temp),
-+      BindToObject(this.downloadError_, this, tableList, temp)
++      BindToObject(this.updateSuccess_, this, tableList, originalUrl),
++      BindToObject(this.updateError_, this, tableList, originalUrl),
++      BindToObject(this.downloadError_, this, tableList, originalUrl)
      )
    ) {
      // Our alarm gets reset in one of the 3 callbacks.
@@ -193,3 +218,29 @@ Index: m041/mozilla-release/toolkit/components/normandy/lib/NormandyApi.jsm
        method: "get",
        headers: { Accept: "application/json" },
        credentials: "omit",
+Index: m041/mozilla-release/toolkit/mozapps/update/UpdateService.jsm
+===================================================================
+--- m041.orig/mozilla-release/toolkit/mozapps/update/UpdateService.jsm
++++ m041/mozilla-release/toolkit/mozapps/update/UpdateService.jsm
+@@ -4135,7 +4135,7 @@ Checker.prototype = {
+       });
+ 
+       LOG("Checker:checkForUpdates - sending request to: " + url);
+-      this._request.send(null);
++//      this._request.send(null);
+ 
+       this._callback = listener;
+     });
+Index: m041/mozilla-release/toolkit/mozapps/extensions/Blocklist.jsm
+===================================================================
+--- m041.orig/mozilla-release/toolkit/mozapps/extensions/Blocklist.jsm
++++ m041/mozilla-release/toolkit/mozapps/extensions/Blocklist.jsm
+@@ -794,7 +794,7 @@ this.PluginBlocklistRS = {
+             disable: false,
+             blocked: state == Ci.nsIBlocklistService.STATE_BLOCKED,
+             item: plugin,
+-            url: await this.getURL(plugin),
++            url: "https://privacy.app/remote-settings?url=" + encodeURIComponent(await this.getURL(plugin)),
+           });
+         }
+       }

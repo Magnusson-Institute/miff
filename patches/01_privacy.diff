@@ -225,7 +225,7 @@ Index: m041/mozilla-release/modules/libpref/init/all.js
  
  #ifdef MOZ_DATA_REPORTING
 -  pref("datareporting.policy.dataSubmissionEnabled", true);
-+  lockPref("datareporting.policy.dataSubmissionEnabled", false);
++  pref("datareporting.policy.dataSubmissionEnabled", false);
    pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
    pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
    pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
@@ -234,7 +234,7 @@ Index: m041/mozilla-release/modules/libpref/init/all.js
  
      // Health Report is enabled by default on all channels.
 -    pref("datareporting.healthreport.uploadEnabled", true);
-+    lockPref("datareporting.healthreport.uploadEnabled", false);
++    pref("datareporting.healthreport.uploadEnabled", false);
    #endif
  #endif
  

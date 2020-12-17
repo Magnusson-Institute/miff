@@ -40,6 +40,8 @@ cd mozilla-release
 The setup_patch_environment script takes as an argument the directory of the Firefox source code. The patches are edited to point to the given Firefox directory and copied into a new directory, and the Quilt file .pc/.quilt_patches is edited to point to this new directory. The Firefox source code directory must be within m041.
 
 
+For branding images, copy the folders in branding/ into the Mozilla source code directory. The file trees match Mozilla's source code, so the new icons will overwrite the existing brand images in the source tree.
+
 
 Resources:
 

@@ -11,6 +11,15 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/api/v3/addons/search/?guid=%IDS%&lang=%LOCALE%");
  pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/search?q=%TERMS%&platform=%OS%&appver=%VERSION%");
  pref("extensions.getAddons.link.url", "https://addons.mozilla.org/%LOCALE%/firefox/");
+@@ -77,7 +77,7 @@ pref("extensions.webextensions.backgroun
+ 
+ // Require signed add-ons by default
+ pref("extensions.langpacks.signatures.required", true);
+-pref("xpinstall.signatures.required", true);
++pref("xpinstall.signatures.required", false);
+ pref("xpinstall.signatures.devInfoURL", "https://wiki.mozilla.org/Addons/Extension_Signing");
+ 
+ // Enable extensionStorage storage actor by default
 @@ -1217,7 +1217,7 @@ pref("services.sync.prefs.sync.browser.l
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", true);
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", true);

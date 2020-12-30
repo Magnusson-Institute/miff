@@ -85,7 +85,7 @@ Index: m041/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
 +installer:: $(CONFIG_DIR)/MIFFInstaller.exe $(ZIP_IN)
  	@echo 'Packaging $(WIN32_INSTALLER_OUT).'
  	$(NSINSTALL) -D '$(ABS_DIST)/$(PKG_INST_PATH)'
- 	$(MOZILLA_DIR)/mach repackage installer \
+ 	$(PYTHON3) $(MOZILLA_DIR)/mach repackage installer \
 @@ -69,7 +69,7 @@ installer:: $(CONFIG_DIR)/setup.exe $(ZI
  	  --package-name '$(MOZ_PKG_DIR)' \
  	  --package '$(ZIP_IN)' \
@@ -140,7 +140,7 @@ Index: m041/mozilla-release/toolkit/content/aboutSupport.js
 +    $("application-box").textContent = "MIFF";
      $("useragent-box").textContent = data.userAgent;
      $("os-box").textContent = data.osVersion;
-     $("binary-box").textContent = Services.dirsvc.get(
+     if (AppConstants.platform == "macosx") {
 Index: m041/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
 ===================================================================
 --- m041.orig/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
@@ -221,7 +221,7 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
 ===================================================================
 --- m041.orig/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
 +++ m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
-@@ -57,7 +57,7 @@ about-logins-login-list-alerts-option =
+@@ -46,7 +46,7 @@ about-logins-login-list-alerts-option =
  login-list-last-changed-option = Last Modified
  login-list-last-used-option = Last Used
  login-list-intro-title = No logins found
@@ -230,7 +230,7 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
  about-logins-login-list-empty-search-title = No logins found
  about-logins-login-list-empty-search-description = There are no results matching your search.
  login-list-item-title-new-login = New Login
-@@ -72,12 +72,12 @@ about-logins-list-item-vulnerable-passwo
+@@ -61,12 +61,12 @@ about-logins-list-item-vulnerable-passwo
  
  about-logins-login-intro-heading-logged-out = Looking for your saved logins? Set up { -sync-brand-short-name } or Import Them.
  about-logins-login-intro-heading-logged-in = No synced logins found.
@@ -246,7 +246,7 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
  
  ## Login
  
-@@ -106,7 +106,7 @@ login-item-time-used = Last used: { DATE
+@@ -95,7 +95,7 @@ login-item-time-used = Last used: { DATE
  
  ## OS Authentication dialog
  
@@ -255,7 +255,7 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
  
  ## The macOS strings are preceded by the operating system with "Firefox is trying to "
  ## and includes subtitle of "Enter password for the user "xxx" to allow this." These
-@@ -147,8 +147,8 @@ master-password-reload-button =
+@@ -136,8 +136,8 @@ master-password-reload-button =
  
  enable-password-sync-notification-message =
    { PLATFORM() ->
@@ -507,16 +507,16 @@ Index: m041/mozilla-release/browser/base/content/browser.js
 ===================================================================
 --- m041.orig/mozilla-release/browser/base/content/browser.js
 +++ m041/mozilla-release/browser/base/content/browser.js
-@@ -1023,7 +1023,7 @@ var gPopupBlockerObserver = {
+@@ -1036,7 +1036,7 @@ var gPopupBlockerObserver = {
      if (gBrowser.selectedBrowser.popupBlocker.shouldShowNotification) {
        if (Services.prefs.getBoolPref("privacy.popups.showBrowserMessage")) {
          var brandBundle = document.getElementById("bundle_brand");
 -        var brandShortName = brandBundle.getString("brandShortName");
-+        var brandShortName = "MIFF" //brandBundle.getString("brandShortName");
++        var brandShortName = "MIFF"
  
          var stringKey =
            AppConstants.platform == "win"
-@@ -7853,9 +7853,7 @@ var WebAuthnPromptHelper = {
+@@ -7966,9 +7966,7 @@ var WebAuthnPromptHelper = {
        /* Might fail for arbitrary U2F RP IDs. */
      }
  
@@ -540,7 +540,7 @@ Index: m041/mozilla-release/browser/base/content/tabbrowser.js
          title = gNavigatorBundle.getFormattedString("customizeMode.tabTitle", [
            brandShortName,
          ]);
-@@ -5145,7 +5145,7 @@
+@@ -5161,7 +5161,7 @@
        //     true if we're refreshing the page. false if we're redirecting.
  
        let brandBundle = document.getElementById("bundle_brand");
@@ -816,3 +816,297 @@ Index: m041/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
  !endif
  
  !define CERTIFICATE_NAME            "Mozilla Corporation"
+Index: m041/mozilla-release/browser/actors/WebRTCParent.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/actors/WebRTCParent.jsm
++++ m041/mozilla-release/browser/actors/WebRTCParent.jsm
+@@ -637,7 +637,7 @@ function prompt(aActor, aBrowser, aReque
+     ];
+   }
+ 
+-  let productName = gBrandBundle.GetStringFromName("brandShortName");
++  let productName = "MIFF";
+ 
+   let options = {
+     name: webrtcUI.getHostOrExtensionName(principal.URI),
+@@ -847,9 +847,7 @@ function prompt(aActor, aBrowser, aReque
+                 ["<>"]
+               );
+             } else {
+-              let brand = doc
+-                .getElementById("bundle_brand")
+-                .getString("brandShortName");
++              let brand = "MIFF";
+               string = bundle.getFormattedString(
+                 "getUserMedia.shareFirefoxWarning.message",
+                 [brand, "<>"]
+Index: m041/mozilla-release/browser/base/content/browser-addons.js
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-addons.js
++++ m041/mozilla-release/browser/base/content/browser-addons.js
+@@ -379,7 +379,7 @@ var gXPInstallObserver = {
+     }
+ 
+     let brandBundle = document.getElementById("bundle_brand");
+-    let brandShortName = brandBundle.getString("brandShortName");
++    let brandShortName = "MIFF";
+ 
+     messageString = PluralForm.get(installInfo.installs.length, messageString);
+     messageString = messageString.replace("#1", brandShortName);
+@@ -488,7 +488,7 @@ var gXPInstallObserver = {
+ 
+     const anchorID = "addons-notification-icon";
+     var messageString, action;
+-    var brandShortName = brandBundle.getString("brandShortName");
++    var brandShortName = "MIFF";
+ 
+     var notificationID = aTopic;
+     // Make notifications persistent
+@@ -1008,7 +1008,7 @@ var gExtensionsNotifications = {
+       }
+       if (!appName) {
+         let brandBundle = document.getElementById("bundle_brand");
+-        appName = brandBundle.getString("brandShortName");
++        appName = "MIFF";
+       }
+ 
+       let text = gNavigatorBundle.getFormattedString(
+Index: m041/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
++++ m041/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
+@@ -44,7 +44,7 @@ var gDataNotificationInfoBar = {
+     }
+ 
+     let brandBundle = document.getElementById("bundle_brand");
+-    let appName = brandBundle.getString("brandShortName");
++    let appName = "MIFF";
+     let vendorName = brandBundle.getString("vendorShortName");
+ 
+     let message = gNavigatorBundle.getFormattedString(
+Index: m041/mozilla-release/browser/base/content/browser-siteProtections.js
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-siteProtections.js
++++ m041/mozilla-release/browser/base/content/browser-siteProtections.js
+@@ -1433,7 +1433,7 @@ var gProtectionsHandler = {
+       delete this.noTrackerTooltipText;
+       return (this.noTrackerTooltipText = gNavigatorBundle.getFormattedString(
+         "trackingProtection.icon.noTrackersDetectedTooltip",
+-        [gBrandBundle.GetStringFromName("brandShortName")]
++        ["MIFF"]
+       ));
+     },
+   },
+@@ -2255,7 +2255,7 @@ var gProtectionsHandler = {
+     );
+ 
+     this._protectionsPopupMilestonesText.textContent = desc
+-      .replace("#1", gBrandBundle.GetStringFromName("brandShortName"))
++      .replace("#1", "MIFF")
+       .replace(
+         "#2",
+         trackerCount.toLocaleString(Services.locale.appLocalesAsBCP47)
+Index: m041/mozilla-release/browser/components/BrowserGlue.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/components/BrowserGlue.jsm
++++ m041/mozilla-release/browser/components/BrowserGlue.jsm
+@@ -1681,7 +1681,7 @@ BrowserGlue.prototype = {
+       return;
+     }
+ 
+-    let productName = gBrandBundle.GetStringFromName("brandShortName");
++    let productName = "MIFF";
+     let resetBundle = Services.strings.createBundle(
+       "chrome://global/locale/resetProfile.properties"
+     );
+@@ -3249,7 +3249,7 @@ BrowserGlue.prototype = {
+    * Show the notificationBox for a locked places database.
+    */
+   _showPlacesLockedNotificationBox: function BG__showPlacesLockedNotificationBox() {
+-    var applicationName = gBrandBundle.GetStringFromName("brandShortName");
++    var applicationName = "MIFF";
+     var placesBundle = Services.strings.createBundle(
+       "chrome://browser/locale/places/places.properties"
+     );
+@@ -4390,7 +4390,7 @@ BrowserGlue.prototype = {
+     if (!win) {
+       return;
+     }
+-    let productName = gBrandBundle.GetStringFromName("brandShortName");
++    let productName = "MIFF";
+     let message = win.gNavigatorBundle.getFormattedString("flashHang.message", [
+       productName,
+     ]);
+@@ -4807,7 +4807,7 @@ ContentPermissionPrompt.prototype = {
+ var DefaultBrowserCheck = {
+   prompt(win) {
+     let brandBundle = win.document.getElementById("bundle_brand");
+-    let brandShortName = brandBundle.getString("brandShortName");
++    let brandShortName = "MIFF";
+ 
+     let shellBundle = win.document.getElementById("bundle_shell");
+     let buttonPrefix = "setDefaultBrowserAlert";
+@@ -5038,7 +5038,7 @@ var JawsScreenReaderVersionCheck = {
+     // Prompt JAWS users to let them know they need to update
+     let promptMessage = win.gNavigatorBundle.getFormattedString(
+       "e10s.accessibilityNotice.jawsMessage",
+-      [gBrandBundle.GetStringFromName("brandShortName")]
++      ["MIFF"]
+     );
+     let notification;
+     // main option: an Ok button, keeps running with content accessibility disabled
+Index: m041/mozilla-release/browser/components/customizableui/content/panelUI.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/customizableui/content/panelUI.js
++++ m041/mozilla-release/browser/components/customizableui/content/panelUI.js
+@@ -822,7 +822,7 @@ const PanelUI = {
+     let brands = Services.strings.createBundle(
+       "chrome://branding/locale/brand.properties"
+     );
+-    let stringArgs = [brands.GetStringFromName("brandShortName")];
++    let stringArgs = ["MIFF"];
+ 
+     let key = document.getElementById("key_quitApplication");
+     stringArgs.push(ShortcutUtils.prettifyShortcut(key));
+Index: m041/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
++++ m041/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
+@@ -65,9 +65,7 @@ XPCOMUtils.defineLazyGetter(this, "formA
+ });
+ 
+ XPCOMUtils.defineLazyGetter(this, "reauthPasswordPromptMessage", () => {
+-  const brandShortName = FormAutofillUtils.brandBundle.GetStringFromName(
+-    "brandShortName"
+-  );
++  const brandShortName = "MIFF";
+   // The string name for Mac is changed because the value needed updating.
+   const platform = AppConstants.platform.replace("macosx", "macos");
+   return FormAutofillUtils.stringBundle.formatStringFromName(
+Index: m041/mozilla-release/browser/components/places/content/places.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/places/content/places.js
++++ m041/mozilla-release/browser/components/places/content/places.js
+@@ -676,9 +676,7 @@ var PlacesOrganizer = {
+   },
+ 
+   _showErrorAlert: function PO__showErrorAlert(aMsg) {
+-    var brandShortName = document
+-      .getElementById("brandStrings")
+-      .getString("brandShortName");
++    var brandShortName = "MIFF";
+ 
+     Services.prompt.alert(window, brandShortName, aMsg);
+   },
+Index: m041/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
++++ m041/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
+@@ -28,9 +28,7 @@ FormAutofill.defineLazyLogGetter(this, E
+ const GetStringFromName = FormAutofillUtils.stringBundle.GetStringFromName;
+ const formatStringFromName =
+   FormAutofillUtils.stringBundle.formatStringFromName;
+-const brandShortName = FormAutofillUtils.brandBundle.GetStringFromName(
+-  "brandShortName"
+-);
++const brandShortName = "MIFF";
+ let changeAutofillOptsKey = "changeAutofillOptions";
+ let autofillOptsKey = "autofillOptionsLink";
+ if (AppConstants.platform == "macosx") {
+Index: m041/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
++++ m041/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
+@@ -43,8 +43,7 @@ const formFillController = Cc[
+ ].getService(Ci.nsIFormFillController);
+ 
+ XPCOMUtils.defineLazyGetter(this, "reauthPasswordPromptMessage", () => {
+-  const brandShortName = FormAutofillUtils.brandBundle.GetStringFromName(
+-    "brandShortName"
++  const brandShortName = "MIFF";
+   );
+   // The string name for Mac is changed because the value needed updating.
+   const platform = AppConstants.platform.replace("macosx", "macos");
+Index: m041/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
+===================================================================
+--- m041.orig/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
++++ m041/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
+@@ -388,9 +388,7 @@ class CreditCardResult extends ProfileAu
+       if (!insecureWarningEnabled) {
+         return [];
+       }
+-      let brandName = FormAutofillUtils.brandBundle.GetStringFromName(
+-        "brandShortName"
+-      );
++      let brandName = "MIFF";
+ 
+       return [
+         FormAutofillUtils.stringBundle.formatStringFromName(
+Index: m041/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
+===================================================================
+--- m041.orig/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
++++ m041/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
+@@ -43,9 +43,7 @@ ChromeUtils.defineModuleGetter(
+ );
+ 
+ XPCOMUtils.defineLazyGetter(this, "reauthPasswordPromptMessage", () => {
+-  const brandShortName = FormAutofillUtils.brandBundle.GetStringFromName(
+-    "brandShortName"
+-  );
++  const brandShortName = "MIFF";
+   // The string name for Mac is changed because the value needed updating.
+   const platform = AppConstants.platform.replace("macosx", "macos");
+   return FormAutofillUtils.stringBundle.formatStringFromName(
+Index: m041/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
+===================================================================
+--- m041.orig/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
++++ m041/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
+@@ -80,7 +80,7 @@ Var AddTaskbarSC
+ 
+ ; This is named BrandShortName helper because we use this for software update
+ ; post update cleanup.
+-VIAddVersionKey "FileDescription" "${BrandShortName} Helper"
++VIAddVersionKey "FileDescription" "MIFF Helper"
+ VIAddVersionKey "OriginalFilename" "helper.exe"
+ 
+ !insertmacro AddDisabledDDEHandlerValues
+Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
+===================================================================
+--- m041.orig/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
++++ m041/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
+@@ -68,7 +68,7 @@ this container is a toolbar. This avoids
+ 
+ <!-- Toolbar items -->
+ <!ENTITY homeButton.label             "Home">
+-<!ENTITY homeButton.defaultPage.tooltip "&brandShortName; Home Page">
++<!ENTITY homeButton.defaultPage.tooltip "MIFF Home Page">
+ 
+ <!ENTITY bookmarksButton.label          "Bookmarks">
+ 
+@@ -189,10 +189,10 @@ this container is a toolbar. This avoids
+ 
+ <!ENTITY quitApplicationCmdWin2.label       "Exit">
+ <!ENTITY quitApplicationCmdWin2.accesskey   "x">
+-<!ENTITY quitApplicationCmdWin2.tooltip     "Exit &brandShorterName;">
++<!ENTITY quitApplicationCmdWin2.tooltip     "Exit MIFF">
+ <!ENTITY quitApplicationCmd.label       "Quit">
+ <!ENTITY quitApplicationCmd.accesskey   "Q">
+-<!ENTITY quitApplicationCmdMac2.label   "Quit &brandShorterName;">
++<!ENTITY quitApplicationCmdMac2.label   "Quit MIFF">
+ 
+ <!ENTITY allowPopups.accesskey "p">
+ <!-- On Windows we use the term "Options" to describe settings, but
+@@ -223,10 +223,10 @@ this container is a toolbar. This avoids
+ <!ENTITY panicButton.thankyou.msg2                "Safe browsing!">
+ <!ENTITY panicButton.thankyou.buttonlabel         "Thanks!">
+ 
+-<!ENTITY updateAvailable.panelUI.label "Download &brandShorterName; update">
+-<!ENTITY updateManual.panelUI.label "Download a fresh copy of &brandShorterName;">
++<!ENTITY updateAvailable.panelUI.label "Download MIFF update">
++<!ENTITY updateManual.panelUI.label "Download a fresh copy of MIFF">
+ <!ENTITY updateUnsupported.panelUI.label "You cannot perform further updates">
+-<!ENTITY updateRestart.panelUI.label2 "Restart to update &brandShorterName;">
++<!ENTITY updateRestart.panelUI.label2 "Restart to update MIFF">
+ 
+ <!ENTITY sendToDevice.syncNotReady.label "Syncing Devices…">
+ 

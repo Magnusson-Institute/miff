@@ -1,0 +1,13 @@
+// Resource Hacker script for firefox.exe
+[FILENAMES]
+Open = firefox.exe
+Save = miff.exe
+Log = rh_installer.log
+
+[COMMANDS]
+-modify     main.ico,     IconGroup,1,1033
+-modify     main.ico,     IconGroup,32512,1033
+-delete     STRINGTABLE,,1033
+-add        miff.exe.StringTable7.res,   STRINGTABLE,,1033
+-delete     VERSIONINFO,,1033
+-add        miff.exe.VersionInfo1.res,   VERSIONINFO,,1033

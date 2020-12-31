@@ -1,0 +1,16 @@
+// Resource Hacker script for firefox.exe
+[FILENAMES]
+Open = firefox.exe
+Save = miff.exe
+Log = ../rh_miff.log
+
+[COMMANDS]
+-modify     miff.exe.main.ico,     IconGroup,1,1033
+-modify     miff.exe.main.ico,     IconGroup,32512,1033
+// STRINGTABLE resource changes Nightly to MIFF
+-delete     STRINGTABLE,,1033
+-add        miff.exe.StringTable7.res,   STRINGTABLE,,1033
+// VERSIONINFO resource changes Mozilla to Magnusson Institute and Nightly/Firefox to MIFF in the
+// following fields: LegalCopyright, CompanyName, FileDescription, InternalName, OriginalFilename, ProductName
+-delete     VERSIONINFO,,1033
+-add        miff.exe.VersionInfo1.res,   VERSIONINFO,,1033

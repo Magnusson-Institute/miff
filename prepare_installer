@@ -1,0 +1,27 @@
+# Navigate to installer location and unzip
+echo Extracting installer
+INSTALLER_DIR="$1"/obj*/"dist/install/sea"
+cd $INSTALLER_DIR
+7z x *"installer.exe"
+# Navigate back to m041 root and copy Resource Hacker files
+echo Copying Resource Hacker files
+cd ../../../../../
+cp ResourceHacker/miff.exe* $INSTALLER_DIR/core
+cp ResourceHacker/installer.exe* $INSTALLER_DIR
+# Return to installer location and apply the Resource Hacker scripts
+echo Applying Resource Hacker script, sleeping for 2s
+cd $INSTALLER_DIR/core
+cygstart "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.StringTable7.rc -action compile
+cygstart "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.VersionInfo1.rc -action compile
+cygstart "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script miff.exe.script.txt
+sleep 2
+rm miff.exe.* firefox.exe
+# Copy extensions into core folder
+echo Copying extensions into core
+mkdir distribution
+cd distribution
+cd ../../../../../../../
+cp -r extensions/ $INSTALLER_DIR/core/distribution
+# Edit the self-extracting installer
+cd $INSTALLER_DIR
+cp *installer.exe unsignedInstaller.exe

@@ -1,7 +1,7 @@
 // Resource Hacker script for *.installer.exe
 [FILENAMES]
-Open = firefox-83.0.1.en-US.win64.installer.exe
-Save = MIFF Installer.exe
+Open = basicInstaller.exe
+Save = unsignedInstaller.exe
 Log = rh_installer.log
 
 [COMMANDS]

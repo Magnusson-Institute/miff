@@ -75,6 +75,16 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  
  // Migrate any existing Firefox Account data from the default profile to the
  // Developer Edition profile.
+@@ -2583,4 +2583,6 @@ pref("dom.event.clipboardevents.enable",
+ pref("network.trr.mode", 2);
+ 
+ setAndLockPref("browser.newtabpage.activity-stream.showSponsored", false);
+-setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
+\ No newline at end of file
++setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
++setAndLockPref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
++setAndLockPref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
+\ No newline at end of file
 Index: m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
 ===================================================================
 --- m041.orig/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
@@ -271,3 +281,42 @@ Index: m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
       nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_MUST_LOAD_IN_CHILD},
      {"httpsonlyerror", "chrome://global/content/httpsonlyerror/errorpage.html",
+Index: m041/mozilla-release/browser/components/preferences/main.inc.xhtml
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/main.inc.xhtml
++++ m041/mozilla-release/browser/components/preferences/main.inc.xhtml
+@@ -650,7 +650,7 @@
+             preference="media.hardwaremediakeys.enabled"/>
+     <label id="mediaControlLearnMore" class="learnMore" data-l10n-id="browsing-media-control-learn-more" is="text-link"/>
+   </hbox>
+-  <hbox align="center" data-subcategory="cfraddons">
++<!--  <hbox align="center" data-subcategory="cfraddons">
+     <checkbox id="cfrRecommendations"
+             class="tail-with-learn-more"
+             data-l10n-id="browsing-cfr-recommendations"
+@@ -663,7 +663,7 @@
+             data-l10n-id="browsing-cfr-features"
+             preference="browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features"/>
+     <label id="cfrFeaturesLearnMore" class="learnMore" data-l10n-id="browsing-cfr-recommendations-learn-more" is="text-link"/>
+-  </hbox>
++  </hbox>-->
+ </groupbox>
+ 
+ <hbox id="networkProxyCategory"
+Index: m041/mozilla-release/browser/components/preferences/main.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/main.js
++++ m041/mozilla-release/browser/components/preferences/main.js
+@@ -395,10 +395,10 @@ var gMainPane = {
+     let cfrLearnMoreUrl =
+       Services.urlFormatter.formatURLPref("app.support.baseURL") +
+       "extensionrecommendations";
+-    for (const id of ["cfrLearnMore", "cfrFeaturesLearnMore"]) {
++/*    for (const id of ["cfrLearnMore", "cfrFeaturesLearnMore"]) {
+       let link = document.getElementById(id);
+       link.setAttribute("href", cfrLearnMoreUrl);
+-    }
++    }*/
+ 
+     if (
+       Services.prefs.getBoolPref(

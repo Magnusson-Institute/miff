@@ -36,10 +36,10 @@ cd mozilla-release
 ./mach build
 ./mach run
 
+# Scripts
+The replace_images script copies the MIFF-branded images from the branding/ directory into the proper location in the Firefox source tree. Pass the name of the desired directory as argument $1. The image locations and directory structure of branding matches the Firefox source tree.
 
 The setup_patch_environment script takes as an argument the directory of the Firefox source code. The patches are edited to point to the given Firefox directory and copied into a new directory, and the Quilt file .pc/.quilt_patches is edited to point to this new directory. The Firefox source code directory must be within m041.
-
-
 
 Resources:
 

@@ -120,7 +120,7 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  
  // User pref to show stories on newtab (feeds.system.topstories has to be set to true as well)
 -pref("browser.newtabpage.activity-stream.feeds.section.topstories", true);
-+lockPref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
++setAndLockPref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
  
  // The pref controls if search hand-off is enabled for Activity Stream.
  #ifdef NIGHTLY_BUILD
@@ -129,8 +129,8 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  //5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
  pref("network.trr.mode", 2);
 +
-+lockPref("browser.newtabpage.activity-stream.showSponsored", false);
-+lockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
++setAndLockPref("browser.newtabpage.activity-stream.showSponsored", false);
++setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 \ No newline at end of file
 Index: m041/mozilla-release/browser/components/newtab/content-src/lib/link-menu-options.js
 ===================================================================

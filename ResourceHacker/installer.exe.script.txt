@@ -1,0 +1,11 @@
+// Resource Hacker script for *.installer.exe
+[FILENAMES]
+Open = basicInstaller.exe
+Save = unsignedInstaller.exe
+Log = rh_installer.log
+
+[COMMANDS]
+-modify     installer.exe.main.ico,     IconGroup,1,1033
+-modify     installer.exe.main.ico,     IconGroup,32512,1033
+-delete     VERSIONINFO,,1033
+-add        installer.exe.VersionInfo1.res,   VERSIONINFO,,1033

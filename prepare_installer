@@ -1,0 +1,40 @@
+# Navigate to installer location and unzip
+echo Extracting installer
+INSTALLER_DIR="$1"/obj*/"dist/install/sea"
+cd $INSTALLER_DIR
+7z x *"installer.exe"
+# Navigate back to m041 root and copy Resource Hacker files
+echo Copying Resource Hacker files
+cd ../../../../../
+cp ResourceHacker/miff.exe* $INSTALLER_DIR/core
+cp ResourceHacker/installer.exe* $INSTALLER_DIR
+# Return to installer location and apply the Resource Hacker scripts
+echo Applying first Resource Hacker script, sleeping for 3s
+cd $INSTALLER_DIR/core
+cygstart "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.StringTable7.rc -action compile
+cygstart "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.VersionInfo1.rc -action compile
+cygstart "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script miff.exe.script.txt
+sleep 3
+rm miff.exe.* firefox.exe
+# Copy extensions into core folder
+echo Copying extensions into core
+mkdir distribution
+cd distribution
+cd ../../../../../../../
+cp -r extensions/ $INSTALLER_DIR/core/distribution
+# Edit the self-extracting installer
+cd $INSTALLER_DIR
+cp ../../../../other-licenses/7zstub/firefox/7zSD.Win32.sfx 7zSD.sfx
+cp ../../../../../repackage.bat repackage.bat
+cp ../../../../../config.txt config.txt
+7z a tempInstaller.7z core/ MIFFInstaller.exe
+./repackage.bat
+sleep 1
+# Apply Resource Hacker script to new installer
+cygstart "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open installer.exe.VersionInfo1.rc -action compile
+cygstart "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script installer.exe.script.txt
+echo Applying second Resource Hacker script, sleeping for 2s
+sleep 2
+echo Installer work is complete, basicInstaller.exe
+# Cleaning up extra files
+rm 7zSD.sfx config.txt repackage.bat tempInstaller.7z installer.exe.*

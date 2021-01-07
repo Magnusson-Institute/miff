@@ -1,0 +1,322 @@
+Index: m041/mozilla-release/browser/app/profile/firefox.js
+===================================================================
+--- m041.orig/mozilla-release/browser/app/profile/firefox.js
++++ m041/mozilla-release/browser/app/profile/firefox.js
+@@ -49,7 +49,7 @@ pref("extensions.blocklist.useMLBF", tru
+ pref("extensions.blocklist.useMLBF.stashes", true);
+ 
+ // The URL for the privacy policy related to recommended extensions.
+-pref("extensions.recommendations.privacyPolicyUrl", "https://www.mozilla.org/privacy/firefox/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_content=privacy-policy-link#addons");
++pref("extensions.recommendations.privacyPolicyUrl", "https://privacy.app/browser/privacy#extensions");
+ // The URL for Firefox Color, recommended on the theme page in about:addons.
+ pref("extensions.recommendations.themeRecommendationUrl", "https://color.firefox.com/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_content=theme-footer-link");
+ 
+@@ -198,7 +198,7 @@ pref("browser.uitour.enabled", true);
+ pref("browser.uitour.loglevel", "Error");
+ pref("browser.uitour.requireSecure", true);
+ pref("browser.uitour.themeOrigin", "https://addons.mozilla.org/%LOCALE%/firefox/themes/");
+-pref("browser.uitour.url", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/tour/");
++pref("browser.uitour.url", "https://privacy.app/browser/tour");
+ // How long to show a Hearbeat survey (two hours, in seconds)
+ pref("browser.uitour.surveyDuration", 7200);
+ 
+@@ -762,7 +762,7 @@ pref("accessibility.typeaheadfind.linkso
+ pref("accessibility.typeaheadfind.flashBar", 1);
+ 
+ // Accessibility indicator preferences such as support URL, enabled flag.
+-pref("accessibility.support.url", "https://support.mozilla.org/%LOCALE%/kb/accessibility-services");
++pref("accessibility.support.url", "https://privacy.app/support");
+ pref("accessibility.indicator.enabled", false);
+ 
+ pref("plugins.testmode", false);
+@@ -880,7 +880,7 @@ pref("gecko.handlerService.schemes.ircs.
+ pref("gecko.handlerService.schemes.ircs.3.name", "chrome://browser-region/locale/region.properties");
+ pref("gecko.handlerService.schemes.ircs.3.uriTemplate", "chrome://browser-region/locale/region.properties");
+ 
+-pref("browser.geolocation.warning.infoURL", "https://www.mozilla.org/%LOCALE%/firefox/geolocation/");
++pref("browser.geolocation.warning.infoURL", "https://privacy.app/browser/geolocation");
+ pref("browser.xr.warning.infoURL", "https://www.mozilla.org/%LOCALE%/firefox/xr/");
+ 
+ pref("browser.sessionstore.resume_from_crash", true);
+@@ -1012,20 +1012,20 @@ pref("breakpad.reportURL", "https://cras
+ 
+ // URL for "Learn More" for DataCollection
+ pref("toolkit.datacollection.infoURL",
+-     "https://www.mozilla.org/legal/privacy/firefox.html");
++     "https://privacy.app/browser/privacy");
+ 
+ // URL for "Learn More" for Crash Reporter
+ pref("toolkit.crashreporter.infoURL",
+-     "https://www.mozilla.org/legal/privacy/firefox.html#crash-reporter");
++     "https://privacy.app/browser/privacy#crash-reporter");
+ 
+ // base URL for web-based support pages
+-pref("app.support.baseURL", "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/");
++pref("app.support.baseURL", "https://privacy.app/support");
+ 
+ // base url for web-based feedback pages
+ #ifdef MOZ_DEV_EDITION
+-  pref("app.feedback.baseURL", "https://input.mozilla.org/%LOCALE%/feedback/firefoxdev/%VERSION%/");
++  pref("app.feedback.baseURL", "");
+ #else
+-  pref("app.feedback.baseURL", "https://input.mozilla.org/%LOCALE%/feedback/%APP%/%VERSION%/");
++  pref("app.feedback.baseURL", "");
+ #endif
+ 
+ // Name of alternate about: page for certificate errors (when undefined, defaults to about:neterror)
+@@ -1537,8 +1537,8 @@ pref("identity.sendtabpromo.url", "https
+ 
+ // URLs for promo links to mobile browsers. Note that consumers are expected to
+ // append a value for utm_campaign.
+-pref("identity.mobilepromo.android", "https://www.mozilla.org/firefox/android/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_campaign=");
+-pref("identity.mobilepromo.ios", "https://www.mozilla.org/firefox/ios/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_campaign=");
++pref("identity.mobilepromo.android", "https://privacy.app/browser/mobile#android");
++pref("identity.mobilepromo.ios", "https://privacy.app/browser/mobile#ios");
+ 
+ // Migrate any existing Firefox Account data from the default profile to the
+ // Developer Edition profile.
+@@ -2583,4 +2583,6 @@ pref("dom.event.clipboardevents.enable",
+ pref("network.trr.mode", 2);
+ 
+ setAndLockPref("browser.newtabpage.activity-stream.showSponsored", false);
+-setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
+\ No newline at end of file
++setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
++setAndLockPref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
++setAndLockPref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
+\ No newline at end of file
+Index: m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
+===================================================================
+--- m041.orig/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
++++ m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
+@@ -4,7 +4,7 @@
+ 
+ // This file contains branding-specific prefs.
+ 
+-pref("startup.homepage_welcome_url", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%a2/firstrun/");
++pref("startup.homepage_welcome_url", "https://privacy.app/member");
+ pref("startup.homepage_welcome_url.additional", "");
+ // The time interval between checks for a new version (in seconds)
+ pref("app.update.interval", 28800); // 8 hours
+@@ -12,12 +12,12 @@ pref("app.update.interval", 28800); // 8
+ pref("app.update.promptWaitTime", 691200);
+ // URL user can browse to manually if for some reason all update installation
+ // attempts fail.
+-pref("app.update.url.manual", "https://www.mozilla.org/%LOCALE%/firefox/aurora/");
++pref("app.update.url.manual", "https://privacy.app/browser");
+ // A default value for the "More information about this update" link
+ // supplied in the "An update is available" page of the update wizard.
+-pref("app.update.url.details", "https://www.mozilla.org/%LOCALE%/firefox/aurora/");
++pref("app.update.url.details", "https://privacy.app#Notes");
+ 
+-pref("app.releaseNotesURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%beta/releasenotes/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_campaign=whatsnew");
++pref("app.releaseNotesURL", "https://privacy.app/browser/releasenotes");
+ 
+ // The number of days a binary is permitted to be old
+ // without checking for an update.  This assumes that
+Index: m041/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
+===================================================================
+--- m041.orig/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
++++ m041/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
+@@ -4,8 +4,8 @@
+ 
+ // This file contains branding-specific prefs.
+ 
+-pref("startup.homepage_override_url", "https://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/?oldversion=%OLD_VERSION%");
+-pref("startup.homepage_welcome_url", "https://www.mozilla.org/projects/firefox/%VERSION%/firstrun/");
++pref("startup.homepage_override_url", "https://privacy.app/member");
++pref("startup.homepage_welcome_url", "https://privacy.app/member");
+ pref("startup.homepage_welcome_url.additional", "");
+ // The time interval between checks for a new version (in seconds)
+ pref("app.update.interval", 7200); // 2 hours
+@@ -13,12 +13,12 @@ pref("app.update.interval", 7200); // 2
+ pref("app.update.promptWaitTime", 43200);
+ // URL user can browse to manually if for some reason all update installation
+ // attempts fail.
+-pref("app.update.url.manual", "https://www.mozilla.org/%LOCALE%/firefox/nightly/");
++pref("app.update.url.manual", "https://privacy.app/browser");
+ // A default value for the "More information about this update" link
+ // supplied in the "An update is available" page of the update wizard.
+-pref("app.update.url.details", "https://www.mozilla.org/%LOCALE%/firefox/nightly/notes/");
++pref("app.update.url.details", "https://privacy.app/browser#Notes");
+ 
+-pref("app.releaseNotesURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/releasenotes/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_campaign=whatsnew");
++pref("app.releaseNotesURL", "https://privacy.app/browser/release-notes");
+ 
+ // The number of days a binary is permitted to be old
+ // without checking for an update.  This assumes that
+Index: m041/mozilla-release/browser/branding/official/pref/firefox-branding.js
+===================================================================
+--- m041.orig/mozilla-release/browser/branding/official/pref/firefox-branding.js
++++ m041/mozilla-release/browser/branding/official/pref/firefox-branding.js
+@@ -4,8 +4,8 @@
+ 
+ // This file contains branding-specific prefs.
+ 
+-pref("startup.homepage_override_url", "");
+-pref("startup.homepage_welcome_url", "about:welcome");
++pref("startup.homepage_override_url", "https://privacy.app/member");
++pref("startup.homepage_welcome_url", "https://privacy.app/member");
+ pref("startup.homepage_welcome_url.additional", "");
+ // Interval: Time between checks for a new version (in seconds)
+ pref("app.update.interval", 43200); // 12 hours
+@@ -17,13 +17,13 @@ pref("app.update.promptWaitTime", 691200
+ // update" link supplied in the "An update is available" page of the update
+ // wizard.
+ #if MOZ_UPDATE_CHANNEL == beta
+-  pref("app.update.url.manual", "https://www.mozilla.org/%LOCALE%/firefox/beta");
+-  pref("app.update.url.details", "https://www.mozilla.org/%LOCALE%/firefox/beta/notes");
+-  pref("app.releaseNotesURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%beta/releasenotes/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_campaign=whatsnew");
++  pref("app.update.url.manual", "https://privacy.app/browser");
++  pref("app.update.url.details", "https://privacy.app/browser#Notes");
++  pref("app.releaseNotesURL", "https://privacy.app/browser/releasenotes");
+ #else
+-  pref("app.update.url.manual", "https://www.mozilla.org/%LOCALE%/firefox/");
+-  pref("app.update.url.details", "https://www.mozilla.org/%LOCALE%/firefox/notes");
+-  pref("app.releaseNotesURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/releasenotes/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_campaign=whatsnew");
++  pref("app.update.url.manual", "https://privacy.app/browser");
++  pref("app.update.url.details", "https://privacy.app/browser#Notes");
++  pref("app.releaseNotesURL", "https://privacy.app/browser/releasenotes");
+ #endif
+ 
+ // The number of days a binary is permitted to be old
+Index: m041/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
+===================================================================
+--- m041.orig/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
++++ m041/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
+@@ -4,8 +4,8 @@
+ 
+ // This file contains branding-specific prefs.
+ 
+-pref("startup.homepage_override_url", "");
+-pref("startup.homepage_welcome_url", "");
++pref("startup.homepage_override_url", "https://privacy.app/member");
++pref("startup.homepage_welcome_url", "https://privacy.app/member");
+ pref("startup.homepage_welcome_url.additional", "");
+ // The time interval between checks for a new version (in seconds)
+ pref("app.update.interval", 86400); // 24 hours
+@@ -13,10 +13,10 @@ pref("app.update.interval", 86400); // 2
+ pref("app.update.promptWaitTime", 86400);
+ // URL user can browse to manually if for some reason all update installation
+ // attempts fail.
+-pref("app.update.url.manual", "https://nightly.mozilla.org");
++pref("app.update.url.manual", "https://privacy.app/browser");
+ // A default value for the "More information about this update" link
+ // supplied in the "An update is available" page of the update wizard.
+-pref("app.update.url.details", "https://nightly.mozilla.org");
++pref("app.update.url.details", "https://privacy.app/browser#notes");
+ 
+ // The number of days a binary is permitted to be old
+ // without checking for an update.  This assumes that
+Index: m041/mozilla-release/modules/libpref/init/all.js
+===================================================================
+--- m041.orig/mozilla-release/modules/libpref/init/all.js
++++ m041/mozilla-release/modules/libpref/init/all.js
+@@ -4472,7 +4472,7 @@ pref("toolkit.legacyUserProfileCustomiza
+   pref("datareporting.policy.currentPolicyVersion", 2);
+   pref("datareporting.policy.minimumPolicyVersion", 1);
+   pref("datareporting.policy.minimumPolicyVersion.channel-beta", 2);
+-  pref("datareporting.policy.firstRunURL", "https://www.mozilla.org/privacy/firefox/");
++  pref("datareporting.policy.firstRunURL", "https://privacy.app/browser/privacy");
+ #endif
+ 
+ #ifdef MOZ_SERVICES_HEALTHREPORT
+Index: m041/mozilla-release/browser/base/content/browser-menubar.inc
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/browser-menubar.inc
++++ m041/mozilla-release/browser/base/content/browser-menubar.inc
+@@ -466,7 +466,7 @@
+                    data-l10n-id="menu-help">
+               <menupopup id="menu_HelpPopup" onpopupshowing="buildHelpMenu();">
+                 <menuitem id="menu_openHelp"
+-                          oncommand="openHelpLink('firefox-help')"
++                          oncommand="openHelpLink('')"
+                           onclick="checkForMiddleClick(this, event);"
+                           data-l10n-id="menu-help-product"
+ #ifdef XP_MACOSX
+@@ -479,7 +479,7 @@
+                 <menuitem id="help_importFromAnotherBrowser"
+                           command="cmd_help_importFromAnotherBrowser" data-l10n-id="menu-help-import-from-another-browser"/>
+                 <menuitem id="menu_keyboardShortcuts"
+-                          oncommand="openHelpLink('keyboard-shortcuts')"
++                          oncommand="openKeyboardTour()"
+                           onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-keyboard-shortcuts"/>
+                 <menuitem id="troubleShooting"
+                           oncommand="openTroubleshootingPage()"
+Index: m041/mozilla-release/browser/base/content/utilityOverlay.js
+===================================================================
+--- m041.orig/mozilla-release/browser/base/content/utilityOverlay.js
++++ m041/mozilla-release/browser/base/content/utilityOverlay.js
+@@ -1076,10 +1076,18 @@ function openTourPage() {
+   openTrustedLinkIn(scope.UITour.url, "tab");
+ }
+ 
++// A loose copy of openTourPage() to use for the Keyboard Shortcuts header
++function openKeyboardTour() {
++  let scope = {};
++  ChromeUtils.import("resource:///modules/UITour.jsm", scope);
++  let urlWithHeader = scope.UITour.url + "#keyboard";
++  openTrustedLinkIn(urlWithHeader, "tab");
++}
++
+ function buildHelpMenu() {
+-  document.getElementById(
++/*  document.getElementById(
+     "feedbackPage"
+-  ).disabled = !Services.policies.isAllowed("feedbackCommands");
++  ).disabled = !Services.policies.isAllowed("feedbackCommands");*/
+ 
+   document.getElementById(
+     "helpSafeMode"
+Index: m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
+===================================================================
+--- m041.orig/mozilla-release/docshell/base/nsAboutRedirector.cpp
++++ m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
+@@ -74,7 +74,7 @@ static const RedirEntry kRedirMap[] = {
+ #ifdef MOZ_CRASHREPORTER
+     {"crashes", "chrome://global/content/crashes.html", 0},
+ #endif
+-    {"credits", "https://www.mozilla.org/credits/",
++    {"credits", "https://privacy.app/browser#About",
+      nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+          nsIAboutModule::URI_MUST_LOAD_IN_CHILD},
+     {"httpsonlyerror", "chrome://global/content/httpsonlyerror/errorpage.html",
+Index: m041/mozilla-release/browser/components/preferences/main.inc.xhtml
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/main.inc.xhtml
++++ m041/mozilla-release/browser/components/preferences/main.inc.xhtml
+@@ -650,7 +650,7 @@
+             preference="media.hardwaremediakeys.enabled"/>
+     <label id="mediaControlLearnMore" class="learnMore" data-l10n-id="browsing-media-control-learn-more" is="text-link"/>
+   </hbox>
+-  <hbox align="center" data-subcategory="cfraddons">
++<!--  <hbox align="center" data-subcategory="cfraddons">
+     <checkbox id="cfrRecommendations"
+             class="tail-with-learn-more"
+             data-l10n-id="browsing-cfr-recommendations"
+@@ -663,7 +663,7 @@
+             data-l10n-id="browsing-cfr-features"
+             preference="browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features"/>
+     <label id="cfrFeaturesLearnMore" class="learnMore" data-l10n-id="browsing-cfr-recommendations-learn-more" is="text-link"/>
+-  </hbox>
++  </hbox>-->
+ </groupbox>
+ 
+ <hbox id="networkProxyCategory"
+Index: m041/mozilla-release/browser/components/preferences/main.js
+===================================================================
+--- m041.orig/mozilla-release/browser/components/preferences/main.js
++++ m041/mozilla-release/browser/components/preferences/main.js
+@@ -395,10 +395,10 @@ var gMainPane = {
+     let cfrLearnMoreUrl =
+       Services.urlFormatter.formatURLPref("app.support.baseURL") +
+       "extensionrecommendations";
+-    for (const id of ["cfrLearnMore", "cfrFeaturesLearnMore"]) {
++/*    for (const id of ["cfrLearnMore", "cfrFeaturesLearnMore"]) {
+       let link = document.getElementById(id);
+       link.setAttribute("href", cfrLearnMoreUrl);
+-    }
++    }*/
+ 
+     if (
+       Services.prefs.getBoolPref(

@@ -309,6 +309,19 @@ Index: m041/mozilla-release/browser/components/newtab/aboutwelcome/content/about
  
        case "theme":
          return this.props.content.tiles.data ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+@@ -1132,10 +1132,10 @@ function addUtmParams(url, utmTerm) {
+     returnUrl = new URL(url);
+   }
+ 
+-  Object.keys(BASE_PARAMS).forEach(key => {
++/*  Object.keys(BASE_PARAMS).forEach(key => {
+     returnUrl.searchParams.append(key, BASE_PARAMS[key]);
+   });
+-  returnUrl.searchParams.append("utm_term", utmTerm);
++  returnUrl.searchParams.append("utm_term", utmTerm);*/
+   return returnUrl;
+ }
+ 
 Index: m041/mozilla-release/browser/base/content/browser-menubar.inc
 ===================================================================
 --- m041.orig/mozilla-release/browser/base/content/browser-menubar.inc

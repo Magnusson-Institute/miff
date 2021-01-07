@@ -11,6 +11,15 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/api/v3/addons/search/?guid=%IDS%&lang=%LOCALE%");
  pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/search?q=%TERMS%&platform=%OS%&appver=%VERSION%");
  pref("extensions.getAddons.link.url", "https://addons.mozilla.org/%LOCALE%/firefox/");
+@@ -77,7 +77,7 @@ pref("extensions.webextensions.backgroun
+ 
+ // Require signed add-ons by default
+ pref("extensions.langpacks.signatures.required", true);
+-pref("xpinstall.signatures.required", true);
++pref("xpinstall.signatures.required", false);
+ pref("xpinstall.signatures.devInfoURL", "https://wiki.mozilla.org/Addons/Extension_Signing");
+ 
+ // Enable extensionStorage storage actor by default
 @@ -1217,7 +1217,7 @@ pref("services.sync.prefs.sync.browser.l
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", true);
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", true);
@@ -43,34 +52,34 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  // Telemetry settings.
  // Determines if Telemetry pings can be archived locally.
 -pref("toolkit.telemetry.archive.enabled", true);
-+lockPref("toolkit.telemetry.archive.enabled", false);
++setAndLockPref("toolkit.telemetry.archive.enabled", false);
  // Enables sending the shutdown ping when Firefox shuts down.
 -pref("toolkit.telemetry.shutdownPingSender.enabled", true);
-+lockPref("toolkit.telemetry.shutdownPingSender.enabled", false);
++setAndLockPref("toolkit.telemetry.shutdownPingSender.enabled", false);
  // Enables sending the shutdown ping using the pingsender from the first session.
 -pref("toolkit.telemetry.shutdownPingSender.enabledFirstSession", false);
-+lockPref("toolkit.telemetry.shutdownPingSender.enabledFirstSession", false);
++setAndLockPref("toolkit.telemetry.shutdownPingSender.enabledFirstSession", false);
  // Enables sending a duplicate of the first shutdown ping from the first session.
 -pref("toolkit.telemetry.firstShutdownPing.enabled", true);
-+lockPref("toolkit.telemetry.firstShutdownPing.enabled", false);
++setAndLockPref("toolkit.telemetry.firstShutdownPing.enabled", false);
  // Enables sending the 'new-profile' ping on new profiles.
 -pref("toolkit.telemetry.newProfilePing.enabled", true);
-+lockPref("toolkit.telemetry.newProfilePing.enabled", false);
++setAndLockPref("toolkit.telemetry.newProfilePing.enabled", false);
  // Enables sending 'update' pings on Firefox updates.
 -pref("toolkit.telemetry.updatePing.enabled", true);
-+lockPref("toolkit.telemetry.updatePing.enabled", false);
++setAndLockPref("toolkit.telemetry.updatePing.enabled", false);
  // Enables sending 'bhr' pings when the browser hangs.
 -pref("toolkit.telemetry.bhrPing.enabled", true);
-+lockPref("toolkit.telemetry.bhrPing.enabled", false);
++setAndLockPref("toolkit.telemetry.bhrPing.enabled", false);
  // Whether to enable Ecosystem Telemetry, requires a restart.
 -pref("toolkit.telemetry.ecosystemtelemetry.enabled", false);
-+lockPref("toolkit.telemetry.ecosystemtelemetry.enabled", false);
++setAndLockPref("toolkit.telemetry.ecosystemtelemetry.enabled", false);
  
  // Ping Centre Telemetry settings.
 -pref("browser.ping-centre.telemetry", true);
 -pref("browser.ping-centre.log", false);
-+lockPref("browser.ping-centre.telemetry", false);
-+lockPref("browser.ping-centre.log", false);
++setAndLockPref("browser.ping-centre.telemetry", false);
++setAndLockPref("browser.ping-centre.log", false);
  
  // Enable GMP support in the addon manager.
  pref("media.gmp-provider.enabled", true);
@@ -225,7 +234,7 @@ Index: m041/mozilla-release/modules/libpref/init/all.js
  
  #ifdef MOZ_DATA_REPORTING
 -  pref("datareporting.policy.dataSubmissionEnabled", true);
-+  lockPref("datareporting.policy.dataSubmissionEnabled", false);
++  pref("datareporting.policy.dataSubmissionEnabled", false);
    pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
    pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
    pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
@@ -234,7 +243,7 @@ Index: m041/mozilla-release/modules/libpref/init/all.js
  
      // Health Report is enabled by default on all channels.
 -    pref("datareporting.healthreport.uploadEnabled", true);
-+    lockPref("datareporting.healthreport.uploadEnabled", false);
++    pref("datareporting.healthreport.uploadEnabled", false);
    #endif
  #endif
  

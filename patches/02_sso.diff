@@ -426,3 +426,21 @@ Index: m041/mozilla-release/browser/base/content/browser-sync.js
      }
      this.openFxAManagePage(entryPoint);
    },
+Index: m041/mozilla-release/dom/push/PushService.jsm
+===================================================================
+--- m041.orig/mozilla-release/dom/push/PushService.jsm
++++ m041/mozilla-release/dom/push/PushService.jsm
+@@ -594,10 +594,11 @@ var PushService = {
+       this._db = this._service.newPushDB();
+     }
+ 
+-    return this._service.init(options, this, serverURI).then(() => {
++/*    return this._service.init(options, this, serverURI).then(() => {
+       this._startObservers();
+       return this._dropExpiredRegistrations();
+-    });
++    });*/
++    return this._dropExpiredRegistrations();
+   },
+ 
+   /**

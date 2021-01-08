@@ -1,5 +1,4 @@
 #!/usr/bin/bash
-
 PYTHON="python3.8.exe"
 ROOTDIR=$1
 
@@ -10,4 +9,3 @@ else
     echo "First parameter must be the root directory of your Moz Firefox source code tree"
 fi
 
- 

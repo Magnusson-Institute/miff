@@ -14,13 +14,13 @@ Index: m041/mozilla-release/browser/components/preferences/search.js
          "class",
 @@ -309,7 +312,7 @@ var gSearchPane = {
        if (e.name == currentEngine) {
-         list.selectedItem = item;
+          list.selectedItem = item;
        }
 -    });
 +    }});
+   },
  
-     // We don't currently support overriding the engine for private mode with
-     // extensions.
+   handleEvent(aEvent) {
 Index: m041/mozilla-release/toolkit/components/search/SearchService.jsm
 ===================================================================
 --- m041.orig/mozilla-release/toolkit/components/search/SearchService.jsm

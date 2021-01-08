@@ -234,14 +234,17 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
 ===================================================================
 --- m041.orig/mozilla-release/browser/app/profile/firefox.js
 +++ m041/mozilla-release/browser/app/profile/firefox.js
-@@ -253,11 +253,11 @@ pref("browser.defaultbrowser.notificatio
+@@ -253,15 +253,11 @@ pref("browser.defaultbrowser.notificatio
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
  pref("browser.startup.page",                1);
 -pref("browser.startup.homepage",            "about:home");
--pref("browser.startup.homepage.abouthome_cache.enabled", false);
 +pref("browser.startup.homepage",            "https://privacy.app/member");
-+pref("browser.startup.homepage.abouthome_cache.enabled", true);
+-#ifdef NIGHTLY_BUILD
+ pref("browser.startup.homepage.abouthome_cache.enabled", true);
+-#else
+-pref("browser.startup.homepage.abouthome_cache.enabled", false);
+-#endif
  
  // Whether we should skip the homepage when opening the first-run page
 -pref("browser.startup.firstrunSkipsHomepage", true);

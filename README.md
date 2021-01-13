@@ -10,11 +10,14 @@ When installing, the following workloads must be checked:
 
 * “Game development with C++” (under the Mobile & Gaming group)
 
-In addition, go to the Individual Components tab and make sure the following components are selected under the “SDKs, libraries, and frameworks” group:
+In addition, go to the Individual Components tab and make sure the
+following components are selected under the “SDKs, libraries, and
+frameworks” group:
 
 * “Windows 10 SDK” (at least version 10.0.17134.0)
 
-* “C++ ATL for v142 build tools (x86 and x64)” (also select ARM64 if you’ll be building for ARM64)
+* “C++ ATL for v142 build tools (x86 and x64)” (also select ARM64 if
+  you’ll be building for ARM64)
 
 
 
@@ -37,11 +40,28 @@ cd mozilla-release
 ./mach run
 
 # Scripts
-The replace_images script copies the MIFF-branded images from the branding/ directory into the proper location in the Firefox source tree. Pass the name of the desired directory as argument $1. The image locations and directory structure of branding matches the Firefox source tree.
 
-The setup_patch_environment script takes as an argument the directory of the Firefox source code. The patches are edited to point to the given Firefox directory and copied into a new directory, and the Quilt file .pc/.quilt_patches is edited to point to this new directory. The Firefox source code directory must be within m041.
+The replace_images script copies the MIFF-branded images from the
+branding/ directory into the proper location in the Firefox source
+tree. Pass the name of the desired directory as argument $1. The image
+locations and directory structure of branding matches the Firefox
+source tree.
 
-Resources:
+The setup_patch_environment script takes as an argument the directory
+of the Firefox source code. The patches are edited to point to the
+given Firefox directory and copied into a new directory, and the Quilt
+file .pc/.quilt_patches is edited to point to this new directory. The
+Firefox source code directory must be within m041.
+
+Steps:
+
+python setup_patch_environment.py <root dir>
+quilt push
+
+
+(Where 'root dir' for example would be 'firefox84.0.2')
+
+# Resources:
 
 https://firefox-source-docs.mozilla.org/setup/windows_build.html#building-firefox-on-windows
 

@@ -1,7 +1,7 @@
-Index: m041/mozilla-release/browser/app/profile/firefox.js
+Index: m041/mozsrc/browser/app/profile/firefox.js
 ===================================================================
---- m041.orig/mozilla-release/browser/app/profile/firefox.js
-+++ m041/mozilla-release/browser/app/profile/firefox.js
+--- m041.orig/mozsrc/browser/app/profile/firefox.js
++++ m041/mozsrc/browser/app/profile/firefox.js
 @@ -49,7 +49,7 @@ pref("extensions.blocklist.useMLBF", tru
  pref("extensions.blocklist.useMLBF.stashes", true);
  
@@ -85,10 +85,10 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
 +setAndLockPref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
 +setAndLockPref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
 \ No newline at end of file
-Index: m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
+Index: m041/mozsrc/browser/branding/aurora/pref/firefox-branding.js
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
-+++ m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
+--- m041.orig/mozsrc/browser/branding/aurora/pref/firefox-branding.js
++++ m041/mozsrc/browser/branding/aurora/pref/firefox-branding.js
 @@ -4,7 +4,7 @@
  
  // This file contains branding-specific prefs.
@@ -114,10 +114,10 @@ Index: m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
  
  // The number of days a binary is permitted to be old
  // without checking for an update.  This assumes that
-Index: m041/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
+Index: m041/mozsrc/browser/branding/nightly/pref/firefox-branding.js
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
-+++ m041/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
+--- m041.orig/mozsrc/browser/branding/nightly/pref/firefox-branding.js
++++ m041/mozsrc/browser/branding/nightly/pref/firefox-branding.js
 @@ -4,8 +4,8 @@
  
  // This file contains branding-specific prefs.
@@ -145,10 +145,10 @@ Index: m041/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
  
  // The number of days a binary is permitted to be old
  // without checking for an update.  This assumes that
-Index: m041/mozilla-release/browser/branding/official/pref/firefox-branding.js
+Index: m041/mozsrc/browser/branding/official/pref/firefox-branding.js
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/pref/firefox-branding.js
-+++ m041/mozilla-release/browser/branding/official/pref/firefox-branding.js
+--- m041.orig/mozsrc/browser/branding/official/pref/firefox-branding.js
++++ m041/mozsrc/browser/branding/official/pref/firefox-branding.js
 @@ -4,8 +4,8 @@
  
  // This file contains branding-specific prefs.
@@ -180,10 +180,10 @@ Index: m041/mozilla-release/browser/branding/official/pref/firefox-branding.js
  #endif
  
  // The number of days a binary is permitted to be old
-Index: m041/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
+Index: m041/mozsrc/browser/branding/unofficial/pref/firefox-branding.js
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
-+++ m041/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
+--- m041.orig/mozsrc/browser/branding/unofficial/pref/firefox-branding.js
++++ m041/mozsrc/browser/branding/unofficial/pref/firefox-branding.js
 @@ -4,8 +4,8 @@
  
  // This file contains branding-specific prefs.
@@ -208,10 +208,10 @@ Index: m041/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
  
  // The number of days a binary is permitted to be old
  // without checking for an update.  This assumes that
-Index: m041/mozilla-release/modules/libpref/init/all.js
+Index: m041/mozsrc/modules/libpref/init/all.js
 ===================================================================
---- m041.orig/mozilla-release/modules/libpref/init/all.js
-+++ m041/mozilla-release/modules/libpref/init/all.js
+--- m041.orig/mozsrc/modules/libpref/init/all.js
++++ m041/mozsrc/modules/libpref/init/all.js
 @@ -4472,7 +4472,7 @@ pref("toolkit.legacyUserProfileCustomiza
    pref("datareporting.policy.currentPolicyVersion", 2);
    pref("datareporting.policy.minimumPolicyVersion", 1);
@@ -221,10 +221,10 @@ Index: m041/mozilla-release/modules/libpref/init/all.js
  #endif
  
  #ifdef MOZ_SERVICES_HEALTHREPORT
-Index: m041/mozilla-release/browser/base/content/browser-menubar.inc
+Index: m041/mozsrc/browser/base/content/browser-menubar.inc
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-menubar.inc
-+++ m041/mozilla-release/browser/base/content/browser-menubar.inc
+--- m041.orig/mozsrc/browser/base/content/browser-menubar.inc
++++ m041/mozsrc/browser/base/content/browser-menubar.inc
 @@ -466,7 +466,7 @@
                     data-l10n-id="menu-help">
                <menupopup id="menu_HelpPopup" onpopupshowing="buildHelpMenu();">
@@ -243,10 +243,10 @@ Index: m041/mozilla-release/browser/base/content/browser-menubar.inc
                            onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-keyboard-shortcuts"/>
                  <menuitem id="troubleShooting"
                            oncommand="openTroubleshootingPage()"
-Index: m041/mozilla-release/browser/base/content/utilityOverlay.js
+Index: m041/mozsrc/browser/base/content/utilityOverlay.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/utilityOverlay.js
-+++ m041/mozilla-release/browser/base/content/utilityOverlay.js
+--- m041.orig/mozsrc/browser/base/content/utilityOverlay.js
++++ m041/mozsrc/browser/base/content/utilityOverlay.js
 @@ -1076,10 +1076,18 @@ function openTourPage() {
    openTrustedLinkIn(scope.UITour.url, "tab");
  }
@@ -268,10 +268,10 @@ Index: m041/mozilla-release/browser/base/content/utilityOverlay.js
  
    document.getElementById(
      "helpSafeMode"
-Index: m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
+Index: m041/mozsrc/docshell/base/nsAboutRedirector.cpp
 ===================================================================
---- m041.orig/mozilla-release/docshell/base/nsAboutRedirector.cpp
-+++ m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
+--- m041.orig/mozsrc/docshell/base/nsAboutRedirector.cpp
++++ m041/mozsrc/docshell/base/nsAboutRedirector.cpp
 @@ -74,7 +74,7 @@ static const RedirEntry kRedirMap[] = {
  #ifdef MOZ_CRASHREPORTER
      {"crashes", "chrome://global/content/crashes.html", 0},
@@ -281,10 +281,10 @@ Index: m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
       nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_MUST_LOAD_IN_CHILD},
      {"httpsonlyerror", "chrome://global/content/httpsonlyerror/errorpage.html",
-Index: m041/mozilla-release/browser/components/preferences/main.inc.xhtml
+Index: m041/mozsrc/browser/components/preferences/main.inc.xhtml
 ===================================================================
---- m041.orig/mozilla-release/browser/components/preferences/main.inc.xhtml
-+++ m041/mozilla-release/browser/components/preferences/main.inc.xhtml
+--- m041.orig/mozsrc/browser/components/preferences/main.inc.xhtml
++++ m041/mozsrc/browser/components/preferences/main.inc.xhtml
 @@ -650,7 +650,7 @@
              preference="media.hardwaremediakeys.enabled"/>
      <label id="mediaControlLearnMore" class="learnMore" data-l10n-id="browsing-media-control-learn-more" is="text-link"/>
@@ -303,10 +303,10 @@ Index: m041/mozilla-release/browser/components/preferences/main.inc.xhtml
  </groupbox>
  
  <hbox id="networkProxyCategory"
-Index: m041/mozilla-release/browser/components/preferences/main.js
+Index: m041/mozsrc/browser/components/preferences/main.js
 ===================================================================
---- m041.orig/mozilla-release/browser/components/preferences/main.js
-+++ m041/mozilla-release/browser/components/preferences/main.js
+--- m041.orig/mozsrc/browser/components/preferences/main.js
++++ m041/mozsrc/browser/components/preferences/main.js
 @@ -395,10 +395,10 @@ var gMainPane = {
      let cfrLearnMoreUrl =
        Services.urlFormatter.formatURLPref("app.support.baseURL") +

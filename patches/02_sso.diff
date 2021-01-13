@@ -1,7 +1,7 @@
-Index: m041/mozilla-release/browser/app/profile/firefox.js
+Index: m041/mozsrc/browser/app/profile/firefox.js
 ===================================================================
---- m041.orig/mozilla-release/browser/app/profile/firefox.js
-+++ m041/mozilla-release/browser/app/profile/firefox.js
+--- m041.orig/mozsrc/browser/app/profile/firefox.js
++++ m041/mozsrc/browser/app/profile/firefox.js
 @@ -1353,7 +1353,7 @@ pref("browser.newtab.preload", true);
  pref("browser.library.activity-stream.enabled", true);
  
@@ -55,10 +55,10 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  
  // URL for help link about Send Tab.
  pref("identity.sendtabpromo.url", "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/send-tab");
-Index: m041/mozilla-release/modules/libpref/init/all.js
+Index: m041/mozsrc/modules/libpref/init/all.js
 ===================================================================
---- m041.orig/mozilla-release/modules/libpref/init/all.js
-+++ m041/mozilla-release/modules/libpref/init/all.js
+--- m041.orig/mozsrc/modules/libpref/init/all.js
++++ m041/mozsrc/modules/libpref/init/all.js
 @@ -4579,7 +4579,7 @@ pref("services.common.log.logger.tokense
    pref("services.sync.maxResyncs", 1);
  
@@ -68,10 +68,10 @@ Index: m041/mozilla-release/modules/libpref/init/all.js
  
    // Percentage chance we skip an extension storage sync (kinto life support).
    pref("services.sync.extension-storage.skipPercentageChance", 50);
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsCommon.js
+Index: m041/mozsrc/services/fxaccounts/FxAccountsCommon.js
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsCommon.js
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsCommon.js
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsCommon.js
++++ m041/mozsrc/services/fxaccounts/FxAccountsCommon.js
 @@ -112,9 +112,9 @@ exports.COMMAND_SENDTAB = exports.COMMAN
  exports.FX_OAUTH_CLIENT_ID = "5882386c6d801776";
  exports.SCOPE_PROFILE = "profile";
@@ -108,10 +108,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsCommon.js
  ]);
  
  // Fields we store in secure storage if it exists.
-Index: m041/mozilla-release/services/fxaccounts/FxAccounts.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccounts.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccounts.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccounts.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccounts.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccounts.jsm
 @@ -560,7 +560,7 @@ class FxAccounts {
    getSignedInUser() {
      // Note we don't return the session token, but use it to see if we
@@ -139,10 +139,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccounts.jsm
    },
  
    // Easy-to-mock testable method
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsClient.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsClient.jsm
 @@ -808,31 +808,19 @@ FxAccountsClient.prototype = {
        log.debug("Received new request during backoff, re-rejecting.");
        throw this.backoffError;
@@ -186,10 +186,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
      } catch (error) {
        log.error("json parse error on response: " + response.body);
        // eslint-disable-next-line no-throw-literal
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
 @@ -138,11 +138,12 @@ FxAccountsOAuthGrantClient.prototype = {
     */
    async _createRequest(path, method = "POST", params) {
@@ -233,10 +233,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
        return body;
      }
  
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsProfileClient.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsProfileClient.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsProfileClient.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsProfileClient.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsProfileClient.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsProfileClient.jsm
 @@ -162,12 +162,13 @@ FxAccountsProfileClient.prototype = {
     */
    async _rawRequest(path, method, token, etag = null, payload = null) {
@@ -295,10 +295,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsProfileClient.jsm
      };
    },
  
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsWebChannel.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsWebChannel.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsWebChannel.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsWebChannel.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsWebChannel.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsWebChannel.jsm
 @@ -252,7 +252,7 @@ FxAccountsWebChannel.prototype = {
        case COMMAND_LOGOUT:
        case COMMAND_DELETE:
@@ -334,10 +334,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsWebChannel.jsm
      uri += "#sync";
  
      browser.loadURI(uri, {
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsStorage.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsStorage.jsm
 @@ -163,7 +163,7 @@ FxAccountsStorageManager.prototype = {
      // We know we are initialized - this means our .cachedPlain is accurate
      // and doesn't need to be read (it was read if necessary by initialize).
@@ -371,10 +371,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
        }
        log.trace("finished write of user data to the login manager");
      } catch (ex) {
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsKeys.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsKeys.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsKeys.jsm
 @@ -391,7 +391,7 @@ class FxAccountsKeys {
     * the derived value in order to support key rotation.
     */
@@ -393,10 +393,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
    }
  
    /**
-Index: m041/mozilla-release/services/sync/modules/UIState.jsm
+Index: m041/mozsrc/services/sync/modules/UIState.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/sync/modules/UIState.jsm
-+++ m041/mozilla-release/services/sync/modules/UIState.jsm
+--- m041.orig/mozsrc/services/sync/modules/UIState.jsm
++++ m041/mozsrc/services/sync/modules/UIState.jsm
 @@ -171,9 +171,9 @@ const UIStateInternal = {
        } else {
          status = STATUS_SIGNED_IN;
@@ -410,10 +410,10 @@ Index: m041/mozilla-release/services/sync/modules/UIState.jsm
        // for better or worse, this module renames these attribues.
        state.avatarURL = userData.avatar;
        state.avatarIsDefault = userData.avatarDefault;
-Index: m041/mozilla-release/browser/base/content/browser-sync.js
+Index: m041/mozsrc/browser/base/content/browser-sync.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-sync.js
-+++ m041/mozilla-release/browser/base/content/browser-sync.js
+--- m041.orig/mozsrc/browser/base/content/browser-sync.js
++++ m041/mozsrc/browser/base/content/browser-sync.js
 @@ -804,9 +804,9 @@ var gSync = {
  
    async openFxAManagePageFromFxaMenu(panel = undefined) {
@@ -426,10 +426,10 @@ Index: m041/mozilla-release/browser/base/content/browser-sync.js
      }
      this.openFxAManagePage(entryPoint);
    },
-Index: m041/mozilla-release/dom/push/PushService.jsm
+Index: m041/mozsrc/dom/push/PushService.jsm
 ===================================================================
---- m041.orig/mozilla-release/dom/push/PushService.jsm
-+++ m041/mozilla-release/dom/push/PushService.jsm
+--- m041.orig/mozsrc/dom/push/PushService.jsm
++++ m041/mozsrc/dom/push/PushService.jsm
 @@ -594,10 +594,11 @@ var PushService = {
        this._db = this._service.newPushDB();
      }

@@ -1,7 +1,7 @@
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsClient.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsClient.jsm
 @@ -428,11 +428,11 @@ FxAccountsClient.prototype = {
      );
  
@@ -17,10 +17,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsClient.jsm
  
      return {
        kA: keyAWrapB.slice(0, 32),
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsKeys.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsKeys.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsKeys.jsm
 @@ -334,10 +334,7 @@ class FxAccountsKeys {
        throw new Error("Signed in user changed while fetching keys!");
      }
@@ -51,10 +51,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsKeys.jsm
    }
  
    /**
-Index: m041/mozilla-release/services/common/tokenserverclient.js
+Index: m041/mozsrc/services/common/tokenserverclient.js
 ===================================================================
---- m041.orig/mozilla-release/services/common/tokenserverclient.js
-+++ m041/mozilla-release/services/common/tokenserverclient.js
+--- m041.orig/mozsrc/services/common/tokenserverclient.js
++++ m041/mozsrc/services/common/tokenserverclient.js
 @@ -284,29 +284,30 @@ TokenServerClient.prototype = {
        );
      }
@@ -121,10 +121,10 @@ Index: m041/mozilla-release/services/common/tokenserverclient.js
      if (!headerVal) {
        return;
      }
-Index: m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
+Index: m041/mozsrc/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
---- m041.orig/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
-+++ m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
+--- m041.orig/mozsrc/services/fxaccounts/FxAccountsStorage.jsm
++++ m041/mozsrc/services/fxaccounts/FxAccountsStorage.jsm
 @@ -386,6 +386,7 @@ FxAccountsStorageManager.prototype = {
    async __write() {
      // Write everything back - later we could track what's actually dirty,
@@ -133,10 +133,10 @@ Index: m041/mozilla-release/services/fxaccounts/FxAccountsStorage.jsm
      log.debug("writing plain storage", Object.keys(this.cachedPlain));
      let toWritePlain = {
        version: DATA_FORMAT_VERSION,
-Index: m041/mozilla-release/services/sync/modules/resource.js
+Index: m041/mozsrc/services/sync/modules/resource.js
 ===================================================================
---- m041.orig/mozilla-release/services/sync/modules/resource.js
-+++ m041/mozilla-release/services/sync/modules/resource.js
+--- m041.orig/mozsrc/services/sync/modules/resource.js
++++ m041/mozsrc/services/sync/modules/resource.js
 @@ -103,13 +103,18 @@ Resource.prototype = {
     * @returns {Headers}
     */

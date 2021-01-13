@@ -1,7 +1,7 @@
-Index: m041/mozilla-release/browser/installer/windows/Makefile.in
+Index: m041/mozsrc/browser/installer/windows/Makefile.in
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/Makefile.in
-+++ m041/mozilla-release/browser/installer/windows/Makefile.in
+--- m041.orig/mozsrc/browser/installer/windows/Makefile.in
++++ m041/mozsrc/browser/installer/windows/Makefile.in
 @@ -55,7 +55,7 @@ else
  PPL_LOCALE_ARGS=$(call EXPAND_LOCALE_SRCDIR,browser/locales)/installer
  endif
@@ -11,10 +11,10 @@ Index: m041/mozilla-release/browser/installer/windows/Makefile.in
  	$(RM) -r $(CONFIG_DIR)
  	$(MKDIR) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(srcdir)/,$(INSTALLER_FILES)) $(CONFIG_DIR)
-Index: m041/mozilla-release/browser/installer/windows/app.tag
+Index: m041/mozsrc/browser/installer/windows/app.tag
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/app.tag
-+++ m041/mozilla-release/browser/installer/windows/app.tag
+--- m041.orig/mozsrc/browser/installer/windows/app.tag
++++ m041/mozsrc/browser/installer/windows/app.tag
 @@ -1,4 +1,4 @@
  ;!@Install@!UTF-8!
 -Title="Mozilla Firefox"
@@ -23,10 +23,10 @@ Index: m041/mozilla-release/browser/installer/windows/app.tag
 +RunProgram="MIFFInstaller.exe"
  ;!@InstallEnd@!
 \ No newline at end of file
-Index: m041/mozilla-release/browser/installer/windows/nsis/installer.nsi
+Index: m041/mozsrc/browser/installer/windows/nsis/installer.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/nsis/installer.nsi
-+++ m041/mozilla-release/browser/installer/windows/nsis/installer.nsi
+--- m041.orig/mozsrc/browser/installer/windows/nsis/installer.nsi
++++ m041/mozsrc/browser/installer/windows/nsis/installer.nsi
 @@ -94,8 +94,8 @@ Var PostSigningData
  !include common.nsh
  !include locales.nsi
@@ -64,10 +64,10 @@ Index: m041/mozilla-release/browser/installer/windows/nsis/installer.nsi
  
    StrCpy $R9 "true"
    StrCpy $PreventRebootRequired "false"
-Index: m041/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
+Index: m041/mozsrc/toolkit/mozapps/installer/windows/nsis/makensis.mk
 ===================================================================
---- m041.orig/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
-+++ m041/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
+--- m041.orig/mozsrc/toolkit/mozapps/installer/windows/nsis/makensis.mk
++++ m041/mozsrc/toolkit/mozapps/installer/windows/nsis/makensis.mk
 @@ -51,7 +51,7 @@ CUSTOM_UI = \
  	nsisui.exe \
  	$(NULL)
@@ -95,10 +95,10 @@ Index: m041/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
  	  --sfx-stub $(SFX_MODULE) \
  	  $(USE_UPX)
  ifdef MOZ_STUB_INSTALLER
-Index: m041/mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
+Index: m041/mozsrc/browser/locales/en-US/browser/preferences/preferences.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
+--- m041.orig/mozsrc/browser/locales/en-US/browser/preferences/preferences.ftl
++++ m041/mozsrc/browser/locales/en-US/browser/preferences/preferences.ftl
 @@ -590,7 +590,7 @@ home-restore-defaults =
  # "Firefox" should be treated as a brand and kept in English,
  # while "Home" and "(Default)" can be localized.
@@ -137,10 +137,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/preferences/preference
      .accesskey = A
  
  sync-engine-prefs =
-Index: m041/mozilla-release/toolkit/content/aboutSupport.js
+Index: m041/mozsrc/toolkit/content/aboutSupport.js
 ===================================================================
---- m041.orig/mozilla-release/toolkit/content/aboutSupport.js
-+++ m041/mozilla-release/toolkit/content/aboutSupport.js
+--- m041.orig/mozsrc/toolkit/content/aboutSupport.js
++++ m041/mozsrc/toolkit/content/aboutSupport.js
 @@ -73,7 +73,7 @@ function toFluentID(str) {
  // and it's the function's job to update the page with it.
  var snapshotFormatters = {
@@ -150,10 +150,10 @@ Index: m041/mozilla-release/toolkit/content/aboutSupport.js
      $("useragent-box").textContent = data.userAgent;
      $("os-box").textContent = data.osVersion;
      $("binary-box").textContent = Services.dirsvc.get(
-Index: m041/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
+Index: m041/mozsrc/browser/locales/en-US/browser/aboutDialog.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
+--- m041.orig/mozsrc/browser/locales/en-US/browser/aboutDialog.ftl
++++ m041/mozsrc/browser/locales/en-US/browser/aboutDialog.ftl
 @@ -3,7 +3,7 @@
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
@@ -183,10 +183,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
  
  update-manual = Updates available at <label data-l10n-name="manual-link"/>
  
-Index: m041/mozilla-release/browser/locales/en-US/browser/browser.ftl
+Index: m041/mozsrc/browser/locales/en-US/browser/browser.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/browser.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/browser.ftl
+--- m041.orig/mozsrc/browser/locales/en-US/browser/browser.ftl
++++ m041/mozsrc/browser/locales/en-US/browser/browser.ftl
 @@ -14,10 +14,10 @@
  # Variables:
  #  $content-title (String): the title of the web content.
@@ -213,10 +213,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/browser.ftl
    .data-content-title-default = { $content-title }
    .data-content-title-private = { $content-title } — (Private Browsing)
  
-Index: m041/mozilla-release/browser/locales/en-US/browser/protectionsPanel.ftl
+Index: m041/mozsrc/browser/locales/en-US/browser/protectionsPanel.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/protectionsPanel.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/protectionsPanel.ftl
+--- m041.orig/mozsrc/browser/locales/en-US/browser/protectionsPanel.ftl
++++ m041/mozsrc/browser/locales/en-US/browser/protectionsPanel.ftl
 @@ -42,7 +42,7 @@ protections-panel-not-blocking-why-etp-o
  
  ##
@@ -226,10 +226,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/protectionsPanel.ftl
  
  protections-panel-content-blocking-tracking-protection = Tracking Content
  
-Index: m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
+Index: m041/mozsrc/browser/locales/en-US/browser/aboutLogins.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
+--- m041.orig/mozsrc/browser/locales/en-US/browser/aboutLogins.ftl
++++ m041/mozsrc/browser/locales/en-US/browser/aboutLogins.ftl
 @@ -57,7 +57,7 @@ about-logins-login-list-alerts-option =
  login-list-last-changed-option = Last Modified
  login-list-last-used-option = Last Used
@@ -275,10 +275,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
    }
  enable-password-sync-preferences-button =
    .label =
-Index: m041/mozilla-release/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
+Index: m041/mozsrc/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
 ===================================================================
---- m041.orig/mozilla-release/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
-+++ m041/mozilla-release/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
+--- m041.orig/mozsrc/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
++++ m041/mozsrc/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
 @@ -58,7 +58,7 @@
        </div>
      </div>
@@ -289,10 +289,10 @@ Index: m041/mozilla-release/browser/components/privatebrowsing/content/aboutPriv
 +    <a id="private-browsing-vpn-link" class="vpn-promo" data-l10n-id="about-private-browsing-turn-on-vpn"></a>-->
    </body>
  </html>
-Index: m041/mozilla-release/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
+Index: m041/mozsrc/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
+--- m041.orig/mozsrc/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
++++ m041/mozsrc/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
 @@ -10,7 +10,7 @@ about-private-browsing-info-myths = Comm
  about-private-browsing =
      .title = Search the Web
@@ -302,10 +302,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/aboutPrivateBrowsing.f
  
  about-private-browsing-need-more-privacy = Need more privacy?
  about-private-browsing-turn-on-vpn = Try { -mozilla-vpn-brand-name }
-Index: m041/mozilla-release/browser/locales/en-US/browser/menubar.ftl
+Index: m041/mozsrc/browser/locales/en-US/browser/menubar.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/menubar.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/menubar.ftl
+--- m041.orig/mozsrc/browser/locales/en-US/browser/menubar.ftl
++++ m041/mozsrc/browser/locales/en-US/browser/menubar.ftl
 @@ -192,7 +192,7 @@ menu-tools-addons =
      .label = Add-ons
      .accesskey = A
@@ -337,10 +337,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/menubar.ftl
      .accesskey = o
  menu-help-import-from-another-browser =
      .label = Import from Another Browser…
-Index: m041/mozilla-release/browser/locales/en-US/browser/newtab/onboarding.ftl
+Index: m041/mozsrc/browser/locales/en-US/browser/newtab/onboarding.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/newtab/onboarding.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/newtab/onboarding.ftl
+--- m041.orig/mozsrc/browser/locales/en-US/browser/newtab/onboarding.ftl
++++ m041/mozsrc/browser/locales/en-US/browser/newtab/onboarding.ftl
 @@ -8,7 +8,7 @@
  
  ## Welcome page strings
@@ -359,10 +359,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/newtab/onboarding.ftl
  onboarding-multistage-welcome-subtitle = The fast, safe, and private browser that’s backed by a non-profit.
  onboarding-multistage-welcome-primary-button-label = Start Setup
  onboarding-multistage-welcome-secondary-button-label = Sign in
-Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
+Index: m041/mozsrc/browser/branding/aurora/locales/en-US/brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
-+++ m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
+--- m041.orig/mozsrc/browser/branding/aurora/locales/en-US/brand.ftl
++++ m041/mozsrc/browser/branding/aurora/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -380,10 +380,10 @@ Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
 +-brand-product-name = MIFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
+Index: m041/mozsrc/browser/branding/nightly/locales/en-US/brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
-+++ m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
+--- m041.orig/mozsrc/browser/branding/nightly/locales/en-US/brand.ftl
++++ m041/mozsrc/browser/branding/nightly/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -401,10 +401,10 @@ Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
 +-brand-product-name = MIFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.ftl
+Index: m041/mozsrc/browser/branding/official/locales/en-US/brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/locales/en-US/brand.ftl
-+++ m041/mozilla-release/browser/branding/official/locales/en-US/brand.ftl
+--- m041.orig/mozsrc/browser/branding/official/locales/en-US/brand.ftl
++++ m041/mozsrc/browser/branding/official/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -422,10 +422,10 @@ Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.ftl
 +-brand-product-name = MIFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = Firefox and the Firefox logos are trademarks of the Mozilla Foundation.
-Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
+Index: m041/mozsrc/browser/branding/unofficial/locales/en-US/brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
-+++ m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
+--- m041.orig/mozsrc/browser/branding/unofficial/locales/en-US/brand.ftl
++++ m041/mozsrc/browser/branding/unofficial/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -443,10 +443,10 @@ Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
 +-brand-product-name = MIFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: m041/mozilla-release/browser/branding/official/branding.nsi
+Index: m041/mozsrc/browser/branding/official/branding.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/branding.nsi
-+++ m041/mozilla-release/browser/branding/official/branding.nsi
+--- m041.orig/mozsrc/browser/branding/official/branding.nsi
++++ m041/mozsrc/browser/branding/official/branding.nsi
 @@ -8,12 +8,12 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -465,10 +465,10 @@ Index: m041/mozilla-release/browser/branding/official/branding.nsi
  
  ; The OFFICIAL define is a workaround to support different urls for Release and
  ; Beta since they share the same branding when building with other branches that
-Index: m041/mozilla-release/browser/branding/unofficial/branding.nsi
+Index: m041/mozsrc/browser/branding/unofficial/branding.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/branding.nsi
-+++ m041/mozilla-release/browser/branding/unofficial/branding.nsi
+--- m041.orig/mozsrc/browser/branding/unofficial/branding.nsi
++++ m041/mozsrc/browser/branding/unofficial/branding.nsi
 @@ -8,11 +8,11 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -486,10 +486,10 @@ Index: m041/mozilla-release/browser/branding/unofficial/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-latest"
-Index: m041/mozilla-release/browser/branding/aurora/branding.nsi
+Index: m041/mozsrc/browser/branding/aurora/branding.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/branding.nsi
-+++ m041/mozilla-release/browser/branding/aurora/branding.nsi
+--- m041.orig/mozsrc/browser/branding/aurora/branding.nsi
++++ m041/mozsrc/browser/branding/aurora/branding.nsi
 @@ -8,12 +8,12 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -509,10 +509,10 @@ Index: m041/mozilla-release/browser/branding/aurora/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-devedition-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-devedition-latest"
-Index: m041/mozilla-release/browser/branding/nightly/branding.nsi
+Index: m041/mozsrc/browser/branding/nightly/branding.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/branding.nsi
-+++ m041/mozilla-release/browser/branding/nightly/branding.nsi
+--- m041.orig/mozsrc/browser/branding/nightly/branding.nsi
++++ m041/mozsrc/browser/branding/nightly/branding.nsi
 @@ -8,11 +8,11 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -530,10 +530,10 @@ Index: m041/mozilla-release/browser/branding/nightly/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-nightly-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-nightly-latest"
-Index: m041/mozilla-release/browser/base/content/browser.js
+Index: m041/mozsrc/browser/base/content/browser.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser.js
-+++ m041/mozilla-release/browser/base/content/browser.js
+--- m041.orig/mozsrc/browser/base/content/browser.js
++++ m041/mozsrc/browser/base/content/browser.js
 @@ -1023,7 +1023,7 @@ var gPopupBlockerObserver = {
      if (gBrowser.selectedBrowser.popupBlocker.shouldShowNotification) {
        if (Services.prefs.getBoolPref("privacy.popups.showBrowserMessage")) {
@@ -554,10 +554,10 @@ Index: m041/mozilla-release/browser/base/content/browser.js
      let message = gNavigatorBundle.getFormattedString(
        stringId,
        ["<>", brandShortName],
-Index: m041/mozilla-release/browser/base/content/tabbrowser.js
+Index: m041/mozsrc/browser/base/content/tabbrowser.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/tabbrowser.js
-+++ m041/mozilla-release/browser/base/content/tabbrowser.js
+--- m041.orig/mozsrc/browser/base/content/tabbrowser.js
++++ m041/mozsrc/browser/base/content/tabbrowser.js
 @@ -1452,7 +1452,7 @@
          isContentTitle = true;
        } else if (aTab.hasAttribute("customizemode")) {
@@ -576,10 +576,10 @@ Index: m041/mozilla-release/browser/base/content/tabbrowser.js
        let message = gNavigatorBundle.getFormattedString(
          "refreshBlocked." + (data.sameURI ? "refreshLabel" : "redirectLabel"),
          [brandShortName]
-Index: m041/mozilla-release/browser/base/content/webrtcLegacyIndicator.js
+Index: m041/mozsrc/browser/base/content/webrtcLegacyIndicator.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/webrtcLegacyIndicator.js
-+++ m041/mozilla-release/browser/base/content/webrtcLegacyIndicator.js
+--- m041.orig/mozsrc/browser/base/content/webrtcLegacyIndicator.js
++++ m041/mozsrc/browser/base/content/webrtcLegacyIndicator.js
 @@ -14,7 +14,7 @@ function init(event) {
    let brand = Services.strings.createBundle(
      "chrome://branding/locale/brand.properties"
@@ -589,10 +589,10 @@ Index: m041/mozilla-release/browser/base/content/webrtcLegacyIndicator.js
    document.title = gStringBundle.formatStringFromName(
      "webrtcIndicator.windowtitle",
      [brandShortName]
-Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.dtd
+Index: m041/mozsrc/browser/branding/aurora/locales/en-US/brand.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/locales/en-US/brand.dtd
-+++ m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.dtd
+--- m041.orig/mozsrc/browser/branding/aurora/locales/en-US/brand.dtd
++++ m041/mozsrc/browser/branding/aurora/locales/en-US/brand.dtd
 @@ -2,10 +2,11 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -609,10 +609,10 @@ Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.dtd
 -<!ENTITY  brandProductName      "Firefox">
 +<!ENTITY  brandProductName      "MIFF">
 +<!ENTITY  brandSSOName          "privacy.app">
-Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.properties
+Index: m041/mozsrc/browser/branding/aurora/locales/en-US/brand.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/locales/en-US/brand.properties
-+++ m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.properties
+--- m041.orig/mozsrc/browser/branding/aurora/locales/en-US/brand.properties
++++ m041/mozsrc/browser/branding/aurora/locales/en-US/brand.properties
 @@ -2,13 +2,13 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -632,10 +632,10 @@ Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.properti
 +vendorShortName=Magnusson Institute
  
  syncBrandShortName=Sync
-Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.dtd
+Index: m041/mozsrc/browser/branding/nightly/locales/en-US/brand.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/locales/en-US/brand.dtd
-+++ m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.dtd
+--- m041.orig/mozsrc/browser/branding/nightly/locales/en-US/brand.dtd
++++ m041/mozsrc/browser/branding/nightly/locales/en-US/brand.dtd
 @@ -2,10 +2,11 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -652,10 +652,10 @@ Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.dtd
 -<!ENTITY  brandProductName      "Firefox">
 +<!ENTITY  brandProductName      "MIFF">
 +<!ENTITY  brandSSOName          "privacy.app">
-Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.properties
+Index: m041/mozsrc/browser/branding/nightly/locales/en-US/brand.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/locales/en-US/brand.properties
-+++ m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.properties
+--- m041.orig/mozsrc/browser/branding/nightly/locales/en-US/brand.properties
++++ m041/mozsrc/browser/branding/nightly/locales/en-US/brand.properties
 @@ -2,13 +2,13 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -675,10 +675,10 @@ Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.propert
 +vendorShortName=Magnusson Institute
  
  syncBrandShortName=Sync
-Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.dtd
+Index: m041/mozsrc/browser/branding/official/locales/en-US/brand.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/locales/en-US/brand.dtd
-+++ m041/mozilla-release/browser/branding/official/locales/en-US/brand.dtd
+--- m041.orig/mozsrc/browser/branding/official/locales/en-US/brand.dtd
++++ m041/mozsrc/browser/branding/official/locales/en-US/brand.dtd
 @@ -2,10 +2,11 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -695,10 +695,10 @@ Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.dtd
 -<!ENTITY  brandProductName      "Firefox">
 +<!ENTITY  brandProductName      "MIFF">
 +<!ENTITY  brandSSOName          "privacy.app">
-Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.properties
+Index: m041/mozsrc/browser/branding/official/locales/en-US/brand.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/locales/en-US/brand.properties
-+++ m041/mozilla-release/browser/branding/official/locales/en-US/brand.properties
+--- m041.orig/mozsrc/browser/branding/official/locales/en-US/brand.properties
++++ m041/mozsrc/browser/branding/official/locales/en-US/brand.properties
 @@ -2,13 +2,13 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -718,10 +718,10 @@ Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.proper
 +vendorShortName=Magnusson Institute
  
  syncBrandShortName=Sync
-Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.dtd
+Index: m041/mozsrc/browser/branding/unofficial/locales/en-US/brand.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/locales/en-US/brand.dtd
-+++ m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.dtd
+--- m041.orig/mozsrc/browser/branding/unofficial/locales/en-US/brand.dtd
++++ m041/mozsrc/browser/branding/unofficial/locales/en-US/brand.dtd
 @@ -2,10 +2,11 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -738,10 +738,10 @@ Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.dtd
 -<!ENTITY  brandProductName      "Firefox">
 +<!ENTITY  brandProductName      "MIFF">
 +<!ENTITY  brandSSOName          "privacy.app">
-Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.properties
+Index: m041/mozsrc/browser/branding/unofficial/locales/en-US/brand.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/locales/en-US/brand.properties
-+++ m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.properties
+--- m041.orig/mozsrc/browser/branding/unofficial/locales/en-US/brand.properties
++++ m041/mozsrc/browser/branding/unofficial/locales/en-US/brand.properties
 @@ -2,13 +2,13 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -761,10 +761,10 @@ Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.prop
 +vendorShortName=Magnusson Institute
  
  syncBrandShortName=Sync
-Index: m041/mozilla-release/accessible/generic/ApplicationAccessible.cpp
+Index: m041/mozsrc/accessible/generic/ApplicationAccessible.cpp
 ===================================================================
---- m041.orig/mozilla-release/accessible/generic/ApplicationAccessible.cpp
-+++ m041/mozilla-release/accessible/generic/ApplicationAccessible.cpp
+--- m041.orig/mozsrc/accessible/generic/ApplicationAccessible.cpp
++++ m041/mozsrc/accessible/generic/ApplicationAccessible.cpp
 @@ -45,11 +45,11 @@ ENameValueFlag ApplicationAccessible::Na
    if (NS_FAILED(rv)) return eNameOK;
  
@@ -780,10 +780,10 @@ Index: m041/mozilla-release/accessible/generic/ApplicationAccessible.cpp
  
    aName.Assign(appName);
    return eNameOK;
-Index: m041/mozilla-release/browser/actors/EncryptedMediaParent.jsm
+Index: m041/mozsrc/browser/actors/EncryptedMediaParent.jsm
 ===================================================================
---- m041.orig/mozilla-release/browser/actors/EncryptedMediaParent.jsm
-+++ m041/mozilla-release/browser/actors/EncryptedMediaParent.jsm
+--- m041.orig/mozsrc/browser/actors/EncryptedMediaParent.jsm
++++ m041/mozsrc/browser/actors/EncryptedMediaParent.jsm
 @@ -79,7 +79,7 @@ class EncryptedMediaParent extends JSWin
    getMessageWithBrandName(aNotificationId) {
      let msgId = "emeNotifications." + aNotificationId + ".message";
@@ -802,20 +802,20 @@ Index: m041/mozilla-release/browser/actors/EncryptedMediaParent.jsm
      ]);
      let anchorId = "eme-notification-icon";
      let firstPlayPref = "browser.eme.ui.firstContentShown";
-Index: m041/mozilla-release/browser/app/module.ver
+Index: m041/mozsrc/browser/app/module.ver
 ===================================================================
---- m041.orig/mozilla-release/browser/app/module.ver
-+++ m041/mozilla-release/browser/app/module.ver
+--- m041.orig/mozsrc/browser/app/module.ver
++++ m041/mozsrc/browser/app/module.ver
 @@ -5,4 +5,4 @@ WIN32_MODULE_PRODUCTVERSION_STRING=@MOZ_
  WIN32_MODULE_TRADEMARKS=Firefox is a Trademark of The Mozilla Foundation.
  WIN32_MODULE_DESCRIPTION=@MOZ_APP_DISPLAYNAME@
  WIN32_MODULE_PRODUCTNAME=@MOZ_APP_DISPLAYNAME@
 -WIN32_MODULE_NAME=@MOZ_APP_DISPLAYNAME@
 +WIN32_MODULE_NAME=MIFF
-Index: m041/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
+Index: m041/mozsrc/browser/installer/windows/nsis/defines.nsi.in
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
-+++ m041/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
+--- m041.orig/mozsrc/browser/installer/windows/nsis/defines.nsi.in
++++ m041/mozsrc/browser/installer/windows/nsis/defines.nsi.in
 @@ -21,23 +21,23 @@
  !endif
  
@@ -847,10 +847,10 @@ Index: m041/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
  !endif
  
  !define CERTIFICATE_NAME            "Mozilla Corporation"
-Index: m041/mozilla-release/browser/actors/WebRTCParent.jsm
+Index: m041/mozsrc/browser/actors/WebRTCParent.jsm
 ===================================================================
---- m041.orig/mozilla-release/browser/actors/WebRTCParent.jsm
-+++ m041/mozilla-release/browser/actors/WebRTCParent.jsm
+--- m041.orig/mozsrc/browser/actors/WebRTCParent.jsm
++++ m041/mozsrc/browser/actors/WebRTCParent.jsm
 @@ -637,7 +637,7 @@ function prompt(aActor, aBrowser, aReque
      ];
    }
@@ -871,10 +871,10 @@ Index: m041/mozilla-release/browser/actors/WebRTCParent.jsm
                string = bundle.getFormattedString(
                  "getUserMedia.shareFirefoxWarning.message",
                  [brand, "<>"]
-Index: m041/mozilla-release/browser/base/content/browser-addons.js
+Index: m041/mozsrc/browser/base/content/browser-addons.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-addons.js
-+++ m041/mozilla-release/browser/base/content/browser-addons.js
+--- m041.orig/mozsrc/browser/base/content/browser-addons.js
++++ m041/mozsrc/browser/base/content/browser-addons.js
 @@ -379,7 +379,7 @@ var gXPInstallObserver = {
      }
  
@@ -902,10 +902,10 @@ Index: m041/mozilla-release/browser/base/content/browser-addons.js
        }
  
        let text = gNavigatorBundle.getFormattedString(
-Index: m041/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
+Index: m041/mozsrc/browser/base/content/browser-data-submission-info-bar.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
-+++ m041/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
+--- m041.orig/mozsrc/browser/base/content/browser-data-submission-info-bar.js
++++ m041/mozsrc/browser/base/content/browser-data-submission-info-bar.js
 @@ -44,7 +44,7 @@ var gDataNotificationInfoBar = {
      }
  
@@ -915,10 +915,10 @@ Index: m041/mozilla-release/browser/base/content/browser-data-submission-info-ba
      let vendorName = brandBundle.getString("vendorShortName");
  
      let message = gNavigatorBundle.getFormattedString(
-Index: m041/mozilla-release/browser/base/content/browser-siteProtections.js
+Index: m041/mozsrc/browser/base/content/browser-siteProtections.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-siteProtections.js
-+++ m041/mozilla-release/browser/base/content/browser-siteProtections.js
+--- m041.orig/mozsrc/browser/base/content/browser-siteProtections.js
++++ m041/mozsrc/browser/base/content/browser-siteProtections.js
 @@ -1433,7 +1433,7 @@ var gProtectionsHandler = {
        delete this.noTrackerTooltipText;
        return (this.noTrackerTooltipText = gNavigatorBundle.getFormattedString(
@@ -937,10 +937,10 @@ Index: m041/mozilla-release/browser/base/content/browser-siteProtections.js
        .replace(
          "#2",
          trackerCount.toLocaleString(Services.locale.appLocalesAsBCP47)
-Index: m041/mozilla-release/browser/components/BrowserGlue.jsm
+Index: m041/mozsrc/browser/components/BrowserGlue.jsm
 ===================================================================
---- m041.orig/mozilla-release/browser/components/BrowserGlue.jsm
-+++ m041/mozilla-release/browser/components/BrowserGlue.jsm
+--- m041.orig/mozsrc/browser/components/BrowserGlue.jsm
++++ m041/mozsrc/browser/components/BrowserGlue.jsm
 @@ -1654,7 +1654,7 @@ BrowserGlue.prototype = {
        return;
      }
@@ -986,10 +986,10 @@ Index: m041/mozilla-release/browser/components/BrowserGlue.jsm
      );
      let notification;
      // main option: an Ok button, keeps running with content accessibility disabled
-Index: m041/mozilla-release/browser/components/customizableui/content/panelUI.js
+Index: m041/mozsrc/browser/components/customizableui/content/panelUI.js
 ===================================================================
---- m041.orig/mozilla-release/browser/components/customizableui/content/panelUI.js
-+++ m041/mozilla-release/browser/components/customizableui/content/panelUI.js
+--- m041.orig/mozsrc/browser/components/customizableui/content/panelUI.js
++++ m041/mozsrc/browser/components/customizableui/content/panelUI.js
 @@ -822,7 +822,7 @@ const PanelUI = {
      let brands = Services.strings.createBundle(
        "chrome://branding/locale/brand.properties"
@@ -999,10 +999,10 @@ Index: m041/mozilla-release/browser/components/customizableui/content/panelUI.js
  
      let key = document.getElementById("key_quitApplication");
      stringArgs.push(ShortcutUtils.prettifyShortcut(key));
-Index: m041/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
+Index: m041/mozsrc/browser/components/payments/content/paymentDialogWrapper.js
 ===================================================================
---- m041.orig/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
-+++ m041/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
+--- m041.orig/mozsrc/browser/components/payments/content/paymentDialogWrapper.js
++++ m041/mozsrc/browser/components/payments/content/paymentDialogWrapper.js
 @@ -65,9 +65,7 @@ XPCOMUtils.defineLazyGetter(this, "formA
  });
  
@@ -1014,10 +1014,10 @@ Index: m041/mozilla-release/browser/components/payments/content/paymentDialogWra
    // The string name for Mac is changed because the value needed updating.
    const platform = AppConstants.platform.replace("macosx", "macos");
    return FormAutofillUtils.stringBundle.formatStringFromName(
-Index: m041/mozilla-release/browser/components/places/content/places.js
+Index: m041/mozsrc/browser/components/places/content/places.js
 ===================================================================
---- m041.orig/mozilla-release/browser/components/places/content/places.js
-+++ m041/mozilla-release/browser/components/places/content/places.js
+--- m041.orig/mozsrc/browser/components/places/content/places.js
++++ m041/mozsrc/browser/components/places/content/places.js
 @@ -676,9 +676,7 @@ var PlacesOrganizer = {
    },
  
@@ -1029,10 +1029,10 @@ Index: m041/mozilla-release/browser/components/places/content/places.js
  
      Services.prompt.alert(window, brandShortName, aMsg);
    },
-Index: m041/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
+Index: m041/mozsrc/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
 ===================================================================
---- m041.orig/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
-+++ m041/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
+--- m041.orig/mozsrc/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
++++ m041/mozsrc/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
 @@ -28,9 +28,7 @@ FormAutofill.defineLazyLogGetter(this, E
  const GetStringFromName = FormAutofillUtils.stringBundle.GetStringFromName;
  const formatStringFromName =
@@ -1044,10 +1044,10 @@ Index: m041/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhang
  let changeAutofillOptsKey = "changeAutofillOptions";
  let autofillOptsKey = "autofillOptionsLink";
  if (AppConstants.platform == "macosx") {
-Index: m041/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
+Index: m041/mozsrc/browser/extensions/formautofill/FormAutofillHandler.jsm
 ===================================================================
---- m041.orig/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
-+++ m041/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
+--- m041.orig/mozsrc/browser/extensions/formautofill/FormAutofillHandler.jsm
++++ m041/mozsrc/browser/extensions/formautofill/FormAutofillHandler.jsm
 @@ -43,8 +43,7 @@ const formFillController = Cc[
  ].getService(Ci.nsIFormFillController);
  
@@ -1058,10 +1058,10 @@ Index: m041/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.
    );
    // The string name for Mac is changed because the value needed updating.
    const platform = AppConstants.platform.replace("macosx", "macos");
-Index: m041/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
+Index: m041/mozsrc/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
 ===================================================================
---- m041.orig/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
-+++ m041/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
+--- m041.orig/mozsrc/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
++++ m041/mozsrc/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
 @@ -388,9 +388,7 @@ class CreditCardResult extends ProfileAu
        if (!insecureWarningEnabled) {
          return [];
@@ -1073,10 +1073,10 @@ Index: m041/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteR
  
        return [
          FormAutofillUtils.stringBundle.formatStringFromName(
-Index: m041/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
+Index: m041/mozsrc/browser/extensions/formautofill/content/manageDialog.js
 ===================================================================
---- m041.orig/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
-+++ m041/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
+--- m041.orig/mozsrc/browser/extensions/formautofill/content/manageDialog.js
++++ m041/mozsrc/browser/extensions/formautofill/content/manageDialog.js
 @@ -43,9 +43,7 @@ ChromeUtils.defineModuleGetter(
  );
  
@@ -1088,10 +1088,10 @@ Index: m041/mozilla-release/browser/extensions/formautofill/content/manageDialog
    // The string name for Mac is changed because the value needed updating.
    const platform = AppConstants.platform.replace("macosx", "macos");
    return FormAutofillUtils.stringBundle.formatStringFromName(
-Index: m041/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
+Index: m041/mozsrc/browser/installer/windows/nsis/uninstaller.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
-+++ m041/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
+--- m041.orig/mozsrc/browser/installer/windows/nsis/uninstaller.nsi
++++ m041/mozsrc/browser/installer/windows/nsis/uninstaller.nsi
 @@ -80,7 +80,7 @@ Var AddTaskbarSC
  
  ; This is named BrandShortName helper because we use this for software update
@@ -1101,10 +1101,10 @@ Index: m041/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
  VIAddVersionKey "OriginalFilename" "helper.exe"
  
  !insertmacro AddDisabledDDEHandlerValues
-Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
+Index: m041/mozsrc/browser/locales/en-US/chrome/browser/browser.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
-+++ m041/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
+--- m041.orig/mozsrc/browser/locales/en-US/chrome/browser/browser.dtd
++++ m041/mozsrc/browser/locales/en-US/chrome/browser/browser.dtd
 @@ -43,7 +43,7 @@ this container is a toolbar. This avoids
  <!ENTITY fxa.menu.syncSettings2.label "&syncBrand.shortName.label; Settings">
  <!ENTITY fxa.menu.connectAnotherDevice2.label "Connect Another Device…">
@@ -1150,10 +1150,10 @@ Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
  
  <!ENTITY sendToDevice.syncNotReady.label "Syncing Devices…">
  
-Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/accounts.properties
+Index: m041/mozsrc/browser/locales/en-US/chrome/browser/accounts.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/chrome/browser/accounts.properties
-+++ m041/mozilla-release/browser/locales/en-US/chrome/browser/accounts.properties
+--- m041.orig/mozsrc/browser/locales/en-US/chrome/browser/accounts.properties
++++ m041/mozsrc/browser/locales/en-US/chrome/browser/accounts.properties
 @@ -19,7 +19,7 @@ verificationNotSentBody = We are unable
  # LOCALIZATION NOTE (deviceConnDisconnTitle) - the title shown in a notification
  # when either this device or another device has connected to, or disconnected
@@ -1161,35 +1161,3 @@ Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/accounts.proper
 -deviceConnDisconnTitle = Firefox Account
 +deviceConnDisconnTitle = privacy.app
  
- # LOCALIZATION NOTE (otherDeviceConnectedBody, otherDeviceConnectedBody.noDeviceName)
- # These strings are used in a notification shown when a new device joins the
-@@ -55,7 +55,7 @@ sendTabToDevice.unconfigured = Learn Abo
- # Displayed in the Send Tabs context menu and the page action panel when FxA is not
- # configured. Allows users to immediately sign into FxA via the preferences.
- # %S is replaced by brandProductName.
--sendTabToDevice.signintofxa = Sign in to %S…
-+sendTabToDevice.signintofxa = Sign in to privacy.app…
- 
- # LOCALIZATION NOTE (sendTabToDevice.singledevice, sendTabToDevice.connectdevice,
- # sendTabToDevice.singledevice.status)
-@@ -126,4 +126,4 @@ account.finishAccountSetup = Finish Acco
- # LOCALIZATION NOTE (account.reconnectToFxA):
- # Used as the FxA toolbar menu item title when the user
- # needs to reconnect their account.
--account.reconnectToFxA = Reconnect to Firefox Account
-+account.reconnectToFxA = Reconnect to privacy.app
-Index: m041/mozilla-release/browser/locales/en-US/browser/branding/sync-brand.ftl
-===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/branding/sync-brand.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/branding/sync-brand.ftl
-@@ -6,8 +6,8 @@
- 
- # “Sync” can be localized, “Firefox” must be treated as a brand,
- # and kept in English.
---sync-brand-name = Firefox Sync
-+-sync-brand-name = MIFF Sync
- 
- # “Account” can be localized, “Firefox” must be treated as a brand,
- # and kept in English.
---fxaccount-brand-name = Firefox Account
-+-fxaccount-brand-name = privacy.app

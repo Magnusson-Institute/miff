@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 ROOTDIR="../m041"
 
 # m041 needs to be parallel, and we just sanity check the main browser target
@@ -25,5 +25,6 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     cp $ROOTDIR/copy_files/default128.png ./browser/branding/unofficial/default128.png
     cp $ROOTDIR/copy_files/avatar-color.svg ./browser/themes/shared/fxa/avatar-color.svg
 else
-    echo "You need to be at the root location of the browser, and '../m041' alongside you"
+    # in case you're wondering, this is a trick to not double-echo with '-x'
+    { echo "You need to be at the root location of the browser, and '../m041' alongside you"; } 2> /dev/null
 fi

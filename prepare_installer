@@ -28,6 +28,7 @@ cp ../../../../other-licenses/7zstub/firefox/7zSD.Win32.sfx 7zSD.sfx
 cp ../../../../../repackage.bat repackage.bat
 cp ../../../../../config.txt config.txt
 7z a tempInstaller.7z core/ MIFFInstaller.exe
+# need to do the next step as a DOS command line (todo: revisit):
 ./repackage.bat
 sleep 1
 # Apply Resource Hacker script to new installer

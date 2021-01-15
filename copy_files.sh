@@ -5,8 +5,9 @@ ROOTDIR="../m041"
 if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     echo "Copying files"
     set -x
-    cp $ROOTDIR/copy_files/setup.ico ./other-licenses/7zstub/firefox/setup.ico
-    cp $ROOTDIR/copy_files/icon-logo-settings-preview.png ./browser/fxr/content/assets/icon-logo-settings-preview.png
+
+    # Most files go into 'browser/branding/unofficial' (should be migrated to 'browser/branding/miff')
+    cp $ROOTDIR/copy_files/firefox-wordmark-miff-version.svg ./browser/branding/unofficial/content/firefox-wordmark.svg
     cp $ROOTDIR/copy_files/default64.png ./browser/branding/unofficial/default64.png
     cp $ROOTDIR/copy_files/default32.png ./browser/branding/unofficial/default32.png
     cp $ROOTDIR/copy_files/wizWatermark.bmp ./browser/branding/unofficial/wizWatermark.bmp
@@ -25,7 +26,12 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     cp $ROOTDIR/copy_files/default24.png ./browser/branding/unofficial/default24.png
     cp $ROOTDIR/copy_files/firefox64.ico ./browser/branding/unofficial/firefox64.ico
     cp $ROOTDIR/copy_files/default128.png ./browser/branding/unofficial/default128.png
+
+    # A few go elsewhere
     cp $ROOTDIR/copy_files/avatar-color.svg ./browser/themes/shared/fxa/avatar-color.svg
+    cp $ROOTDIR/copy_files/icon-logo-settings-preview.png ./browser/fxr/content/assets/icon-logo-settings-preview.png
+    cp $ROOTDIR/copy_files/setup.ico ./other-licenses/7zstub/firefox/setup.ico
+
     set +x
 else
     # in case you're wondering, this is a trick to not double-echo with '-x', in case it's on for the whole file

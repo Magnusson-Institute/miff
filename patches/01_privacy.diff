@@ -1,7 +1,7 @@
-Index: m041/mozsrc/browser/app/profile/firefox.js
+Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
---- m041.orig/mozsrc/browser/app/profile/firefox.js
-+++ m041/mozsrc/browser/app/profile/firefox.js
+--- firefox-84.0.2.orig/browser/app/profile/firefox.js
++++ firefox-84.0.2/browser/app/profile/firefox.js
 @@ -37,7 +37,7 @@ pref("extensions.webextOptionalPermissio
  pref("extensions.postDownloadThirdPartyPrompt", true);
  
@@ -178,10 +178,10 @@ Index: m041/mozsrc/browser/app/profile/firefox.js
 +//4 - Reserved (used to be Shadow mode)
 +//5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
 +pref("network.trr.mode", 5);
-Index: m041/mozsrc/modules/libpref/init/all.js
+Index: firefox-84.0.2/modules/libpref/init/all.js
 ===================================================================
---- m041.orig/mozsrc/modules/libpref/init/all.js
-+++ m041/mozsrc/modules/libpref/init/all.js
+--- firefox-84.0.2.orig/modules/libpref/init/all.js
++++ firefox-84.0.2/modules/libpref/init/all.js
 @@ -1773,7 +1773,7 @@ pref("network.dns.native-is-localhost",
  pref("network.dnsCacheExpirationGracePeriod", 60);
  
@@ -247,10 +247,10 @@ Index: m041/mozsrc/modules/libpref/init/all.js
    #endif
  #endif
  
-Index: m041/mozsrc/browser/components/preferences/privacy.js
+Index: firefox-84.0.2/browser/components/preferences/privacy.js
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/privacy.js
-+++ m041/mozsrc/browser/components/preferences/privacy.js
+--- firefox-84.0.2.orig/browser/components/preferences/privacy.js
++++ firefox-84.0.2/browser/components/preferences/privacy.js
 @@ -212,14 +212,14 @@ Preferences.addAll([
  ]);
  
@@ -326,10 +326,10 @@ Index: m041/mozsrc/browser/components/preferences/privacy.js
        return;
      }
  
-Index: m041/mozsrc/toolkit/components/normandy/lib/ClientEnvironment.jsm
+Index: firefox-84.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
 ===================================================================
---- m041.orig/mozsrc/toolkit/components/normandy/lib/ClientEnvironment.jsm
-+++ m041/mozsrc/toolkit/components/normandy/lib/ClientEnvironment.jsm
+--- firefox-84.0.2.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm
++++ firefox-84.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
 @@ -53,7 +53,7 @@ class ClientEnvironment extends ClientEn
     */
    static async getClientClassification() {
@@ -339,10 +339,10 @@ Index: m041/mozsrc/toolkit/components/normandy/lib/ClientEnvironment.jsm
      }
      return _classifyRequest;
    }
-Index: m041/mozsrc/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- m041.orig/mozsrc/services/fxaccounts/FxAccountsClient.jsm
-+++ m041/mozsrc/services/fxaccounts/FxAccountsClient.jsm
+--- firefox-84.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
 @@ -591,7 +591,7 @@ FxAccountsClient.prototype = {
     */
    async registerDevice(sessionTokenHex, name, type, options = {}) {
@@ -352,10 +352,10 @@ Index: m041/mozsrc/services/fxaccounts/FxAccountsClient.jsm
      let creds = await deriveHawkCredentials(sessionTokenHex, "sessionToken");
      let body = { name, type };
  
-Index: m041/mozsrc/browser/components/preferences/privacy.inc.xhtml
+Index: firefox-84.0.2/browser/components/preferences/privacy.inc.xhtml
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/privacy.inc.xhtml
-+++ m041/mozsrc/browser/components/preferences/privacy.inc.xhtml
+--- firefox-84.0.2.orig/browser/components/preferences/privacy.inc.xhtml
++++ firefox-84.0.2/browser/components/preferences/privacy.inc.xhtml
 @@ -466,7 +466,7 @@
          </hbox>
        </vbox>

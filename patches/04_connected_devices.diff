@@ -1,7 +1,7 @@
-Index: m041/mozsrc/browser/base/content/browser-sidebar.js
+Index: firefox-84.0.2/browser/base/content/browser-sidebar.js
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser-sidebar.js
-+++ m041/mozsrc/browser/base/content/browser-sidebar.js
+--- firefox-84.0.2.orig/browser/base/content/browser-sidebar.js
++++ firefox-84.0.2/browser/base/content/browser-sidebar.js
 @@ -34,7 +34,7 @@ var SidebarUI = {
            triggerButtonId: "appMenuViewHistorySidebar",
          },
@@ -20,10 +20,10 @@ Index: m041/mozsrc/browser/base/content/browser-sidebar.js
      ]));
    },
  
-Index: m041/mozsrc/browser/base/content/browser-sync.js
+Index: firefox-84.0.2/browser/base/content/browser-sync.js
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser-sync.js
-+++ m041/mozsrc/browser/base/content/browser-sync.js
+--- firefox-84.0.2.orig/browser/base/content/browser-sync.js
++++ firefox-84.0.2/browser/base/content/browser-sync.js
 @@ -301,10 +301,10 @@ var gSync = {
        title = PluralForm.get(tabCount, string).replace("#1", tabCount);
      }
@@ -97,10 +97,10 @@ Index: m041/mozsrc/browser/base/content/browser-sync.js
  
      let tabCount = aTargetTab.multiselected
        ? gBrowser.multiSelectedTabsCount
-Index: m041/mozsrc/browser/base/content/browser.xhtml
+Index: firefox-84.0.2/browser/base/content/browser.xhtml
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser.xhtml
-+++ m041/mozsrc/browser/base/content/browser.xhtml
+--- firefox-84.0.2.orig/browser/base/content/browser.xhtml
++++ firefox-84.0.2/browser/base/content/browser.xhtml
 @@ -182,11 +182,11 @@
                      oncommand="gBrowser.replaceTabsWithWindow(TabContextMenu.contextTab);"/>
          </menupopup>
@@ -198,10 +198,10 @@ Index: m041/mozsrc/browser/base/content/browser.xhtml
          <toolbarseparator hidden="true"/>
          <label value="&appMenuRecentHighlights.label;"
                 hidden="true"
-Index: m041/mozsrc/browser/base/content/browser-menubar.inc
+Index: firefox-84.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser-menubar.inc
-+++ m041/mozsrc/browser/base/content/browser-menubar.inc
+--- firefox-84.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-84.0.2/browser/base/content/browser-menubar.inc
 @@ -161,10 +161,10 @@
                                type="checkbox"
                                key="key_gotoHistory"
@@ -215,10 +215,10 @@ Index: m041/mozsrc/browser/base/content/browser-menubar.inc
                    </menupopup>
                  </menu>
                  <menuseparator/>
-Index: m041/mozsrc/browser/base/content/browser-context.inc
+Index: firefox-84.0.2/browser/base/content/browser-context.inc
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser-context.inc
-+++ m041/mozsrc/browser/base/content/browser-context.inc
+--- firefox-84.0.2.orig/browser/base/content/browser-context.inc
++++ firefox-84.0.2/browser/base/content/browser-context.inc
 @@ -219,15 +219,15 @@
        <menuitem id="context-pocket"
                  data-l10n-id="main-context-menu-save-to-pocket"
@@ -239,10 +239,10 @@ Index: m041/mozsrc/browser/base/content/browser-context.inc
        <menuseparator id="context-sep-viewbgimage"/>
        <menuitem id="context-viewbgimage"
                  data-l10n-id="main-context-menu-view-background-image"
-Index: m041/mozsrc/browser/components/customizableui/CustomizableWidgets.jsm
+Index: firefox-84.0.2/browser/components/customizableui/CustomizableWidgets.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/customizableui/CustomizableWidgets.jsm
-+++ m041/mozsrc/browser/components/customizableui/CustomizableWidgets.jsm
+--- firefox-84.0.2.orig/browser/components/customizableui/CustomizableWidgets.jsm
++++ firefox-84.0.2/browser/components/customizableui/CustomizableWidgets.jsm
 @@ -572,7 +572,7 @@ const CustomizableWidgets = [
    },
  ];
@@ -261,10 +261,10 @@ Index: m041/mozsrc/browser/components/customizableui/CustomizableWidgets.jsm
  
  let preferencesButton = {
    id: "preferences-button",
-Index: m041/mozsrc/browser/components/preferences/sync.inc.xhtml
+Index: firefox-84.0.2/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/sync.inc.xhtml
-+++ m041/mozsrc/browser/components/preferences/sync.inc.xhtml
+--- firefox-84.0.2.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-84.0.2/browser/components/preferences/sync.inc.xhtml
 @@ -196,10 +196,10 @@
                      <image class="sync-engine-image sync-engine-history"/>
                      <label data-l10n-id="sync-currently-syncing-history"/>
@@ -293,10 +293,10 @@ Index: m041/mozsrc/browser/components/preferences/sync.inc.xhtml
    </vbox>
  </deck>
  </html:template>
-Index: m041/mozsrc/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+Index: firefox-84.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.js
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/dialogs/syncChooseWhatToSync.js
-+++ m041/mozsrc/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+--- firefox-84.0.2.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.js
++++ firefox-84.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.js
 @@ -10,7 +10,7 @@ Preferences.addAll([
    { id: "services.sync.engine.addons", type: "bool" },
    { id: "services.sync.engine.bookmarks", type: "bool" },
@@ -306,10 +306,10 @@ Index: m041/mozsrc/browser/components/preferences/dialogs/syncChooseWhatToSync.j
    { id: "services.sync.engine.prefs", type: "bool" },
    { id: "services.sync.engine.passwords", type: "bool" },
    { id: "services.sync.engine.addresses", type: "bool" },
-Index: m041/mozsrc/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+Index: firefox-84.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
-+++ m041/mozsrc/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+--- firefox-84.0.2.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
++++ firefox-84.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
 @@ -34,10 +34,10 @@
        <checkbox data-l10n-id="sync-engine-history"
                  preference="services.sync.engine.history"/>
@@ -323,10 +323,10 @@ Index: m041/mozsrc/browser/components/preferences/dialogs/syncChooseWhatToSync.x
      <html:div class="sync-engine-passwords">
        <checkbox data-l10n-id="sync-engine-logins-passwords"
                  preference="services.sync.engine.passwords"/>
-Index: m041/mozsrc/browser/modules/PageActions.jsm
+Index: firefox-84.0.2/browser/modules/PageActions.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/modules/PageActions.jsm
-+++ m041/mozsrc/browser/modules/PageActions.jsm
+--- firefox-84.0.2.orig/browser/modules/PageActions.jsm
++++ firefox-84.0.2/browser/modules/PageActions.jsm
 @@ -1253,7 +1253,7 @@ var gBuiltInActions = [
  ];
  
@@ -345,10 +345,10 @@ Index: m041/mozsrc/browser/modules/PageActions.jsm
  
  if (SiteSpecificBrowserService.isEnabled) {
    gBuiltInActions.push({
-Index: m041/mozsrc/modules/libpref/init/all.js
+Index: firefox-84.0.2/modules/libpref/init/all.js
 ===================================================================
---- m041.orig/mozsrc/modules/libpref/init/all.js
-+++ m041/mozsrc/modules/libpref/init/all.js
+--- firefox-84.0.2.orig/modules/libpref/init/all.js
++++ firefox-84.0.2/modules/libpref/init/all.js
 @@ -4511,7 +4511,7 @@ pref("services.common.log.logger.tokense
    pref("services.sync.engine.history", true);
    pref("services.sync.engine.passwords", true);
@@ -358,10 +358,10 @@ Index: m041/mozsrc/modules/libpref/init/all.js
    pref("services.sync.engine.tabs.filteredUrls", "^(about:.*|resource:.*|chrome:.*|wyciwyg:.*|file:.*|blob:.*|moz-extension:.*)$");
  
    // The addresses and CC engines might not actually be available at all.
-Index: m041/mozsrc/browser/components/preferences/sync.js
+Index: firefox-84.0.2/browser/components/preferences/sync.js
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/sync.js
-+++ m041/mozsrc/browser/components/preferences/sync.js
+--- firefox-84.0.2.orig/browser/components/preferences/sync.js
++++ firefox-84.0.2/browser/components/preferences/sync.js
 @@ -116,11 +116,11 @@ var gSyncPane = {
  
      FxAccounts.config

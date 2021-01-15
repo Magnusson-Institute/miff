@@ -1,7 +1,7 @@
-Index: m041/mozsrc/browser/base/content/browser.xhtml
+Index: firefox-84.0.2/browser/base/content/browser.xhtml
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser.xhtml
-+++ m041/mozsrc/browser/base/content/browser.xhtml
+--- firefox-84.0.2.orig/browser/base/content/browser.xhtml
++++ firefox-84.0.2/browser/base/content/browser.xhtml
 @@ -1465,10 +1465,10 @@
                         label="&bookmarksSubview.label;"
                         closemenu="none"
@@ -15,10 +15,10 @@ Index: m041/mozsrc/browser/base/content/browser.xhtml
          <toolbarbutton id="appMenu-library-history-button"
                         class="subviewbutton subviewbutton-iconic subviewbutton-nav"
                         label="&historyMenu.label;"
-Index: m041/mozsrc/browser/base/content/browser-context.inc
+Index: firefox-84.0.2/browser/base/content/browser-context.inc
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser-context.inc
-+++ m041/mozsrc/browser/base/content/browser-context.inc
+--- firefox-84.0.2.orig/browser/base/content/browser-context.inc
++++ firefox-84.0.2/browser/base/content/browser-context.inc
 @@ -76,9 +76,9 @@
        <menuitem id="context-savelink"
                  data-l10n-id="main-context-menu-save-link"
@@ -43,10 +43,10 @@ Index: m041/mozsrc/browser/base/content/browser-context.inc
  <!--      <menuseparator id="context-sep-sendpagetodevice" class="sync-ui-item"
                       hidden="true"/>-->
  <!--      <menu id="context-sendpagetodevice"
-Index: m041/mozsrc/browser/components/BrowserGlue.jsm
+Index: firefox-84.0.2/browser/components/BrowserGlue.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/BrowserGlue.jsm
-+++ m041/mozsrc/browser/components/BrowserGlue.jsm
+--- firefox-84.0.2.orig/browser/components/BrowserGlue.jsm
++++ firefox-84.0.2/browser/components/BrowserGlue.jsm
 @@ -1390,7 +1390,7 @@ BrowserGlue.prototype = {
        Normandy.init();
      }
@@ -56,10 +56,10 @@ Index: m041/mozsrc/browser/components/BrowserGlue.jsm
  
      AboutHomeStartupCache.init();
  
-Index: m041/mozsrc/browser/components/newtab/lib/AboutPreferences.jsm
+Index: firefox-84.0.2/browser/components/newtab/lib/AboutPreferences.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/lib/AboutPreferences.jsm
-+++ m041/mozsrc/browser/components/newtab/lib/AboutPreferences.jsm
+--- firefox-84.0.2.orig/browser/components/newtab/lib/AboutPreferences.jsm
++++ firefox-84.0.2/browser/components/newtab/lib/AboutPreferences.jsm
 @@ -108,7 +108,7 @@ this.AboutPreferences = class AboutPrefe
      this.renderPreferences(window, [
        ...PREFS_BEFORE_SECTIONS,
@@ -79,10 +79,10 @@ Index: m041/mozsrc/browser/components/newtab/lib/AboutPreferences.jsm
        const { feed: name, titleString = {}, descString, nestedPrefs = [] } =
          prefData || {};
  
-Index: m041/mozsrc/browser/components/newtab/lib/SectionsManager.jsm
+Index: firefox-84.0.2/browser/components/newtab/lib/SectionsManager.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/lib/SectionsManager.jsm
-+++ m041/mozsrc/browser/components/newtab/lib/SectionsManager.jsm
+--- firefox-84.0.2.orig/browser/components/newtab/lib/SectionsManager.jsm
++++ firefox-84.0.2/browser/components/newtab/lib/SectionsManager.jsm
 @@ -108,14 +108,14 @@ const BUILT_IN_SECTIONS = {
            name: "section.highlights.includeDownloads",
            titleString: "home-prefs-highlights-option-most-recent-download",
@@ -100,10 +100,10 @@ Index: m041/mozsrc/browser/components/newtab/lib/SectionsManager.jsm
        ],
      },
      shouldHidePref: false,
-Index: m041/mozsrc/browser/app/profile/firefox.js
+Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
---- m041.orig/mozsrc/browser/app/profile/firefox.js
-+++ m041/mozsrc/browser/app/profile/firefox.js
+--- firefox-84.0.2.orig/browser/app/profile/firefox.js
++++ firefox-84.0.2/browser/app/profile/firefox.js
 @@ -1219,8 +1219,8 @@ pref("services.sync.prefs.sync.browser.n
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSearch", true);
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
@@ -132,10 +132,10 @@ Index: m041/mozsrc/browser/app/profile/firefox.js
 +setAndLockPref("browser.newtabpage.activity-stream.showSponsored", false);
 +setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 \ No newline at end of file
-Index: m041/mozsrc/browser/components/newtab/content-src/lib/link-menu-options.js
+Index: firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-options.js
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/content-src/lib/link-menu-options.js
-+++ m041/mozsrc/browser/components/newtab/content-src/lib/link-menu-options.js
+--- firefox-84.0.2.orig/browser/components/newtab/content-src/lib/link-menu-options.js
++++ firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-options.js
 @@ -224,7 +224,7 @@ export const LinkMenuOptions = {
      }),
      userEvent: "UNPIN",
@@ -154,10 +154,10 @@ Index: m041/mozsrc/browser/components/newtab/content-src/lib/link-menu-options.j
    EditTopSite: (site, index) => ({
      id: "newtab-menu-edit-topsites",
      icon: "edit",
-Index: m041/mozsrc/browser/components/newtab/data/content/activity-stream.bundle.js
+Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bundle.js
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/data/content/activity-stream.bundle.js
-+++ m041/mozsrc/browser/components/newtab/data/content/activity-stream.bundle.js
+--- firefox-84.0.2.orig/browser/components/newtab/data/content/activity-stream.bundle.js
++++ firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bundle.js
 @@ -5189,7 +5189,7 @@ const LinkMenuOptions = {
      userEvent: "UNPIN"
    }),

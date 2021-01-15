@@ -1,7 +1,7 @@
-Index: m041/mozsrc/browser/base/content/browser.xhtml
+Index: firefox-84.0.2/browser/base/content/browser.xhtml
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser.xhtml
-+++ m041/mozsrc/browser/base/content/browser.xhtml
+--- firefox-84.0.2.orig/browser/base/content/browser.xhtml
++++ firefox-84.0.2/browser/base/content/browser.xhtml
 @@ -1344,7 +1344,7 @@
          <toolbarbutton id="fxa-manage-account-button"
                         align="center"
@@ -29,10 +29,10 @@ Index: m041/mozsrc/browser/base/content/browser.xhtml
        </vbox>
      </panelview>
  
-Index: m041/mozsrc/browser/components/preferences/sync.inc.xhtml
+Index: firefox-84.0.2/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/sync.inc.xhtml
-+++ m041/mozsrc/browser/components/preferences/sync.inc.xhtml
+--- firefox-84.0.2.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-84.0.2/browser/components/preferences/sync.inc.xhtml
 @@ -64,7 +64,7 @@
              <!-- logged in and verified and all is good -->
              <hbox id="fxaLoginVerified" align="center" flex="1">
@@ -55,10 +55,10 @@ Index: m041/mozsrc/browser/components/preferences/sync.inc.xhtml
                  </hbox>
                  <hbox>
                    <html:a id="verifiedManage" class="openLink"
-Index: m041/mozsrc/browser/components/preferences/sync.js
+Index: firefox-84.0.2/browser/components/preferences/sync.js
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/sync.js
-+++ m041/mozsrc/browser/components/preferences/sync.js
+--- firefox-84.0.2.orig/browser/components/preferences/sync.js
++++ firefox-84.0.2/browser/components/preferences/sync.js
 @@ -227,9 +227,9 @@ var gSyncPane = {
        gSyncPane.signIn();
        return false;
@@ -89,10 +89,10 @@ Index: m041/mozsrc/browser/components/preferences/sync.js
    },
  
    openManageFirefoxAccount(event) {
-Index: m041/mozsrc/services/fxaccounts/FxAccountsConfig.jsm
+Index: firefox-84.0.2/services/fxaccounts/FxAccountsConfig.jsm
 ===================================================================
---- m041.orig/mozsrc/services/fxaccounts/FxAccountsConfig.jsm
-+++ m041/mozsrc/services/fxaccounts/FxAccountsConfig.jsm
+--- firefox-84.0.2.orig/services/fxaccounts/FxAccountsConfig.jsm
++++ firefox-84.0.2/services/fxaccounts/FxAccountsConfig.jsm
 @@ -82,9 +82,9 @@ var FxAccountsConfig = {
    },
  
@@ -105,10 +105,10 @@ Index: m041/mozsrc/services/fxaccounts/FxAccountsConfig.jsm
      });
    },
  
-Index: m041/mozsrc/browser/locales/generic/profile/bookmarks.html.in
+Index: firefox-84.0.2/browser/locales/generic/profile/bookmarks.html.in
 ===================================================================
---- m041.orig/mozsrc/browser/locales/generic/profile/bookmarks.html.in
-+++ m041/mozsrc/browser/locales/generic/profile/bookmarks.html.in
+--- firefox-84.0.2.orig/browser/locales/generic/profile/bookmarks.html.in
++++ firefox-84.0.2/browser/locales/generic/profile/bookmarks.html.in
 @@ -18,32 +18,5 @@
  <title>@bookmarks_title@</title>
  <h1>@bookmarks_heading@</h1>
@@ -143,10 +143,10 @@ Index: m041/mozsrc/browser/locales/generic/profile/bookmarks.html.in
 -#endif
 +<dl>
  </dl>
-Index: m041/mozsrc/browser/components/newtab/lib/DefaultSites.jsm
+Index: firefox-84.0.2/browser/components/newtab/lib/DefaultSites.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/lib/DefaultSites.jsm
-+++ m041/mozsrc/browser/components/newtab/lib/DefaultSites.jsm
+--- firefox-84.0.2.orig/browser/components/newtab/lib/DefaultSites.jsm
++++ firefox-84.0.2/browser/components/newtab/lib/DefaultSites.jsm
 @@ -8,39 +8,39 @@ const DEFAULT_SITES_MAP = new Map([
    // This first item is the global list fallback for any unexpected geos
    [
@@ -196,10 +196,10 @@ Index: m041/mozsrc/browser/components/newtab/lib/DefaultSites.jsm
    ],
  ]);
  
-Index: m041/mozsrc/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+Index: firefox-84.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-+++ m041/mozsrc/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+--- firefox-84.0.2.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ firefox-84.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 @@ -186,13 +186,14 @@ class AboutWelcomeParent extends JSWindo
          SpecialMessageActions.handleAction(data, browser);
          break;
@@ -217,10 +217,10 @@ Index: m041/mozsrc/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
          break;
        case "AWPage:LOCATION_CHANGED":
          this.AboutWelcomeObserver.terminateReason =
-Index: m041/mozsrc/browser/components/preferences/preferences.js
+Index: firefox-84.0.2/browser/components/preferences/preferences.js
 ===================================================================
---- m041.orig/mozsrc/browser/components/preferences/preferences.js
-+++ m041/mozsrc/browser/components/preferences/preferences.js
+--- firefox-84.0.2.orig/browser/components/preferences/preferences.js
++++ firefox-84.0.2/browser/components/preferences/preferences.js
 @@ -159,7 +159,7 @@ function init_all() {
      let helpButton = document.getElementById("helpButton");
      let helpUrl =
@@ -230,10 +230,10 @@ Index: m041/mozsrc/browser/components/preferences/preferences.js
      helpButton.setAttribute("href", helpUrl);
  
      document.getElementById("addonsButton").addEventListener("click", e => {
-Index: m041/mozsrc/browser/app/profile/firefox.js
+Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
---- m041.orig/mozsrc/browser/app/profile/firefox.js
-+++ m041/mozsrc/browser/app/profile/firefox.js
+--- firefox-84.0.2.orig/browser/app/profile/firefox.js
++++ firefox-84.0.2/browser/app/profile/firefox.js
 @@ -253,15 +253,11 @@ pref("browser.defaultbrowser.notificatio
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
@@ -265,10 +265,10 @@ Index: m041/mozsrc/browser/app/profile/firefox.js
  // disable default browser check
  pref("browser.startup.homepage_override.mstone", "ignore");
  
-Index: m041/mozsrc/docshell/base/nsAboutRedirector.cpp
+Index: firefox-84.0.2/docshell/base/nsAboutRedirector.cpp
 ===================================================================
---- m041.orig/mozsrc/docshell/base/nsAboutRedirector.cpp
-+++ m041/mozsrc/docshell/base/nsAboutRedirector.cpp
+--- firefox-84.0.2.orig/docshell/base/nsAboutRedirector.cpp
++++ firefox-84.0.2/docshell/base/nsAboutRedirector.cpp
 @@ -94,8 +94,6 @@ static const RedirEntry kRedirMap[] = {
           nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
@@ -278,10 +278,10 @@ Index: m041/mozsrc/docshell/base/nsAboutRedirector.cpp
      {"neterror", "chrome://global/content/netError.xhtml",
       nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_CAN_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
-Index: m041/mozsrc/toolkit/content/jar.mn
+Index: firefox-84.0.2/toolkit/content/jar.mn
 ===================================================================
---- m041.orig/mozsrc/toolkit/content/jar.mn
-+++ m041/mozsrc/toolkit/content/jar.mn
+--- firefox-84.0.2.orig/toolkit/content/jar.mn
++++ firefox-84.0.2/toolkit/content/jar.mn
 @@ -51,8 +51,6 @@ toolkit.jar:
     content/global/filepicker.properties
     content/global/customElements.js
@@ -291,10 +291,10 @@ Index: m041/mozsrc/toolkit/content/jar.mn
     content/global/preferencesBindings.js
     content/global/process-content.js
     content/global/resetProfile.css
-Index: m041/mozsrc/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+Index: firefox-84.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-+++ m041/mozsrc/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+--- firefox-84.0.2.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ firefox-84.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 @@ -551,7 +551,7 @@ class WelcomeScreen extends react__WEBPA
  
    renderTiles() {
@@ -326,10 +326,10 @@ Index: m041/mozsrc/browser/components/newtab/aboutwelcome/content/aboutwelcome.b
    return returnUrl;
  }
  
-Index: m041/mozsrc/browser/base/content/browser-menubar.inc
+Index: firefox-84.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- m041.orig/mozsrc/browser/base/content/browser-menubar.inc
-+++ m041/mozsrc/browser/base/content/browser-menubar.inc
+--- firefox-84.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-84.0.2/browser/base/content/browser-menubar.inc
 @@ -484,9 +484,9 @@
                  <menuitem id="troubleShooting"
                            oncommand="openTroubleshootingPage()"
@@ -342,10 +342,10 @@ Index: m041/mozsrc/browser/base/content/browser-menubar.inc
                  <menuitem id="helpSafeMode"
                            oncommand="safeModeRestart();" data-l10n-id="menu-help-safe-mode-without-addons"/>
                  <menuitem id="menu_HelpPopup_reportPhishingtoolmenu"
-Index: m041/mozsrc/browser/components/newtab/lib/SearchShortcuts.jsm
+Index: firefox-84.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/lib/SearchShortcuts.jsm
-+++ m041/mozsrc/browser/components/newtab/lib/SearchShortcuts.jsm
+--- firefox-84.0.2.orig/browser/components/newtab/lib/SearchShortcuts.jsm
++++ firefox-84.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
 @@ -8,28 +8,17 @@ const { Services } = ChromeUtils.import(
  // List of sites we match against Topsites in order to identify sites
  // that should be converted to search Topsites
@@ -375,10 +375,10 @@ Index: m041/mozsrc/browser/components/newtab/lib/SearchShortcuts.jsm
    {
      keyword: "@wikipedia",
      shortURL: "wikipedia",
-Index: m041/mozsrc/browser/components/newtab/lib/ActivityStream.jsm
+Index: firefox-84.0.2/browser/components/newtab/lib/ActivityStream.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/lib/ActivityStream.jsm
-+++ m041/mozsrc/browser/components/newtab/lib/ActivityStream.jsm
+--- firefox-84.0.2.orig/browser/components/newtab/lib/ActivityStream.jsm
++++ firefox-84.0.2/browser/components/newtab/lib/ActivityStream.jsm
 @@ -389,7 +389,7 @@ const PREFS_CONFIG = new Map([
            return "";
          }
@@ -397,10 +397,10 @@ Index: m041/mozsrc/browser/components/newtab/lib/ActivityStream.jsm
          return searchShortcuts.join(",");
        },
      },
-Index: m041/mozsrc/browser/components/newtab/lib/TopSitesFeed.jsm
+Index: firefox-84.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
 ===================================================================
---- m041.orig/mozsrc/browser/components/newtab/lib/TopSitesFeed.jsm
-+++ m041/mozsrc/browser/components/newtab/lib/TopSitesFeed.jsm
+--- firefox-84.0.2.orig/browser/components/newtab/lib/TopSitesFeed.jsm
++++ firefox-84.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
 @@ -99,12 +99,12 @@ const SEARCH_FILTERS = [
    "duckduckgo",
  ];

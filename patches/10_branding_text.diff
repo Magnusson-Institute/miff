@@ -33,8 +33,8 @@ Index: firefox-84.0.2/browser/installer/windows/nsis/installer.nsi
  
 -VIAddVersionKey "FileDescription" "${BrandShortName} Installer"
 -VIAddVersionKey "OriginalFilename" "setup.exe"
-+VIAddVersionKey "FileDescription" "MIFF Installer"
-+VIAddVersionKey "OriginalFilename" "MIFFInstaller.exe"
++VIAddVersionKey "FileDescription" "MiFF Installer"
++VIAddVersionKey "OriginalFilename" "MiFFInstaller.exe"
  
  ; Must be inserted before other macros that use logging
  !insertmacro _LoggingCommon
@@ -44,14 +44,14 @@ Index: firefox-84.0.2/browser/installer/windows/nsis/installer.nsi
  
 -Name "${BrandFullName}"
 -OutFile "setup.exe"
-+Name "MIFF"
-+OutFile "MIFFInstaller.exe"
++Name "MiFF"
++OutFile "MiFFInstaller.exe"
  !ifdef HAVE_64BIT_BUILD
 -  InstallDir "$PROGRAMFILES64\${BrandFullName}\"
-+  InstallDir "$PROGRAMFILES64\MIFF\"
++  InstallDir "$PROGRAMFILES64\MiFF\"
  !else
 -  InstallDir "$PROGRAMFILES32\${BrandFullName}\"
-+  InstallDir "$PROGRAMFILES32\MIFF\"
++  InstallDir "$PROGRAMFILES32\MiFF\"
  !endif
  ShowInstDetails nevershow
  
@@ -60,7 +60,7 @@ Index: firefox-84.0.2/browser/installer/windows/nsis/installer.nsi
  
    SetOutPath "$INSTDIR"
 -  ${StartInstallLog} "${BrandFullName}" "${AB_CD}" "${AppVersion}" "${GREVersion}"
-+  ${StartInstallLog} "MIFF" "${AB_CD}" "${AppVersion}" "${GREVersion}"
++  ${StartInstallLog} "MiFF" "${AB_CD}" "${AppVersion}" "${GREVersion}"
  
    StrCpy $R9 "true"
    StrCpy $PreventRebootRequired "false"
@@ -141,8 +141,7 @@ Index: firefox-84.0.2/browser/locales/en-US/browser/aboutLogins.ftl
 ===================================================================
 --- firefox-84.0.2.orig/browser/locales/en-US/browser/aboutLogins.ftl
 +++ firefox-84.0.2/browser/locales/en-US/browser/aboutLogins.ftl
-@@ -61,12 +61,12 @@ about-logins-list-item-vulnerable-passwo
- 
+@@ -62,11 +62,11 @@ about-logins-list-item-vulnerable-passwo
  about-logins-login-intro-heading-logged-out = Looking for your saved logins? Set up { -sync-brand-short-name } or Import Them.
  about-logins-login-intro-heading-logged-in = No synced logins found.
  login-intro-description = If you saved your logins to { -brand-product-name } on a different device, here’s how to get them here:

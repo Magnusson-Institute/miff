@@ -12,7 +12,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	mkdir 7zip
 	cp $INSTALLER_DIR"/"*installer.exe 7zip/installer.exe
 	cd 7zip
-	echo === Extracting installer
+	echo "=== Extracting installer"
 	7z x installer.exe
 	cd ..
 
@@ -22,7 +22,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 
 	# Move to temporary directory and run first RH script
 	cd 7zip/core
-	echo === Applying first Resource Hacker script
+	echo "=== Applying first Resource Hacker script"
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.StringTable7.rc -action compile
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.VersionInfo1.rc -action compile
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script miff.exe.script.txt
@@ -30,27 +30,32 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	# Make directory for extensions inside core/
 	mkdir distribution
 	cd ../..
-	echo === Copying extension files into core/
+	echo "=== Copying extension files into core/distribution"
 	cp -r $ROOTDIR"/extensions/" 7zip/core/distribution
 
+	# Also copy autoconfig files
+	echo "=== Copying autoconfig files into core/defaults/pref"
+	cp $ROOTDIR"/InstallerFiles/autoconfig.js" 7zip/core/defaults/pref
+	cp $ROOTDIR"/InstallerFiles/miff.cfg" 7zip/core/defaults/pref
+
 	# Gathering files to create self-extracting archive
-	echo === Copying repackaging script and config file
+	echo "=== Copying repackaging script and config file"
 	cp other-licenses/7zstub/firefox/7zSD.Win32.sfx 7zip/7zSD.sfx
-	cp $ROOTDIR"/repackage.bat" 7zip/repackage.bat
-	cp $ROOTDIR"/config.txt" 7zip/config.txt
+	cp $ROOTDIR"/InstallerFiles/repackage.bat" 7zip/repackage.bat
+	cp $ROOTDIR"/InstallerFiles/config.txt" 7zip/config.txt
 
 	# Clean up core and create a new archive
 	rm 7zip/core/miff.exe.* 7zip/core/firefox.exe
 	cd 7zip
-	echo === Creating tempInstaller.7z
+	echo "=== Creating tempInstaller.7z"
 	7z a tempInstaller.7z core/ MIFFInstaller.exe
 	# repackage.bat edits some branding aspects of the installer without breaking the .exe.
 	chmod u+x repackage.bat
-	echo === Running repackage.bat
+	echo "=== Running repackage.bat"
 	./repackage.bat
 
 	# Run second RH script
-	echo === Applying second Resource Hacker script
+	echo "=== Applying second Resource Hacker script"
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open installer.exe.VersionInfo1.rc -action compile
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script installer.exe.script.txt
 

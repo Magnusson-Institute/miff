@@ -7,7 +7,7 @@ Index: firefox-84.0.2/browser/installer/windows/Makefile.in
  endif
  
 -$(CONFIG_DIR)/setup.exe::
-+$(CONFIG_DIR)/MIFFInstaller.exe::
++$(CONFIG_DIR)/MiFFInstaller.exe::
  	$(RM) -r $(CONFIG_DIR)
  	$(MKDIR) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(srcdir)/,$(INSTALLER_FILES)) $(CONFIG_DIR)
@@ -19,8 +19,8 @@ Index: firefox-84.0.2/browser/installer/windows/app.tag
  ;!@Install@!UTF-8!
 -Title="Mozilla Firefox"
 -RunProgram="setup.exe"
-+Title="MIFF Installer"
-+RunProgram="MIFFInstaller.exe"
++Title="MiFF Installer"
++RunProgram="MiFFInstaller.exe"
  ;!@InstallEnd@!
 \ No newline at end of file
 Index: firefox-84.0.2/browser/installer/windows/nsis/installer.nsi
@@ -73,7 +73,7 @@ Index: firefox-84.0.2/toolkit/mozapps/installer/windows/nsis/makensis.mk
  	$(NULL)
  
 -$(CONFIG_DIR)/setup.exe::
-+$(CONFIG_DIR)/MIFFInstaller.exe::
++$(CONFIG_DIR)/MiFFInstaller.exe::
  	$(INSTALL) $(addprefix $(MOZILLA_DIR)/toolkit/mozapps/installer/windows/nsis/,$(TOOLKIT_NSIS_FILES)) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(MOZILLA_DIR)/other-licenses/nsis/Plugins/,$(CUSTOM_NSIS_PLUGINS)) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(MOZILLA_DIR)/other-licenses/nsis/,$(CUSTOM_UI)) $(CONFIG_DIR)
@@ -82,7 +82,7 @@ Index: firefox-84.0.2/toolkit/mozapps/installer/windows/nsis/makensis.mk
  
  ifdef ZIP_IN
 -installer:: $(CONFIG_DIR)/setup.exe $(ZIP_IN)
-+installer:: $(CONFIG_DIR)/MIFFInstaller.exe $(ZIP_IN)
++installer:: $(CONFIG_DIR)/MiFFInstaller.exe $(ZIP_IN)
  	@echo 'Packaging $(WIN32_INSTALLER_OUT).'
  	$(NSINSTALL) -D '$(ABS_DIST)/$(PKG_INST_PATH)'
  	$(PYTHON3) $(MOZILLA_DIR)/mach repackage installer \
@@ -91,7 +91,7 @@ Index: firefox-84.0.2/toolkit/mozapps/installer/windows/nsis/makensis.mk
  	  --package '$(ZIP_IN)' \
  	  --tag $(topsrcdir)/$(MOZ_BUILD_APP)/installer/windows/app.tag \
 -	  --setupexe $(CONFIG_DIR)/setup.exe \
-+	  --setupexe $(CONFIG_DIR)/MIFFInstaller.exe \
++	  --setupexe $(CONFIG_DIR)/MiFFInstaller.exe \
  	  --sfx-stub $(SFX_MODULE) \
  	  $(USE_UPX)
  ifdef MOZ_STUB_INSTALLER
@@ -124,7 +124,7 @@ Index: firefox-84.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
  # They can be moved within the sentence as needed to adapt
  # to your language, but should not be changed or translated.
 -sync-mobile-promo = Download Firefox for <img data-l10n-name="android-icon"/> <a data-l10n-name="android-link">Android</a> or <img data-l10n-name="ios-icon"/> <a data-l10n-name="ios-link">iOS</a> to sync with your mobile device.
-+sync-mobile-promo = Mobile versions of MIFF in development
++sync-mobile-promo = Mobile versions of MiFF in development
  
  ## Firefox Account - Signed in
  
@@ -133,7 +133,7 @@ Index: firefox-84.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
  sync-engine-addons =
      .label = Add-ons
 -    .tooltiptext = Extensions and themes for Firefox desktop
-+    .tooltiptext = Extensions and themes for MIFF desktop
++    .tooltiptext = Extensions and themes for MiFF desktop
      .accesskey = A
  
  sync-engine-prefs =
@@ -151,7 +151,7 @@ Index: firefox-84.0.2/browser/locales/en-US/browser/aboutLogins.ftl
  about-logins-intro-instruction-help = Visit <a data-l10n-name="help-link">{ -lockwise-brand-short-name } Support</a> for more help
  about-logins-intro-import = If your logins are saved in another browser, you can <a data-l10n-name="import-link">import them into { -lockwise-brand-short-name }</a>
 -about-logins-intro-import2 = If your logins are saved outside of { -brand-product-name }, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
-+about-logins-intro-import2 = If your logins are saved outside of MIFF, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
++about-logins-intro-import2 = If your logins are saved outside of MiFF, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
  
  ## Login
  
@@ -202,14 +202,14 @@ Index: firefox-84.0.2/browser/branding/aurora/locales/en-US/brand.ftl
 --brand-shorter-name = Firefox
 --brand-short-name = Firefox Developer Edition
 --brand-full-name = Firefox Developer Edition
-+-brand-shorter-name = MIFF
-+-brand-short-name = MIFF
-+-brand-full-name = MIFF
++-brand-shorter-name = MiFF
++-brand-short-name = MiFF
++-brand-full-name = MiFF
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 --brand-product-name = Firefox
 --vendor-short-name = Mozilla
-+-brand-product-name = MIFF
++-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
 Index: firefox-84.0.2/browser/branding/nightly/locales/en-US/brand.ftl
@@ -223,14 +223,14 @@ Index: firefox-84.0.2/browser/branding/nightly/locales/en-US/brand.ftl
 --brand-shorter-name = Nightly
 --brand-short-name = Nightly
 --brand-full-name = Firefox Nightly
-+-brand-shorter-name = MIFF
-+-brand-short-name = MIFF
-+-brand-full-name = MIFF
++-brand-shorter-name = MiFF
++-brand-short-name = MiFF
++-brand-full-name = MiFF
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 --brand-product-name = Firefox
 --vendor-short-name = Mozilla
-+-brand-product-name = MIFF
++-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
 Index: firefox-84.0.2/browser/branding/official/locales/en-US/brand.ftl
@@ -244,14 +244,14 @@ Index: firefox-84.0.2/browser/branding/official/locales/en-US/brand.ftl
 --brand-shorter-name = Firefox
 --brand-short-name = Firefox
 --brand-full-name = Mozilla Firefox
-+-brand-shorter-name = MIFF
-+-brand-short-name = MIFF
-+-brand-full-name = MIFF
++-brand-shorter-name = MiFF
++-brand-short-name = MiFF
++-brand-full-name = MiFF
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 --brand-product-name = Firefox
 --vendor-short-name = Mozilla
-+-brand-product-name = MIFF
++-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = Firefox and the Firefox logos are trademarks of the Mozilla Foundation.
 Index: firefox-84.0.2/browser/branding/unofficial/locales/en-US/brand.ftl
@@ -265,14 +265,14 @@ Index: firefox-84.0.2/browser/branding/unofficial/locales/en-US/brand.ftl
 --brand-shorter-name = Nightly
 --brand-short-name = Nightly
 --brand-full-name = Nightly
-+-brand-shorter-name = MIFF
-+-brand-short-name = MIFF
-+-brand-full-name = MIFF
++-brand-shorter-name = MiFF
++-brand-short-name = MiFF
++-brand-full-name = MiFF
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 --brand-product-name = Firefox
 --vendor-short-name = Mozilla
-+-brand-product-name = MIFF
++-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
 Index: firefox-84.0.2/browser/branding/official/branding.nsi
@@ -287,8 +287,8 @@ Index: firefox-84.0.2/browser/branding/official/branding.nsi
 -!define BrandFullName         "Mozilla Firefox"
 -!define CompanyName           "Mozilla Corporation"
 -!define URLInfoAbout          "https://www.mozilla.org"
-+!define BrandFullNameInternal "MIFF"
-+!define BrandFullName         "MIFF"
++!define BrandFullNameInternal "MiFF"
++!define BrandFullName         "MiFF"
 +!define CompanyName           "Magnusson Institute"
 +!define URLInfoAbout          "https://privacy.app"
  !define URLUpdateInfo         "https://www.mozilla.org/firefox/${AppVersion}/releasenotes"
@@ -310,8 +310,8 @@ Index: firefox-84.0.2/browser/branding/unofficial/branding.nsi
 -!define CompanyName           "mozilla.org"
 -!define URLInfoAbout          "https://www.mozilla.org"
 -!define HelpLink              "https://support.mozilla.org"
-+!define BrandFullNameInternal "MIFF"
-+!define BrandFullName         "MIFF"
++!define BrandFullNameInternal "MiFF"
++!define BrandFullName         "MiFF"
 +!define CompanyName           "Magnusson Institute"
 +!define URLInfoAbout          "https://privacy.app"
 +!define HelpLink              "https://privacy.app/support"
@@ -332,9 +332,9 @@ Index: firefox-84.0.2/browser/branding/aurora/branding.nsi
 -!define CompanyName           "mozilla.org"
 -!define URLInfoAbout          "https://www.mozilla.org"
 -!define HelpLink              "https://support.mozilla.org"
-+!define BrandFullNameInternal "MIFF"
-+!define BrandShortName        "MIFF"
-+!define BrandFullName         "MIFF"
++!define BrandFullNameInternal "MiFF"
++!define BrandShortName        "MiFF"
++!define BrandFullName         "MiFF"
 +!define CompanyName           "Magnusson Institute"
 +!define URLInfoAbout          "https://privacy.app"
 +!define HelpLink              "https://privacy.app/support"
@@ -354,8 +354,8 @@ Index: firefox-84.0.2/browser/branding/nightly/branding.nsi
 -!define CompanyName           "mozilla.org"
 -!define URLInfoAbout          "https://www.mozilla.org"
 -!define HelpLink              "https://support.mozilla.org"
-+!define BrandFullNameInternal "MIFF"
-+!define BrandFullName         "MIFF"
++!define BrandFullNameInternal "MiFF"
++!define BrandFullName         "MiFF"
 +!define CompanyName           "Magnusson Institute"
 +!define URLInfoAbout          "https://privacy.app"
 +!define HelpLink              "https://privacy.app/support"
@@ -543,7 +543,7 @@ Index: firefox-84.0.2/browser/app/module.ver
  WIN32_MODULE_DESCRIPTION=@MOZ_APP_DISPLAYNAME@
  WIN32_MODULE_PRODUCTNAME=@MOZ_APP_DISPLAYNAME@
 -WIN32_MODULE_NAME=@MOZ_APP_DISPLAYNAME@
-+WIN32_MODULE_NAME=MIFF
++WIN32_MODULE_NAME=MiFF
 Index: firefox-84.0.2/browser/installer/windows/nsis/defines.nsi.in
 ===================================================================
 --- firefox-84.0.2.orig/browser/installer/windows/nsis/defines.nsi.in

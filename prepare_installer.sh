@@ -34,9 +34,9 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	cp -r $ROOTDIR"/extensions/" 7zip/core/distribution
 
 	# Also copy autoconfig files
-	echo "=== Copying autoconfig files into core/defaults/pref"
-	cp $ROOTDIR"/InstallerFiles/autoconfig.js" 7zip/core/defaults/pref
-	cp $ROOTDIR"/InstallerFiles/miff.cfg" 7zip/core/defaults/pref
+	echo "=== Copying autoconfig files into core/"
+	cp $ROOTDIR"/InstallerFiles/autoconfig.js" 7zip/core
+	cp $ROOTDIR"/InstallerFiles/miff.cfg" 7zip/core
 
 	# Gathering files to create self-extracting archive
 	echo "=== Copying repackaging script and config file"
@@ -48,7 +48,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	rm 7zip/core/miff.exe.* 7zip/core/firefox.exe
 	cd 7zip
 	echo "=== Creating tempInstaller.7z"
-	7z a tempInstaller.7z core/ MIFFInstaller.exe
+	7z a tempInstaller.7z core/ MiFFInstaller.exe
 	# repackage.bat edits some branding aspects of the installer without breaking the .exe.
 	chmod u+x repackage.bat
 	echo "=== Running repackage.bat"
@@ -64,7 +64,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	cd ..
 	rm -rf 7zip
 	echo "=== Installer is complete, unsignedInstaller.exe is in your FF root"
-	echo "=== Need to sign miff.exe and MIFFInstaller.exe, add back to unsignedInstaller by hand,"
+	echo "=== Need to sign miff.exe and MiFFInstaller.exe, add back to unsignedInstaller by hand,"
 	echo "    then rename/sign unsignedInstaller"
     fi
 else

@@ -47,7 +47,7 @@ Index: firefox-84.0.2/browser/components/BrowserGlue.jsm
 ===================================================================
 --- firefox-84.0.2.orig/browser/components/BrowserGlue.jsm
 +++ firefox-84.0.2/browser/components/BrowserGlue.jsm
-@@ -1390,7 +1390,7 @@ BrowserGlue.prototype = {
+@@ -1417,7 +1417,7 @@ BrowserGlue.prototype = {
        Normandy.init();
      }
  
@@ -104,7 +104,7 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
 --- firefox-84.0.2.orig/browser/app/profile/firefox.js
 +++ firefox-84.0.2/browser/app/profile/firefox.js
-@@ -1219,8 +1219,8 @@ pref("services.sync.prefs.sync.browser.n
+@@ -1233,8 +1233,8 @@ pref("services.sync.prefs.sync.browser.n
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSearch", true);
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites", true);
@@ -115,28 +115,28 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.snippets", true);
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.section.topstories", true);
  pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.topstories.rows", true);
-@@ -1400,7 +1400,7 @@ pref("browser.newtabpage.activity-stream
+@@ -1416,7 +1416,7 @@ pref("browser.newtabpage.activity-stream
  pref("browser.newtabpage.activity-stream.discoverystream.spocs.personalized", true);
  
  // User pref to show stories on newtab (feeds.system.topstories has to be set to true as well)
 -pref("browser.newtabpage.activity-stream.feeds.section.topstories", true);
-+setAndLockPref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
++pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
  
  // The pref controls if search hand-off is enabled for Activity Stream.
  #ifdef NIGHTLY_BUILD
-@@ -2581,3 +2581,6 @@ pref("dom.event.clipboardevents.enable",
+@@ -2584,3 +2584,6 @@ pref("dom.event.clipboardevents.enable",
  //4 - Reserved (used to be Shadow mode)
  //5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
  pref("network.trr.mode", 5);
 +
-+setAndLockPref("browser.newtabpage.activity-stream.showSponsored", false);
-+setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
++pref("browser.newtabpage.activity-stream.showSponsored", false);
++pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 \ No newline at end of file
 Index: firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-options.js
 ===================================================================
 --- firefox-84.0.2.orig/browser/components/newtab/content-src/lib/link-menu-options.js
 +++ firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-options.js
-@@ -224,7 +224,7 @@ export const LinkMenuOptions = {
+@@ -209,7 +209,7 @@ export const LinkMenuOptions = {
      }),
      userEvent: "UNPIN",
    }),
@@ -145,7 +145,7 @@ Index: firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-option
      id: "newtab-menu-save-to-pocket",
      icon: "pocket-save",
      action: ac.AlsoToMain({
-@@ -261,7 +261,7 @@ export const LinkMenuOptions = {
+@@ -246,7 +246,7 @@ export const LinkMenuOptions = {
        data: { pocket_id: site.pocket_id },
      }),
      userEvent: "ARCHIVE_FROM_POCKET",
@@ -158,7 +158,7 @@ Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bun
 ===================================================================
 --- firefox-84.0.2.orig/browser/components/newtab/data/content/activity-stream.bundle.js
 +++ firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bundle.js
-@@ -5189,7 +5189,7 @@ const LinkMenuOptions = {
+@@ -5116,7 +5116,7 @@ const LinkMenuOptions = {
      userEvent: "UNPIN"
    }),
    SaveToPocket: (site, index, eventSource) => ({
@@ -167,7 +167,7 @@ Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bun
      icon: "pocket-save",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
        type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].SAVE_TO_POCKET,
-@@ -5211,10 +5211,10 @@ const LinkMenuOptions = {
+@@ -5138,10 +5138,10 @@ const LinkMenuOptions = {
          } : {})
        }]
      }),
@@ -180,7 +180,7 @@ Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bun
      icon: "pocket-delete",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
        type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].DELETE_FROM_POCKET,
-@@ -5222,10 +5222,10 @@ const LinkMenuOptions = {
+@@ -5149,10 +5149,10 @@ const LinkMenuOptions = {
          pocket_id: site.pocket_id
        }
      }),
@@ -193,7 +193,7 @@ Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bun
      icon: "pocket-archive",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
        type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].ARCHIVE_FROM_POCKET,
-@@ -5233,7 +5233,7 @@ const LinkMenuOptions = {
+@@ -5160,7 +5160,7 @@ const LinkMenuOptions = {
          pocket_id: site.pocket_id
        }
      }),

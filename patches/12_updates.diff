@@ -1,0 +1,70 @@
+Index: firefox-84.0.2/browser/branding/unofficial/branding.nsi
+===================================================================
+--- firefox-84.0.2.orig/browser/branding/unofficial/branding.nsi
++++ firefox-84.0.2/browser/branding/unofficial/branding.nsi
+@@ -22,7 +22,7 @@
+ !define Channel "unofficial"
+ 
+ # The installer's certificate name and issuer expected by the stub installer
+-!define CertNameDownload   "Mozilla Corporation"
++!define CertNameDownload   "Magnusson Institute"
+ !define CertIssuerDownload "DigiCert SHA2 Assured ID Code Signing CA"
+ 
+ # Dialog units are used so the UI displays correctly with the system's DPI
+Index: firefox-84.0.2/browser/branding/aurora/branding.nsi
+===================================================================
+--- firefox-84.0.2.orig/browser/branding/aurora/branding.nsi
++++ firefox-84.0.2/browser/branding/aurora/branding.nsi
+@@ -23,7 +23,7 @@
+ !define Channel "aurora"
+ 
+ # The installer's certificate name and issuer expected by the stub installer
+-!define CertNameDownload   "Mozilla Corporation"
++!define CertNameDownload   "Magnusson Institute"
+ !define CertIssuerDownload "DigiCert SHA2 Assured ID Code Signing CA"
+ 
+ # Dialog units are used so the UI displays correctly with the system's DPI
+Index: firefox-84.0.2/browser/branding/nightly/branding.nsi
+===================================================================
+--- firefox-84.0.2.orig/browser/branding/nightly/branding.nsi
++++ firefox-84.0.2/browser/branding/nightly/branding.nsi
+@@ -22,7 +22,7 @@
+ !define Channel "nightly"
+ 
+ # The installer's certificate name and issuer expected by the stub installer
+-!define CertNameDownload   "Mozilla Corporation"
++!define CertNameDownload   "Magnusson Institute"
+ !define CertIssuerDownload "DigiCert SHA2 Assured ID Code Signing CA"
+ 
+ # Dialog units are used so the UI displays correctly with the system's DPI
+Index: firefox-84.0.2/browser/branding/official/branding.nsi
+===================================================================
+--- firefox-84.0.2.orig/browser/branding/official/branding.nsi
++++ firefox-84.0.2/browser/branding/official/branding.nsi
+@@ -27,7 +27,7 @@
+ !define Channel "release"
+ 
+ # The installer's certificate name and issuer expected by the stub installer
+-!define CertNameDownload   "Mozilla Corporation"
++!define CertNameDownload   "Magnusson Institute"
+ !define CertIssuerDownload "DigiCert SHA2 Assured ID Code Signing CA"
+ 
+ # Dialog units are used so the UI displays correctly with the system's DPI
+Index: firefox-84.0.2/browser/installer/windows/nsis/defines.nsi.in
+===================================================================
+--- firefox-84.0.2.orig/browser/installer/windows/nsis/defines.nsi.in
++++ firefox-84.0.2/browser/installer/windows/nsis/defines.nsi.in
+@@ -40,11 +40,11 @@
+ !define BrandFullName         "MiFF"
+ !endif
+ 
+-!define CERTIFICATE_NAME            "Mozilla Corporation"
++!define CERTIFICATE_NAME            "Magnusson Institute"
+ !define CERTIFICATE_ISSUER          "DigiCert SHA2 Assured ID Code Signing CA"
+ ; Changing the name or issuer requires us to have both the old and the new
+ ;  in the registry at the same time, temporarily.
+-!define CERTIFICATE_NAME_PREVIOUS   "Mozilla Corporation"
++!define CERTIFICATE_NAME_PREVIOUS   "Magnusson Institute"
+ !define CERTIFICATE_ISSUER_PREVIOUS "DigiCert Assured ID Code Signing CA-1"
+ 
+ # LSP_CATEGORIES is the permitted LSP categories for the application. Each LSP

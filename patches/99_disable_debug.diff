@@ -1,0 +1,14 @@
+Index: firefox-84.0.2/browser/config/mozconfig
+===================================================================
+--- firefox-84.0.2.orig/browser/config/mozconfig
++++ firefox-84.0.2/browser/config/mozconfig
+@@ -6,4 +6,6 @@
+ #  . $topsrcdir/browser/config/mozconfig
+ # to the top of your mozconfig file.
+ 
+-ac_add_options --enable-application=browser
+\ No newline at end of file
++ac_add_options --enable-application=browser
++
++export MOZILLA_OFFICIAL=1
+\ No newline at end of file

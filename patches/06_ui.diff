@@ -436,16 +436,3 @@ Index: firefox-84.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
        <taar-notice></taar-notice>
        <recommended-addon-list type="extension" hide-installed></recommended-addon-list>
        <footer is="recommended-footer" class="view-footer"></footer>
-Index: firefox-84.0.2/toolkit/mozapps/extensions/content/aboutaddons.js
-===================================================================
---- firefox-84.0.2.orig/toolkit/mozapps/extensions/content/aboutaddons.js
-+++ firefox-84.0.2/toolkit/mozapps/extensions/content/aboutaddons.js
-@@ -3678,7 +3678,7 @@ class RecommendedAddonCard extends HTMLE
-     this.dispatchEvent(new CustomEvent("disco-card-updated")); // For testing.
-   }
- }
--//customElements.define("recommended-addon-card", RecommendedAddonCard);
-+customElements.define("recommended-addon-card", RecommendedAddonCard);
- 
- /**
-  * A list view for add-ons of a certain type. It should be initialized with the

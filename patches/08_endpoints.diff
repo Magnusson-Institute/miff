@@ -2,7 +2,7 @@ Index: firefox-84.0.2/modules/libpref/init/all.js
 ===================================================================
 --- firefox-84.0.2.orig/modules/libpref/init/all.js
 +++ firefox-84.0.2/modules/libpref/init/all.js
-@@ -4159,7 +4159,7 @@ pref("browser.safebrowsing.allowOverride
+@@ -4142,7 +4142,7 @@ pref("browser.safebrowsing.allowOverride
  pref("browser.safebrowsing.downloads.enabled", true);
  pref("browser.safebrowsing.downloads.remote.enabled", true);
  pref("browser.safebrowsing.downloads.remote.timeout_ms", 15000);
@@ -122,7 +122,7 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
 --- firefox-84.0.2.orig/browser/app/profile/firefox.js
 +++ firefox-84.0.2/browser/app/profile/firefox.js
-@@ -723,7 +723,7 @@ pref("browser.xul.error_pages.expert_bad
+@@ -737,7 +737,7 @@ pref("browser.xul.error_pages.expert_bad
  pref("browser.xul.error_pages.show_safe_browsing_details_on_load", false);
  
  // Enable captive portal detection.
@@ -131,12 +131,12 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
  
  // If true, network link events will change the value of navigator.onLine
  pref("network.manage-offline-status", true);
-@@ -1370,7 +1370,7 @@ pref("browser.newtabpage.activity-stream
+@@ -1382,7 +1382,7 @@ pref("browser.newtabpage.activity-stream
  
  // The pref that controls if ASRouter uses the remote fluent files.
  // It's enabled by default, but could be disabled to force ASRouter to use the local files.
 -pref("browser.newtabpage.activity-stream.asrouter.useRemoteL10n", true);
-+setAndLockPref("browser.newtabpage.activity-stream.asrouter.useRemoteL10n", false);
++pref("browser.newtabpage.activity-stream.asrouter.useRemoteL10n", false);
  
  // These prefs control if Discovery Stream is enabled.
  pref("browser.newtabpage.activity-stream.discoverystream.enabled", true);
@@ -218,19 +218,6 @@ Index: firefox-84.0.2/toolkit/components/normandy/lib/NormandyApi.jsm
        method: "get",
        headers: { Accept: "application/json" },
        credentials: "omit",
-Index: firefox-84.0.2/toolkit/mozapps/update/UpdateService.jsm
-===================================================================
---- firefox-84.0.2.orig/toolkit/mozapps/update/UpdateService.jsm
-+++ firefox-84.0.2/toolkit/mozapps/update/UpdateService.jsm
-@@ -4135,7 +4135,7 @@ Checker.prototype = {
-       });
- 
-       LOG("Checker:checkForUpdates - sending request to: " + url);
--      this._request.send(null);
-+//      this._request.send(null);
- 
-       this._callback = listener;
-     });
 Index: firefox-84.0.2/toolkit/mozapps/extensions/Blocklist.jsm
 ===================================================================
 --- firefox-84.0.2.orig/toolkit/mozapps/extensions/Blocklist.jsm

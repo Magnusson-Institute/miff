@@ -22,18 +22,34 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.VersionInfo1.rc -action compile
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script miff.exe.script.txt
 	rm miff.exe.* firefox.exe
-	echo "=== You'll need to build/package before running this script again"
+	cd ../../..
 
 	echo "=== Before building a MAR, the branded executable, updater.exe, and maintenanceservice.exe must be signed"
+	echo "=== These files are in obj*/dist/firefox"
 	read -p "=== Press ENTER once you have done this"
 
 	# Now that the browser is branded, create a MAR with it
-	cd ../../..
-	echo "=== Generating MAR file"
+	mkdir tmp
+	# We need to use mar.exe to get updatev3.manifest,
+	# but we have to use the MAR Python tool to sign
+	echo "=== Generating manifest for MAR"
 	touch obj*"/dist/firefox/precomplete"
+	MAR=obj*"/dist/bin/signmar.exe" MAR_CHANNEL_ID=default MOZ_PRODUCT_VERSION=$1 ./tools/update-packaging/make_signed_update.sh tmp.mar obj*"/dist/firefox"
+	cp obj*"/dist/firefox.work/"*.manifest tmp/
+	cp -r $UPDATE_DIR/* tmp/
 
-	MAR=obj*"/dist/host/bin/mar.exe" MAR_CHANNEL_ID=default MOZ_PRODUCT_VERSION=$1 ./tools/update-packaging/make_full_update.sh ../complete.mar obj*"/dist/firefox"
-	echo "=== Update MAR complete"
+	echo "=== Creating MAR"
+	if [[ -v KEYFILE ]]; then
+	    cd tmp
+	    echo "Keyfile exists"
+	    mar -J -c ../MiFF-$1.complete.mar -k $KEYFILE -H default -V $1 *
+	    cd ..
+	    echo "=== MAR complete"
+	else
+	    echo "You must set \$KEYFILE with the full path"
+	    echo "Alternatively, "
+	fi
+	    rm -rf tmp
     fi
 else
     { echo "You need to be at the root location of the browser, and '../m041' alongside you"; } 2> /dev/null

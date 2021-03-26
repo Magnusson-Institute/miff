@@ -626,3 +626,13 @@ Index: firefox-84.0.2/browser/locales/en-US/browser/branding/sync-brand.ftl
  # and kept in English.
 --fxaccount-brand-name = Firefox Account
 +-fxaccount-brand-name = privacy.app
+Index: firefox-84.0.2/browser/locales/en-US/chrome/browser/syncBrand.dtd
+===================================================================
+--- firefox-84.0.2.orig/browser/locales/en-US/chrome/browser/syncBrand.dtd
++++ firefox-84.0.2/browser/locales/en-US/chrome/browser/syncBrand.dtd
+@@ -3,4 +3,4 @@
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ 
+ <!ENTITY syncBrand.shortName.label  "Sync">
+-<!ENTITY syncBrand.fxAccount.label  "Firefox Account">
++<!ENTITY syncBrand.fxAccount.label  "Magnusson Institute Account">

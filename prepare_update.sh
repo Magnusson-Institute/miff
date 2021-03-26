@@ -39,17 +39,15 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	cp -r $UPDATE_DIR/* tmp/
 
 	echo "=== Creating MAR"
-	if [[ -v KEYFILE ]]; then
-	    cd tmp
-	    echo "Keyfile exists"
-	    mar -J -c ../MiFF-$1.complete.mar -k $KEYFILE -H default -V $1 *
-	    cd ..
-	    echo "=== MAR complete"
-	else
-	    echo "You must set \$KEYFILE with the full path"
-	    echo "Alternatively, "
-	fi
-	    rm -rf tmp
+        cd tmp
+        echo "Keyfile exists"
+        mar -J -c ../MiFF-$1.complete.mar -k "../../m041/csr.pem" -H default -V $1 *
+        cd ..
+        echo "=== MAR complete"
+	echo "=== Use these values for update.xml:"
+	shasum --algorithm 512 MiFF-$1.complete.mar
+	stat --format="%" MiFF-$1.complete.mar
+        rm -rf tmp
     fi
 else
     { echo "You need to be at the root location of the browser, and '../m041' alongside you"; } 2> /dev/null

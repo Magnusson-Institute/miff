@@ -2,16 +2,29 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
 --- firefox-84.0.2.orig/browser/app/profile/firefox.js
 +++ firefox-84.0.2/browser/app/profile/firefox.js
-@@ -37,7 +37,7 @@ pref("extensions.webextOptionalPermissio
+@@ -37,12 +37,19 @@ pref("extensions.webextOptionalPermissio
  pref("extensions.postDownloadThirdPartyPrompt", true);
  
  // Preferences for AMO integration
 -pref("extensions.getAddons.cache.enabled", true);
++/* MagIns - When enabled, the browser does a daily ping to Mozilla, sending information about installed add-ons
++            and returning updated metadata (screenshots, ratings, descriptions) about your add-ons
++pref("extensions.getAddons.cache.enabled", true);*/
 +pref("extensions.getAddons.cache.enabled", false);
  pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/api/v3/addons/search/?guid=%IDS%&lang=%LOCALE%");
  pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/search?q=%TERMS%&platform=%OS%&appver=%VERSION%");
  pref("extensions.getAddons.link.url", "https://addons.mozilla.org/%LOCALE%/firefox/");
-@@ -77,7 +77,7 @@ pref("extensions.webextensions.backgroun
+ pref("extensions.getAddons.langpacks.url", "https://services.addons.mozilla.org/api/v3/addons/language-tools/?app=firefox&type=language&appversion=%VERSION%");
+-pref("extensions.getAddons.discovery.api_url", "https://services.addons.mozilla.org/api/v4/discovery/?lang=%LOCALE%&edition=%DISTRIBUTION%");
++/* MagIns - Mozilla provides addon recommendations, returned by a ping to the below URL. In addition to the two
++            parameters below, the user's telemetry client ID is added as a parameter if users have telemetry
++            enabled (which is on by default in Firefox).
++pref("extensions.getAddons.discovery.api_url", "https://services.addons.mozilla.org/api/v4/discovery/?lang=%LOCALE%&edition=%DISTRIBUTION%");*/
++pref("extensions.getAddons.discovery.api_url", "");
+ 
+ // Use bloomfilters for the addons blocklist, instead of JSON only.
+ pref("extensions.blocklist.useMLBF", true);
+@@ -77,7 +84,7 @@ pref("extensions.webextensions.backgroun
  
  // Require signed add-ons by default
  pref("extensions.langpacks.signatures.required", true);
@@ -20,105 +33,118 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
  pref("xpinstall.signatures.devInfoURL", "https://wiki.mozilla.org/Addons/Extension_Signing");
  
  // Enable extensionStorage storage actor by default
-@@ -1235,7 +1235,7 @@ pref("services.sync.prefs.sync.browser.l
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSearch", true);
--pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", true);
-+pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.topsites", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.topSitesRows", true);
-@@ -1246,7 +1246,7 @@ pref("services.sync.prefs.sync.browser.n
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includeVisited", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includeBookmarks", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includeDownloads", true);
--pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includePocket", true);
-+pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includePocket", false);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.rows", true);
- pref("services.sync.prefs.sync.browser.newtabpage.enabled", true);
- pref("services.sync.prefs.sync.browser.newtabpage.pinned", true);
-@@ -1381,7 +1381,7 @@ pref("browser.newtabpage.activity-stream
+@@ -1381,7 +1388,11 @@ pref("browser.newtabpage.activity-stream
  // This url, if changed, MUST continue to point to an https url. Pulling arbitrary content to inject into
  // this page over http opens us up to a man-in-the-middle attack that we'd rather not face. If you are a downstream
  // repackager of this code using an alternate snippet url, please keep your users safe
 -pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "{\"id\":\"snippets\",\"enabled\":true,\"type\":\"remote\",\"url\":\"https://snippets.cdn.mozilla.net/%STARTPAGE_VERSION%/%NAME%/%VERSION%/%APPBUILDID%/%BUILD_TARGET%/%LOCALE%/%CHANNEL%/%OS_VERSION%/%DISTRIBUTION%/%DISTRIBUTION_VERSION%/\",\"updateCycleInMs\":14400000}");
++/* MagIns - Snippets are small banners on the Home page provided by Mozilla to give tips about Firefox.
++            The snippets content depend on version, OS, build, update channel, etc., thus sending breadcrumbs
++            about your computer to Mozilla.
++pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "{\"id\":\"snippets\",\"enabled\":true,\"type\":\"remote\",\"url\":\"https://snippets.cdn.mozilla.net/%STARTPAGE_VERSION%/%NAME%/%VERSION%/%APPBUILDID%/%BUILD_TARGET%/%LOCALE%/%CHANNEL%/%OS_VERSION%/%DISTRIBUTION%/%DISTRIBUTION_VERSION%/\",\"updateCycleInMs\":14400000}");*/
 +pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "{\"id\":\"snippets\",\"enabled\":true,\"type\":\"remote\",\"url\":\"\",\"updateCycleInMs\":14400000}");
  pref("browser.newtabpage.activity-stream.asrouter.providers.messaging-experiments", "{\"id\":\"messaging-experiments\",\"enabled\":true,\"type\":\"remote-experiments\",\"messageGroups\":[\"cfr\",\"whats-new-panel\",\"moments-page\",\"snippets\",\"cfr-fxa\",\"aboutwelcome\"],\"updateCycleInMs\":3600000}");
  
  // The pref that controls if ASRouter uses the remote fluent files.
-@@ -1627,24 +1627,24 @@ pref("browser.translation.engine", "Goog
+@@ -1626,25 +1637,33 @@ pref("browser.translation.ui.show", fals
+ pref("browser.translation.engine", "Google");
  
  // Telemetry settings.
- // Determines if Telemetry pings can be archived locally.
+-// Determines if Telemetry pings can be archived locally.
 -pref("toolkit.telemetry.archive.enabled", true);
-+pref("toolkit.telemetry.archive.enabled", false);
- // Enables sending the shutdown ping when Firefox shuts down.
+-// Enables sending the shutdown ping when Firefox shuts down.
 -pref("toolkit.telemetry.shutdownPingSender.enabled", true);
++/* MagIns - Determines if Telemetry pings can be archived locally.
++pref("toolkit.telemetry.archive.enabled", true);*/
++pref("toolkit.telemetry.archive.enabled", false);
++/* MagIns - Enables sending the shutdown ping when Firefox shuts down.
++pref("toolkit.telemetry.shutdownPingSender.enabled", true);*/
 +pref("toolkit.telemetry.shutdownPingSender.enabled", false);
  // Enables sending the shutdown ping using the pingsender from the first session.
  pref("toolkit.telemetry.shutdownPingSender.enabledFirstSession", false);
- // Enables sending a duplicate of the first shutdown ping from the first session.
+-// Enables sending a duplicate of the first shutdown ping from the first session.
 -pref("toolkit.telemetry.firstShutdownPing.enabled", true);
-+pref("toolkit.telemetry.firstShutdownPing.enabled", false);
- // Enables sending the 'new-profile' ping on new profiles.
+-// Enables sending the 'new-profile' ping on new profiles.
 -pref("toolkit.telemetry.newProfilePing.enabled", true);
-+pref("toolkit.telemetry.newProfilePing.enabled", false);
- // Enables sending 'update' pings on Firefox updates.
+-// Enables sending 'update' pings on Firefox updates.
 -pref("toolkit.telemetry.updatePing.enabled", true);
-+pref("toolkit.telemetry.updatePing.enabled", false);
- // Enables sending 'bhr' pings when the browser hangs.
+-// Enables sending 'bhr' pings when the browser hangs.
 -pref("toolkit.telemetry.bhrPing.enabled", true);
++/* MagIns - Enables sending a duplicate of the first shutdown ping from the first session.
++pref("toolkit.telemetry.firstShutdownPing.enabled", true);*/
++pref("toolkit.telemetry.firstShutdownPing.enabled", false);
++/* MagIns - Enables sending the 'new-profile' ping on new profiles.
++pref("toolkit.telemetry.newProfilePing.enabled", true);*/
++pref("toolkit.telemetry.newProfilePing.enabled", false);
++/* MagIns - Enables sending 'update' pings on Firefox updates.
++pref("toolkit.telemetry.updatePing.enabled", true);*/
++pref("toolkit.telemetry.updatePing.enabled", false);
++/* MagIns - Enables sending 'bhr' pings when the browser hangs.
++pref("toolkit.telemetry.bhrPing.enabled", true);*/
 +pref("toolkit.telemetry.bhrPing.enabled", false);
  // Whether to enable Ecosystem Telemetry, requires a restart.
  pref("toolkit.telemetry.ecosystemtelemetry.enabled", false);
  
  // Ping Centre Telemetry settings.
 -pref("browser.ping-centre.telemetry", true);
++/* MagIns
++pref("browser.ping-centre.telemetry", true);*/
 +pref("browser.ping-centre.telemetry", false);
  pref("browser.ping-centre.log", false);
  
  // Enable GMP support in the addon manager.
-@@ -2498,5 +2498,93 @@ pref("first-startup.timeout", 30000);
+@@ -2498,5 +2517,135 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
 -  pref("default-browser-agent.enabled", true);
+-#endif
++/* MagIns - When true, a scheduled task is added to Windows during browser
++            installation. This task checks what the OS has set as the default
++            browser and sends this information to Mozilla.
++  pref("default-browser-agent.enabled", true);*/
 +  pref("default-browser-agent.enabled", false);
- #endif
++#endif
 +
-+// disable default browser check
++/* MagIns - The browser milestone records the version number of the last successful
++            startup. After updates/upgrades, the user's homepage is changed to show
++            a promotional page about the update. Setting this to "ignore", the value
++            is never updated.*/
 +pref("browser.startup.homepage_override.mstone", "ignore");
 +
-+//This preference determines whether WebRTC is enabled in Firefox. WebRTC is used for telephony and
-+//video chat functionality but leaks local and remote IP addresses as well. May also be used in browser
-+//fingerprinting.
-+//We need to enable WebRTC for our Nextcloud video conferencing to function, but there are other
-+//privacy settings we can add to lock down leakage.
-+//True: WebRTC is enabled (default).
-+//False: WebRTC is disabled. Note: you need to set loop.enabled to False as well.
-+pref("media.peerconnection.enabled", true);
++/* MagIns - Like the mstone, the build ID is changed after updates. This ID is a
++            timestamp of the build, YYYYMMDDHHMMSS*/
++"browser.startup.homepage_override.buildID" = "";
 +
-+//Content blocking set to strict
++/* MagIns - The browser.contentblocking.category preference is Mozilla's Enhanced
++            Tracking Protection feature. This is visible to users in the
++            about:preferences page. By default, it is set to standard.*/
 +pref("browser.contentblocking.category", "strict");
 +
-+//The "Do Not Track" feature is a mechanism that allows to communicate a user's
-+//tracking preferences to websites.
-+//True: Send information about the user's tracking preferences to all websites.
-+//Prior to Firefox 21.0 and SeaMonkey 2.18, this is always "Do Not Track"
-+//False (Default): Do not send any tracking preferences to any website.
++/* MagIns - When true, Enhanced Tracking Protection will block tracking content in
++            all windows. When false, these protections only apply to private windows.
++            There is some overap between this preference and
++            browser.contentblocking.category: Standard applies to private windows,
++            Strict applies to all.*/
++pref("privacy.trackingprotection.enabled", true);
++
++/* MagIns - The EFF's Do Not Track policy outlines how websites can maintain user
++            privacy, by removing tracking data from users that include a Do Not track
++            header in HTTP requests. Since the burden of implementing DNT is on websites,
++            the header is best used in conjunction with tools like PrivacyBadger, which
++            blocks tracking content from sites that do not respect DNT. Firefox by
++            default does not send a DNT header, so even sites that do respect DNT are
++            permitted to track users.*/
 +pref("privacy.donottrackheader.enabled", true);
 +
-+//Setting this preference to true enables TP globally
-+lockPref("privacy.trackingprotection.enabled", true);
-+
-+//Setting this to false will disable geolocation tracking, which may be
-+//requested by a site you are visiting.
++/* MagIns - With geolocation enabled, websites are allowed to ask for your location.
++            When this preference is set to false, no prompt is shown to the user.*/
 +pref("geo.enabled", false);
 +
-+//Setting this preference to false will block websites from being able to
-+//track the microphone and camera status of your device.
-+pref("media.navigator", false);
++/* MagIns - The media.navigator.enabled preference allows WebRTC to access the name
++            of devices
++*/
++pref("media.navigator.enabled", false);
 +
 +//This preference determines when cookies are deleted. Here are the different
 +//options:
@@ -128,43 +154,74 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
 +//3 = Accept for N days
 +pref("network.cookie.lifetimePolicy", 2);
 +
-+//Setting this preference to false will prevent pages from being prefetched
-+//by Firefox
++/* MagIns - Link prefetching allows browsers to load resources ahead of time that users
++            are likely to need, based on rel="prefetch" parameter in HTML pages. While
++            this can improve performance if the resource is accessed, it also creates a
++            privacy leak by automatically connecting users to servers. Firefox sets this
++            to true by default.*/
 +pref("network.prefetch-next", false);
 +
-+//Changing this preference to true will help to make Firefox more resistant to
-+//browser fingerprinting.
++/* MagIns - This preference enables several different privacy protections, as part
++            of Firefox's TOR Uplift project. These include:
++                Blocking canvas image extraction
++                Obscuring absolute screen coordinates
++                Window dimensions rounded to multiple of 200x100
++                Time precision reduced and jitter added
++                WebGL is limited
++                Spoofed keyboard layout
++                Locale spoofed to en-US
++                Timezone spoofed as UTC
++                Various APIs disabled
++            The umbrella preference defaults to false on Firefox, but there are
++            individual preferences for timing precision and canvas image extraction
++            protections, both of which are enabled by default
++            (privacy.resistFingerprinting.reduceTimerPrecision and
++            privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts, respectively).*/
 +pref("privacy.resistFingerprinting", true);
 +
 +//Setting this preference to false will disable data sharing with Firefox for
 +//Android
 +lockPref("toolkit.telemetry.enabled", false);
 +
-+//Setting this preference to true will disable WebGl in the browser
++/* MagIns - WebGL is a JavaScript API conforming closely to OpenGL, thus allowing the API
++            to use hardware acceleration with a user's GPU. It also creates a fingerprint
++            based on monitor resolution and graphics card capabilities, which can be used
++            to track users. For privacy, we disable WebGL.*/
 +pref("webgl.disabled", true);
 +
-+//Setting this preference to false will disable the data provider used to
-+//power Firefox's geolocation feature
-+pref("geo.wifi.uri", false);
-+
-+//Setting this preference to false will disable sending data to servers when
-+//leaving pages
++/* MagIns - This preference enables the Navigator.sendBeacon() function. This function transmits
++            a small bit of data over HTTP for analytics and diagnostics, usually when the user
++            leaves a page. Firefox sets this to true by default.*/
 +pref("beacon.enabled", false);
 +
-+//Setting this preference to true sends referrer only if base domain matches
-+pref("network.http.referer.XOriginPolicy", true);
++/* MagIns - When users navigate via links, a 'referer' header is added to the HTTP request to
++            indicate which site the user came from. This has many security and privacy concerns.
++            By default, Firefox sets this preference to 0, or "always send." We set it to 1, or
++            "send only if base domains match."*/
++pref("network.http.referer.XOriginPolicy", 1);
 +
-+//Setting this preference to false disables the Sensors API
++/* MagIns - The Sensors API exposes physical sensors, such as motion, ambient light, or device
++            orientation, to the web. These sensors can be used to track behavior, including
++            typing patterns on bank PINs (see here: https://blog.lukaszolejnik.com/additional-security-and-privacy-risks-of-light-sensors/),
++            or discover a user's location. By default, Firefox disables the proximity and ambient
++            light sensors, and enables motion and orientation sensors. We disable all sensors.*/
 +pref("device.sensors.enabled", false);
 +
-+//Setting this preference to false disables the Battery API
++/* MagIns - The Battery Status API can be used to determine charge level and discharge time.
++            This information can be used to create tracking identifiers of users or
++            distinguish devices behind a NAT. Firefox removed access to this API for websites
++            in Firefox 52 because of these privacy concerns, but continues to enable the API
++            for the browser itself.*/
 +pref("dom.battery.enabled", false);
 +
-+//Setting this preference to false disables access to clipboard
-+pref("dom.event.clipboardevents.enable", false);
++/* MagIns - When enabled, this preference allows notifications to be sent when a user copies,
++            pastes, or cuts something from a webpage. Firefox enables this by default.*/
++pref("dom.event.clipboardevents.enabled", false);
 +
-+//Override the BuildID (used in browser/components/BrowserContentHandler.jsm)
-+"browser.startup.homepage_override.buildID" = "privacy.app";
++/* MagIns - By default, Firefox is allowed to install features and tools to your browser through
++            studies. Users are often enrolled automatically, only prompted for participation when
++            the study exceeds the default data collection policy.*/
++pref("app.shield.optoutstudies.enabled", false);
 +
 +//The resolver mode. You should not change the mode manually, instead use the UI in the Network Settings section of about:preferences
 +//0 - Off (default). use standard native resolving only (don't use TRR at all)
@@ -178,76 +235,99 @@ Index: firefox-84.0.2/modules/libpref/init/all.js
 ===================================================================
 --- firefox-84.0.2.orig/modules/libpref/init/all.js
 +++ firefox-84.0.2/modules/libpref/init/all.js
-@@ -786,7 +786,7 @@ pref("toolkit.tabbox.switchByScrolling",
+@@ -785,8 +785,10 @@ pref("toolkit.scrollbox.clickToScroll.sc
+ pref("toolkit.tabbox.switchByScrolling", false);
  
  // Telemetry settings.
- // Server to submit telemetry pings to.
+-// Server to submit telemetry pings to.
 -pref("toolkit.telemetry.server", "https://incoming.telemetry.mozilla.org");
++/* MagIns - This preference determines the server used for telemetry pings.
++            Since we don't do telemetry we don't set a server.
++pref("toolkit.telemetry.server", "https://incoming.telemetry.mozilla.org");*/
 +pref("toolkit.telemetry.server", "");
  // Telemetry server owner. Please change if you set toolkit.telemetry.server to a different server
  pref("toolkit.telemetry.server_owner", "Mozilla");
  // Determines whether full SQL strings are returned when they might contain sensitive info
-@@ -1773,7 +1773,7 @@ pref("network.dns.native-is-localhost",
+@@ -1772,8 +1774,12 @@ pref("network.dns.native-is-localhost",
+ // a revalidation in the background.
  pref("network.dnsCacheExpirationGracePeriod", 60);
  
- // This preference can be used to turn off DNS prefetch.
+-// This preference can be used to turn off DNS prefetch.
 -pref("network.dns.disablePrefetch", false);
++/* MagIns - DNS prefetching allows browser to predict which links users are likely to open.
++            While this can improve performance if the link is accessed, it also creates a
++            privacy leak by automatically connecting users to servers. Firefox enables DNS
++            prefetching by default.
++pref("network.dns.disablePrefetch", false);*/
 +pref("network.dns.disablePrefetch", true);
  
  // This preference controls whether .onion hostnames are
  // rejected before being given to DNS. RFC 7686
-@@ -3822,13 +3822,13 @@ pref("network.psl.onUpdate_notify", fals
+@@ -3820,15 +3826,20 @@ pref("network.psl.onUpdate_notify", fals
+ #endif
+ 
  // All the Geolocation preferences are here.
- //
+-//
++/* MagIns - By default, geolocation requests go through Google's API, and in Developer/Beta
++            versions uses both Google and Mozilla APIs. As part of disabling geolocation in
++            MiFF, we remove the API endpoints from the relevant preferences.*/
  #ifndef EARLY_BETA_OR_EARLIER
 -  pref("geo.provider.network.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
++//  pref("geo.provider.network.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
 +  pref("geo.provider.network.url", "");
  #else
    // Use MLS on Nightly and early Beta.
 -  pref("geo.provider.network.url", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
++//  pref("geo.provider.network.url", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
 +  pref("geo.provider.network.url", "");
    // On Nightly and early Beta, make duplicate location services requests
    // to google so we can compare results.
 -  pref("geo.provider.network.compare.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
++//  pref("geo.provider.network.compare.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
 +  pref("geo.provider.network.compare.url", "");
  #endif
  
  // Timeout to wait before sending the location request.
-@@ -3851,7 +3851,7 @@ pref("geo.provider.network.timeout", 600
+@@ -3851,7 +3862,11 @@ pref("geo.provider.network.timeout", 600
  
  // Region
  pref("browser.region.log", false);
 -pref("browser.region.network.url", "https://location.services.mozilla.com/v1/country?key=%MOZILLA_API_KEY%");
++/* MagIns - Mozilla's Location Service determines device location based on cell towers, WiFi
++            access points, and Bluetooth beacons. As part of disabling geolocation in MiFF,
++            we remove the API endpoint from this preference.
++pref("browser.region.network.url", "https://location.services.mozilla.com/v1/country?key=%MOZILLA_API_KEY%");*/
 +pref("browser.region.network.url", "");
  // Include wifi data in region request.
  pref("browser.region.network.scan", false);
  // Timeout for whole region request.
-@@ -4133,9 +4133,9 @@ pref("browser.safebrowsing.allowOverride
- // These names are approved by the Google Safe Browsing team.
- // Any changes must be coordinated with them.
- #ifdef MOZILLA_OFFICIAL
--  pref("browser.safebrowsing.id", "navclient-auto-ffox");
-+  pref("browser.safebrowsing.id", "");
- #else
--  pref("browser.safebrowsing.id", "Firefox");
-+  pref("browser.safebrowsing.id", "");
- #endif
- 
- // Download protection
-@@ -4448,7 +4448,7 @@ pref("toolkit.aboutProcesses.showThreads
+@@ -4447,8 +4462,12 @@ pref("toolkit.aboutProcesses.showThreads
+ //  * userChrome.css
  pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);
  
++/* MagIns - The datareporting.policy.dataSubmissionEnabled preference is the master switch
++            for sending telemetry data to Mozilla. When false, no telemetry is sent. By
++            default, Firefox sets this to true.*/
  #ifdef MOZ_DATA_REPORTING
 -  pref("datareporting.policy.dataSubmissionEnabled", true);
++//  pref("datareporting.policy.dataSubmissionEnabled", true);
 +  pref("datareporting.policy.dataSubmissionEnabled", false);
    pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
    pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
    pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
-@@ -4463,7 +4463,7 @@ pref("toolkit.legacyUserProfileCustomiza
+@@ -4458,12 +4477,15 @@ pref("toolkit.legacyUserProfileCustomiza
+   pref("datareporting.policy.firstRunURL", "https://www.mozilla.org/privacy/firefox/");
+ #endif
+ 
++/* MagIns - The Firefox Health Report collects information about browser performance. By
++            default, this upload is enabled.*/
+ #ifdef MOZ_SERVICES_HEALTHREPORT
+   #if !defined(ANDROID)
      pref("datareporting.healthreport.infoURL", "https://www.mozilla.org/legal/privacy/firefox.html#health-report");
  
      // Health Report is enabled by default on all channels.
 -    pref("datareporting.healthreport.uploadEnabled", true);
++//    pref("datareporting.healthreport.uploadEnabled", true);
 +    pref("datareporting.healthreport.uploadEnabled", false);
    #endif
  #endif
@@ -256,23 +336,6 @@ Index: firefox-84.0.2/browser/components/preferences/privacy.js
 ===================================================================
 --- firefox-84.0.2.orig/browser/components/preferences/privacy.js
 +++ firefox-84.0.2/browser/components/preferences/privacy.js
-@@ -212,14 +212,14 @@ Preferences.addAll([
- ]);
- 
- // Study opt out
--if (AppConstants.MOZ_DATA_REPORTING) {
-+/*if (AppConstants.MOZ_DATA_REPORTING) {
-   Preferences.addAll([
-     // Preference instances for prefs that we need to monitor while the page is open.
-     { id: PREF_OPT_OUT_STUDIES_ENABLED, type: "bool" },
-     { id: PREF_ADDON_RECOMMENDATIONS_ENABLED, type: "bool" },
-     { id: PREF_UPLOAD_ENABLED, type: "bool" },
-   ]);
--}
-+}*/
- 
- // Data Choices tab
- if (AppConstants.MOZ_CRASHREPORTER) {
 @@ -631,13 +631,13 @@ var gPrivacyPane = {
  
      this.initListenersForExtensionControllingPasswordManager();
@@ -289,16 +352,16 @@ Index: firefox-84.0.2/browser/components/preferences/privacy.js
  
      this._initSafeBrowsing();
  
-@@ -750,7 +750,7 @@ var gPrivacyPane = {
+@@ -750,6 +750,8 @@ var gPrivacyPane = {
        .getElementById("notificationPermissionsLearnMore")
        .setAttribute("href", notificationInfoURL);
  
--    if (AppConstants.MOZ_DATA_REPORTING) {
-+/*    if (AppConstants.MOZ_DATA_REPORTING) {
++/* MagIns - To prevent users from reenabling Telemetry uploads, we comment out the code
++            initiating those sections of the Preferences page.
+     if (AppConstants.MOZ_DATA_REPORTING) {
        this.initDataCollection();
        if (AppConstants.MOZ_CRASHREPORTER) {
-         this.initSubmitCrashes();
-@@ -770,7 +770,7 @@ var gPrivacyPane = {
+@@ -770,7 +772,7 @@ var gPrivacyPane = {
          this.initOptOutStudyCheckbox();
        }
        this.initAddonRecommendationsCheckbox();
@@ -307,40 +370,19 @@ Index: firefox-84.0.2/browser/components/preferences/privacy.js
  
      let signonBundle = document.getElementById("signonBundle");
      let pkiBundle = document.getElementById("pkiBundle");
-@@ -2391,12 +2391,12 @@ var gPrivacyPane = {
-     window.open(url, "_blank");
-   },
- 
--  initDataCollection() {
-+/*  initDataCollection() {
-     this._setupLearnMoreLink(
-       "toolkit.datacollection.infoURL",
-       "dataCollectionPrivacyNotice"
-     );
--  },
-+  },*/
- 
-   initSubmitCrashes() {
-     this._setupLearnMoreLink(
-@@ -2438,7 +2438,7 @@ var gPrivacyPane = {
-       Services.prefs.prefIsLocked(PREF_UPLOAD_ENABLED) ||
-       !AppConstants.MOZ_TELEMETRY_REPORTING
-     ) {
--      checkbox.setAttribute("disabled", "true");
-+//      checkbox.setAttribute("disabled", "true");
-       return;
-     }
- 
 Index: firefox-84.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
 ===================================================================
 --- firefox-84.0.2.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm
 +++ firefox-84.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
-@@ -53,7 +53,7 @@ class ClientEnvironment extends ClientEn
+@@ -53,7 +53,10 @@ class ClientEnvironment extends ClientEn
     */
    static async getClientClassification() {
      if (!_classifyRequest) {
 -      _classifyRequest = NormandyApi.classifyClient();
-+//      _classifyRequest = NormandyApi.classifyClient();
++/* MagIns - classifyClient() sends a ping to Mozilla, returning with the user's country
++            and the timestamp of the request. There is no option to disable this through
++            preferences.
++      _classifyRequest = NormandyApi.classifyClient();*/
      }
      return _classifyRequest;
    }
@@ -348,11 +390,16 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
 --- firefox-84.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
 +++ firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
-@@ -591,7 +591,7 @@ FxAccountsClient.prototype = {
+@@ -591,7 +591,12 @@ FxAccountsClient.prototype = {
     */
    async registerDevice(sessionTokenHex, name, type, options = {}) {
      let path = "/account/device";
 -
++/* MagIns - By default, Firefox reads the name of your device and sends it to their server
++            when a device signs on to Sync for the first time. By setting the name to an
++            empty string here, users can still name devices if they so choose but we do not
++            collect this information by default. This feature will allow us to do alerts for
++            Sync changes in the future.*/
 +    name = "";
      let creds = await deriveHawkCredentials(sessionTokenHex, "sessionToken");
      let body = { name, type };
@@ -361,34 +408,16 @@ Index: firefox-84.0.2/browser/components/preferences/privacy.inc.xhtml
 ===================================================================
 --- firefox-84.0.2.orig/browser/components/preferences/privacy.inc.xhtml
 +++ firefox-84.0.2/browser/components/preferences/privacy.inc.xhtml
-@@ -466,7 +466,7 @@
-         </hbox>
-       </vbox>
-     </hbox>
--    <hbox>
-+<!--    <hbox>
-       <vbox flex="1">
-         <hbox class="indent" id="breachAlertsBox" flex="1" align="center">
-           <checkbox id="breachAlerts"
-@@ -478,7 +478,7 @@
-                  data-l10n-id="forms-breach-alerts-learn-more-link"/>
-         </hbox>
-       </vbox>
--    </hbox>
-+    </hbox>-->
-   </vbox>
-   <vbox>
-     <hbox id="masterPasswordRow" align="center">
-@@ -831,7 +831,7 @@
+@@ -831,6 +831,8 @@
  
  <!-- Firefox Data Collection and Use -->
  #ifdef MOZ_DATA_REPORTING
--<hbox id="dataCollectionCategory"
-+<!--<hbox id="dataCollectionCategory"
++<!-- MagIns - We have all data reporting disabled through preferences, so we remove the HTML elements from
++              preferences so that typical users easily enable data reporting accidentally.
+ <hbox id="dataCollectionCategory"
        class="subcategory"
        hidden="true"
-       data-category="panePrivacy">
-@@ -912,7 +912,7 @@
+@@ -912,7 +914,7 @@
      </hbox>
  #endif
    </vbox>

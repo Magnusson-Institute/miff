@@ -234,15 +234,6 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
 --- firefox-84.0.2.orig/browser/app/profile/firefox.js
 +++ firefox-84.0.2/browser/app/profile/firefox.js
-@@ -42,7 +42,7 @@ pref("extensions.getAddons.get.url", "ht
- pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/search?q=%TERMS%&platform=%OS%&appver=%VERSION%");
- pref("extensions.getAddons.link.url", "https://addons.mozilla.org/%LOCALE%/firefox/");
- pref("extensions.getAddons.langpacks.url", "https://services.addons.mozilla.org/api/v3/addons/language-tools/?app=firefox&type=language&appversion=%VERSION%");
--pref("extensions.getAddons.discovery.api_url", "https://services.addons.mozilla.org/api/v4/discovery/?lang=%LOCALE%&edition=%DISTRIBUTION%");
-+pref("extensions.getAddons.discovery.api_url", "");
- 
- // Use bloomfilters for the addons blocklist, instead of JSON only.
- pref("extensions.blocklist.useMLBF", true);
 @@ -253,16 +253,12 @@ pref("browser.defaultbrowser.notificatio
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore

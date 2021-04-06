@@ -33,24 +33,6 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsKeys.jsm
  
      if (logPII) {
        log.debug("kBbytes: " + kBbytes);
-@@ -391,7 +388,7 @@ class FxAccountsKeys {
-    * the derived value in order to support key rotation.
-    */
-   async _fetchScopedKeysMetadata(sessionToken) {
--/*    // Hard-coded list of scopes that we know about.
-+    // Hard-coded list of scopes that we know about.
-     // This list will probably grow in future.
-     // Note that LEGACY_SCOPE_WEBEXT_SYNC is not in this list, it gets special-case handling below.
-     const scopes = [SCOPE_OLD_SYNC, SCOPE_ECOSYSTEM_TELEMETRY].join(" ");
-@@ -420,7 +417,7 @@ class FxAccountsKeys {
-       ...scopedKeysMetadata[SCOPE_OLD_SYNC],
-       identifier: LEGACY_SCOPE_WEBEXT_SYNC,
-     };
--    return scopedKeysMetadata;*/
-+    return scopedKeysMetadata;
-   }
- 
-   /**
 Index: firefox-84.0.2/services/common/tokenserverclient.js
 ===================================================================
 --- firefox-84.0.2.orig/services/common/tokenserverclient.js

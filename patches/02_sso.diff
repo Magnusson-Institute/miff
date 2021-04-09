@@ -517,14 +517,15 @@ Index: firefox-84.0.2/dom/push/PushService.jsm
        this._db = this._service.newPushDB();
      }
  
-+// MagIns - Before registering a device during the login process, the browser does a WebSocket handshake
++/* MagIns - Before registering a device during the login process, the browser does a WebSocket handshake
 +            to push.services.mozilla.com. The end result of this handshake is initiating a Push endpoint,
 +            which is included in the device registration payload. We do not currently support Push, so
 +            we disable the WebSocket handshake.
      return this._service.init(options, this, serverURI).then(() => {
        this._startObservers();
        return this._dropExpiredRegistrations();
-     });
+-    });
++    });*/
 +    return this._dropExpiredRegistrations();
    },
  

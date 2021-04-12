@@ -93,7 +93,7 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
  pref("browser.ping-centre.log", false);
  
  // Enable GMP support in the addon manager.
-@@ -2498,5 +2517,135 @@ pref("first-startup.timeout", 30000);
+@@ -2498,5 +2517,141 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -123,10 +123,16 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
 +
 +/* MagIns - When true, Enhanced Tracking Protection will block tracking content in
 +            all windows. When false, these protections only apply to private windows.
-+            There is some overap between this preference and
-+            browser.contentblocking.category: Standard applies to private windows,
-+            Strict applies to all.*/
++            Due to the "Custom" option for ETP, there is some overlap between this
++            preference and browser.contentblocking.category: Standard applies to
++            private windows, Strict applies to all.*/
 +pref("privacy.trackingprotection.enabled", true);
++
++/* MagIns - When true, Enhanced Tracking Protection will block social media trackers.
++            Due to the "Custom" option for ETP, there is some overlap between this
++            preference and browser.contentblocking.category: Standard and Strict both
++            block social media trackers, but Custom has an option to allow them.*/
++pref("privacy.trackingprotection.socialtracking.enabled", true);
 +
 +/* MagIns - The EFF's Do Not Track policy outlines how websites can maintain user
 +            privacy, by removing tracking data from users that include a Do Not track

@@ -26,6 +26,11 @@ We work in either Moz Shell for all the build tools from Mozilla (see
 below), and Cygwin64 for all of our own tooling (git, quilt, various
 shellscripts, etc).
 
+Install the following packages in Cygwin:
+git
+quilt
+p7zip
+
 # Check out mercurial
 
 Work environment is in "/mozilla-source" (MozDev "/c/mozilla-source"

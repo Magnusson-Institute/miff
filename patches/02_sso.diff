@@ -62,15 +62,15 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
  // Fetch Sync tokens using the OAuth token function
 -pref("identity.sync.useOAuthForSyncToken", true);
 +/* MagIns - When true, the browser uses OAuth to authenticate the request to the Token server.
-+            Otherwise, authorization is done via Browser ID. This feature is technically
++            Otherwise, authorization is done via BrowserID. This feature is technically
 +            deprecated by Mozilla, but is still supported in Sync code. While we don't use either
-+            for our SSO, we spoof Browser ID instead because it is simpler.
++            for our SSO, we spoof BrowserID instead because it is simpler.
 +pref("identity.sync.useOAuthForSyncToken", true);*/
 +pref("identity.sync.useOAuthForSyncToken", false);
  
  // Using session tokens to fetch OAuth tokens
 -pref("identity.fxaccounts.useSessionTokensForOAuth", true);
-+/* MagIns - This preference controls whether the OAuth
++/* MagIns - This preference controls whether the OAuth request uses session tokens or BrowserID
 +pref("identity.fxaccounts.useSessionTokensForOAuth", true);*/
 +pref("identity.fxaccounts.useSessionTokensForOAuth", false);
  
@@ -146,7 +146,7 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsCommon.js
 +//  "profile",
    "device",
    "profileCache",
-+  "memberId" //MagIns - This serves the same purpose as uid
++  "memberId" //MagIns
  ]);
  
  // Fields we store in secure storage if it exists.
@@ -285,7 +285,7 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
 ===================================================================
 --- firefox-84.0.2.orig/services/fxaccounts/FxAccountsProfileClient.jsm
 +++ firefox-84.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
-@@ -162,12 +162,20 @@ FxAccountsProfileClient.prototype = {
+@@ -162,12 +162,21 @@ FxAccountsProfileClient.prototype = {
     */
    async _rawRequest(path, method, token, etag = null, payload = null) {
      let profileDataUrl = this.serverURL + path;
@@ -305,11 +305,12 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
 +    request.setRequestHeader("Accept", "application/json");
      if (etag) {
 -      request.setHeader("If-None-Match", etag);
++//      request.setHeader("If-None-Match", etag);
 +      request.setRequestHeader("If-None-Match", etag);
      }
  
      if (method != "GET" && method != "POST") {
-@@ -180,7 +188,9 @@ FxAccountsProfileClient.prototype = {
+@@ -180,7 +189,9 @@ FxAccountsProfileClient.prototype = {
        });
      }
      try {
@@ -320,7 +321,7 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
      } catch (error) {
        throw new FxAccountsProfileClientError({
          error: ERROR_NETWORK,
-@@ -191,10 +201,14 @@ FxAccountsProfileClient.prototype = {
+@@ -191,10 +202,14 @@ FxAccountsProfileClient.prototype = {
  
      let body = null;
      try {
@@ -337,7 +338,7 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
      } catch (e) {
        throw new FxAccountsProfileClientError({
          error: ERROR_PARSE,
-@@ -205,7 +219,9 @@ FxAccountsProfileClient.prototype = {
+@@ -205,7 +220,9 @@ FxAccountsProfileClient.prototype = {
      }
  
      // "response.success" means status code is 200
@@ -348,7 +349,7 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
        throw new FxAccountsProfileClientError({
          error: body.error || ERROR_UNKNOWN,
          errno: body.errno || ERRNO_UNKNOWN_ERROR,
-@@ -215,7 +231,10 @@ FxAccountsProfileClient.prototype = {
+@@ -215,7 +232,10 @@ FxAccountsProfileClient.prototype = {
      }
      return {
        body,
@@ -364,36 +365,30 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
 ===================================================================
 --- firefox-84.0.2.orig/services/fxaccounts/FxAccountsWebChannel.jsm
 +++ firefox-84.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
-@@ -252,7 +252,9 @@ FxAccountsWebChannel.prototype = {
+@@ -252,7 +252,7 @@ FxAccountsWebChannel.prototype = {
        case COMMAND_LOGOUT:
        case COMMAND_DELETE:
          this._helpers
 -          .logout(data.uid)
-+/* MagIns - Changing from uid to memberId
-+          .logout(data.uid)*/
 +          .logout(data.memberId)
            .catch(error => this._sendError(error, message, sendingContext));
          break;
        case COMMAND_CAN_LINK_ACCOUNT:
-@@ -489,10 +491,14 @@ FxAccountsWebChannelHelpers.prototype =
+@@ -489,10 +489,10 @@ FxAccountsWebChannelHelpers.prototype =
     *
     * @param the uid of the account which have been logged out
     */
 -  async logout(uid) {
-+/* MagIns - Changing from uid to memberId
-+  async logout(uid)*/
 +  async logout(memberId) {
      let fxa = this._fxAccounts;
 -    let userData = await fxa._internal.getUserAccountData(["uid"]);
 -    if (userData && userData.uid === uid) {
-+/*    let userData = await fxa._internal.getUserAccountData(["uid"]);
-+    if (userData && userData.uid === uid) {*/
 +    let userData = await fxa._internal.getUserAccountData(["memberId"]);
 +    if (userData && userData.memberId === memberId) {
        await fxa.telemetry.recordDisconnection(null, "webchannel");
        // true argument is `localOnly`, because server-side stuff
        // has already been taken care of by the content server
-@@ -663,9 +669,11 @@ FxAccountsWebChannelHelpers.prototype =
+@@ -663,9 +663,11 @@ FxAccountsWebChannelHelpers.prototype =
     */
    openSyncPreferences(browser, entryPoint) {
      let uri = "about:preferences";
@@ -410,37 +405,31 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
 --- firefox-84.0.2.orig/services/fxaccounts/FxAccountsStorage.jsm
 +++ firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
-@@ -162,7 +162,9 @@ FxAccountsStorageManager.prototype = {
+@@ -162,7 +162,7 @@ FxAccountsStorageManager.prototype = {
      // We know we are initialized - this means our .cachedPlain is accurate
      // and doesn't need to be read (it was read if necessary by initialize).
      // So if there's no uid, there's no user signed in.
 -    if (!("uid" in this.cachedPlain)) {
-+/* MagIns - Changing from uid to memberId
-+    if (!("uid" in this.cachedPlain)) {*/
 +    if (!("memberId" in this.cachedPlain)) {
        return null;
      }
      let result = {};
-@@ -217,12 +219,16 @@ FxAccountsStorageManager.prototype = {
+@@ -217,12 +217,12 @@ FxAccountsStorageManager.prototype = {
    // a different user, nor to set the user as signed-out.
    async updateAccountData(newFields) {
      await this._promiseInitialized;
 -    if (!("uid" in this.cachedPlain)) {
-+/* MagIns - Changing from uid to memberId
-+    if (!("memberId" in this.cachedPlain)) {*/
 +    if (!("memberId" in this.cachedPlain)) {
        // If this storage instance shows no logged in user, then you can't
        // update fields.
        throw new Error("No user is logged in");
      }
 -    if (!newFields || "uid" in newFields) {
-+/* MagIns - Changing from uid to memberId
-+    if (!newFields || "uid" in newFields) {*/
 +    if (!newFields || "memberId" in newFields) {
        throw new Error("Can't change uid");
      }
      log.debug("_updateAccountData with items", Object.keys(newFields));
-@@ -587,7 +593,9 @@ LoginManagerStorage.prototype = {
+@@ -587,7 +587,9 @@ LoginManagerStorage.prototype = {
        if (existingLogins.length) {
          Services.logins.modifyLogin(existingLogins[0], login);
        } else {
@@ -451,28 +440,6 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
        }
        log.trace("finished write of user data to the login manager");
      } catch (ex) {
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsKeys.jsm
-===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsKeys.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsKeys.jsm
-@@ -391,6 +391,8 @@ class FxAccountsKeys {
-    * the derived value in order to support key rotation.
-    */
-   async _fetchScopedKeysMetadata(sessionToken) {
-+/* MagIns - Scoped keys are used by Mozilla to allow trusted OAuth reliers to interact with Sync. We
-+            spoof these scopes, and thus don't want the browser to read non-existent metadata.
-     // Hard-coded list of scopes that we know about.
-     // This list will probably grow in future.
-     // Note that LEGACY_SCOPE_WEBEXT_SYNC is not in this list, it gets special-case handling below.
-@@ -420,7 +422,7 @@ class FxAccountsKeys {
-       ...scopedKeysMetadata[SCOPE_OLD_SYNC],
-       identifier: LEGACY_SCOPE_WEBEXT_SYNC,
-     };
--    return scopedKeysMetadata;
-+    return scopedKeysMetadata;*/
-   }
- 
-   /**
 Index: firefox-84.0.2/services/sync/modules/UIState.jsm
 ===================================================================
 --- firefox-84.0.2.orig/services/sync/modules/UIState.jsm

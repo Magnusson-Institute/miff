@@ -70,7 +70,7 @@ Index: firefox-84.0.2/services/common/tokenserverclient.js
 +      req.setRequestHeader(header, addHeaders[header]);
      }
 -    let response;
-+
++// let response;
      try {
 -      response = await req.get();
 +/* MagIns - The XHR is sent differently from a REST request
@@ -131,19 +131,6 @@ Index: firefox-84.0.2/services/common/tokenserverclient.js
      if (!headerVal) {
        return;
      }
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
-===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsStorage.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
-@@ -385,6 +385,8 @@ FxAccountsStorageManager.prototype = {
-   async __write() {
-     // Write everything back - later we could track what's actually dirty,
-     // but for now we write it all.
-+/* MagIns - The Firefox code expects a username saved to local storage before sync begins*/
-+    Services.prefs.setStringPref("services.sync.username", "Magnusson Institute Member");
-     log.debug("writing plain storage", Object.keys(this.cachedPlain));
-     let toWritePlain = {
-       version: DATA_FORMAT_VERSION,
 Index: firefox-84.0.2/services/sync/modules/resource.js
 ===================================================================
 --- firefox-84.0.2.orig/services/sync/modules/resource.js
@@ -220,7 +207,7 @@ Index: firefox-84.0.2/services/sync/modules/resource.js
      const headers = await this._buildHeaders(method);
      const init = {
        cache: "no-store", // No cache.
-@@ -157,7 +181,8 @@ Resource.prototype = {
+@@ -157,8 +181,10 @@ Resource.prototype = {
        signal,
        mozErrors: true, // Return nsresult error codes instead of a generic
        // NetworkError when fetch rejects.
@@ -228,55 +215,78 @@ Index: firefox-84.0.2/services/sync/modules/resource.js
 +    };*/
 +    const syncRequest = await this._buildHeaders(method);
  
++/* MagIns - In order to JSONify the body and add a timeout function, move this section to _doRequest
      if (data) {
        if (!(typeof data == "string" || data instanceof String)) {
-@@ -165,9 +190,13 @@ Resource.prototype = {
-       }
+         data = JSON.stringify(data);
+@@ -166,8 +192,10 @@ Resource.prototype = {
        this._log.debug(`${method} Length: ${data.length}`);
        this._log.trace(`${method} Body: ${data}`);
--      init.body = data;
+       init.body = data;
 -    }
 -    return new Request(this.uri.spec, init);
-+/* MagIns - Without init, we need to assign data to a separate variable
-+      init.body = data;*/
-+      var body = data;
-+    }
++    }*/
 +/* MagIns - Change the return statement
 +    return new Request(this.uri.spec, init);*/
 +    return syncRequest;
    },
  
    /**
-@@ -178,15 +207,20 @@ Resource.prototype = {
+@@ -178,18 +206,38 @@ Resource.prototype = {
    async _doRequest(method, data = null) {
      const controller = new AbortController();
      const request = await this._createRequest(method, data, controller.signal);
-+/* MagIns - XHR handles timeout functions differently
-     const responsePromise = fetch(request); // Rejects on network failure.
+-    const responsePromise = fetch(request); // Rejects on network failure.
++// MagIns - Moving the data manipulation here from _createRequest
++    if (data) {
++      if (!(typeof data == "string" || data instanceof String)) {
++        data = JSON.stringify(data);
++      }
++      this._log.debug(`${method} Length: ${data.length}`);
++      this._log.trace(`${method} Body: ${data}`);
++/* MagIns - init is not defined in _doRequest and we don't use it anyway
++      init.body = data;*/
++    }
++/* MagIns - Send the request as XHR instead
++    const responsePromise = fetch(request); // Rejects on network failure.*/
      let didTimeout = false;
 -    const timeoutId = setTimeout(() => {
++/* MagIns - XHR uses different syntax for timeouts, but adding it breaks Sync
 +    const timeoutId = setTimeout(() => {*/
 +    request.timeout = this.ABORT_TIMEOUT;
-+    request.ontimeout = () => {
++    request.ontimeout = function() {
        didTimeout = true;
        this._log.error(
          `Request timed out after ${this.ABORT_TIMEOUT}ms. Aborting.`
        );
++/* MagIns - Since the controller isn't used with XHR, throw an exception instead
        controller.abort();
 -    }, this.ABORT_TIMEOUT);
++    }, this.ABORT_TIMEOUT);*/
++      throw 'XHR Timeout';
 +    };
-+/*    }, this.ABORT_TIMEOUT);
-+
++/* MagIns - The XHR is sent differently from a REST request
      let response;
      try {
-       response = await responsePromise;
-@@ -202,22 +236,36 @@ Resource.prototype = {
+-      response = await responsePromise;
++      response = await responsePromise;*/
++    try {
++       request.send(data);
+     } catch (e) {
+       this._log.warn(`${method} request to ${this.uri.spec} failed`, e);
+       if (!didTimeout) {
+@@ -199,25 +247,43 @@ Resource.prototype = {
+         "Request aborted (timeout)",
+         Cr.NS_ERROR_NET_TIMEOUT
+       );
++/* MagIns - timoutId is not used with XHR
      } finally {
-       clearTimeout(timeoutId);
+-      clearTimeout(timeoutId);
++      clearTimeout(timeoutId);*/
      }
 -    return this._processResponse(response, method);
++/* Change the return value
 +    return this._processResponse(response, method);*/
-+    request.send(body);
 +    return this._processResponse(request, method);
    },
  
@@ -296,10 +306,13 @@ Index: firefox-84.0.2/services/sync/modules/resource.js
      const ret = {
        data,
 -      url: response.url,
++/* MagIns - The XHR url is saved under a different name
++      url: response.url,*/
 +      url: response.responseUrl,
        status: response.status,
 -      success: response.ok,
-+//      success: response.ok,
++/* MagIns - Use the ok variable from above
++      success: response.ok,*/
 +      success: ok,
        headers: {},
      };
@@ -312,11 +325,13 @@ Index: firefox-84.0.2/services/sync/modules/resource.js
        ret.headers[k] = v;
      }
  
-@@ -261,22 +309,29 @@ Resource.prototype = {
+@@ -261,22 +327,31 @@ Resource.prototype = {
      }
    },
  
 -  _processResponseHeaders({ headers, ok: success }) {
++/* MagIns - The function call is unchanged, but the variable being sent is
++  _processResponseHeaders({ headers, ok: success }) {*/
 +  _processResponseHeaders(headers) {
 +/* MagIns - Read the headers differently to work with XHR
      if (headers.has("x-weave-timestamp")) {

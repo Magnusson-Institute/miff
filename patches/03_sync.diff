@@ -251,7 +251,7 @@ Index: firefox-84.0.2/services/sync/modules/resource.js
 +    const responsePromise = fetch(request); // Rejects on network failure.*/
      let didTimeout = false;
 -    const timeoutId = setTimeout(() => {
-+/* MagIns - XHR uses different syntax for timeouts, but adding it breaks Sync
++/* MagIns - XHR uses different syntax for timeouts
 +    const timeoutId = setTimeout(() => {*/
 +    request.timeout = this.ABORT_TIMEOUT;
 +    request.ontimeout = function() {

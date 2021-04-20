@@ -2,7 +2,7 @@ Index: firefox-84.0.2/browser/base/content/browser.xhtml
 ===================================================================
 --- firefox-84.0.2.orig/browser/base/content/browser.xhtml
 +++ firefox-84.0.2/browser/base/content/browser.xhtml
-@@ -1465,10 +1465,10 @@
+@@ -1471,10 +1471,10 @@
                         label="&bookmarksSubview.label;"
                         closemenu="none"
                         oncommand="BookmarkingUI.showSubView(this);"/>
@@ -31,18 +31,18 @@ Index: firefox-84.0.2/browser/base/content/browser-context.inc
        <menuitem id="context-copyemail"
                  data-l10n-id="main-context-menu-copy-email"
                  oncommand="gContextMenu.copyEmail();"/>
-@@ -216,9 +216,9 @@
+@@ -216,9 +216,10 @@
        <menuitem id="context-savepage"
                  data-l10n-id="main-context-menu-page-save"
                  oncommand="gContextMenu.savePageAs();"/>
--      <menuitem id="context-pocket"
-+<!--      <menuitem id="context-pocket"
++<!-- MagIns - Remove "Save Page to Pocket" option from context menu
+       <menuitem id="context-pocket"
                  data-l10n-id="main-context-menu-save-to-pocket"
 -                oncommand="Pocket.savePage(gContextMenu.browser, gContextMenu.browser.currentURI.spec, gContextMenu.browser.contentTitle);"/>
 +                oncommand="Pocket.savePage(gContextMenu.browser, gContextMenu.browser.currentURI.spec, gContextMenu.browser.contentTitle);"/>-->
- <!--      <menuseparator id="context-sep-sendpagetodevice" class="sync-ui-item"
-                      hidden="true"/>-->
- <!--      <menu id="context-sendpagetodevice"
+ <!-- MagIns - Remove "Send Page to Device" option from context menu
+       <menuseparator id="context-sep-sendpagetodevice" class="sync-ui-item"
+                      hidden="true"/>
 Index: firefox-84.0.2/browser/components/BrowserGlue.jsm
 ===================================================================
 --- firefox-84.0.2.orig/browser/components/BrowserGlue.jsm
@@ -104,32 +104,31 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
 --- firefox-84.0.2.orig/browser/app/profile/firefox.js
 +++ firefox-84.0.2/browser/app/profile/firefox.js
-@@ -1233,8 +1233,8 @@ pref("services.sync.prefs.sync.browser.n
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSearch", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites", true);
--pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.topsites", true);
--pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.topSitesRows", true);
-+pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.topsites", false);
-+pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.topSitesRows", false);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.snippets", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.section.topstories", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.topstories.rows", true);
-@@ -1416,7 +1416,7 @@ pref("browser.newtabpage.activity-stream
+@@ -1430,7 +1430,9 @@ pref("browser.newtabpage.activity-stream
  pref("browser.newtabpage.activity-stream.discoverystream.spocs.personalized", true);
  
  // User pref to show stories on newtab (feeds.system.topstories has to be set to true as well)
 -pref("browser.newtabpage.activity-stream.feeds.section.topstories", true);
++/* MagIns - Show sponsored news stories on the Home page
++pref("browser.newtabpage.activity-stream.feeds.section.topstories", true);*/
 +pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
  
  // The pref controls if search hand-off is enabled for Activity Stream.
  #ifdef NIGHTLY_BUILD
-@@ -2584,3 +2584,6 @@ pref("dom.event.clipboardevents.enable",
+@@ -2678,4 +2680,12 @@ pref("app.shield.optoutstudies.enabled",
+ //3 - Only. Only use TRR. Never use the native (This mode also requires the bootstrapAddress pref to be set)
  //4 - Reserved (used to be Shadow mode)
  //5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
- pref("network.trr.mode", 5);
+-pref("network.trr.mode", 5);
+\ No newline at end of file
++pref("network.trr.mode", 5);
 +
++/* MagIns - On the Home Page, Mozilla by default allows sponsored articles to appear in the
++            "Recommended by Pocket" section. This preference disables sponsored stories.*/
 +pref("browser.newtabpage.activity-stream.showSponsored", false);
++
++/* MagIns - On the Home Page, Mozilla by default allows sponsored sites to appear in the "Top
++            Sites" section. This preference disables sponsored sites.*/
 +pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 \ No newline at end of file
 Index: firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-options.js

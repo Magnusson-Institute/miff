@@ -121,7 +121,7 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsCommon.js
  // This scope and its associated key material are used by the old Kinto webextension
  // storage backend. We plan to remove that at some point (ref Bug 1637465) and when
  // we do, all uses of this legacy scope can be removed.
-@@ -287,18 +293,23 @@ exports.LEGACY_DERIVED_KEYS_NAMES = ["kS
+@@ -287,16 +293,20 @@ exports.LEGACY_DERIVED_KEYS_NAMES = ["kS
  
  // The fields we save in the plaintext JSON.
  // See bug 1013064 comments 23-25 for why the sessionToken is "safe"
@@ -136,9 +136,8 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsCommon.js
 -  "authAt",
 +//  "authAt",
    "sessionToken",
--  "uid",
+   "uid",
 -  "ecosystemAnonId",
-+//  "uid",
 +//  "ecosystemAnonId",
    "ecosystemUserId",
    "oauthTokens",
@@ -146,10 +145,7 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsCommon.js
 +//  "profile",
    "device",
    "profileCache",
-+  "memberId" //MagIns
  ]);
- 
- // Fields we store in secure storage if it exists.
 Index: firefox-84.0.2/services/fxaccounts/FxAccounts.jsm
 ===================================================================
 --- firefox-84.0.2.orig/services/fxaccounts/FxAccounts.jsm
@@ -161,7 +157,7 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccounts.jsm
 -    const ACCT_DATA_FIELDS = ["email", "uid", "verified", "sessionToken"];
 +/* MagIns - We remove email and replace uid with memberId when reading saved account data.
 +    const ACCT_DATA_FIELDS = ["email", "uid", "verified", "sessionToken"];*/
-+    const ACCT_DATA_FIELDS = ["memberId", "verified", "sessionToken"];
++    const ACCT_DATA_FIELDS = ["uid", "verified", "sessionToken"];
      const PROFILE_FIELDS = ["displayName", "avatar", "avatarDefault"];
      return this._withCurrentAccountState(async currentState => {
        const data = await currentState.getUserAccountData(ACCT_DATA_FIELDS);
@@ -365,29 +361,6 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
 ===================================================================
 --- firefox-84.0.2.orig/services/fxaccounts/FxAccountsWebChannel.jsm
 +++ firefox-84.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
-@@ -252,7 +252,7 @@ FxAccountsWebChannel.prototype = {
-       case COMMAND_LOGOUT:
-       case COMMAND_DELETE:
-         this._helpers
--          .logout(data.uid)
-+          .logout(data.memberId)
-           .catch(error => this._sendError(error, message, sendingContext));
-         break;
-       case COMMAND_CAN_LINK_ACCOUNT:
-@@ -489,10 +489,10 @@ FxAccountsWebChannelHelpers.prototype =
-    *
-    * @param the uid of the account which have been logged out
-    */
--  async logout(uid) {
-+  async logout(memberId) {
-     let fxa = this._fxAccounts;
--    let userData = await fxa._internal.getUserAccountData(["uid"]);
--    if (userData && userData.uid === uid) {
-+    let userData = await fxa._internal.getUserAccountData(["memberId"]);
-+    if (userData && userData.memberId === memberId) {
-       await fxa.telemetry.recordDisconnection(null, "webchannel");
-       // true argument is `localOnly`, because server-side stuff
-       // has already been taken care of by the content server
 @@ -663,9 +663,11 @@ FxAccountsWebChannelHelpers.prototype =
     */
    openSyncPreferences(browser, entryPoint) {
@@ -405,31 +378,16 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
 --- firefox-84.0.2.orig/services/fxaccounts/FxAccountsStorage.jsm
 +++ firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
-@@ -162,7 +162,7 @@ FxAccountsStorageManager.prototype = {
-     // We know we are initialized - this means our .cachedPlain is accurate
-     // and doesn't need to be read (it was read if necessary by initialize).
-     // So if there's no uid, there's no user signed in.
--    if (!("uid" in this.cachedPlain)) {
-+    if (!("memberId" in this.cachedPlain)) {
-       return null;
-     }
-     let result = {};
-@@ -217,12 +217,12 @@ FxAccountsStorageManager.prototype = {
-   // a different user, nor to set the user as signed-out.
-   async updateAccountData(newFields) {
-     await this._promiseInitialized;
--    if (!("uid" in this.cachedPlain)) {
-+    if (!("memberId" in this.cachedPlain)) {
-       // If this storage instance shows no logged in user, then you can't
-       // update fields.
-       throw new Error("No user is logged in");
-     }
--    if (!newFields || "uid" in newFields) {
-+    if (!newFields || "memberId" in newFields) {
-       throw new Error("Can't change uid");
-     }
-     log.debug("_updateAccountData with items", Object.keys(newFields));
-@@ -587,7 +587,9 @@ LoginManagerStorage.prototype = {
+@@ -385,6 +385,8 @@ FxAccountsStorageManager.prototype = {
+   async __write() {
+     // Write everything back - later we could track what's actually dirty,
+     // but for now we write it all.
++/* MagIns - The Firefox code expects a username saved to local storage before sync begins*/
++    Services.prefs.setStringPref("services.sync.username", "Magnusson Institute Member");
+     log.debug("writing plain storage", Object.keys(this.cachedPlain));
+     let toWritePlain = {
+       version: DATA_FORMAT_VERSION,
+@@ -587,7 +589,9 @@ LoginManagerStorage.prototype = {
        if (existingLogins.length) {
          Services.logins.modifyLogin(existingLogins[0], login);
        } else {

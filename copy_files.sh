@@ -32,7 +32,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     cp $ROOTDIR/copy_files/avatar-color.svg ./browser/themes/shared/fxa/avatar-color.svg
     cp $ROOTDIR/copy_files/icon-logo-settings-preview.png ./browser/fxr/content/assets/icon-logo-settings-preview.png
     cp $ROOTDIR/copy_files/setup.ico ./other-licenses/7zstub/firefox/setup.ico
-    cp $ROOTDIR/copy_files/about-logo.svg ./devtools/client/themes/images/aboutdebugging-firefox-nightly.svg
+    cp $ROOTDIR/copy_files/aboutdebugging-firefox-logo.svg ./devtools/client/themes/images/aboutdebugging-firefox-logo.svg
 
     set +x
 else

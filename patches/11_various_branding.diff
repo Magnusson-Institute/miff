@@ -70,3 +70,16 @@ Index: firefox-84.0.2/browser/locales/en-US/browser/aboutDialog.ftl
  
  bottomLinks-license = Licensing Information
  bottomLinks-rights = End-User Rights
+Index: firefox-84.0.2/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
+===================================================================
+--- firefox-84.0.2.orig/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
++++ firefox-84.0.2/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
+@@ -464,7 +464,7 @@ addon-badge-recommended2 =
+   .title = { -brand-product-name } only recommends extensions that meet our standards for security and performance
+   .aria-label = { addon-badge-recommended2.title }
+ addon-badge-line2 =
+-  .title = This is an official extension built by the creators of { -brand-product-name }
++  .title = This extension is built by the creators of Firefox
+   .aria-label = { addon-badge-line2.title }
+ addon-badge-verified2 =
+   .title = This extension has been reviewed to meet our standards for security and performance

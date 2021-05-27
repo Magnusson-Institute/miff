@@ -20,18 +20,37 @@ frameworks” group:
   you’ll be building for ARM64)
 
 
-# Set up Cygwin
+## Set up Cygwin
 
 We work in either Moz Shell for all the build tools from Mozilla (see
 below), and Cygwin64 for all of our own tooling (git, quilt, various
 shellscripts, etc).
 
 Install the following packages in Cygwin:
+
 git
+
 quilt
+
 p7zip
 
-# Check out mercurial
+# Ubuntu build setup
+
+First, install Python: ```sudo apt install python3 python3-dev```
+
+The Firefox documentation recommends downloading Mercurial through pip, but apt works as well. Run either command:
+
+```
+python3 -m pip install --user mercurial
+sudo apt install mercurial
+```
+
+You will also need to install yasm and libgtk2.0-dev through ```apt```.
+
+The rest of the process is similar to a Windows setup, but all commands can be done from the Ubuntu terminal.
+
+
+# Check out Mercurial
 
 Work environment is in "/mozilla-source" (MozDev "/c/mozilla-source"
 and Cygwin "/cygdrive/c/mozilla-source"

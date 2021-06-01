@@ -508,3 +508,19 @@ Index: firefox-84.0.2/dom/push/PushService.jsm
    },
  
    /**
+Index: firefox-84.0.2/services/fxaccounts/FxAccountsConfig.jsm
+===================================================================
+--- firefox-84.0.2.orig/services/fxaccounts/FxAccountsConfig.jsm
++++ firefox-84.0.2/services/fxaccounts/FxAccountsConfig.jsm
+@@ -82,9 +82,9 @@ var FxAccountsConfig = {
+   },
+ 
+   async promiseManageURI(entrypoint, extraParams = {}) {
+-    return this._buildURL("settings", {
++    return this._buildURL("member", {
+       extraParams: { entrypoint, ...extraParams },
+-      addAccountIdentifiers: true,
++      addAccountIdentifiers: false,
+     });
+   },
+ 

@@ -20,18 +20,37 @@ frameworks” group:
   you’ll be building for ARM64)
 
 
-# Set up Cygwin
+## Set up Cygwin
 
 We work in either Moz Shell for all the build tools from Mozilla (see
 below), and Cygwin64 for all of our own tooling (git, quilt, various
 shellscripts, etc).
 
 Install the following packages in Cygwin:
+
 git
+
 quilt
+
 p7zip
 
-# Check out mercurial
+# Ubuntu build setup
+
+First, install Python: ```sudo apt install python3 python3-dev```
+
+The Firefox documentation recommends downloading Mercurial through pip, but apt works as well. Run either command:
+
+```
+python3 -m pip install --user mercurial
+sudo apt install mercurial
+```
+
+You will also need to install yasm and libgtk2.0-dev through ```apt```.
+
+The rest of the process is similar to a Windows setup, but all commands can be done from the Ubuntu terminal.
+
+
+# Check out Mercurial
 
 Work environment is in "/mozilla-source" (MozDev "/c/mozilla-source"
 and Cygwin "/cygdrive/c/mozilla-source"
@@ -59,8 +78,15 @@ cd /c/mozilla-source/mozilla-release
 ./mach run
 ```
 
-Once the above works, you have a dev environment (mozilla
-tooling). That confirms a working build environment.
+Once the above works, you have a dev environment (Mozilla
+tooling). That confirms a working build environment. However, the toolchains
+are specific to the *latest* version. If you are working with a tarball more
+than a few versions behind the release head, you may have issues building the
+tarball. Furthermore, on Windows 'bootstrap' is very dependent on your Visual
+Studio install. Updating Visual Studio tends to break the build command
+entirely, and you will have to run 'bootstrap' again (which, if you haven't
+pulled from the mozilla-release head recently, will probably lead back to the
+first problem).
 
 # Take a specific tarball
 
@@ -114,6 +140,25 @@ quilt push -a
 ./mach run
 ```
 
+### Working with the update patch (patch #12)
+
+If you have not run ```./mach build``` before, quilt will fail trying
+to apply 12_updates.diff. The build process creates several generated
+files on a first run, including the certificates for update validation.
+You will need to run ```./mach build``` first, then apply patch 12 and
+beyond.
+
+There is an additional step if you are not working in a Windows
+environment. The first build creates an obj-\* folder, where all the
+generated files live. The name of this folder is different on each OS.
+For non-Windows systems, create a symbolic link to your platform's
+obj-\* folder named ```obj-x86_64-pc-mingw32``` and the patch will
+apply correctly.
+
+### Working with the release patch (patch #99)
+
+The final patch in the series is used to disable debug features and to track the version number. If you are developing 
+
 And you should have a working, re-branded Firefox.
 
 # To make modifications yourself
@@ -132,7 +177,7 @@ quilt add browser/locales/en-US/browser/aboutDialog.ftl
 ```
 
 Where 'NN' is a new (higher) patch number than what is already in
-`m041/patches/series`.
+`m041/patches/series`. Quilt will only track changes made *after* a file is added to a patch.
 
 Now make some edits to this file (aboutDialog.ftl). Then refresh the patch file:
 

@@ -341,6 +341,44 @@ echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk"
 ./mach run
 ```
 
+Now you can apply the patches:
+
+```
+# make sure we're in the right place
+cd ~/dev/ff01
+
+# first, even if it's a tarball, needs to be called 'm041':
+mv m041-89.0.0.1 m041
+
+# make sure you're in the right spot
+cd ~/dev/ff01/firefox-89.0
+
+# first copy the files that are meant to outright over-write:
+../m041/copy_files.sh
+
+# make sure your actual "obj" directory can be reached from the reference directory:
+# (otherwise some patches will break)
+ln -s obj-x86_64-apple-darwin20.5.0 obj-x86_64-pc-mingw32
+
+# now soft-link our patch system and apply them
+ln -s ../m041/patches .
+quilt push -a
+
+# the above will fail on Patch 12, that's ok, first build with patches 1-11:
+./mach build
+./mach run
+
+# then apply Patches 12+ and build again
+quilt push -a
+./mach build
+./mach run
+
+# and if that all looks good, build a .dmg,
+# the result will be in obj-*/dist
+./mach package
+```
+
+And there we go (first build per above steps: 20210704).
 
 
 

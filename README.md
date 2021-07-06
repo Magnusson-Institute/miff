@@ -161,7 +161,10 @@ apply correctly.
 
 ### Working with the release patch (patch #99)
 
-The final patch in the series is used to disable debug features and to track the version number. If you are developing 
+The final patch in the series is used to disable debug features and to
+track the version number. If you are working on development you will want
+to leave this patch unapplied. Before creating a release/update, set the
+appropriate version number in this patch and create a matching tag on Github.
 
 And you should have a working, re-branded Firefox.
 

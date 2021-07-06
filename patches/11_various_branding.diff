@@ -11,7 +11,7 @@ Index: firefox-84.0.2/browser/base/content/aboutDialog.xhtml
  <window xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
          id="aboutDialog"
-@@ -128,17 +130,18 @@
+@@ -128,17 +130,19 @@
            <vbox id="experimental" hidden="true">
              <description class="text-blurb" id="warningDesc" data-l10n-id="warningDesc-version"></description>
              <description class="text-blurb" id="communityExperimentalDesc" data-l10n-id="community-exp">
@@ -30,7 +30,8 @@ Index: firefox-84.0.2/browser/base/content/aboutDialog.xhtml
 -            <label is="text-link" href="http://www.mozilla.org/contribute/" data-l10n-name="helpus-getInvolvedLink"></label>
 +	    # MagIns
 +            <label is="text-link" href="https://privacy.app/?utm_source=firefox&#38;utm_medium=referral&#38;utm_campaign=firefox_about&#38;utm_content=firefox_about" data-l10n-name="helpus-donateLink"></label>
-+            <label is="text-link" href="http://privacy.app/contribute/" data-l10n-name="helpus-getInvolvedLink"></label>
++            <label is="text-link" href="https://privacy.app/contribute/" data-l10n-name="helpus-getInvolvedLink"></label>
++            <label is="text-link" href="https://magnusson.institute/" data-l10n-name="magnussonInstituteLink"></label>
            </description>
          </vbox>
        </vbox>
@@ -58,11 +59,11 @@ Index: firefox-84.0.2/browser/locales/en-US/browser/aboutDialog.ftl
 +# community-exp = <label data-l10n-name="community-exp-mozillaLink">{ -vendor-short-name }</label> is a <label data-l10n-name="community-exp-creditsLink">global community</label> working together to keep the Web open, public and accessible to all.
  
 -helpus = Want to help? <label data-l10n-name="helpus-donateLink">Make a donation</label> or <label data-l10n-name="helpus-getInvolvedLink">get involved!</label>
-+community-exp = MiFF is a version of Firefox provided by the Magnusson Institute as a public service. Firefox is developed by the Mozilla Corporation.
++community-exp = MiFF is a privacy-focused browser provided by the <label data-l10n-name="magnussonInstituteLink">Magnusson Institute</label> as a public service. MiFF is proudly based on Mozilla's open source Firefox. Neither Privacy.App, MiFF, nor Magnusson Institute are affiliated with the Mozilla Corporation.
 +
 +# community-2 = { -brand-short-name } is designed by <label data-l10n-name="community-mozillaLink">{ -vendor-short-name }</label>, a <label data-l10n-name="community-creditsLink">global community</label> working together to keep the Web open, public and accessible to all.
 +
-+community-2 = MiFF is a version of Firefox provided by the Magnusson Institute as a public service. Firefox is developed by the Mozilla Corporation.
++community-2 = MiFF is a privacy-focused browser provided by the <label data-l10n-name="magnussonInstituteLink">Magnusson Institute</label> as a public service. MiFF is proudly based on Mozilla's open source Firefox. Neither Privacy.App, MiFF, nor Magnusson Institute are affiliated with the Mozilla Corporation.
 +
 +# helpus = Want to help? <label data-l10n-name="helpus-donateLink">Make a donation</label> or <label data-l10n-name="helpus-getInvolvedLink">get involved!</label>
 +

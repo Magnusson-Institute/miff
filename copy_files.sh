@@ -28,6 +28,9 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     cp $ROOTDIR/copy_files/firefox64.ico ./browser/branding/unofficial/firefox64.ico
     cp $ROOTDIR/copy_files/default128.png ./browser/branding/unofficial/default128.png
 
+    # [PSM 07/05] adding for Mac (see also 'create_icns_file.sh' script)
+    cp $ROOTDIR/copy_files/firefox.icns ./browser/branding/unofficial
+
     # A few go elsewhere
     cp $ROOTDIR/copy_files/avatar-color.svg ./browser/themes/shared/fxa/avatar-color.svg
     cp $ROOTDIR/copy_files/icon-logo-settings-preview.png ./browser/fxr/content/assets/icon-logo-settings-preview.png

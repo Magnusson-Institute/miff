@@ -383,6 +383,54 @@ And there we go (first build per above steps: 20210704).
 
 
 
+## TODO:
+
+* [PSM 07/05]: need to update
+```locales/en-US/toolkit/about/aboutRights.ftl``` to correctly
+position MiFF, including referencing our overall privacy policy.
+
+* [PSM 07/05]: these need to be changed to 'miff-help':
+```
+	browser/base/content/aboutDialog.xhtml
+130	<label is="text-link" onclick="openHelpLink('firefox-help')" data-l10n-id="aboutdialog-help-user"/>
+browser/base/content/browser-menubar.inc
+467	oncommand="openHelpLink('firefox-help')"
+browser/base/content/browser.js
+2601	openHelpLink("firefox-help");
+```
+and a matching ```privacy.app/supportmiff-help``` endpoint added (i think that's where they'll go,
+thought right now it looks like still landing on ```https://privacy.app/supportfirefox-help```)
+
+* [PSM 07/05]: i _think_ we should replace all occurrences of
+  "mozilla.org" or "firefox.com" to "privacy.app" in file
+  ```source/browser/app/profile/firefox.js```; note that many have already been
+  modified with "MagIns" explanations.
+
+* [PSM 07/05]: need an endpoint for ```https://privacy.app/contribute/```
+
+* [PSM 07/05]: i am currently experimenting with using these additional lines in the "mozconfig" file:
+```
+# this fixes -DMOZ_DISTRIBUTION_ID="org.mozilla"
+ac_add_options --with-distribution-id=app.privacy
+
+# this fixes -DMOZ_MACBUNDLE_ID=org.mozilla.nightly
+ac_add_options --with-macbundlename-prefix=app.privacy
+
+# this might help:
+ac_add_options --with-branding=browser/branding/unofficial
+
+# unsure if this needs fixing? -DMOZ_USER_DIR="Mozilla" 
+```
+as well as one change, and one addition, to "browser/branding/unofficial/configure.sh":
+```
+#MOZ_APP_DISPLAYNAME=Nightly
+# MagIns - changed
+MOZ_APP_DISPLAYNAME=Miff
+# MagIns - added, not sure (yet) if it makes much difference:
+MOZ_APP_VENDOR=PrivacyApp
+```
+they might help on a Mac (or Mobile) build.
+
 ## Resources:
 
 https://firefox-source-docs.mozilla.org/setup/windows_build.html#building-firefox-on-windows

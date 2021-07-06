@@ -1,26 +1,26 @@
-Index: firefox-89.0/browser/config/mozconfig
+Index: firefox-89.0.2/browser/config/mozconfig
 ===================================================================
---- firefox-89.0.orig/browser/config/mozconfig
-+++ firefox-89.0/browser/config/mozconfig
+--- firefox-89.0.2.orig/browser/config/mozconfig
++++ firefox-89.0.2/browser/config/mozconfig
 @@ -7,3 +7,6 @@
  # to the top of your mozconfig file.
  
  ac_add_options --enable-application=browser
-+ac_add_options --with-google-safebrowsing-api-keyfile=""
++ac_add_options --with-google-safebrowsing-api-keyfile="C:/mozilla-source/GoogleSB.txt"
 +
 +export MOZILLA_OFFICIAL=1
 \ No newline at end of file
-Index: firefox-89.0/browser/config/version.txt
+Index: firefox-89.0.2/browser/config/version.txt
 ===================================================================
---- firefox-89.0.orig/browser/config/version.txt
-+++ firefox-89.0/browser/config/version.txt
+--- firefox-89.0.2.orig/browser/config/version.txt
++++ firefox-89.0.2/browser/config/version.txt
 @@ -1 +1 @@
--89.0
-+89.0.0.1
-Index: firefox-89.0/browser/config/version_display.txt
+-89.0.2
++89.0.2.1
+Index: firefox-89.0.2/browser/config/version_display.txt
 ===================================================================
---- firefox-89.0.orig/browser/config/version_display.txt
-+++ firefox-89.0/browser/config/version_display.txt
+--- firefox-89.0.2.orig/browser/config/version_display.txt
++++ firefox-89.0.2/browser/config/version_display.txt
 @@ -1 +1 @@
--89.0
-+89.0.0.1
+-89.0.2
++89.0.2.1

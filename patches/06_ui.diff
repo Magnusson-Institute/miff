@@ -1,7 +1,7 @@
-Index: firefox-89.0/browser/base/content/browser.xhtml
+Index: firefox-89.0.2/browser/base/content/browser.xhtml
 ===================================================================
---- firefox-89.0.orig/browser/base/content/browser.xhtml
-+++ firefox-89.0/browser/base/content/browser.xhtml
+--- firefox-89.0.2.orig/browser/base/content/browser.xhtml
++++ firefox-89.0.2/browser/base/content/browser.xhtml
 @@ -1504,10 +1504,12 @@
  
      <panelview id="PanelUI-fxa" class="PanelUI-subView" descriptionheightworkaround="true">
@@ -16,10 +16,10 @@ Index: firefox-89.0/browser/base/content/browser.xhtml
            <image role="presentation" id="fxa-menu-avatar"/>
            <vbox flex="1">
              <label id="fxa-menu-header-title"
-Index: firefox-89.0/browser/components/preferences/sync.inc.xhtml
+Index: firefox-89.0.2/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/sync.inc.xhtml
-+++ firefox-89.0/browser/components/preferences/sync.inc.xhtml
+--- firefox-89.0.2.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-89.0.2/browser/components/preferences/sync.inc.xhtml
 @@ -64,7 +64,7 @@
              <!-- logged in and verified and all is good -->
              <hbox id="fxaLoginVerified" align="center" flex="1">
@@ -42,10 +42,10 @@ Index: firefox-89.0/browser/components/preferences/sync.inc.xhtml
                  </hbox>
                  <hbox>
                    <html:a id="verifiedManage" class="openLink"
-Index: firefox-89.0/browser/components/preferences/sync.js
+Index: firefox-89.0.2/browser/components/preferences/sync.js
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/sync.js
-+++ firefox-89.0/browser/components/preferences/sync.js
+--- firefox-89.0.2.orig/browser/components/preferences/sync.js
++++ firefox-89.0.2/browser/components/preferences/sync.js
 @@ -227,9 +227,9 @@ var gSyncPane = {
        gSyncPane.signIn();
        return false;
@@ -76,10 +76,10 @@ Index: firefox-89.0/browser/components/preferences/sync.js
    },
  
    openManageFirefoxAccount(event) {
-Index: firefox-89.0/browser/locales/generic/profile/bookmarks.html.in
+Index: firefox-89.0.2/browser/locales/generic/profile/bookmarks.html.in
 ===================================================================
---- firefox-89.0.orig/browser/locales/generic/profile/bookmarks.html.in
-+++ firefox-89.0/browser/locales/generic/profile/bookmarks.html.in
+--- firefox-89.0.2.orig/browser/locales/generic/profile/bookmarks.html.in
++++ firefox-89.0.2/browser/locales/generic/profile/bookmarks.html.in
 @@ -18,32 +18,5 @@
  <title>@bookmarks_title@</title>
  <h1>@bookmarks_heading@</h1>
@@ -114,10 +114,10 @@ Index: firefox-89.0/browser/locales/generic/profile/bookmarks.html.in
 -#endif
 +<dl>
  </dl>
-Index: firefox-89.0/browser/components/newtab/lib/DefaultSites.jsm
+Index: firefox-89.0.2/browser/components/newtab/lib/DefaultSites.jsm
 ===================================================================
---- firefox-89.0.orig/browser/components/newtab/lib/DefaultSites.jsm
-+++ firefox-89.0/browser/components/newtab/lib/DefaultSites.jsm
+--- firefox-89.0.2.orig/browser/components/newtab/lib/DefaultSites.jsm
++++ firefox-89.0.2/browser/components/newtab/lib/DefaultSites.jsm
 @@ -8,39 +8,39 @@ const DEFAULT_SITES_MAP = new Map([
    // This first item is the global list fallback for any unexpected geos
    [
@@ -167,10 +167,10 @@ Index: firefox-89.0/browser/components/newtab/lib/DefaultSites.jsm
    ],
  ]);
  
-Index: firefox-89.0/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+Index: firefox-89.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 ===================================================================
---- firefox-89.0.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-+++ firefox-89.0/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+--- firefox-89.0.2.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ firefox-89.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 @@ -223,11 +223,14 @@ class AboutWelcomeParent extends JSWindo
          SpecialMessageActions.handleAction(data, browser);
          break;
@@ -188,10 +188,10 @@ Index: firefox-89.0/browser/components/newtab/aboutwelcome/AboutWelcomeParent.js
          break;
        case "AWPage:LOCATION_CHANGED":
          this.AboutWelcomeObserver.terminateReason =
-Index: firefox-89.0/browser/components/preferences/preferences.js
+Index: firefox-89.0.2/browser/components/preferences/preferences.js
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/preferences.js
-+++ firefox-89.0/browser/components/preferences/preferences.js
+--- firefox-89.0.2.orig/browser/components/preferences/preferences.js
++++ firefox-89.0.2/browser/components/preferences/preferences.js
 @@ -159,7 +159,7 @@ function init_all() {
      let helpButton = document.getElementById("helpButton");
      let helpUrl =
@@ -201,10 +201,10 @@ Index: firefox-89.0/browser/components/preferences/preferences.js
      helpButton.setAttribute("href", helpUrl);
  
      document.getElementById("addonsButton").addEventListener("click", e => {
-Index: firefox-89.0/browser/app/profile/firefox.js
+Index: firefox-89.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-89.0.orig/browser/app/profile/firefox.js
-+++ firefox-89.0/browser/app/profile/firefox.js
+--- firefox-89.0.2.orig/browser/app/profile/firefox.js
++++ firefox-89.0.2/browser/app/profile/firefox.js
 @@ -271,16 +271,12 @@ pref("browser.shell.defaultBrowserCheckC
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
@@ -224,10 +224,10 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // Show an about:blank window as early as possible for quick startup feedback.
  // Held to nightly on Linux due to bug 1450626.
-Index: firefox-89.0/docshell/base/nsAboutRedirector.cpp
+Index: firefox-89.0.2/docshell/base/nsAboutRedirector.cpp
 ===================================================================
---- firefox-89.0.orig/docshell/base/nsAboutRedirector.cpp
-+++ firefox-89.0/docshell/base/nsAboutRedirector.cpp
+--- firefox-89.0.2.orig/docshell/base/nsAboutRedirector.cpp
++++ firefox-89.0.2/docshell/base/nsAboutRedirector.cpp
 @@ -99,8 +99,6 @@ static const RedirEntry kRedirMap[] = {
           nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
@@ -237,10 +237,10 @@ Index: firefox-89.0/docshell/base/nsAboutRedirector.cpp
      {"neterror", "chrome://global/content/netError.xhtml",
       nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_CAN_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
-Index: firefox-89.0/toolkit/content/jar.mn
+Index: firefox-89.0.2/toolkit/content/jar.mn
 ===================================================================
---- firefox-89.0.orig/toolkit/content/jar.mn
-+++ firefox-89.0/toolkit/content/jar.mn
+--- firefox-89.0.2.orig/toolkit/content/jar.mn
++++ firefox-89.0.2/toolkit/content/jar.mn
 @@ -50,8 +50,6 @@ toolkit.jar:
     content/global/filepicker.properties
     content/global/customElements.js
@@ -250,10 +250,10 @@ Index: firefox-89.0/toolkit/content/jar.mn
     content/global/preferencesBindings.js
     content/global/process-content.js
     content/global/resetProfile.css
-Index: firefox-89.0/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+Index: firefox-89.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 ===================================================================
---- firefox-89.0.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-+++ firefox-89.0/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+--- firefox-89.0.2.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ firefox-89.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 @@ -803,10 +803,11 @@ __webpack_require__.r(__webpack_exports_
  class MultiStageScreen extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
    renderTiles() {
@@ -306,10 +306,10 @@ Index: firefox-89.0/browser/components/newtab/aboutwelcome/content/aboutwelcome.
    return returnUrl;
  }
  
-Index: firefox-89.0/browser/base/content/browser-menubar.inc
+Index: firefox-89.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- firefox-89.0.orig/browser/base/content/browser-menubar.inc
-+++ firefox-89.0/browser/base/content/browser-menubar.inc
+--- firefox-89.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-89.0.2/browser/base/content/browser-menubar.inc
 @@ -476,10 +476,11 @@
  #else
                            />
@@ -323,10 +323,10 @@ Index: firefox-89.0/browser/base/content/browser-menubar.inc
                  <menuitem id="helpSafeMode"
                            oncommand="safeModeRestart();"
                            data-l10n-id="menu-help-enter-troubleshoot-mode2"
-Index: firefox-89.0/browser/components/newtab/lib/SearchShortcuts.jsm
+Index: firefox-89.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
 ===================================================================
---- firefox-89.0.orig/browser/components/newtab/lib/SearchShortcuts.jsm
-+++ firefox-89.0/browser/components/newtab/lib/SearchShortcuts.jsm
+--- firefox-89.0.2.orig/browser/components/newtab/lib/SearchShortcuts.jsm
++++ firefox-89.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
 @@ -8,28 +8,17 @@ const { Services } = ChromeUtils.import(
  // List of sites we match against Topsites in order to identify sites
  // that should be converted to search Topsites
@@ -356,10 +356,10 @@ Index: firefox-89.0/browser/components/newtab/lib/SearchShortcuts.jsm
    {
      keyword: "@wikipedia",
      shortURL: "wikipedia",
-Index: firefox-89.0/browser/components/newtab/lib/ActivityStream.jsm
+Index: firefox-89.0.2/browser/components/newtab/lib/ActivityStream.jsm
 ===================================================================
---- firefox-89.0.orig/browser/components/newtab/lib/ActivityStream.jsm
-+++ firefox-89.0/browser/components/newtab/lib/ActivityStream.jsm
+--- firefox-89.0.2.orig/browser/components/newtab/lib/ActivityStream.jsm
++++ firefox-89.0.2/browser/components/newtab/lib/ActivityStream.jsm
 @@ -324,7 +324,7 @@ const PREFS_CONFIG = new Map([
            return "";
          }
@@ -378,10 +378,10 @@ Index: firefox-89.0/browser/components/newtab/lib/ActivityStream.jsm
          return searchShortcuts.join(",");
        },
      },
-Index: firefox-89.0/toolkit/mozapps/extensions/content/aboutaddons.html
+Index: firefox-89.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
 ===================================================================
---- firefox-89.0.orig/toolkit/mozapps/extensions/content/aboutaddons.html
-+++ firefox-89.0/toolkit/mozapps/extensions/content/aboutaddons.html
+--- firefox-89.0.2.orig/toolkit/mozapps/extensions/content/aboutaddons.html
++++ firefox-89.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
 @@ -36,7 +36,8 @@
      <div id="full">
        <div id="sidebar">
@@ -401,10 +401,10 @@ Index: firefox-89.0/toolkit/mozapps/extensions/content/aboutaddons.html
        <taar-notice></taar-notice>
        <recommended-addon-list type="extension" hide-installed></recommended-addon-list>
        <footer is="recommended-footer" class="view-footer"></footer>
-Index: firefox-89.0/browser/base/content/utilityOverlay.js
+Index: firefox-89.0.2/browser/base/content/utilityOverlay.js
 ===================================================================
---- firefox-89.0.orig/browser/base/content/utilityOverlay.js
-+++ firefox-89.0/browser/base/content/utilityOverlay.js
+--- firefox-89.0.2.orig/browser/base/content/utilityOverlay.js
++++ firefox-89.0.2/browser/base/content/utilityOverlay.js
 @@ -1081,9 +1081,11 @@ function openFeedbackPage() {
  }
  
@@ -418,13 +418,108 @@ Index: firefox-89.0/browser/base/content/utilityOverlay.js
  
    document.getElementById(
      "helpSafeMode"
-Index: firefox-89.0/services/settings/dumps/main/top-sites.json
+Index: firefox-89.0.2/services/settings/dumps/main/top-sites.json
 ===================================================================
---- firefox-89.0.orig/services/settings/dumps/main/top-sites.json
-+++ firefox-89.0/services/settings/dumps/main/top-sites.json
-@@ -1,778 +1,5 @@
+--- firefox-89.0.2.orig/services/settings/dumps/main/top-sites.json
++++ firefox-89.0.2/services/settings/dumps/main/top-sites.json
+@@ -1,778 +1,4 @@
  {
    "data": [
+-    {
+-      "url": "https://www.amazon.es/?tag=admarketpl0c0-21&ref=pd_sl_a317866950ES%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1623872989071,
+-      "include_regions": [
+-        "ES"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "d69308b2-7a6e-49e9-bfae-77fbafcb1ce2",
+-      "last_modified": 1623959042906
+-    },
+-    {
+-      "url": "https://www.amazon.com/",
+-      "order": 50,
+-      "title": "Amazon",
+-      "schema": 1623956287723,
+-      "include_locales": [],
+-      "include_regions": [
+-        "ES"
+-      ],
+-      "include_experiments": [
+-        "ebay-2020-1_fallback"
+-      ],
+-      "id": "354690ae-3d9d-4745-a82b-7ac43e4b3213",
+-      "last_modified": 1623959042903
+-    },
+-    {
+-      "url": "https://yandex.com.tr/?clid=2453500",
+-      "order": 0,
+-      "title": "Yandex",
+-      "schema": 1623869047416,
+-      "include_regions": [
+-        "TR"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "dbbcd85e-6db4-44d5-9cc1-abad1fe1e557",
+-      "last_modified": 1623869278041
+-    },
+-    {
+-      "url": "https://yandex.kz/?clid=2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1623869067532,
+-      "include_regions": [
+-        "KZ"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "5863a53d-e0c3-4053-8332-1edf7f5b7797",
+-      "last_modified": 1623869278038
+-    },
+-    {
+-      "url": "https://yandex.by/?clid=2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1623869080131,
+-      "include_regions": [
+-        "BY"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "dbb0749e-1556-420f-8f3e-2e9d5b5efbee",
+-      "last_modified": 1623869278035
+-    },
+-    {
+-      "url": "https://yandex.ru/?clid=2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1623869090355,
+-      "include_regions": [
+-        "RU"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "f16abe55-30be-4d53-b1ac-7ba1e16d17c6",
+-      "last_modified": 1623869278033
+-    },
 -    {
 -      "url": "https://www.amazon.ca/",
 -      "order": 50,
@@ -453,101 +548,6 @@ Index: firefox-89.0/services/settings/dumps/main/top-sites.json
 -      "send_attribution_request": true,
 -      "id": "0171a7bd-6ddc-409b-b68f-dc5e9e5224d5",
 -      "last_modified": 1621028626497
--    },
--    {
--      "url": "https://www.amazon.com/",
--      "order": 50,
--      "title": "Amazon",
--      "schema": 1620224734643,
--      "include_locales": [],
--      "include_regions": [
--        "ES"
--      ],
--      "include_experiments": [
--        "ebay-2020-1"
--      ],
--      "id": "354690ae-3d9d-4745-a82b-7ac43e4b3213",
--      "last_modified": 1620307856003
--    },
--    {
--      "url": "https://www.amazon.es/?tag=admarketpl0c0-21&ref=pd_sl_a317866950ES%YYYYMMDDHH%",
--      "order": 0,
--      "title": "Amazon",
--      "schema": 1620307001715,
--      "include_regions": [
--        "ES"
--      ],
--      "sponsored_position": 1,
--      "include_experiments": [
--        "ebay-2020-1_disabled"
--      ],
--      "send_attribution_request": true,
--      "id": "d69308b2-7a6e-49e9-bfae-77fbafcb1ce2",
--      "last_modified": 1620307855999
--    },
--    {
--      "url": "https://yandex.ru/?clid=2453500",
--      "order": 0,
--      "title": "Яндекс",
--      "schema": 1619546326306,
--      "include_regions": [
--        "RU"
--      ],
--      "sponsored_position": 1,
--      "include_experiments": [
--        "yandex-2021-1"
--      ],
--      "send_attribution_request": true,
--      "id": "f16abe55-30be-4d53-b1ac-7ba1e16d17c6",
--      "last_modified": 1619548447478
--    },
--    {
--      "url": "https://yandex.by/?clid=2453500",
--      "order": 0,
--      "title": "Яндекс",
--      "schema": 1619546984692,
--      "include_regions": [
--        "BY"
--      ],
--      "sponsored_position": 1,
--      "include_experiments": [
--        "yandex-2021-1"
--      ],
--      "send_attribution_request": true,
--      "id": "dbb0749e-1556-420f-8f3e-2e9d5b5efbee",
--      "last_modified": 1619548447475
--    },
--    {
--      "url": "https://yandex.kz/?clid=2453500",
--      "order": 0,
--      "title": "Яндекс",
--      "schema": 1619547018646,
--      "include_regions": [
--        "KZ"
--      ],
--      "sponsored_position": 1,
--      "include_experiments": [
--        "yandex-2021-1"
--      ],
--      "send_attribution_request": true,
--      "id": "5863a53d-e0c3-4053-8332-1edf7f5b7797",
--      "last_modified": 1619548447472
--    },
--    {
--      "url": "https://yandex.com.tr/?clid=2453500",
--      "order": 0,
--      "title": "Yandex",
--      "schema": 1619547066007,
--      "include_regions": [
--        "TR"
--      ],
--      "sponsored_position": 1,
--      "include_experiments": [
--        "yandex-2021-1"
--      ],
--      "send_attribution_request": true,
--      "id": "dbbcd85e-6db4-44d5-9cc1-abad1fe1e557",
--      "last_modified": 1619548447469
 -    },
 -    {
 -      "url": "https://www.amazon.ca/?tag=admpdesktopca-20&ref=pd_sl_a317866944CA%YYYYMMDDHH%",
@@ -1199,13 +1199,12 @@ Index: firefox-89.0/services/settings/dumps/main/top-sites.json
 -      "id": "89e3da9e-1d84-4c24-beab-d0692fc7cc45",
 -      "last_modified": 1599146777345
 -    }
-+
    ]
  }
-Index: firefox-89.0/browser/components/newtab/lib/TopSitesFeed.jsm
+Index: firefox-89.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
 ===================================================================
---- firefox-89.0.orig/browser/components/newtab/lib/TopSitesFeed.jsm
-+++ firefox-89.0/browser/components/newtab/lib/TopSitesFeed.jsm
+--- firefox-89.0.2.orig/browser/components/newtab/lib/TopSitesFeed.jsm
++++ firefox-89.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
 @@ -397,6 +397,7 @@ this.TopSitesFeed = class TopSitesFeed {
     * @returns {Boolean} Did we insert any search shortcuts?
     */

@@ -6,6 +6,9 @@
 
 # you need 'brew install imagemagick' first
 
+# Apple documentation (more info than you need) is here:
+# https://developer.apple.com/library/archive/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html
+
 # the png files are assembled in a directory
 mkdir -p firefox.iconset
 

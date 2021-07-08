@@ -46,9 +46,9 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
         mar -J -c ../MiFF-$1.complete.mar -k "../../m041/csr.pem" -H default -V $1 *
         cd ..
         echo "=== MAR complete"
-	echo "=== Use these values for update.xml:"
+	echo "=== Use these values for update.xml in m021:"
 	shasum --algorithm 512 MiFF-$1.complete.mar
-	stat --format="%" MiFF-$1.complete.mar
+	stat --format="%s" MiFF-$1.complete.mar
         rm -rf tmp
     fi
 else

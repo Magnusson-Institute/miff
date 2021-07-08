@@ -1,8 +1,8 @@
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
-@@ -428,11 +428,18 @@ FxAccountsClient.prototype = {
+--- firefox-89.0.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
+@@ -427,11 +427,18 @@ FxAccountsClient.prototype = {
      );
  
      let bundleMAC = CryptoUtils.digestBytes(bundle.slice(0, -32), hasher);
@@ -22,11 +22,11 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
  
      return {
        kA: keyAWrapB.slice(0, 32),
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsKeys.jsm
+Index: firefox-89.0/services/fxaccounts/FxAccountsKeys.jsm
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsKeys.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsKeys.jsm
-@@ -334,10 +334,15 @@ class FxAccountsKeys {
+--- firefox-89.0.orig/services/fxaccounts/FxAccountsKeys.jsm
++++ firefox-89.0/services/fxaccounts/FxAccountsKeys.jsm
+@@ -364,10 +364,15 @@ class FxAccountsKeys {
        throw new Error("Signed in user changed while fetching keys!");
      }
  
@@ -43,11 +43,11 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsKeys.jsm
  
      if (logPII) {
        log.debug("kBbytes: " + kBbytes);
-Index: firefox-84.0.2/services/common/tokenserverclient.js
+Index: firefox-89.0/services/common/tokenserverclient.js
 ===================================================================
---- firefox-84.0.2.orig/services/common/tokenserverclient.js
-+++ firefox-84.0.2/services/common/tokenserverclient.js
-@@ -284,29 +284,44 @@ TokenServerClient.prototype = {
+--- firefox-89.0.orig/services/common/tokenserverclient.js
++++ firefox-89.0/services/common/tokenserverclient.js
+@@ -227,29 +227,44 @@ TokenServerClient.prototype = {
        );
      }
  
@@ -98,7 +98,7 @@ Index: firefox-84.0.2/services/common/tokenserverclient.js
        throw error;
      }
    },
-@@ -322,7 +337,9 @@ TokenServerClient.prototype = {
+@@ -265,7 +280,9 @@ TokenServerClient.prototype = {
  
      // Responses should *always* be JSON, even in the case of 4xx and 5xx
      // errors. If we don't see JSON, the server is likely very unhappy.
@@ -109,7 +109,7 @@ Index: firefox-84.0.2/services/common/tokenserverclient.js
      if (ct != "application/json" && !ct.startsWith("application/json;")) {
        this._log.warn("Did not receive JSON response. Misconfigured server?");
        this._log.debug("Content-Type: " + ct);
-@@ -338,7 +355,9 @@ TokenServerClient.prototype = {
+@@ -281,7 +298,9 @@ TokenServerClient.prototype = {
  
      let result;
      try {
@@ -120,7 +120,7 @@ Index: firefox-84.0.2/services/common/tokenserverclient.js
      } catch (ex) {
        this._log.warn("Invalid JSON returned by server: " + response.body);
        let error = new TokenServerClientServerError(
-@@ -446,7 +465,9 @@ TokenServerClient.prototype = {
+@@ -369,7 +388,9 @@ TokenServerClient.prototype = {
      if (!this.observerPrefix) {
        return;
      }
@@ -131,10 +131,10 @@ Index: firefox-84.0.2/services/common/tokenserverclient.js
      if (!headerVal) {
        return;
      }
-Index: firefox-84.0.2/services/sync/modules/resource.js
+Index: firefox-89.0/services/sync/modules/resource.js
 ===================================================================
---- firefox-84.0.2.orig/services/sync/modules/resource.js
-+++ firefox-84.0.2/services/sync/modules/resource.js
+--- firefox-89.0.orig/services/sync/modules/resource.js
++++ firefox-89.0/services/sync/modules/resource.js
 @@ -103,12 +103,28 @@ Resource.prototype = {
     * @returns {Headers}
     */

@@ -1,7 +1,7 @@
-Index: firefox-84.0.2/browser/base/content/aboutDialog.xhtml
+Index: firefox-89.0.2/browser/base/content/aboutDialog.xhtml
 ===================================================================
---- firefox-84.0.2.orig/browser/base/content/aboutDialog.xhtml
-+++ firefox-84.0.2/browser/base/content/aboutDialog.xhtml
+--- firefox-89.0.2.orig/browser/base/content/aboutDialog.xhtml
++++ firefox-89.0.2/browser/base/content/aboutDialog.xhtml
 @@ -14,6 +14,8 @@
  #endif
  ]>
@@ -11,46 +11,47 @@ Index: firefox-84.0.2/browser/base/content/aboutDialog.xhtml
  <window xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
          id="aboutDialog"
-@@ -128,17 +130,19 @@
+@@ -142,17 +144,19 @@
+
            <vbox id="experimental" hidden="true">
              <description class="text-blurb" id="warningDesc" data-l10n-id="warningDesc-version"></description>
              <description class="text-blurb" id="communityExperimentalDesc" data-l10n-id="community-exp">
--              <label is="text-link" href="http://www.mozilla.org/" data-l10n-name="community-exp-mozillaLink"></label>
+-              <label is="text-link" href="https://www.mozilla.org/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="community-exp-mozillaLink"/>
 +              <label is="text-link" href="https://privacy.app/" data-l10n-name="community-exp-mozillaLink"></label>
-               <label is="text-link" useoriginprincipal="true" href="about:credits" data-l10n-name="community-exp-creditsLink"></label>
+               <label is="text-link" useoriginprincipal="true" href="about:credits" data-l10n-name="community-exp-creditsLink"/>
              </description>
            </vbox>
            <description class="text-blurb" id="communityDesc" data-l10n-id="community-2">
--            <label is="text-link" href="http://www.mozilla.org/" data-l10n-name="community-mozillaLink"></label>
-+            <label is="text-link" href="https://privacy.app/" data-l10n-name="community-mozillaLink"></label>
-             <label is="text-link" useoriginprincipal="true" href="about:credits" data-l10n-name="community-creditsLink"></label>
+-            <label is="text-link" href="https://www.mozilla.org/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="community-mozillaLink"/>
++              <label is="text-link" href="https://privacy.app/" data-l10n-name="community-mozillaLink"></label>
+             <label is="text-link" useoriginprincipal="true" href="about:credits" data-l10n-name="community-creditsLink"/>
            </description>
            <description class="text-blurb" id="contributeDesc" data-l10n-id="helpus">
--            <label is="text-link" href="https://donate.mozilla.org/?utm_source=firefox&#38;utm_medium=referral&#38;utm_campaign=firefox_about&#38;utm_content=firefox_about" data-l10n-name="helpus-donateLink"></label>
--            <label is="text-link" href="http://www.mozilla.org/contribute/" data-l10n-name="helpus-getInvolvedLink"></label>
-+	    # MagIns
+-            <label is="text-link" href="https://donate.mozilla.org/?utm_source=firefox&#38;utm_medium=referral&#38;utm_campaign=firefox_about&#38;utm_content=firefox_about" data-l10n-name="helpus-donateLink"/>
+-            <label is="text-link" href="https://www.mozilla.org/contribute/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="helpus-getInvolvedLink"/>
++        # MagIns
 +            <label is="text-link" href="https://privacy.app/?utm_source=firefox&#38;utm_medium=referral&#38;utm_campaign=firefox_about&#38;utm_content=firefox_about" data-l10n-name="helpus-donateLink"></label>
 +            <label is="text-link" href="https://privacy.app/contribute/" data-l10n-name="helpus-getInvolvedLink"></label>
 +            <label is="text-link" href="https://magnusson.institute/" data-l10n-name="magnussonInstituteLink"></label>
            </description>
          </vbox>
        </vbox>
-@@ -147,7 +150,7 @@
+@@ -161,7 +165,7 @@
        <hbox pack="center">
-         <label is="text-link" class="bottom-link" useoriginprincipal="true" href="about:license" data-l10n-id="bottomLinks-license"></label>
-         <label is="text-link" class="bottom-link" useoriginprincipal="true" href="about:rights" data-l10n-id="bottomLinks-rights"></label>
--        <label is="text-link" class="bottom-link" href="https://www.mozilla.org/privacy/" data-l10n-id="bottomLinks-privacy"></label>
+         <label is="text-link" class="bottom-link" useoriginprincipal="true" href="about:license" data-l10n-id="bottomLinks-license"/>
+         <label is="text-link" class="bottom-link" useoriginprincipal="true" href="about:rights" data-l10n-id="bottomLinks-rights"/>
+-        <label is="text-link" class="bottom-link" href="https://www.mozilla.org/privacy/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-id="bottomLinks-privacy"/>
 +        <label is="text-link" class="bottom-link" href="https://privacy.app/privacy/" data-l10n-id="bottomLinks-privacy"></label>
        </hbox>
        <description id="trademark" data-l10n-id="trademarkInfo"></description>
      </vbox>
-Index: firefox-84.0.2/browser/locales/en-US/browser/aboutDialog.ftl
+Index: firefox-89.0.2/browser/locales/en-US/browser/aboutDialog.ftl
 ===================================================================
---- firefox-84.0.2.orig/browser/locales/en-US/browser/aboutDialog.ftl
-+++ firefox-84.0.2/browser/locales/en-US/browser/aboutDialog.ftl
-@@ -37,11 +37,19 @@ channel-description = You are currently
- 
- warningDesc-version = { -brand-short-name } is experimental and may be unstable.
+--- firefox-89.0.2.orig/browser/locales/en-US/browser/aboutDialog.ftl
++++ firefox-89.0.2/browser/locales/en-US/browser/aboutDialog.ftl
+@@ -41,11 +41,19 @@ warningDesc-version = { -brand-short-nam
+ aboutdialog-help-user = { -brand-product-name } Help
+ aboutdialog-submit-feedback = Submit Feedback
  
 -community-exp = <label data-l10n-name="community-exp-mozillaLink">{ -vendor-short-name }</label> is a <label data-l10n-name="community-exp-creditsLink">global community</label> working together to keep the Web open, public and accessible to all.
 +# MagIns
@@ -71,16 +72,16 @@ Index: firefox-84.0.2/browser/locales/en-US/browser/aboutDialog.ftl
  
  bottomLinks-license = Licensing Information
  bottomLinks-rights = End-User Rights
-Index: firefox-84.0.2/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
+Index: firefox-89.0.2/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
 ===================================================================
---- firefox-84.0.2.orig/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
-+++ firefox-84.0.2/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
-@@ -464,7 +464,7 @@ addon-badge-recommended2 =
-   .title = { -brand-product-name } only recommends extensions that meet our standards for security and performance
-   .aria-label = { addon-badge-recommended2.title }
- addon-badge-line2 =
--  .title = This is an official extension built by the creators of { -brand-product-name }
+--- firefox-89.0.2.orig/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
++++ firefox-89.0.2/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
+@@ -418,7 +418,7 @@ addon-badge-recommended2 =
+ # We hard code "Mozilla" in the string below because the extensions are built
+ # by Mozilla and we don't want forks to display "by Fork".
+ addon-badge-line3 =
+-  .title = Official extension built by Mozilla. Meets security and performance standards
 +  .title = This extension is built by the creators of Firefox
-   .aria-label = { addon-badge-line2.title }
+   .aria-label = { addon-badge-line3.title }
  addon-badge-verified2 =
    .title = This extension has been reviewed to meet our standards for security and performance

@@ -2,11 +2,16 @@ Index: firefox-89.0.2/browser/config/mozconfig
 ===================================================================
 --- firefox-89.0.2.orig/browser/config/mozconfig
 +++ firefox-89.0.2/browser/config/mozconfig
-@@ -7,3 +7,6 @@
+@@ -7,3 +7,11 @@
  # to the top of your mozconfig file.
  
  ac_add_options --enable-application=browser
++
++if test `uname -s` != Linux; then
 +ac_add_options --with-google-safebrowsing-api-keyfile="C:/mozilla-source/GoogleSB.txt"
++else
++ac_add_options --with-google-safebrowsing-api-keyfile="/mozilla-source/GoogleSB.txt"
++fi
 +
 +export MOZILLA_OFFICIAL=1
 \ No newline at end of file

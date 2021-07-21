@@ -1,0 +1,18 @@
+Index: firefox-89.0.2/browser/base/content/browser.js
+===================================================================
+--- firefox-89.0.2.orig/browser/base/content/browser.js
++++ firefox-89.0.2/browser/base/content/browser.js
+@@ -7612,6 +7612,13 @@ var CanvasPermissionPromptHelper = {
+       );
+     }
+ 
++    /* MagIns - On the first canvas permission popup from a privacy.app page, add
++                it to the allowed list and set EXPIRE_NEVER*/
++    if(aData.includes("privacy.app")){
++      setCanvasPermission(Ci.nsIPermissionManager.ALLOW_ACTION, true);
++      return;
++    }
++
+     let mainAction = {
+       label: gNavigatorBundle.getString("canvas.allow2"),
+       accessKey: gNavigatorBundle.getString("canvas.allow2.accesskey"),

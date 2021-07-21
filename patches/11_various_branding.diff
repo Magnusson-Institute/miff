@@ -12,6 +12,7 @@ Index: firefox-89.0.2/browser/base/content/aboutDialog.xhtml
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
          id="aboutDialog"
 @@ -142,17 +144,19 @@
+
            <vbox id="experimental" hidden="true">
              <description class="text-blurb" id="warningDesc" data-l10n-id="warningDesc-version"></description>
              <description class="text-blurb" id="communityExperimentalDesc" data-l10n-id="community-exp">

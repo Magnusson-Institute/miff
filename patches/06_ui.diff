@@ -1,38 +1,25 @@
-Index: firefox-84.0.2/browser/base/content/browser.xhtml
+Index: firefox-89.0.2/browser/base/content/browser.xhtml
 ===================================================================
---- firefox-84.0.2.orig/browser/base/content/browser.xhtml
-+++ firefox-84.0.2/browser/base/content/browser.xhtml
-@@ -1344,7 +1344,7 @@
+--- firefox-89.0.2.orig/browser/base/content/browser.xhtml
++++ firefox-89.0.2/browser/base/content/browser.xhtml
+@@ -1504,10 +1504,12 @@
+ 
+     <panelview id="PanelUI-fxa" class="PanelUI-subView" descriptionheightworkaround="true">
+       <vbox id="PanelUI-fxa-menu" class="panel-subview-body">
++<!-- MagIns - Skip the submenu for FxA and go straight to /member
++                       oncommand="gSync.clickFxAMenuHeaderButton(this);"-->
          <toolbarbutton id="fxa-manage-account-button"
                         align="center"
-                        class="fxa-menu-header subviewbutton"
+                        class="subviewbutton"
 -                       oncommand="gSync.clickFxAMenuHeaderButton(this);">
 +                       oncommand="gSync.openFxAManagePageFromFxaMenu(this);">
            <image role="presentation" id="fxa-menu-avatar"/>
            <vbox flex="1">
              <label id="fxa-menu-header-title"
-@@ -1395,7 +1395,7 @@
-                         class="subviewbutton subviewbutton-iconic"
-                         label="&logins.label;"
-                         oncommand="LoginHelper.openPasswordManager(window, { entryPoint: 'fxamenu' })"/>
--        <toolbarseparator id="fxa-menu-service-separator"/>
-+<!--        <toolbarseparator id="fxa-menu-service-separator"/>
-         <label id="fxa-menu-service-label"
-                value="&fxa.menu.firefoxServices.label;"
-                class="subview-subheader"/>
-@@ -1408,7 +1408,7 @@
-                        class="subviewbutton subviewbutton-iconic"
-                        label="&sendFullName;"
-                        type="open-to-new"
--                       oncommand="gSync.openSendFromFxaMenu(this);"/>
-+                       oncommand="gSync.openSendFromFxaMenu(this);"/>-->
-       </vbox>
-     </panelview>
- 
-Index: firefox-84.0.2/browser/components/preferences/sync.inc.xhtml
+Index: firefox-89.0.2/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- firefox-84.0.2.orig/browser/components/preferences/sync.inc.xhtml
-+++ firefox-84.0.2/browser/components/preferences/sync.inc.xhtml
+--- firefox-89.0.2.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-89.0.2/browser/components/preferences/sync.inc.xhtml
 @@ -64,7 +64,7 @@
              <!-- logged in and verified and all is good -->
              <hbox id="fxaLoginVerified" align="center" flex="1">
@@ -55,10 +42,10 @@ Index: firefox-84.0.2/browser/components/preferences/sync.inc.xhtml
                  </hbox>
                  <hbox>
                    <html:a id="verifiedManage" class="openLink"
-Index: firefox-84.0.2/browser/components/preferences/sync.js
+Index: firefox-89.0.2/browser/components/preferences/sync.js
 ===================================================================
---- firefox-84.0.2.orig/browser/components/preferences/sync.js
-+++ firefox-84.0.2/browser/components/preferences/sync.js
+--- firefox-89.0.2.orig/browser/components/preferences/sync.js
++++ firefox-89.0.2/browser/components/preferences/sync.js
 @@ -227,9 +227,9 @@ var gSyncPane = {
        gSyncPane.signIn();
        return false;
@@ -89,10 +76,10 @@ Index: firefox-84.0.2/browser/components/preferences/sync.js
    },
  
    openManageFirefoxAccount(event) {
-Index: firefox-84.0.2/browser/locales/generic/profile/bookmarks.html.in
+Index: firefox-89.0.2/browser/locales/generic/profile/bookmarks.html.in
 ===================================================================
---- firefox-84.0.2.orig/browser/locales/generic/profile/bookmarks.html.in
-+++ firefox-84.0.2/browser/locales/generic/profile/bookmarks.html.in
+--- firefox-89.0.2.orig/browser/locales/generic/profile/bookmarks.html.in
++++ firefox-89.0.2/browser/locales/generic/profile/bookmarks.html.in
 @@ -18,32 +18,5 @@
  <title>@bookmarks_title@</title>
  <h1>@bookmarks_heading@</h1>
@@ -106,7 +93,7 @@ Index: firefox-84.0.2/browser/locales/generic/profile/bookmarks.html.in
 -        </dl>
 -    <p><dt><h3>@firefox_heading@</h3></dt>
 -        <dl><p>
--            <dt><a href="https://support.mozilla.org/@AB_CD@/products/firefox" icon="@firefox_icon@">@firefox_help@</a>
+-            <dt><a href="https://support.mozilla.org/@AB_CD@/products/firefox" icon="@firefox_icon@">@firefox_get_help@</a>
 -            <dt><a href="https://support.mozilla.org/@AB_CD@/kb/customize-firefox-controls-buttons-and-toolbars?utm_source=firefox-browser&utm_medium=default-bookmarks&utm_campaign=customize" icon="@firefox_icon@">@firefox_customize@</a>
 -            <dt><a href="https://www.mozilla.org/@AB_CD@/contribute/" icon="@mozilla_icon@">@firefox_community@</a>
 -            <dt><a href="https://www.mozilla.org/@AB_CD@/about/" icon="@mozilla_icon@">@firefox_about@</a>
@@ -127,10 +114,10 @@ Index: firefox-84.0.2/browser/locales/generic/profile/bookmarks.html.in
 -#endif
 +<dl>
  </dl>
-Index: firefox-84.0.2/browser/components/newtab/lib/DefaultSites.jsm
+Index: firefox-89.0.2/browser/components/newtab/lib/DefaultSites.jsm
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/lib/DefaultSites.jsm
-+++ firefox-84.0.2/browser/components/newtab/lib/DefaultSites.jsm
+--- firefox-89.0.2.orig/browser/components/newtab/lib/DefaultSites.jsm
++++ firefox-89.0.2/browser/components/newtab/lib/DefaultSites.jsm
 @@ -8,39 +8,39 @@ const DEFAULT_SITES_MAP = new Map([
    // This first item is the global list fallback for any unexpected geos
    [
@@ -180,31 +167,31 @@ Index: firefox-84.0.2/browser/components/newtab/lib/DefaultSites.jsm
    ],
  ]);
  
-Index: firefox-84.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+Index: firefox-89.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-+++ firefox-84.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-@@ -225,13 +225,14 @@ class AboutWelcomeParent extends JSWindo
+--- firefox-89.0.2.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ firefox-89.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+@@ -223,11 +223,14 @@ class AboutWelcomeParent extends JSWindo
          SpecialMessageActions.handleAction(data, browser);
          break;
        case "AWPage:FXA_METRICS_FLOW_URI":
 -        return FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");
-+//        return FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");
++/* MagIns - We do not collect metrics, thus do not provide an endpoint for about:welcome metrics
++        return FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");*/
 +        break;
-       case "AWPage:GET_ATTRIBUTION_DATA":
-         return AttributionCode.getAttrDataAsync();
        case "AWPage:IMPORTABLE_SITES":
          return getImportableSites();
        case "AWPage:TELEMETRY_EVENT":
 -        Telemetry.sendTelemetry(data);
-+//        Telemetry.sendTelemetry(data);
++/* MagIns - Disable telemetry sending
++        Telemetry.sendTelemetry(data);*/
          break;
        case "AWPage:LOCATION_CHANGED":
          this.AboutWelcomeObserver.terminateReason =
-Index: firefox-84.0.2/browser/components/preferences/preferences.js
+Index: firefox-89.0.2/browser/components/preferences/preferences.js
 ===================================================================
---- firefox-84.0.2.orig/browser/components/preferences/preferences.js
-+++ firefox-84.0.2/browser/components/preferences/preferences.js
+--- firefox-89.0.2.orig/browser/components/preferences/preferences.js
++++ firefox-89.0.2/browser/components/preferences/preferences.js
 @@ -159,7 +159,7 @@ function init_all() {
      let helpButton = document.getElementById("helpButton");
      let helpUrl =
@@ -214,11 +201,11 @@ Index: firefox-84.0.2/browser/components/preferences/preferences.js
      helpButton.setAttribute("href", helpUrl);
  
      document.getElementById("addonsButton").addEventListener("click", e => {
-Index: firefox-84.0.2/browser/app/profile/firefox.js
+Index: firefox-89.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-84.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-84.0.2/browser/app/profile/firefox.js
-@@ -253,16 +253,12 @@ pref("browser.defaultbrowser.notificatio
+--- firefox-89.0.2.orig/browser/app/profile/firefox.js
++++ firefox-89.0.2/browser/app/profile/firefox.js
+@@ -271,16 +271,12 @@ pref("browser.shell.defaultBrowserCheckC
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
  pref("browser.startup.page",                1);
@@ -237,11 +224,11 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
  
  // Show an about:blank window as early as possible for quick startup feedback.
  // Held to nightly on Linux due to bug 1450626.
-Index: firefox-84.0.2/docshell/base/nsAboutRedirector.cpp
+Index: firefox-89.0.2/docshell/base/nsAboutRedirector.cpp
 ===================================================================
---- firefox-84.0.2.orig/docshell/base/nsAboutRedirector.cpp
-+++ firefox-84.0.2/docshell/base/nsAboutRedirector.cpp
-@@ -94,8 +94,6 @@ static const RedirEntry kRedirMap[] = {
+--- firefox-89.0.2.orig/docshell/base/nsAboutRedirector.cpp
++++ firefox-89.0.2/docshell/base/nsAboutRedirector.cpp
+@@ -99,8 +99,6 @@ static const RedirEntry kRedirMap[] = {
           nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
           nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS},
@@ -250,10 +237,10 @@ Index: firefox-84.0.2/docshell/base/nsAboutRedirector.cpp
      {"neterror", "chrome://global/content/netError.xhtml",
       nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_CAN_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
-Index: firefox-84.0.2/toolkit/content/jar.mn
+Index: firefox-89.0.2/toolkit/content/jar.mn
 ===================================================================
---- firefox-84.0.2.orig/toolkit/content/jar.mn
-+++ firefox-84.0.2/toolkit/content/jar.mn
+--- firefox-89.0.2.orig/toolkit/content/jar.mn
++++ firefox-89.0.2/toolkit/content/jar.mn
 @@ -50,8 +50,6 @@ toolkit.jar:
     content/global/filepicker.properties
     content/global/customElements.js
@@ -263,29 +250,50 @@ Index: firefox-84.0.2/toolkit/content/jar.mn
     content/global/preferencesBindings.js
     content/global/process-content.js
     content/global/resetProfile.css
-Index: firefox-84.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+Index: firefox-89.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-+++ firefox-84.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-@@ -551,7 +551,7 @@ class WelcomeScreen extends react__WEBPA
- 
+--- firefox-89.0.2.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ firefox-89.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+@@ -803,10 +803,11 @@ __webpack_require__.r(__webpack_exports_
+ class MultiStageScreen extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
    renderTiles() {
      switch (this.props.content.tiles.type) {
--      case "topsites":
-+/*      case "topsites":
-         return this.props.topSites && this.props.topSites.data ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
++/* MagIns - We do not recommend Top Sites to users
+       case "topsites":
+-        return this.props.topSites && this.props.topSites.data ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
++        return this.props.topSites && this.props.topSites.data ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
            className: `tiles-container ${this.props.content.tiles.info ? "info" : ""}`
-         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-@@ -577,7 +577,7 @@ class WelcomeScreen extends react__WEBPA
+-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
++        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+           className: "tiles-topsites-section",
+           name: "topsites-section",
+           id: "topsites-section",
+@@ -816,20 +817,20 @@ class MultiStageScreen extends react__WE
+           icon,
+           label,
+           title
+-        }) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
++        }) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+           className: "site",
+           key: icon + label,
+           "aria-label": title ? title : label,
+           role: "img"
+-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
++        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+           className: "icon",
+           style: icon ? {
+             backgroundColor: "transparent",
+             backgroundImage: `url(${icon})`
            } : {}
-         }, icon ? "" : label && label[0].toUpperCase()), this.props.content.tiles.showTitles && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+-        }, icon ? "" : label && label[0].toUpperCase()), this.props.content.tiles.showTitles && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
++        }, icon ? "" : label && label[0].toUpperCase()), this.props.content.tiles.showTitles && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
            className: "host"
 -        }, title || label))))) : null;
 +        }, title || label))))) : null;*/
  
        case "theme":
-         return this.props.content.tiles.data ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-@@ -1132,10 +1132,10 @@ function addUtmParams(url, utmTerm) {
+         return this.props.content.tiles.data ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Themes__WEBPACK_IMPORTED_MODULE_3__["Themes"], {
+@@ -1234,10 +1235,10 @@ function addUtmParams(url, utmTerm) {
      returnUrl = new URL(url);
    }
  
@@ -298,26 +306,27 @@ Index: firefox-84.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcom
    return returnUrl;
  }
  
-Index: firefox-84.0.2/browser/base/content/browser-menubar.inc
+Index: firefox-89.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- firefox-84.0.2.orig/browser/base/content/browser-menubar.inc
-+++ firefox-84.0.2/browser/base/content/browser-menubar.inc
-@@ -484,9 +484,9 @@
-                 <menuitem id="troubleShooting"
-                           oncommand="openTroubleshootingPage()"
-                           onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-troubleshooting-info"/>
--                <menuitem id="feedbackPage"
-+ <!--               <menuitem id="feedbackPage"
+--- firefox-89.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-89.0.2/browser/base/content/browser-menubar.inc
+@@ -476,10 +476,11 @@
+ #else
+                           />
+ #endif
++<!-- MagIns - Remove the "Submit Feedback" option in the Help menu
+                 <menuitem id="feedbackPage"
                            oncommand="openFeedbackPage()"
--                          onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-feedback-page"/>
-+                          onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-feedback-page"/>-->
+                           data-l10n-id="menu-help-feedback-page"
+-                          appmenu-data-l10n-id="appmenu-help-feedback-page"/>
++                          appmenu-data-l10n-id="appmenu-help-feedback-page"/>-->
                  <menuitem id="helpSafeMode"
-                           oncommand="safeModeRestart();" data-l10n-id="menu-help-safe-mode-without-addons"/>
-                 <menuitem id="menu_HelpPopup_reportPhishingtoolmenu"
-Index: firefox-84.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
+                           oncommand="safeModeRestart();"
+                           data-l10n-id="menu-help-enter-troubleshoot-mode2"
+Index: firefox-89.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/lib/SearchShortcuts.jsm
-+++ firefox-84.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
+--- firefox-89.0.2.orig/browser/components/newtab/lib/SearchShortcuts.jsm
++++ firefox-89.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
 @@ -8,28 +8,17 @@ const { Services } = ChromeUtils.import(
  // List of sites we match against Topsites in order to identify sites
  // that should be converted to search Topsites
@@ -347,11 +356,11 @@ Index: firefox-84.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
    {
      keyword: "@wikipedia",
      shortURL: "wikipedia",
-Index: firefox-84.0.2/browser/components/newtab/lib/ActivityStream.jsm
+Index: firefox-89.0.2/browser/components/newtab/lib/ActivityStream.jsm
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/lib/ActivityStream.jsm
-+++ firefox-84.0.2/browser/components/newtab/lib/ActivityStream.jsm
-@@ -384,7 +384,7 @@ const PREFS_CONFIG = new Map([
+--- firefox-89.0.2.orig/browser/components/newtab/lib/ActivityStream.jsm
++++ firefox-89.0.2/browser/components/newtab/lib/ActivityStream.jsm
+@@ -324,7 +324,7 @@ const PREFS_CONFIG = new Map([
            return "";
          }
          const searchShortcuts = [];
@@ -360,7 +369,7 @@ Index: firefox-84.0.2/browser/components/newtab/lib/ActivityStream.jsm
            searchShortcuts.push("baidu");
          } else if (["BY", "KZ", "RU", "TR"].includes(geo)) {
            searchShortcuts.push("yandex");
-@@ -393,7 +393,7 @@ const PREFS_CONFIG = new Map([
+@@ -333,7 +333,7 @@ const PREFS_CONFIG = new Map([
          }
          if (["DE", "FR", "GB", "IT", "JP", "US"].includes(geo)) {
            searchShortcuts.push("amazon");
@@ -369,30 +378,11 @@ Index: firefox-84.0.2/browser/components/newtab/lib/ActivityStream.jsm
          return searchShortcuts.join(",");
        },
      },
-Index: firefox-84.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
+Index: firefox-89.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/lib/TopSitesFeed.jsm
-+++ firefox-84.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
-@@ -99,12 +99,12 @@ const SEARCH_FILTERS = [
-   "duckduckgo",
- ];
- let SEARCH_TILE_OVERRIDE_PREFS = new Map();
--for (let searchProvider of ["amazon", "google"]) {
-+/*for (let searchProvider of ["amazon", "google"]) {
-   SEARCH_TILE_OVERRIDE_PREFS.set(
-     `browser.newtabpage.searchTileOverride.${searchProvider}.url`,
-     searchProvider
-   );
--}
-+}*/
- 
- const REMOTE_SETTING_DEFAULTS_PREF = "browser.topsites.useRemoteSetting";
- const REMOTE_SETTING_MIGRATION_ID_PREF =
-Index: firefox-84.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
-===================================================================
---- firefox-84.0.2.orig/toolkit/mozapps/extensions/content/aboutaddons.html
-+++ firefox-84.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
-@@ -35,7 +35,8 @@
+--- firefox-89.0.2.orig/toolkit/mozapps/extensions/content/aboutaddons.html
++++ firefox-89.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
+@@ -36,7 +36,8 @@
      <div id="full">
        <div id="sidebar">
          <categories-box id="categories" orientation="vertical">
@@ -402,7 +392,7 @@ Index: firefox-84.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
            <button is="category-button" viewid="addons://list/extension" class="category" role="tab" name="extension"></button>
            <button is="category-button" viewid="addons://list/theme" class="category" role="tab" name="theme"></button>
            <button is="category-button" viewid="addons://list/plugin" class="category" role="tab" name="plugin"></button>
-@@ -363,7 +364,7 @@
+@@ -365,7 +366,7 @@
      </template>
  
      <template name="recommended-extensions-section">
@@ -411,3 +401,824 @@ Index: firefox-84.0.2/toolkit/mozapps/extensions/content/aboutaddons.html
        <taar-notice></taar-notice>
        <recommended-addon-list type="extension" hide-installed></recommended-addon-list>
        <footer is="recommended-footer" class="view-footer"></footer>
+Index: firefox-89.0.2/browser/base/content/utilityOverlay.js
+===================================================================
+--- firefox-89.0.2.orig/browser/base/content/utilityOverlay.js
++++ firefox-89.0.2/browser/base/content/utilityOverlay.js
+@@ -1081,9 +1081,11 @@ function openFeedbackPage() {
+ }
+ 
+ function buildHelpMenu() {
++/* MagIns - The Feedback entry is removed in browser-menubar.inc, comment out for
++            compatibility
+   document.getElementById(
+     "feedbackPage"
+-  ).disabled = !Services.policies.isAllowed("feedbackCommands");
++  ).disabled = !Services.policies.isAllowed("feedbackCommands");*/
+ 
+   document.getElementById(
+     "helpSafeMode"
+Index: firefox-89.0.2/services/settings/dumps/main/top-sites.json
+===================================================================
+--- firefox-89.0.2.orig/services/settings/dumps/main/top-sites.json
++++ firefox-89.0.2/services/settings/dumps/main/top-sites.json
+@@ -1,778 +1,4 @@
+ {
+   "data": [
+-    {
+-      "url": "https://www.amazon.es/?tag=admarketpl0c0-21&ref=pd_sl_a317866950ES%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1623872989071,
+-      "include_regions": [
+-        "ES"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "d69308b2-7a6e-49e9-bfae-77fbafcb1ce2",
+-      "last_modified": 1623959042906
+-    },
+-    {
+-      "url": "https://www.amazon.com/",
+-      "order": 50,
+-      "title": "Amazon",
+-      "schema": 1623956287723,
+-      "include_locales": [],
+-      "include_regions": [
+-        "ES"
+-      ],
+-      "include_experiments": [
+-        "ebay-2020-1_fallback"
+-      ],
+-      "id": "354690ae-3d9d-4745-a82b-7ac43e4b3213",
+-      "last_modified": 1623959042903
+-    },
+-    {
+-      "url": "https://yandex.com.tr/?clid=2453500",
+-      "order": 0,
+-      "title": "Yandex",
+-      "schema": 1623869047416,
+-      "include_regions": [
+-        "TR"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "dbbcd85e-6db4-44d5-9cc1-abad1fe1e557",
+-      "last_modified": 1623869278041
+-    },
+-    {
+-      "url": "https://yandex.kz/?clid=2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1623869067532,
+-      "include_regions": [
+-        "KZ"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "5863a53d-e0c3-4053-8332-1edf7f5b7797",
+-      "last_modified": 1623869278038
+-    },
+-    {
+-      "url": "https://yandex.by/?clid=2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1623869080131,
+-      "include_regions": [
+-        "BY"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "dbb0749e-1556-420f-8f3e-2e9d5b5efbee",
+-      "last_modified": 1623869278035
+-    },
+-    {
+-      "url": "https://yandex.ru/?clid=2453500",
+-      "order": 0,
+-      "title": "Яндекс",
+-      "schema": 1623869090355,
+-      "include_regions": [
+-        "RU"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "f16abe55-30be-4d53-b1ac-7ba1e16d17c6",
+-      "last_modified": 1623869278033
+-    },
+-    {
+-      "url": "https://www.amazon.ca/",
+-      "order": 50,
+-      "title": "Amazon",
+-      "schema": 1621028261398,
+-      "include_regions": [
+-        "CA"
+-      ],
+-      "search_shortcut": false,
+-      "exclude_experiments": [],
+-      "id": "82386dfa-cc7a-4fcb-9b1e-c9343d3da79d",
+-      "last_modified": 1621028626500
+-    },
+-    {
+-      "url": "https://www.etsy.com/ca?utm_source=admarketplace&utm_medium=cpc&utm_term=etsy_exact&utm_campaign=Search_CA_Nonbrand_AMP_Conducive&utm_ag=utmag&utm_custom1=318426293CA%YYYYMMDDHH%_&utm_content=amp_218221_14988193_creative_targetid_device_feeditemid_318426293CA&utm_custom2=218221",
+-      "order": 0,
+-      "title": "Etsy",
+-      "schema": 1620923802877,
+-      "include_regions": [
+-        "CA"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "disabled"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "0171a7bd-6ddc-409b-b68f-dc5e9e5224d5",
+-      "last_modified": 1621028626497
+-    },
+-    {
+-      "url": "https://www.amazon.ca/?tag=admpdesktopca-20&ref=pd_sl_a317866944CA%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1619532618002,
+-      "include_regions": [
+-        "CA"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "disabled"
+-      ],
+-      "url_urlbar_override": "https://www.amazon.ca/?tag=admpdesktopca-20&ref=pd_sl_a317867036CA%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+-      "id": "f2fc4f42-d930-4c0c-acdc-1d29b56234d3",
+-      "last_modified": 1619539787374
+-    },
+-    {
+-      "url": "https://www.amazon.com.br/?tag=admarketbr-20&ref=pd_sl_a317866941BR%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1617895381812,
+-      "include_regions": [
+-        "BR"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "7e3ef99b-55d8-42f1-a8e9-7e696545cdbd",
+-      "last_modified": 1619451115290
+-    },
+-    {
+-      "url": "https://www.amazon.in/?tag=admpdesktopin-21&ref=pd_sl_a317866956IN%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1617982468842,
+-      "include_regions": [
+-        "IN"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "f99e66fc-88c2-4478-807e-7bb84e95c207",
+-      "last_modified": 1619451115284
+-    },
+-    {
+-      "url": "https://www.amazon.it/?tag=admarketpla0c-21&ref=pd_sl_a317866959IT%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1617982545531,
+-      "include_regions": [
+-        "IT"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "9ae71287-6c2a-4e69-9d4e-c42defd0df42",
+-      "last_modified": 1619451115280
+-    },
+-    {
+-      "url": "https://www.amazon.com.mx/?tag=admarketdskmx-20&ref=pd_sl_a317866962MX%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1617982697716,
+-      "include_regions": [
+-        "MX"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "3413f2c2-7612-46ec-98b7-e529114e7240",
+-      "last_modified": 1619451115271
+-    },
+-    {
+-      "url": "https://www.ebay.it/?mkevt=1&mkcid=2&mkrid=724-161540-937702-6&keyword=conducive&crlp=318422032IT%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=218025",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1617982765113,
+-      "include_regions": [
+-        "IT"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "send_attribution_request": true,
+-      "id": "fc1ecd88-b91c-423b-a9eb-fbf65545ca76",
+-      "last_modified": 1619451115268
+-    },
+-    {
+-      "url": "https://yandex.ru/",
+-      "order": 0,
+-      "title": "Yandex",
+-      "schema": 1618500265732,
+-      "include_regions": [
+-        "BY",
+-        "KZ",
+-        "RU",
+-        "TR"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "yandex-2021-1"
+-      ],
+-      "include_experiments": [],
+-      "id": "49e408ae-41c9-400c-9d9a-b871e0ef8db4",
+-      "last_modified": 1619451115264
+-    },
+-    {
+-      "url": "https://www.amazon.fr/",
+-      "order": 40,
+-      "title": "Amazon",
+-      "schema": 1615464108938,
+-      "include_regions": [
+-        "FR"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "61f01feb-8243-4fef-b360-733e8c5a150e",
+-      "last_modified": 1616085500499
+-    },
+-    {
+-      "url": "https://www.amazon.de/",
+-      "order": 25,
+-      "title": "Amazon",
+-      "schema": 1615385045177,
+-      "include_regions": [
+-        "DE"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "6e34a6b9-353f-4df1-91f7-25912d621d23",
+-      "last_modified": 1616085500495
+-    },
+-    {
+-      "url": "https://www.amazon.co.uk/",
+-      "order": 50,
+-      "title": "Amazon",
+-      "schema": 1615463950377,
+-      "include_regions": [
+-        "GB"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "bd30e776-5537-47e9-b66c-e46d6daccc50",
+-      "last_modified": 1616085500491
+-    },
+-    {
+-      "url": "https://www.amazon.com/",
+-      "order": 23,
+-      "title": "Amazon",
+-      "schema": 1615463623635,
+-      "include_regions": [
+-        "US",
+-        "IT",
+-        "JP"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "2bf453fd-b588-4d99-b7e7-0d48387a62f8",
+-      "last_modified": 1616085500488
+-    },
+-    {
+-      "url": "https://www.amazon.com/",
+-      "order": 50,
+-      "title": "Amazon",
+-      "schema": 1615377805685,
+-      "exclude_regions": [
+-        "PL",
+-        "RU",
+-        "CN",
+-        "GB",
+-        "FR",
+-        "CA",
+-        "DE",
+-        "US",
+-        "IT",
+-        "JP"
+-      ],
+-      "search_shortcut": false,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "send_attribution_request": false,
+-      "id": "78e5e650-e27c-485c-a321-f1ea3d161c34",
+-      "last_modified": 1615385045111
+-    },
+-    {
+-      "url": "https://www.google.com/",
+-      "order": 0,
+-      "title": "Google",
+-      "schema": 1611836508660,
+-      "exclude_regions": [
+-        "BY",
+-        "KZ",
+-        "RU",
+-        "TR",
+-        "CN"
+-      ],
+-      "search_shortcut": true,
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "0ee067b7-c0ca-4cf6-96f8-320c2a1b927b",
+-      "last_modified": 1611838808382
+-    },
+-    {
+-      "url": "https://www.baidu.com/",
+-      "order": 10,
+-      "schema": 1611835746769,
+-      "include_regions": [
+-        "CN"
+-      ],
+-      "search_shortcut": true,
+-      "id": "1bfdbe7c-570f-494a-b61c-20c5c64dd69d",
+-      "last_modified": 1611838808375
+-    },
+-    {
+-      "url": "https://www.ebay.com.au/?mkevt=1&mkcid=2&mkrid=7051608169736203&keyword=conducive&crlp=318353405AU%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217349",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1611316042640,
+-      "include_regions": [
+-        "AU"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.com.au/?mkevt=1&mkcid=2&mkrid=7051608169736203&keyword=conducive&crlp=318353406AU%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217349",
+-      "send_attribution_request": true,
+-      "id": "998a610f-a1aa-4c89-b711-e642af665560",
+-      "last_modified": 1611677652023
+-    },
+-    {
+-      "url": "https://www.ebay.ca/?mkevt=1&mkcid=2&mkrid=7061608169858537&keyword=conducive&crlp=318370981CA%YYYYMMDDHH%&MT_ID=562786&geo_id=&device=Computers&cmpgn=217715",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1611173713861,
+-      "include_regions": [
+-        "CA"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.ca/?mkevt=1&mkcid=2&mkrid=7061608169858537&keyword=conducive&crlp=318370982CA%YYYYMMDDHH%&MT_ID=562786&geo_id=&device=Computers&cmpgn=217715",
+-      "send_attribution_request": true,
+-      "id": "cda45b34-704c-4cb5-9a9a-426d8dd6b745",
+-      "last_modified": 1611677652020
+-    },
+-    {
+-      "url": "https://www.ebay.com/?mkevt=1&mkcid=2&mkrid=7111608169546898&keyword=conducive&crlp=318353411US%YYYYMMDDHH%&MT_ID=562786&geo_id=10232&device=Computers&cmpgn=216223",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1610984980368,
+-      "include_regions": [
+-        "US"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.com/?mkevt=1&mkcid=2&mkrid=7111608169546898&keyword=conducive&crlp=318353412US%YYYYMMDDHH%&MT_ID=562786&geo_id=10232&device=Computers&cmpgn=216223",
+-      "send_attribution_request": true,
+-      "id": "0f88ad04-9af4-4a88-8211-aa02d5a0b288",
+-      "last_modified": 1611076538711
+-    },
+-    {
+-      "url": "https://www.ebay.co.uk/?mkevt=1&mkcid=2&mkrid=7101608169642080&keyword=conducive&crlp=318355819GB%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=216901",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1610985000385,
+-      "include_regions": [
+-        "GB"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.co.uk/?mkevt=1&mkcid=2&mkrid=7101608169642080&keyword=conducive&crlp=318355820GB%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=216901",
+-      "send_attribution_request": true,
+-      "id": "63fab9a4-70d9-49d7-8b31-089867280316",
+-      "last_modified": 1611076538707
+-    },
+-    {
+-      "url": "https://www.ebay.de/?mkevt=1&mkcid=2&mkrid=7071608169806221&keyword=conducive&crlp=318367612DE%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217719",
+-      "order": 0,
+-      "title": "eBay",
+-      "schema": 1610826102114,
+-      "include_regions": [
+-        "DE"
+-      ],
+-      "sponsored_position": 2,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.ebay.de/?mkevt=1&mkcid=2&mkrid=7071608169806221&keyword=conducive&crlp=318367613DE%YYYYMMDDHH%&MT_ID=562786&device=Computers&cmpgn=217719",
+-      "send_attribution_request": true,
+-      "id": "4efa52be-32c9-4ab9-807d-ca3cb3c8f340",
+-      "last_modified": 1611076538696
+-    },
+-    {
+-      "url": "https://www.ebay.co.uk/",
+-      "order": 70,
+-      "title": "eBay",
+-      "schema": 1610661703633,
+-      "include_regions": [
+-        "GB"
+-      ],
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "2abe6385-2f49-49ca-a4ff-0e635bc2ab7c",
+-      "last_modified": 1611076538693
+-    },
+-    {
+-      "url": "https://www.amazon.com.au/?tag=admarketdeskt-22&ref=pd_sl_a318408405AU%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1608030031997,
+-      "include_regions": [
+-        "AU"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.amazon.com.au/?tag=admarketdeskt-22&ref=pd_sl_a318408406AU%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+-      "id": "fa9b04d5-5917-421b-a8a0-963722ad8d7f",
+-      "last_modified": 1608239138396
+-    },
+-    {
+-      "url": "https://www.amazon.fr/?tag=admarketpla00-21&ref=pd_sl_a317866953FR%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1608031563878,
+-      "include_regions": [
+-        "FR"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.amazon.fr/?tag=admarketpla00-21&ref=pd_sl_a317867039FR%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+-      "id": "4b14dda7-4d66-4add-855c-19dfb5b84ede",
+-      "last_modified": 1608239138388
+-    },
+-    {
+-      "url": "https://www.ebay.de/",
+-      "order": 26,
+-      "title": "eBay",
+-      "schema": 1608200991177,
+-      "include_regions": [
+-        "DE"
+-      ],
+-      "exclude_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "id": "61b60614-1285-41c6-a0c1-9fe12f3983c4",
+-      "last_modified": 1608239138349
+-    },
+-    {
+-      "url": "https://www.amazon.de/?tag=admpdesktopde-21&ref=pd_sl_a8E0DFDAEAADZZ12%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1605021228258,
+-      "include_regions": [
+-        "DE"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.amazon.de/?tag=admpdesktopde-21&ref=pd_sl_aBB39B9165B5CF11%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+-      "id": "306a3851-b9ff-4b3a-a4aa-8f408fea4b68",
+-      "last_modified": 1605024212690
+-    },
+-    {
+-      "url": "https://www.amazon.co.uk/?tag=admpdesktopuk-21&ref=pd_sl_aF2E70068DAAZZ23%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1605021314971,
+-      "include_regions": [
+-        "GB"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.amazon.co.uk/?tag=admpdesktopuk-21&ref=pd_sl_a03A81C10121DA11%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+-      "id": "b841da27-9b4d-4660-813a-8ccbde98e022",
+-      "last_modified": 1605024212686
+-    },
+-    {
+-      "url": "https://www.amazon.com/?tag=admarketus-20&ref=pd_sl_a77559ED8D65AA12%YYYYMMDDHH%",
+-      "order": 0,
+-      "title": "Amazon",
+-      "schema": 1605021163110,
+-      "include_regions": [
+-        "US"
+-      ],
+-      "sponsored_position": 1,
+-      "include_experiments": [
+-        "ebay-2020-1"
+-      ],
+-      "url_urlbar_override": "https://www.amazon.com/?tag=admarketus-20&ref=pd_sl_a3B05123160CA611%YYYYMMDDHH%",
+-      "send_attribution_request": true,
+-      "id": "e429f95f-42d5-4bdd-9109-726a8a2d055a",
+-      "last_modified": 1605024212682
+-    },
+-    {
+-      "url": "https://www.reddit.com/",
+-      "order": 25,
+-      "title": "Reddit",
+-      "schema": 1600861208039,
+-      "include_regions": [
+-        "US",
+-        "CA"
+-      ],
+-      "id": "cfac4c2a-4788-450d-8e92-ba6b26a1faf1",
+-      "last_modified": 1603813848271
+-    },
+-    {
+-      "url": "https://www.reddit.com/",
+-      "order": 40,
+-      "title": "Reddit",
+-      "schema": 1600861199348,
+-      "exclude_regions": [
+-        "PL",
+-        "RU",
+-        "FR",
+-        "CN",
+-        "US",
+-        "CA"
+-      ],
+-      "id": "7a129df1-ec8f-4bf3-a83e-49b90409d1be",
+-      "last_modified": 1603813848259
+-    },
+-    {
+-      "url": "https://www.zhihu.com/",
+-      "order": 20,
+-      "schema": 1599055903630,
+-      "include_regions": [
+-        "CN"
+-      ],
+-      "id": "568fca49-6921-4895-997b-60276d6ea000",
+-      "last_modified": 1599146777461
+-    },
+-    {
+-      "url": "https://www.ifeng.com/",
+-      "order": 30,
+-      "schema": 1599055904425,
+-      "include_regions": [
+-        "CN"
+-      ],
+-      "id": "8d392627-d892-4b51-96a7-3b2ec47c6cdd",
+-      "last_modified": 1599146777456
+-    },
+-    {
+-      "url": "https://weibo.com/",
+-      "order": 40,
+-      "schema": 1599055905429,
+-      "include_regions": [
+-        "CN"
+-      ],
+-      "id": "e707b8ac-e844-4b14-a1bc-ce6968c777d1",
+-      "last_modified": 1599146777450
+-    },
+-    {
+-      "url": "https://www.ctrip.com/",
+-      "order": 50,
+-      "schema": 1599055906460,
+-      "include_regions": [
+-        "CN"
+-      ],
+-      "id": "38ac6a09-6d0b-43fc-894b-d214e6d5b684",
+-      "last_modified": 1599146777446
+-    },
+-    {
+-      "url": "https://www.iqiyi.com/",
+-      "order": 60,
+-      "schema": 1599055907301,
+-      "include_regions": [
+-        "CN"
+-      ],
+-      "id": "cbb986d2-665d-4967-b74b-41ecdd7c6188",
+-      "last_modified": 1599146777441
+-    },
+-    {
+-      "url": "https://allegro.pl/",
+-      "order": 25,
+-      "schema": 1599055926547,
+-      "include_regions": [
+-        "PL"
+-      ],
+-      "id": "dfbd59db-d7d5-4efe-b379-5c3af46e390b",
+-      "last_modified": 1599146777436
+-    },
+-    {
+-      "url": "https://www.olx.pl/",
+-      "order": 40,
+-      "schema": 1599056211503,
+-      "include_regions": [
+-        "PL"
+-      ],
+-      "id": "88f3bf01-350c-4fbb-97c9-c2b72b93274c",
+-      "last_modified": 1599146777431
+-    },
+-    {
+-      "url": "https://www.wykop.pl/",
+-      "order": 50,
+-      "schema": 1599056212302,
+-      "include_regions": [
+-        "PL"
+-      ],
+-      "id": "7fcb96b5-b24f-4bb0-8b0d-c363ef24973b",
+-      "last_modified": 1599146777426
+-    },
+-    {
+-      "url": "https://vk.com/",
+-      "order": 5,
+-      "schema": 1599056213323,
+-      "include_regions": [
+-        "RU"
+-      ],
+-      "id": "ac72a188-802a-447b-9a79-0a4835136240",
+-      "last_modified": 1599146777420
+-    },
+-    {
+-      "url": "https://ok.ru/",
+-      "order": 11,
+-      "schema": 1599056214142,
+-      "include_regions": [
+-        "RU"
+-      ],
+-      "id": "2db41cb5-c87b-4fef-9583-d2d3d85fa182",
+-      "last_modified": 1599146777416
+-    },
+-    {
+-      "url": "https://www.avito.ru/",
+-      "order": 12,
+-      "schema": 1599056215077,
+-      "include_regions": [
+-        "RU"
+-      ],
+-      "id": "92af59ac-7e4f-48b0-b20c-a7a39f0496ee",
+-      "last_modified": 1599146777411
+-    },
+-    {
+-      "url": "https://www.aliexpress.com/",
+-      "order": 13,
+-      "schema": 1599056215899,
+-      "include_regions": [
+-        "RU"
+-      ],
+-      "id": "881bc01e-45f8-4c9d-b650-3940f2aa430b",
+-      "last_modified": 1599146777406
+-    },
+-    {
+-      "url": "https://www.leboncoin.fr/",
+-      "order": 50,
+-      "schema": 1599056218470,
+-      "include_regions": [
+-        "FR"
+-      ],
+-      "id": "aa4bb35d-ddaf-452f-af32-cbf80d67a135",
+-      "last_modified": 1599146777401
+-    },
+-    {
+-      "url": "https://twitter.com/",
+-      "order": 60,
+-      "title": "Twitter",
+-      "schema": 1599056605399,
+-      "exclude_regions": [
+-        "PL",
+-        "RU",
+-        "DE",
+-        "GB",
+-        "CN"
+-      ],
+-      "id": "4c49a54c-6515-495f-b24d-4aae165479fc",
+-      "last_modified": 1599146777375
+-    },
+-    {
+-      "url": "https://www.youtube.com/",
+-      "order": 10,
+-      "title": "YouTube",
+-      "schema": 1599056606419,
+-      "exclude_regions": [
+-        "CN"
+-      ],
+-      "id": "12abfe01-c608-4060-8fff-c3df73ff3fc0",
+-      "last_modified": 1599146777370
+-    },
+-    {
+-      "url": "https://www.facebook.com/",
+-      "order": 20,
+-      "title": "Facebook",
+-      "schema": 1599056607418,
+-      "exclude_regions": [
+-        "RU",
+-        "CN"
+-      ],
+-      "id": "19045f47-6dde-43a8-9511-3fc0c4555a09",
+-      "last_modified": 1599146777365
+-    },
+-    {
+-      "url": "https://www.wikipedia.org/",
+-      "order": 30,
+-      "title": "Wikipedia",
+-      "schema": 1599056608910,
+-      "exclude_regions": [
+-        "GB",
+-        "CN"
+-      ],
+-      "id": "c109ad2c-eae5-4b47-bac7-ac2eb9eb9aab",
+-      "last_modified": 1599146777355
+-    },
+-    {
+-      "url": "https://www.bbc.co.uk/",
+-      "order": 60,
+-      "title": "BBC",
+-      "schema": 1599056678589,
+-      "include_regions": [
+-        "GB"
+-      ],
+-      "id": "89e3da9e-1d84-4c24-beab-d0692fc7cc45",
+-      "last_modified": 1599146777345
+-    }
+   ]
+ }
+Index: firefox-89.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
+===================================================================
+--- firefox-89.0.2.orig/browser/components/newtab/lib/TopSitesFeed.jsm
++++ firefox-89.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
+@@ -397,6 +397,7 @@ this.TopSitesFeed = class TopSitesFeed {
+    * @returns {Boolean} Did we insert any search shortcuts?
+    */
+   async _maybeInsertSearchShortcuts(plainPinnedSites) {
++/* MagIns - We do not want to pin any search engines for users
+     // Only insert shortcuts if the experiment is running
+     if (this.store.getState().Prefs.values[SEARCH_SHORTCUTS_EXPERIMENT]) {
+       // We don't want to insert shortcuts we've previously inserted
+@@ -468,7 +469,7 @@ this.TopSitesFeed = class TopSitesFeed {
+         return true;
+       }
+     }
+-
++    */
+     return false;
+   }
+ 

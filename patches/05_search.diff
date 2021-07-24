@@ -1,8 +1,8 @@
-Index: firefox-84.0.2/browser/components/preferences/search.js
+Index: firefox-89.0/browser/components/preferences/search.js
 ===================================================================
---- firefox-84.0.2.orig/browser/components/preferences/search.js
-+++ firefox-84.0.2/browser/components/preferences/search.js
-@@ -297,6 +297,9 @@ var gSearchPane = {
+--- firefox-89.0.orig/browser/components/preferences/search.js
++++ firefox-89.0/browser/components/preferences/search.js
+@@ -329,6 +329,9 @@ var gSearchPane = {
      // Now clean-up and rebuild the list.
      list.removeAllItems();
      gEngineView._engineStore._engines.forEach(e => {
@@ -12,20 +12,20 @@ Index: firefox-84.0.2/browser/components/preferences/search.js
        let item = list.appendItem(e.name);
        item.setAttribute(
          "class",
-@@ -309,7 +312,7 @@ var gSearchPane = {
+@@ -341,7 +344,7 @@ var gSearchPane = {
        if (e.name == currentEngine) {
-          list.selectedItem = item;
+         list.selectedItem = item;
        }
 -    });
 +    }});
    },
  
    handleEvent(aEvent) {
-Index: firefox-84.0.2/toolkit/components/search/SearchService.jsm
+Index: firefox-89.0/toolkit/components/search/SearchService.jsm
 ===================================================================
---- firefox-84.0.2.orig/toolkit/components/search/SearchService.jsm
-+++ firefox-84.0.2/toolkit/components/search/SearchService.jsm
-@@ -513,7 +513,7 @@ SearchService.prototype = {
+--- firefox-89.0.orig/toolkit/components/search/SearchService.jsm
++++ firefox-89.0/toolkit/components/search/SearchService.jsm
+@@ -512,7 +512,7 @@ SearchService.prototype = {
     *   The engine that is default.
     */
    _originalDefaultEngine(privateMode = false) {
@@ -34,7 +34,7 @@ Index: firefox-84.0.2/toolkit/components/search/SearchService.jsm
        privateMode && this._searchPrivateDefault
          ? this._searchPrivateDefault
          : this._searchDefault
-@@ -531,7 +531,8 @@ SearchService.prototype = {
+@@ -530,7 +530,8 @@ SearchService.prototype = {
  
      // Something unexpected as happened. In order to recover the original
      // default engine, use the first visible engine which is the best we can do.

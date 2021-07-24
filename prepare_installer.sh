@@ -18,14 +18,19 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 
 	# Copy Resource Hacker files to the installer location
 	cp $ROOTDIR"/ResourceHacker/"miff.exe.* 7zip/core
+	cp $ROOTDIR"/ResourceHacker/"updater.exe.* 7zip/core
 	cp $ROOTDIR"/ResourceHacker/"installer.exe.* 7zip
 
 	# Move to temporary directory and run first RH script
 	cd 7zip/core
-	echo "=== Applying first Resource Hacker script"
+	echo "=== Applying Resource Hacker script for MiFF"
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.StringTable7.rc -action compile
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open miff.exe.VersionInfo1.rc -action compile
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script miff.exe.script.txt
+
+	echo "=== Applying Resource Hacker script for updater"
+	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open updater.exe.VersionInfo1.rc -action compile
+	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script updater.exe.script.txt
 
 	# Make directory for extensions inside core/
 	mkdir distribution
@@ -45,7 +50,9 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	cp $ROOTDIR"/InstallerFiles/config.txt" 7zip/config.txt
 
 	# Clean up core and create a new archive
-	rm 7zip/core/miff.exe.* 7zip/core/firefox.exe
+	rm 7zip/core/miff.exe.* 7zip/core/firefox.exe 7zip/core/updater.exe.*
+	rm 7zip/core/updater.exe
+	mv 7zip/core/miffupdater.exe 7zip/core/updater.exe
 	cd 7zip
 	echo "=== Creating tempInstaller.7z"
 	7z a tempInstaller.7z core/ MiFFInstaller.exe
@@ -55,7 +62,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	./repackage.bat
 
 	# Run second RH script
-	echo "=== Applying second Resource Hacker script"
+	echo "=== Applying Resource Hacker script for installer"
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -open installer.exe.VersionInfo1.rc -action compile
 	cygstart -w "C:/Program Files (x86)/Resource Hacker/ResourceHacker.exe" -script installer.exe.script.txt
 

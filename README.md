@@ -144,6 +144,21 @@ quilt push -a
 ./mach run
 ```
 
+### Creating an update file
+Firefox updates replace the files in a user's install directory. These updates are packaged as a special type of xz or bz2 archive called a MAR (Mozilla Archive). There are two tools that are available to create a MAR: a signmar tool created during the normal build process (obj*/dist/bin/signmar), and a Python tool (https://github.com/mozilla/build-mar). We need both to create a working update. The signmar creates a file manifest, but cannot sign the MAR; the Python tool can sign, but does not generate a file manifest.
+
+The Python tool can be installed with pip, but requires several other tools in order to install properly.
+
+For Cygwin:
+* python38
+* python38-devel
+* python38-cryptography
+* liblzma-devel
+
+For Ubuntu:
+* liblzma-dev
+
+
 ### Working with the update patch (patch #12)
 
 If you have not run ```./mach build``` before, quilt will fail trying
@@ -161,7 +176,10 @@ apply correctly.
 
 ### Working with the release patch (patch #99)
 
-The final patch in the series is used to disable debug features and to track the version number. If you are developing 
+The final patch in the series is used to disable debug features and to
+track the version number. If you are working on development you will want
+to leave this patch unapplied. Before creating a release/update, set the
+appropriate version number in this patch and create a matching tag on Github.
 
 And you should have a working, re-branded Firefox.
 
@@ -197,7 +215,6 @@ You will need to selectively 'quilt push' until you are at the patch
 file you want to be using to cluster your changes.  Make sure the
 file(s) you are working with are referenced in that patch file (if not
 add them with `quilt add <filename>`.
-
 
 ### Some principles
 

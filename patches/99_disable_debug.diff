@@ -16,11 +16,11 @@ Index: firefox-89.0.2/browser/config/version.txt
 +++ firefox-89.0.2/browser/config/version.txt
 @@ -1 +1 @@
 -89.0.2
-+89.0.2.1
++89.0.2.3
 Index: firefox-89.0.2/browser/config/version_display.txt
 ===================================================================
 --- firefox-89.0.2.orig/browser/config/version_display.txt
 +++ firefox-89.0.2/browser/config/version_display.txt
 @@ -1 +1 @@
 -89.0.2
-+89.0.2.1
++89.0.2.3

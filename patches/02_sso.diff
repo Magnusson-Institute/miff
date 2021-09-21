@@ -1,8 +1,8 @@
-Index: firefox-89.0/browser/app/profile/firefox.js
+Index: firefox-89.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-89.0.orig/browser/app/profile/firefox.js
-+++ firefox-89.0/browser/app/profile/firefox.js
-@@ -1427,7 +1427,10 @@ pref("browser.newtabpage.activity-stream
+--- firefox-89.0.2.orig/browser/app/profile/firefox.js
++++ firefox-89.0.2/browser/app/profile/firefox.js
+@@ -1435,7 +1435,10 @@ pref("browser.newtabpage.activity-stream
  #endif
  
  // The remote FxA root content URL for the Activity Stream firstrun page.
@@ -14,7 +14,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // The pref that controls if the search shortcuts experiment is on
  pref("browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts", true);
-@@ -1587,16 +1590,31 @@ pref("browser.uiCustomization.state", ""
+@@ -1595,16 +1598,31 @@ pref("browser.uiCustomization.state", ""
  pref("identity.fxaccounts.enabled", true);
  
  // The remote FxA root content URL. Must use HTTPS.
@@ -49,7 +49,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // Whether FxA pairing using QR codes is enabled.
  pref("identity.fxaccounts.pairing.enabled", true);
-@@ -1605,7 +1623,10 @@ pref("identity.fxaccounts.pairing.enable
+@@ -1613,7 +1631,10 @@ pref("identity.fxaccounts.pairing.enable
  pref("identity.fxaccounts.remote.pairing.uri", "wss://channelserver.services.mozilla.com");
  
  // Token server used by the FxA Sync identity.
@@ -61,10 +61,10 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // Auto-config URL for FxA self-hosters, makes an HTTP request to
  // [identity.fxaccounts.autoconfig.uri]/.well-known/fxa-client-configuration
-Index: firefox-89.0/modules/libpref/init/all.js
+Index: firefox-89.0.2/modules/libpref/init/all.js
 ===================================================================
---- firefox-89.0.orig/modules/libpref/init/all.js
-+++ firefox-89.0/modules/libpref/init/all.js
+--- firefox-89.0.2.orig/modules/libpref/init/all.js
++++ firefox-89.0.2/modules/libpref/init/all.js
 @@ -4497,7 +4497,17 @@ pref("services.common.log.logger.tokense
    pref("services.sync.maxResyncs", 1);
  
@@ -84,10 +84,10 @@ Index: firefox-89.0/modules/libpref/init/all.js
  
    // Percentage chance we skip an extension storage sync (kinto life support).
    pref("services.sync.extension-storage.skipPercentageChance", 50);
-Index: firefox-89.0/services/fxaccounts/FxAccountsCommon.js
+Index: firefox-89.0.2/services/fxaccounts/FxAccountsCommon.js
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsCommon.js
-+++ firefox-89.0/services/fxaccounts/FxAccountsCommon.js
+--- firefox-89.0.2.orig/services/fxaccounts/FxAccountsCommon.js
++++ firefox-89.0.2/services/fxaccounts/FxAccountsCommon.js
 @@ -101,7 +101,12 @@ exports.COMMAND_SENDTAB = exports.COMMAN
  exports.FX_OAUTH_CLIENT_ID = "5882386c6d801776";
  exports.SCOPE_PROFILE = "profile";
@@ -128,10 +128,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsCommon.js
  ]);
  
  // Fields we store in secure storage if it exists.
-Index: firefox-89.0/services/fxaccounts/FxAccounts.jsm
+Index: firefox-89.0.2/services/fxaccounts/FxAccounts.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccounts.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccounts.jsm
+--- firefox-89.0.2.orig/services/fxaccounts/FxAccounts.jsm
++++ firefox-89.0.2/services/fxaccounts/FxAccounts.jsm
 @@ -535,7 +535,9 @@ class FxAccounts {
    getSignedInUser() {
      // Note we don't return the session token, but use it to see if we
@@ -162,10 +162,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccounts.jsm
    },
  
    // Easy-to-mock testable method
-Index: firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-89.0.2/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
+--- firefox-89.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-89.0.2/services/fxaccounts/FxAccountsClient.jsm
 @@ -764,6 +764,9 @@ FxAccountsClient.prototype = {
        log.debug("Received new request during backoff, re-rejecting.");
        throw this.backoffError;
@@ -200,10 +200,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
      } catch (error) {
        log.error("json parse error on response: " + response.body);
        // eslint-disable-next-line no-throw-literal
-Index: firefox-89.0/services/fxaccounts/FxAccountsProfileClient.jsm
+Index: firefox-89.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsProfileClient.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccountsProfileClient.jsm
+--- firefox-89.0.2.orig/services/fxaccounts/FxAccountsProfileClient.jsm
++++ firefox-89.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
 @@ -162,12 +162,21 @@ FxAccountsProfileClient.prototype = {
     */
    async _rawRequest(path, method, token, etag = null, payload = null) {
@@ -280,10 +280,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsProfileClient.jsm
      };
    },
  
-Index: firefox-89.0/services/fxaccounts/FxAccountsWebChannel.jsm
+Index: firefox-89.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsWebChannel.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccountsWebChannel.jsm
+--- firefox-89.0.2.orig/services/fxaccounts/FxAccountsWebChannel.jsm
++++ firefox-89.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
 @@ -252,7 +252,7 @@ FxAccountsWebChannel.prototype = {
        case COMMAND_LOGOUT:
        case COMMAND_DELETE:
@@ -320,10 +320,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsWebChannel.jsm
      uri += "#sync";
  
      browser.loadURI(uri, {
-Index: firefox-89.0/services/fxaccounts/FxAccountsStorage.jsm
+Index: firefox-89.0.2/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsStorage.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccountsStorage.jsm
+--- firefox-89.0.2.orig/services/fxaccounts/FxAccountsStorage.jsm
++++ firefox-89.0.2/services/fxaccounts/FxAccountsStorage.jsm
 @@ -156,7 +156,9 @@ FxAccountsStorageManager.prototype = {
      // We know we are initialized - this means our .cachedPlain is accurate
      // and doesn't need to be read (it was read if necessary by initialize).
@@ -374,10 +374,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsStorage.jsm
        }
        log.trace("finished write of user data to the login manager");
      } catch (ex) {
-Index: firefox-89.0/services/sync/modules/UIState.jsm
+Index: firefox-89.0.2/services/sync/modules/UIState.jsm
 ===================================================================
---- firefox-89.0.orig/services/sync/modules/UIState.jsm
-+++ firefox-89.0/services/sync/modules/UIState.jsm
+--- firefox-89.0.2.orig/services/sync/modules/UIState.jsm
++++ firefox-89.0.2/services/sync/modules/UIState.jsm
 @@ -171,9 +171,14 @@ const UIStateInternal = {
        } else {
          status = STATUS_SIGNED_IN;
@@ -394,10 +394,10 @@ Index: firefox-89.0/services/sync/modules/UIState.jsm
        // for better or worse, this module renames these attribues.
        state.avatarURL = userData.avatar;
        state.avatarIsDefault = userData.avatarDefault;
-Index: firefox-89.0/browser/base/content/browser-sync.js
+Index: firefox-89.0.2/browser/base/content/browser-sync.js
 ===================================================================
---- firefox-89.0.orig/browser/base/content/browser-sync.js
-+++ firefox-89.0/browser/base/content/browser-sync.js
+--- firefox-89.0.2.orig/browser/base/content/browser-sync.js
++++ firefox-89.0.2/browser/base/content/browser-sync.js
 @@ -1265,9 +1265,9 @@ var gSync = {
  
    async openFxAManagePageFromFxaMenu(panel = undefined) {
@@ -410,10 +410,10 @@ Index: firefox-89.0/browser/base/content/browser-sync.js
      }
      this.openFxAManagePage(entryPoint);
    },
-Index: firefox-89.0/dom/push/PushService.jsm
+Index: firefox-89.0.2/dom/push/PushService.jsm
 ===================================================================
---- firefox-89.0.orig/dom/push/PushService.jsm
-+++ firefox-89.0/dom/push/PushService.jsm
+--- firefox-89.0.2.orig/dom/push/PushService.jsm
++++ firefox-89.0.2/dom/push/PushService.jsm
 @@ -594,10 +594,15 @@ var PushService = {
        this._db = this._service.newPushDB();
      }
@@ -431,11 +431,27 @@ Index: firefox-89.0/dom/push/PushService.jsm
    },
  
    /**
-Index: firefox-89.0/services/fxaccounts/FxAccountsConfig.jsm
+Index: firefox-89.0.2/services/fxaccounts/FxAccountsConfig.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsConfig.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccountsConfig.jsm
-@@ -82,9 +82,9 @@ var FxAccountsConfig = {
+--- firefox-89.0.2.orig/services/fxaccounts/FxAccountsConfig.jsm
++++ firefox-89.0.2/services/fxaccounts/FxAccountsConfig.jsm
+@@ -65,12 +65,13 @@ var FxAccountsConfig = {
+ 
+   async promiseConnectAccountURI(entrypoint, extraParams = {}) {
+     return this._buildURL("", {
+-      extraParams: {
++/* MagIns - Return an empty list for UI simplicity
++        extraParams: {
+         entrypoint,
+         action: "email",
+         service: SYNC_PARAM,
+         ...extraParams,
+-      },
++      },*/
+     });
+   },
+ 
+@@ -82,9 +83,9 @@ var FxAccountsConfig = {
    },
  
    async promiseManageURI(entrypoint, extraParams = {}) {
@@ -447,3 +463,14 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsConfig.jsm
      });
    },
  
+@@ -131,7 +132,9 @@ var FxAccountsConfig = {
+   },
+ 
+   get defaultParams() {
+-    return { context: CONTEXT_PARAM };
++/* MagIns - Return an empty list for UI simplicity
++    return { context: CONTEXT_PARAM };*/
++    return {};
+   },
+ 
+   /**

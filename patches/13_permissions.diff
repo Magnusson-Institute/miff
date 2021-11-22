@@ -39,27 +39,144 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
 ===================================================================
 --- firefox-89.0.2.orig/browser/components/preferences/privacy.inc.xhtml
 +++ firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
-@@ -332,13 +332,13 @@
+@@ -333,23 +333,34 @@
        <hbox flex="1" id="deleteOnCloseNote" class="info-panel">
          <description flex="1" data-l10n-id="sitedata-delete-on-close-private-browsing" />
        </hbox>
--      <hbox id="keepRow"
-+<!--      <hbox id="keepRow"
++<!-- MagIns - Remove the basic network.cookie.lifetimePolicy preference in favor of more granular privacy.clearOnShutdown.* preferences
+       <hbox id="keepRow"
              align="center">
          <checkbox id="deleteOnClose"
                    data-l10n-id="sitedata-delete-on-close"
                    preference="network.cookie.lifetimePolicy"
                    flex="1" />
--      </hbox>
 +      </hbox>-->
++      <hbox>
++        <vbox id="clearDataBox"
++              align="center">
++          <checkbox id="alwaysClear"
++                    preference="privacy.sanitize.sanitizeOnShutdown"
++                    data-l10n-id="history-clear-on-close-option"
++                    flex="1" />
++        </vbox>
+       </hbox>
      </vbox>
      <vbox align="end">
        <!-- Please don't remove the wrapping hbox/vbox/box for these elements. It's used to properly compute the search tooltip position. -->
++<!-- MagIns - Remove Clear Data button to prevent users losing their Chat keys
+       <hbox>
+         <button id="clearSiteDataButton"
+             is="highlightable-button"
+             class="accessory-button"
+             search-l10n-ids="clear-site-data-cookies-empty.label, clear-site-data-cache-empty.label"
+             data-l10n-id="sitedata-clear"/>
+-      </hbox>
++      </hbox>-->
+       <hbox>
+         <button id="siteDataSettings"
+                 is="highlightable-button"
+@@ -379,6 +390,24 @@
+                   permissions-exceptions-cookie-desc,
+                 " />
+       </hbox>
++      <hbox>
++        <button id="clearDataSettings"
++                is="highlightable-button"
++                class="accessory-button"
++                data-l10n-id="history-clear-on-close-settings"
++                search-l10n-ids="
++                  clear-data-settings-label,
++                  history-section-label,
++                  item-history-and-downloads.label,
++                  item-cookies.label,
++                  item-active-logins.label,
++                  item-cache.label,
++                  item-form-search-history.label,
++                  data-section-label,
++                  item-site-preferences.label,
++                  item-offline-apps.label
++                "/>
++      </hbox>
+     </vbox>
+   </hbox>
+ </groupbox>
+@@ -499,6 +528,7 @@
+           data-subcategory="form-autofill" hidden="true"></groupbox>
+ 
+ <!-- History -->
++<!-- MagIns - Relocate the History section to the Cookies and Site Data section to align with preference changes -->
+ <groupbox id="historyGroup" data-category="panePrivacy" hidden="true">
+   <label><html:h2 data-l10n-id="history-header"/></label>
+   <hbox align="center">
+@@ -549,34 +579,34 @@
+       </vbox>
+       <vbox id="historyCustomPane">
+         <vbox>
+-          <checkbox id="privateBrowsingAutoStart"
++<!--          <checkbox id="privateBrowsingAutoStart"
+                     data-l10n-id="history-private-browsing-permanent"
+                     preference="browser.privatebrowsing.autostart"/>
+-          <vbox class="indent">
++          <vbox class="indent">-->
+             <checkbox id="rememberHistory"
+                       data-l10n-id="history-remember-browser-option"
+                       preference="places.history.enabled"/>
+             <checkbox id="rememberForms"
+                       data-l10n-id="history-remember-search-option"
+                       preference="browser.formfill.enable"/>
+-            <hbox id="clearDataBox"
++<!--            <hbox id="clearDataBox"
+                   align="center">
+               <checkbox id="alwaysClear"
+                         preference="privacy.sanitize.sanitizeOnShutdown"
+                         data-l10n-id="history-clear-on-close-option"
+                         flex="1" />
+             </hbox>
+-          </vbox>
++          </vbox>-->
+         </vbox>
+       </vbox>
+     </deck>
+-    <vbox id="historyButtons" align="end">
++<!---->    <vbox id="historyButtons" align="end">
+       <button id="clearHistoryButton"
+               is="highlightable-button"
+               class="accessory-button"
+               data-l10n-id="history-clear-button"/>
+       <!-- Please don't remove the wrapping hbox/vbox/box for these elements. It's used to properly compute the search tooltip position. -->
+-      <hbox>
++<!--      <hbox>
+         <button id="clearDataSettings"
+                 is="highlightable-button"
+                 class="accessory-button"
+@@ -593,7 +623,7 @@
+                   item-site-preferences.label,
+                   item-offline-apps.label
+                 "/>
+-      </hbox>
++      </hbox>-->
+     </vbox>
+   </hbox>
+ </groupbox>
 Index: firefox-89.0.2/browser/components/preferences/privacy.js
 ===================================================================
 --- firefox-89.0.2.orig/browser/components/preferences/privacy.js
 +++ firefox-89.0.2/browser/components/preferences/privacy.js
-@@ -683,8 +683,9 @@ var gPrivacyPane = {
+@@ -566,11 +566,12 @@ var gPrivacyPane = {
+       }
+       return false;
+     });
++/* MagIns - Hide umbrella Private Browsing preference, always show granular options
+     setEventListener(
+       "privateBrowsingAutoStart",
+       "command",
+       gPrivacyPane.updateAutostart
+-    );
++    );*/
+     setEventListener(
+       "cookieExceptions",
+       "command",
+@@ -683,8 +684,9 @@ var gPrivacyPane = {
      setSyncToPrefListener("blockCookiesMenu", () =>
        this.writeBlockCookiesFrom()
      );
@@ -70,7 +187,21 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
      setSyncFromPrefListener("savePasswords", () => this.readSavePasswords());
  
      let microControlHandler = el =>
-@@ -1273,8 +1274,9 @@ var gPrivacyPane = {
+@@ -736,11 +738,12 @@ var gPrivacyPane = {
+     }
+ 
+     this.initSiteDataControls();
++/* MagIns - Remove instance of clearSiteDataButton
+     setEventListener(
+       "clearSiteDataButton",
+       "command",
+       gPrivacyPane.clearSiteData
+-    );
++    );*/
+     setEventListener(
+       "siteDataSettings",
+       "command",
+@@ -1273,8 +1276,9 @@ var gPrivacyPane = {
      let cookieExpirationLocked = Services.prefs.prefIsLocked(
        "network.cookie.lifetimePolicy"
      );
@@ -81,7 +212,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
      deleteOnCloseNote.hidden = !privateBrowsing;
  
      switch (behavior) {
-@@ -1489,7 +1491,8 @@ var gPrivacyPane = {
+@@ -1489,7 +1493,8 @@ var gPrivacyPane = {
    updatePrivacyMicroControls() {
      // Check the "Delete cookies when Firefox is closed" checkbox and disable the setting
      // when we're in auto private mode (or reset it back otherwise).
@@ -90,4 +221,54 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
 +    document.getElementById("deleteOnClose").checked = this.readDeleteOnClose();*/
  
      let clearDataSettings = document.getElementById("clearDataSettings");
+ 
+@@ -1863,10 +1868,10 @@ var gPrivacyPane = {
+   },
+ 
+   toggleSiteData(shouldShow) {
+-    let clearButton = document.getElementById("clearSiteDataButton");
++/*    let clearButton = document.getElementById("clearSiteDataButton");
+     let settingsButton = document.getElementById("siteDataSettings");
+     clearButton.disabled = !shouldShow;
+-    settingsButton.disabled = !shouldShow;
++    settingsButton.disabled = !shouldShow;*/
+   },
+ 
+   showSiteDataLoading() {
+Index: firefox-89.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
+===================================================================
+--- firefox-89.0.2.orig/browser/locales/en-US/browser/preferences/preferences.ftl
++++ firefox-89.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -976,11 +976,11 @@ history-remember-label = { -brand-short-
+     .accesskey = w
+ 
+ history-remember-option-all =
+-    .label = Remember history
++    .label = Remember browser data
+ history-remember-option-never =
+-    .label = Never remember history
++    .label = Never remember browser data
+ history-remember-option-custom =
+-    .label = Use custom settings for history
++    .label = Use custom settings for browser data
+ 
+ history-remember-description = { -brand-short-name } will remember your browsing, download, form, and search history.
+ history-dontremember-description = { -brand-short-name } will use the same settings as private browsing, and will not remember any history as you browse the Web.
+@@ -998,7 +998,7 @@ history-remember-search-option =
+     .accesskey = f
+ 
+ history-clear-on-close-option =
+-    .label = Clear history when { -brand-short-name } closes
++    .label = Clear browser data when { -brand-short-name } closes
+     .accesskey = r
+ 
+ history-clear-on-close-settings =
+@@ -1011,7 +1011,7 @@ history-clear-button =
+ 
+ ## Privacy Section - Site Data
+ 
+-sitedata-header = Cookies and Site Data
++sitedata-header = History, Cookies and Site Data
+ 
+ sitedata-total-size-calculating = Calculating site data and cache size…
  

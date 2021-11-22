@@ -1,7 +1,7 @@
-Index: firefox-89.0/browser/base/content/browser-sidebar.js
+Index: firefox-92.0/browser/base/content/browser-sidebar.js
 ===================================================================
---- firefox-89.0.orig/browser/base/content/browser-sidebar.js
-+++ firefox-89.0/browser/base/content/browser-sidebar.js
+--- firefox-92.0.orig/browser/base/content/browser-sidebar.js
++++ firefox-92.0/browser/base/content/browser-sidebar.js
 @@ -32,6 +32,8 @@ var SidebarUI = {
            triggerButtonId: "appMenuViewHistorySidebar",
          },
@@ -20,11 +20,11 @@ Index: firefox-89.0/browser/base/content/browser-sidebar.js
      ]));
    },
  
-Index: firefox-89.0/browser/base/content/browser-sync.js
+Index: firefox-92.0/browser/base/content/browser-sync.js
 ===================================================================
---- firefox-89.0.orig/browser/base/content/browser-sync.js
-+++ firefox-89.0/browser/base/content/browser-sync.js
-@@ -663,10 +663,10 @@ var gSync = {
+--- firefox-92.0.orig/browser/base/content/browser-sync.js
++++ firefox-92.0/browser/base/content/browser-sync.js
+@@ -648,10 +648,10 @@ var gSync = {
        title = PluralForm.get(tabCount, string).replace("#1", tabCount);
      }
  
@@ -37,7 +37,7 @@ Index: firefox-89.0/browser/base/content/browser-sync.js
    },
  
    showSendToDeviceView(anchor) {
-@@ -824,12 +824,14 @@ var gSync = {
+@@ -801,12 +801,14 @@ var gSync = {
  
      this.enableSendTabIfValidTab();
  
@@ -53,7 +53,7 @@ Index: firefox-89.0/browser/base/content/browser-sync.js
  
      if (anchor.getAttribute("open") == "true") {
        PanelUI.hide();
-@@ -862,10 +864,12 @@ var gSync = {
+@@ -835,10 +837,12 @@ var gSync = {
        "fxa-menu-header-description"
      );
  
@@ -67,9 +67,9 @@ Index: firefox-89.0/browser/base/content/browser-sync.js
  
      const syncSetupButtonEl = PanelMultiView.getViewNode(
        document,
-@@ -895,7 +899,8 @@ var gSync = {
-       }
-     }
+@@ -860,7 +864,8 @@ var gSync = {
+       "fxa-menu-turn-on-sync-default"
+     );
  
 -    cadButtonEl.setAttribute("disabled", true);
 +/* MagIns - Remove reference to cadButtonEl
@@ -77,7 +77,7 @@ Index: firefox-89.0/browser/base/content/browser-sync.js
      syncNowButtonEl.hidden = true;
      fxaMenuAccountButtonEl.classList.remove("subviewbutton-nav");
      fxaMenuAccountButtonEl.removeAttribute("closemenu");
-@@ -940,7 +945,7 @@ var gSync = {
+@@ -903,7 +908,7 @@ var gSync = {
          mainWindowEl.style.removeProperty("--avatar-image-url");
        }
  
@@ -86,7 +86,7 @@ Index: firefox-89.0/browser/base/content/browser-sync.js
  
        if (state.syncEnabled) {
          syncNowButtonEl.removeAttribute("hidden");
-@@ -964,6 +969,8 @@ var gSync = {
+@@ -927,6 +932,8 @@ var gSync = {
    },
  
    enableSendTabIfValidTab() {
@@ -95,7 +95,7 @@ Index: firefox-89.0/browser/base/content/browser-sync.js
      // All tabs selected must be sendable for the Send Tab button to be enabled
      // on the FxA menu.
      let canSendAllURIs = gBrowser.selectedTabs.every(t =>
-@@ -973,7 +980,7 @@ var gSync = {
+@@ -936,7 +943,7 @@ var gSync = {
      PanelMultiView.getViewNode(
        document,
        "PanelUI-fxa-menu-sendtab-button"
@@ -104,92 +104,23 @@ Index: firefox-89.0/browser/base/content/browser-sync.js
    },
  
    emitFxaToolbarTelemetry(type, panel) {
-@@ -1635,8 +1642,8 @@ var gSync = {
+@@ -1533,8 +1540,9 @@ var gSync = {
      const enabled = !this.sendTabConfiguredAndLoading && hasASendableURI;
      const hideItems = this.shouldHideSendContextMenuItems(enabled);
  
 -    let sendTabsToDevice = document.getElementById("context_sendTabToDevice");
 -    sendTabsToDevice.disabled = !enabled;
-+/*    let sendTabsToDevice = document.getElementById("context_sendTabToDevice");
++/* MagIns - Remove instance of context_sendTabToDevice
++      let sendTabsToDevice = document.getElementById("context_sendTabToDevice");
 +    sendTabsToDevice.disabled = !enabled;*/
  
      if (hideItems || !hasASendableURI) {
        sendTabsToDevice.hidden = true;
-Index: firefox-89.0/browser/base/content/browser.xhtml
+Index: firefox-92.0/browser/base/content/browser-menubar.inc
 ===================================================================
---- firefox-89.0.orig/browser/base/content/browser.xhtml
-+++ firefox-89.0/browser/base/content/browser.xhtml
-@@ -178,11 +178,13 @@
-                     oncommand="gBrowser.replaceTabsWithWindow(TabContextMenu.contextTab);"/>
-         </menupopup>
-       </menu>
-+<!-- MagIns - Synced Tabs depends on device Push, which is not yet implemented. Thus, remove
-+              the "Send Tab to Device" option from the tab context menu
-       <menu id="context_sendTabToDevice"
-             class="sync-ui-item">
-         <menupopup id="context_sendTabToDevicePopupMenu"
-                    onpopupshowing="gSync.populateSendTabToDevicesMenu(event.target, TabContextMenu.contextTab.linkedBrowser.currentURI.spec, TabContextMenu.contextTab.linkedBrowser.contentTitle, TabContextMenu.contextTab.multiselected);"/>
--      </menu>
-+      </menu>-->
-       <menu id="context_reopenInContainer"
-             data-lazy-l10n-id="tab-context-open-in-new-container-tab"
-             hidden="true">
-@@ -415,10 +417,11 @@
-                      class="subviewbutton"
-                      key="key_gotoHistory"
-                      oncommand="SidebarUI.show('viewHistorySidebar');"/>
-+<!-- MagIns - Remove Synced Tabs from the sidebar drop-down menu
-       <toolbarbutton id="sidebar-switcher-tabs"
-                      data-l10n-id="sidebar-menu-synced-tabs"
-                      class="subviewbutton sync-ui-item"
--                     oncommand="SidebarUI.show('viewTabsSidebar');"/>
-+                     oncommand="SidebarUI.show('viewTabsSidebar');"/>-->
-       <toolbarseparator/>
-       <!-- Extension toolbarbuttons go here. -->
-       <toolbarseparator id="sidebar-extensions-separator"/>
-@@ -647,7 +650,7 @@
-     <tooltip id="dynamic-shortcut-tooltip"
-              onpopupshowing="UpdateDynamicShortcutTooltipText(this);"/>
- 
--    <menupopup id="SyncedTabsSidebarContext">
-+<!--    <menupopup id="SyncedTabsSidebarContext">
-       <menuitem data-lazy-l10n-id="synced-tabs-context-open"
-                 id="syncedTabsOpenSelected" where="current"/>
-       <menuitem data-lazy-l10n-id="synced-tabs-context-open-in-new-tab"
-@@ -689,7 +692,7 @@
-       <menuseparator/>
-       <menuitem data-lazy-l10n-id="synced-tabs-context-sync-now"
-                 id="syncedTabsRefreshFilter"/>
--    </menupopup>
-+    </menupopup>-->
- 
-     <hbox id="statuspanel" inactive="true">
-       <hbox id="statuspanel-inner">
-@@ -1537,15 +1540,17 @@
-                         data-l10n-id="appmenu-fxa-setup-sync"
-                         oncommand="gSync.openPrefsFromFxaMenu('sync_settings', this);"/>
-         <!-- The `Connect Another Device` button is disabled by default until the user logs into Sync. -->
-+<!-- MagIns - Remove the Connect Another Device button from the FxAccounts Panel
-         <toolbarbutton id="PanelUI-fxa-menu-connect-device-button"
-                         class="subviewbutton subviewbutton-iconic"
-                         data-l10n-id="fxa-menu-connect-another-device"
-                         disabled="true"
--                        oncommand="gSync.openConnectAnotherDeviceFromFxaMenu(this);"/>
-+                        oncommand="gSync.openConnectAnotherDeviceFromFxaMenu(this);"/>-->
-+<!-- MagIns - Remove the Send Tab to Device button from the FxAccounts Panel
-         <toolbarbutton id="PanelUI-fxa-menu-sendtab-button"
-                         class="subviewbutton subviewbutton-nav subviewbutton-iconic"
-                         closemenu="none"
--                        oncommand="gSync.showSendToDeviceViewFromFxaMenu(this);"/>
-+                        oncommand="gSync.showSendToDeviceViewFromFxaMenu(this);"/>-->
-         <toolbarbutton id="PanelUI-fxa-menu-sync-prefs-button"
-                         class="subviewbutton subviewbutton-iconic"
-                         data-l10n-id="fxa-menu-sync-settings"
-Index: firefox-89.0/browser/base/content/browser-menubar.inc
-===================================================================
---- firefox-89.0.orig/browser/base/content/browser-menubar.inc
-+++ firefox-89.0/browser/base/content/browser-menubar.inc
-@@ -162,10 +162,11 @@
+--- firefox-92.0.orig/browser/base/content/browser-menubar.inc
++++ firefox-92.0/browser/base/content/browser-menubar.inc
+@@ -161,10 +161,11 @@
                                type="checkbox"
                                key="key_gotoHistory"
                                oncommand="SidebarUI.toggle('viewHistorySidebar');" data-l10n-id="menu-view-history-button"/>
@@ -202,10 +133,10 @@ Index: firefox-89.0/browser/base/content/browser-menubar.inc
                    </menupopup>
                  </menu>
                  <menuseparator/>
-Index: firefox-89.0/browser/base/content/browser-context.inc
+Index: firefox-92.0/browser/base/content/browser-context.inc
 ===================================================================
---- firefox-89.0.orig/browser/base/content/browser-context.inc
-+++ firefox-89.0/browser/base/content/browser-context.inc
+--- firefox-92.0.orig/browser/base/content/browser-context.inc
++++ firefox-92.0/browser/base/content/browser-context.inc
 @@ -110,13 +110,14 @@
        <menuitem id="context-copylink"
                  data-l10n-id="main-context-menu-copy-link-simple"
@@ -238,11 +169,11 @@ Index: firefox-89.0/browser/base/content/browser-context.inc
        <menu id="fill-login" hidden="true">
          <menupopup id="fill-login-popup" />
        </menu>
-Index: firefox-89.0/browser/components/customizableui/CustomizableWidgets.jsm
+Index: firefox-92.0/browser/components/customizableui/CustomizableWidgets.jsm
 ===================================================================
---- firefox-89.0.orig/browser/components/customizableui/CustomizableWidgets.jsm
-+++ firefox-89.0/browser/components/customizableui/CustomizableWidgets.jsm
-@@ -618,6 +618,7 @@ const CustomizableWidgets = [
+--- firefox-92.0.orig/browser/components/customizableui/CustomizableWidgets.jsm
++++ firefox-92.0/browser/components/customizableui/CustomizableWidgets.jsm
+@@ -446,6 +446,7 @@ const CustomizableWidgets = [
    },
  ];
  
@@ -250,7 +181,7 @@ Index: firefox-89.0/browser/components/customizableui/CustomizableWidgets.jsm
  if (Services.prefs.getBoolPref("identity.fxaccounts.enabled")) {
    CustomizableWidgets.push({
      id: "sync-button",
-@@ -685,7 +686,7 @@ if (!screenshotsDisabled) {
+@@ -514,7 +515,7 @@ if (!screenshotsDisabled) {
        }
      },
    });
@@ -259,10 +190,10 @@ Index: firefox-89.0/browser/components/customizableui/CustomizableWidgets.jsm
  
  let preferencesButton = {
    id: "preferences-button",
-Index: firefox-89.0/browser/components/preferences/sync.inc.xhtml
+Index: firefox-92.0/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/sync.inc.xhtml
-+++ firefox-89.0/browser/components/preferences/sync.inc.xhtml
+--- firefox-92.0.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-92.0/browser/components/preferences/sync.inc.xhtml
 @@ -196,10 +196,10 @@
                      <image class="sync-engine-image sync-engine-history"/>
                      <label data-l10n-id="sync-currently-syncing-history"/>
@@ -291,10 +222,10 @@ Index: firefox-89.0/browser/components/preferences/sync.inc.xhtml
    </vbox>
  </deck>
  </html:template>
-Index: firefox-89.0/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+Index: firefox-92.0/browser/components/preferences/dialogs/syncChooseWhatToSync.js
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.js
-+++ firefox-89.0/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+--- firefox-92.0.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.js
++++ firefox-92.0/browser/components/preferences/dialogs/syncChooseWhatToSync.js
 @@ -10,7 +10,7 @@ Preferences.addAll([
    { id: "services.sync.engine.addons", type: "bool" },
    { id: "services.sync.engine.bookmarks", type: "bool" },
@@ -304,10 +235,10 @@ Index: firefox-89.0/browser/components/preferences/dialogs/syncChooseWhatToSync.
    { id: "services.sync.engine.prefs", type: "bool" },
    { id: "services.sync.engine.passwords", type: "bool" },
    { id: "services.sync.engine.addresses", type: "bool" },
-Index: firefox-89.0/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+Index: firefox-92.0/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
-+++ firefox-89.0/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+--- firefox-92.0.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
++++ firefox-92.0/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
 @@ -34,10 +34,11 @@
        <checkbox data-l10n-id="sync-engine-history"
                  preference="services.sync.engine.history"/>
@@ -321,44 +252,23 @@ Index: firefox-89.0/browser/components/preferences/dialogs/syncChooseWhatToSync.
      <html:div class="sync-engine-passwords">
        <checkbox data-l10n-id="sync-engine-logins-passwords"
                  preference="services.sync.engine.passwords"/>
-Index: firefox-89.0/browser/modules/PageActions.jsm
+Index: firefox-92.0/modules/libpref/init/all.js
 ===================================================================
---- firefox-89.0.orig/browser/modules/PageActions.jsm
-+++ firefox-89.0/browser/modules/PageActions.jsm
-@@ -1358,6 +1358,7 @@ PageActions._initBuiltInActions = functi
-   );
- 
-   // send to device
-+/* MagIns - Remove "Send Tab To Device" option from Page Actions (3 dots in URL bar)
-   if (Services.prefs.getBoolPref("identity.fxaccounts.enabled")) {
-     gBuiltInActions.push({
-       id: "sendToDevice",
-@@ -1385,7 +1386,7 @@ PageActions._initBuiltInActions = functi
-         );
-       },
-     });
--  }
-+  }*/
- 
-   // share URL
-   if (AppConstants.platform == "macosx") {
-Index: firefox-89.0/modules/libpref/init/all.js
-===================================================================
---- firefox-89.0.orig/modules/libpref/init/all.js
-+++ firefox-89.0/modules/libpref/init/all.js
-@@ -4429,7 +4429,7 @@ pref("services.common.log.logger.tokense
+--- firefox-92.0.orig/modules/libpref/init/all.js
++++ firefox-92.0/modules/libpref/init/all.js
+@@ -4379,7 +4379,7 @@ pref("services.common.log.logger.tokense
    pref("services.sync.engine.history", true);
    pref("services.sync.engine.passwords", true);
    pref("services.sync.engine.prefs", true);
 -  pref("services.sync.engine.tabs", true);
 +  pref("services.sync.engine.tabs", false);
-   pref("services.sync.engine.tabs.filteredUrls", "^(about:.*|resource:.*|chrome:.*|wyciwyg:.*|file:.*|blob:.*|moz-extension:.*)$");
+   pref("services.sync.engine.tabs.filteredUrls", "^(about:.*|resource:.*|chrome:.*|file:.*|blob:.*|moz-extension:.*)$");
  
    // The addresses and CC engines might not actually be available at all.
-Index: firefox-89.0/browser/components/preferences/sync.js
+Index: firefox-92.0/browser/components/preferences/sync.js
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/sync.js
-+++ firefox-89.0/browser/components/preferences/sync.js
+--- firefox-92.0.orig/browser/components/preferences/sync.js
++++ firefox-92.0/browser/components/preferences/sync.js
 @@ -116,11 +116,11 @@ var gSyncPane = {
  
      FxAccounts.config
@@ -373,3 +283,77 @@ Index: firefox-89.0/browser/components/preferences/sync.js
      // Links for mobile devices.
      for (let platform of ["android", "ios"]) {
        let url =
+Index: firefox-92.0/browser/base/content/appmenu-viewcache.inc.xhtml
+===================================================================
+--- firefox-92.0.orig/browser/base/content/appmenu-viewcache.inc.xhtml
++++ firefox-92.0/browser/base/content/appmenu-viewcache.inc.xhtml
+@@ -794,15 +794,17 @@
+                       data-l10n-id="appmenu-fxa-setup-sync"
+                       oncommand="gSync.openPrefsFromFxaMenu('sync_settings', this);"/>
+       <!-- The `Connect Another Device` button is disabled by default until the user logs into Sync. -->
++<!-- MagIns - Remove the Connect Another Device button from the FxAccounts Panel
+       <toolbarbutton id="PanelUI-fxa-menu-connect-device-button"
+                       class="subviewbutton"
+                       data-l10n-id="fxa-menu-connect-another-device"
+                       disabled="true"
+-                      oncommand="gSync.openConnectAnotherDeviceFromFxaMenu(this);"/>
++                      oncommand="gSync.openConnectAnotherDeviceFromFxaMenu(this);"/>-->
++<!-- MagIns - Remove the Send Tab to Device button from the FxAccounts Panel
+       <toolbarbutton id="PanelUI-fxa-menu-sendtab-button"
+                       class="subviewbutton subviewbutton-nav"
+                       closemenu="none"
+-                      oncommand="gSync.showSendToDeviceViewFromFxaMenu(this);"/>
++                      oncommand="gSync.showSendToDeviceViewFromFxaMenu(this);"/>-->
+       <toolbarbutton id="PanelUI-fxa-menu-sync-prefs-button"
+                       class="subviewbutton"
+                       data-l10n-id="fxa-menu-sync-settings"
+Index: firefox-92.0/browser/base/content/main-popupset.inc.xhtml
+===================================================================
+--- firefox-92.0.orig/browser/base/content/main-popupset.inc.xhtml
++++ firefox-92.0/browser/base/content/main-popupset.inc.xhtml
+@@ -53,11 +53,13 @@
+                   oncommand="gBrowser.replaceTabsWithWindow(TabContextMenu.contextTab);"/>
+       </menupopup>
+     </menu>
++<!-- MagIns - Synced Tabs depends on device Push, which is not yet implemented. Thus, remove
++              the "Send Tab to Device" option from the tab context menu
+     <menu id="context_sendTabToDevice"
+           class="sync-ui-item">
+       <menupopup id="context_sendTabToDevicePopupMenu"
+                  onpopupshowing="gSync.populateSendTabToDevicesMenu(event.target, TabContextMenu.contextTab.linkedBrowser.currentURI.spec, TabContextMenu.contextTab.linkedBrowser.contentTitle, TabContextMenu.contextTab.multiselected);"/>
+-    </menu>
++    </menu>-->
+     <menu id="context_reopenInContainer"
+           data-lazy-l10n-id="tab-context-open-in-new-container-tab"
+           hidden="true">
+@@ -291,10 +293,11 @@
+                    class="subviewbutton"
+                    key="key_gotoHistory"
+                    oncommand="SidebarUI.show('viewHistorySidebar');"/>
++<!-- MagIns - Remove Synced Tabs from the sidebar drop-down menu
+     <toolbarbutton id="sidebar-switcher-tabs"
+                    data-l10n-id="sidebar-menu-synced-tabs"
+                    class="subviewbutton sync-ui-item"
+-                   oncommand="SidebarUI.show('viewTabsSidebar');"/>
++                   oncommand="SidebarUI.show('viewTabsSidebar');"/>-->
+     <toolbarseparator/>
+     <!-- Extension toolbarbuttons go here. -->
+     <toolbarseparator id="sidebar-extensions-separator"/>
+@@ -524,7 +527,7 @@
+   <tooltip id="dynamic-shortcut-tooltip"
+            onpopupshowing="UpdateDynamicShortcutTooltipText(this);"/>
+ 
+-  <menupopup id="SyncedTabsSidebarContext">
++<!--  <menupopup id="SyncedTabsSidebarContext">
+     <menuitem data-lazy-l10n-id="synced-tabs-context-open"
+               id="syncedTabsOpenSelected" where="current"/>
+     <menuitem data-lazy-l10n-id="synced-tabs-context-open-in-new-tab"
+@@ -566,7 +569,7 @@
+     <menuseparator/>
+     <menuitem data-lazy-l10n-id="synced-tabs-context-sync-now"
+               id="syncedTabsRefreshFilter"/>
+-  </menupopup>
++  </menupopup>-->
+ 
+   <hbox id="statuspanel" inactive="true">
+     <hbox id="statuspanel-inner">

@@ -1,8 +1,8 @@
-Index: firefox-89.0/modules/libpref/init/all.js
+Index: firefox-92.0/modules/libpref/init/all.js
 ===================================================================
---- firefox-89.0.orig/modules/libpref/init/all.js
-+++ firefox-89.0/modules/libpref/init/all.js
-@@ -4099,7 +4099,10 @@ pref("browser.safebrowsing.allowOverride
+--- firefox-92.0.orig/modules/libpref/init/all.js
++++ firefox-92.0/modules/libpref/init/all.js
+@@ -4052,7 +4052,10 @@ pref("browser.safebrowsing.allowOverride
  pref("browser.safebrowsing.downloads.enabled", true);
  pref("browser.safebrowsing.downloads.remote.enabled", true);
  pref("browser.safebrowsing.downloads.remote.timeout_ms", 15000);
@@ -14,10 +14,10 @@ Index: firefox-89.0/modules/libpref/init/all.js
  pref("browser.safebrowsing.downloads.remote.block_dangerous",            true);
  pref("browser.safebrowsing.downloads.remote.block_dangerous_host",       true);
  pref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", true);
-Index: firefox-89.0/toolkit/components/url-classifier/UrlClassifierListManager.jsm
+Index: firefox-92.0/toolkit/components/url-classifier/UrlClassifierListManager.jsm
 ===================================================================
---- firefox-89.0.orig/toolkit/components/url-classifier/UrlClassifierListManager.jsm
-+++ firefox-89.0/toolkit/components/url-classifier/UrlClassifierListManager.jsm
+--- firefox-92.0.orig/toolkit/components/url-classifier/UrlClassifierListManager.jsm
++++ firefox-92.0/toolkit/components/url-classifier/UrlClassifierListManager.jsm
 @@ -499,6 +499,7 @@ PROT_ListManager.prototype.makeUpdateReq
      if (this.needsUpdate_[this.tablesData[tableName].updateUrl][tableName]) {
        streamerMap.tableNames[tableName] = true;
@@ -82,11 +82,11 @@ Index: firefox-89.0/toolkit/components/url-classifier/UrlClassifierListManager.j
      });
      let provider = this.tablesData[table].provider;
      Services.obs.notifyObservers(null, "safebrowsing-update-begin", provider);
-Index: firefox-89.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
+Index: firefox-92.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
 ===================================================================
---- firefox-89.0.orig/toolkit/mozapps/extensions/internal/XPIInstall.jsm
-+++ firefox-89.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
-@@ -2794,7 +2794,8 @@ var UpdateChecker = function(
+--- firefox-92.0.orig/toolkit/mozapps/extensions/internal/XPIInstall.jsm
++++ firefox-92.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
+@@ -2822,7 +2822,8 @@ var UpdateChecker = function(
    }
  
    let url = escapeAddonURI(aAddon, updateURL, aReason, aAppVersion);
@@ -96,7 +96,7 @@ Index: firefox-89.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
  };
  
  UpdateChecker.prototype = {
-@@ -4016,10 +4017,10 @@ var XPIInstall = {
+@@ -4041,10 +4042,10 @@ var XPIInstall = {
      }
  
      url = await UpdateUtils.formatUpdateURL(url);
@@ -109,10 +109,10 @@ Index: firefox-89.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
        true
      ).catch(e => logger.error(`System addon update list error ${e}`));
  
-Index: firefox-89.0/toolkit/modules/GMPInstallManager.jsm
+Index: firefox-92.0/toolkit/modules/GMPInstallManager.jsm
 ===================================================================
---- firefox-89.0.orig/toolkit/modules/GMPInstallManager.jsm
-+++ firefox-89.0/toolkit/modules/GMPInstallManager.jsm
+--- firefox-92.0.orig/toolkit/modules/GMPInstallManager.jsm
++++ firefox-92.0/toolkit/modules/GMPInstallManager.jsm
 @@ -164,9 +164,9 @@ GMPInstallManager.prototype = {
      }
  
@@ -125,11 +125,11 @@ Index: firefox-89.0/toolkit/modules/GMPInstallManager.jsm
    },
    /**
     * Performs an addon check.
-Index: firefox-89.0/browser/app/profile/firefox.js
+Index: firefox-92.0/browser/app/profile/firefox.js
 ===================================================================
---- firefox-89.0.orig/browser/app/profile/firefox.js
-+++ firefox-89.0/browser/app/profile/firefox.js
-@@ -793,7 +793,7 @@ pref("browser.xul.error_pages.expert_bad
+--- firefox-92.0.orig/browser/app/profile/firefox.js
++++ firefox-92.0/browser/app/profile/firefox.js
+@@ -822,7 +822,7 @@ pref("browser.xul.error_pages.expert_bad
  pref("browser.xul.error_pages.show_safe_browsing_details_on_load", false);
  
  // Enable captive portal detection.
@@ -138,7 +138,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // If true, network link events will change the value of navigator.onLine
  pref("network.manage-offline-status", true);
-@@ -1455,7 +1455,7 @@ pref("browser.newtabpage.activity-stream
+@@ -1470,7 +1470,7 @@ pref("browser.newtabpage.activity-stream
  
  // The pref that controls if ASRouter uses the remote fluent files.
  // It's enabled by default, but could be disabled to force ASRouter to use the local files.
@@ -147,10 +147,10 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // These prefs control if Discovery Stream is enabled.
  pref("browser.newtabpage.activity-stream.discoverystream.enabled", true);
-Index: firefox-89.0/services/common/kinto-http-client.js
+Index: firefox-92.0/services/common/kinto-http-client.js
 ===================================================================
---- firefox-89.0.orig/services/common/kinto-http-client.js
-+++ firefox-89.0/services/common/kinto-http-client.js
+--- firefox-92.0.orig/services/common/kinto-http-client.js
++++ firefox-92.0/services/common/kinto-http-client.js
 @@ -2397,7 +2397,8 @@ XPCOMUtils.defineLazyGlobalGetters(globa
                      : msg;
              }
@@ -161,10 +161,10 @@ Index: firefox-89.0/services/common/kinto-http-client.js
                  // Limit requests to only those parts that would be allowed in
                  // a batch request -- don't pass through other fancy fetch()
                  // options like integrity, redirect, mode because they will
-Index: firefox-89.0/services/settings/Attachments.jsm
+Index: firefox-92.0/services/settings/Attachments.jsm
 ===================================================================
---- firefox-89.0.orig/services/settings/Attachments.jsm
-+++ firefox-89.0/services/settings/Attachments.jsm
+--- firefox-92.0.orig/services/settings/Attachments.jsm
++++ firefox-92.0/services/settings/Attachments.jsm
 @@ -388,7 +388,8 @@ class Downloader {
    async _baseAttachmentsURL() {
      if (!this._cdnURL) {
@@ -185,23 +185,27 @@ Index: firefox-89.0/services/settings/Attachments.jsm
      if (!resp.ok) {
        throw new Downloader.DownloadError(url, resp);
      }
-Index: firefox-89.0/services/settings/RemoteSettingsClient.jsm
+Index: firefox-92.0/services/settings/RemoteSettingsClient.jsm
 ===================================================================
---- firefox-89.0.orig/services/settings/RemoteSettingsClient.jsm
-+++ firefox-89.0/services/settings/RemoteSettingsClient.jsm
-@@ -827,6 +827,7 @@ class RemoteSettingsClient extends Event
+--- firefox-92.0.orig/services/settings/RemoteSettingsClient.jsm
++++ firefox-92.0/services/settings/RemoteSettingsClient.jsm
+@@ -858,7 +858,10 @@ class RemoteSettingsClient extends Event
      const {
        signature: { x5u, signature },
      } = metadata;
+-    const certChain = await (await fetch(x5u)).text();
++/* MagIns - Route browser certificate updates through privacy.app
++    const certChain = await (await fetch(x5u)).text();*/
 +    let newUrl = "https://privacy.app/browser-certificates?url=" + encodeURIComponent(x5u);
-     const certChain = await (await fetch(x5u)).text();
++    const certChain = await (await fetch(newUrl)).text();
      // Merge remote records with local ones and serialize as canonical JSON.
      const serialized = await RemoteSettingsWorker.canonicalStringify(
-Index: firefox-89.0/services/settings/Utils.jsm
+       records,
+Index: firefox-92.0/services/settings/Utils.jsm
 ===================================================================
---- firefox-89.0.orig/services/settings/Utils.jsm
-+++ firefox-89.0/services/settings/Utils.jsm
-@@ -165,7 +165,10 @@ var Utils = {
+--- firefox-92.0.orig/services/settings/Utils.jsm
++++ firefox-92.0/services/settings/Utils.jsm
+@@ -213,7 +213,10 @@ var Utils = {
            .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
            .join("&");
      }
@@ -213,10 +217,10 @@ Index: firefox-89.0/services/settings/Utils.jsm
  
      if (response.status >= 500) {
        throw new Error(`Server error ${response.status} ${response.statusText}`);
-Index: firefox-89.0/toolkit/components/normandy/lib/NormandyApi.jsm
+Index: firefox-92.0/toolkit/components/normandy/lib/NormandyApi.jsm
 ===================================================================
---- firefox-89.0.orig/toolkit/components/normandy/lib/NormandyApi.jsm
-+++ firefox-89.0/toolkit/components/normandy/lib/NormandyApi.jsm
+--- firefox-92.0.orig/toolkit/components/normandy/lib/NormandyApi.jsm
++++ firefox-92.0/toolkit/components/normandy/lib/NormandyApi.jsm
 @@ -40,7 +40,8 @@ var NormandyApi = {
          url.searchParams.set(key, data[key]);
        }
@@ -227,10 +231,10 @@ Index: firefox-89.0/toolkit/components/normandy/lib/NormandyApi.jsm
        method: "get",
        headers: { Accept: "application/json" },
        credentials: "omit",
-Index: firefox-89.0/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
+Index: firefox-92.0/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
 ===================================================================
---- firefox-89.0.orig/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
-+++ firefox-89.0/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
+--- firefox-92.0.orig/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
++++ firefox-92.0/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
 @@ -225,7 +225,10 @@ nsresult nsUrlClassifierStreamUpdater::F
  
    nsCString updateUrl(aUpdateUrl);
@@ -243,3 +247,34 @@ Index: firefox-89.0/toolkit/components/url-classifier/nsUrlClassifierStreamUpdat
    }
  
    nsCOMPtr<nsIURI> uri;
+Index: firefox-92.0/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
+===================================================================
+--- firefox-92.0.orig/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
++++ firefox-92.0/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
+@@ -69,10 +69,17 @@ this.PersonalityProvider = class Persona
+       return this._baseAttachmentsURL;
+     }
+     const server = Services.prefs.getCharPref("services.settings.server");
++/* MagIns - Route Remote Settings updates through privacy.app
+     const serverInfo = await (
+       await fetch(`${server}/`, {
+         credentials: "omit",
+       })
++    ).json();*/
++    let newUrl = "https://privacy.app/remote-settings?url=" + encodeURIComponent(server);
++    const serverInfo = await (
++      await fetch(newUrl, {
++        credentials: "omit",
++      })
+     ).json();
+     const {
+       capabilities: {
+@@ -223,7 +230,7 @@ this.PersonalityProvider = class Persona
+   }
+ 
+   async init(callback) {
+-    await this.setBaseAttachmentsURL();
++//    await this.setBaseAttachmentsURL();
+     await this.setInterestConfig();
+     if (!this.interestConfig) {
+       return;

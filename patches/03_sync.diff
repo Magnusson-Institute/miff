@@ -1,7 +1,7 @@
-Index: firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
+--- firefox-92.0.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
 @@ -427,11 +427,18 @@ FxAccountsClient.prototype = {
      );
  
@@ -22,10 +22,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
  
      return {
        kA: keyAWrapB.slice(0, 32),
-Index: firefox-89.0/services/fxaccounts/FxAccountsKeys.jsm
+Index: firefox-92.0/services/fxaccounts/FxAccountsKeys.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsKeys.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccountsKeys.jsm
+--- firefox-92.0.orig/services/fxaccounts/FxAccountsKeys.jsm
++++ firefox-92.0/services/fxaccounts/FxAccountsKeys.jsm
 @@ -364,10 +364,15 @@ class FxAccountsKeys {
        throw new Error("Signed in user changed while fetching keys!");
      }
@@ -43,10 +43,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsKeys.jsm
  
      if (logPII) {
        log.debug("kBbytes: " + kBbytes);
-Index: firefox-89.0/services/common/tokenserverclient.js
+Index: firefox-92.0/services/common/tokenserverclient.js
 ===================================================================
---- firefox-89.0.orig/services/common/tokenserverclient.js
-+++ firefox-89.0/services/common/tokenserverclient.js
+--- firefox-92.0.orig/services/common/tokenserverclient.js
++++ firefox-92.0/services/common/tokenserverclient.js
 @@ -227,29 +227,44 @@ TokenServerClient.prototype = {
        );
      }
@@ -131,10 +131,10 @@ Index: firefox-89.0/services/common/tokenserverclient.js
      if (!headerVal) {
        return;
      }
-Index: firefox-89.0/services/sync/modules/resource.js
+Index: firefox-92.0/services/sync/modules/resource.js
 ===================================================================
---- firefox-89.0.orig/services/sync/modules/resource.js
-+++ firefox-89.0/services/sync/modules/resource.js
+--- firefox-92.0.orig/services/sync/modules/resource.js
++++ firefox-92.0/services/sync/modules/resource.js
 @@ -103,12 +103,28 @@ Resource.prototype = {
     * @returns {Headers}
     */

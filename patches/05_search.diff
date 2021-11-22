@@ -1,7 +1,7 @@
-Index: m041/mozilla-release/browser/components/preferences/search.js
+Index: firefox-84.0.2/browser/components/preferences/search.js
 ===================================================================
---- m041.orig/mozilla-release/browser/components/preferences/search.js
-+++ m041/mozilla-release/browser/components/preferences/search.js
+--- firefox-84.0.2.orig/browser/components/preferences/search.js
++++ firefox-84.0.2/browser/components/preferences/search.js
 @@ -297,6 +297,9 @@ var gSearchPane = {
      // Now clean-up and rebuild the list.
      list.removeAllItems();
@@ -21,10 +21,10 @@ Index: m041/mozilla-release/browser/components/preferences/search.js
    },
  
    handleEvent(aEvent) {
-Index: m041/mozilla-release/toolkit/components/search/SearchService.jsm
+Index: firefox-84.0.2/toolkit/components/search/SearchService.jsm
 ===================================================================
---- m041.orig/mozilla-release/toolkit/components/search/SearchService.jsm
-+++ m041/mozilla-release/toolkit/components/search/SearchService.jsm
+--- firefox-84.0.2.orig/toolkit/components/search/SearchService.jsm
++++ firefox-84.0.2/toolkit/components/search/SearchService.jsm
 @@ -513,7 +513,7 @@ SearchService.prototype = {
     *   The engine that is default.
     */

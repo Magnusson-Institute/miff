@@ -1,7 +1,7 @@
-Index: m041/mozilla-release/browser/app/profile/firefox.js
+Index: firefox-84.0.2/browser/app/profile/firefox.js
 ===================================================================
---- m041.orig/mozilla-release/browser/app/profile/firefox.js
-+++ m041/mozilla-release/browser/app/profile/firefox.js
+--- firefox-84.0.2.orig/browser/app/profile/firefox.js
++++ firefox-84.0.2/browser/app/profile/firefox.js
 @@ -49,7 +49,7 @@ pref("extensions.blocklist.useMLBF", tru
  pref("extensions.blocklist.useMLBF.stashes", true);
  
@@ -20,7 +20,7 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  // How long to show a Hearbeat survey (two hours, in seconds)
  pref("browser.uitour.surveyDuration", 7200);
  
-@@ -762,7 +762,7 @@ pref("accessibility.typeaheadfind.linkso
+@@ -776,7 +776,7 @@ pref("accessibility.typeaheadfind.linkso
  pref("accessibility.typeaheadfind.flashBar", 1);
  
  // Accessibility indicator preferences such as support URL, enabled flag.
@@ -29,7 +29,7 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  pref("accessibility.indicator.enabled", false);
  
  pref("plugins.testmode", false);
-@@ -880,7 +880,7 @@ pref("gecko.handlerService.schemes.ircs.
+@@ -894,7 +894,7 @@ pref("gecko.handlerService.schemes.ircs.
  pref("gecko.handlerService.schemes.ircs.3.name", "chrome://browser-region/locale/region.properties");
  pref("gecko.handlerService.schemes.ircs.3.uriTemplate", "chrome://browser-region/locale/region.properties");
  
@@ -38,7 +38,7 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  pref("browser.xr.warning.infoURL", "https://www.mozilla.org/%LOCALE%/firefox/xr/");
  
  pref("browser.sessionstore.resume_from_crash", true);
-@@ -1012,20 +1012,20 @@ pref("breakpad.reportURL", "https://cras
+@@ -1026,20 +1026,20 @@ pref("breakpad.reportURL", "https://cras
  
  // URL for "Learn More" for DataCollection
  pref("toolkit.datacollection.infoURL",
@@ -64,7 +64,7 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  #endif
  
  // Name of alternate about: page for certificate errors (when undefined, defaults to about:neterror)
-@@ -1537,8 +1537,8 @@ pref("identity.sendtabpromo.url", "https
+@@ -1555,8 +1555,8 @@ pref("identity.sendtabpromo.url", "https
  
  // URLs for promo links to mobile browsers. Note that consumers are expected to
  // append a value for utm_campaign.
@@ -75,20 +75,20 @@ Index: m041/mozilla-release/browser/app/profile/firefox.js
  
  // Migrate any existing Firefox Account data from the default profile to the
  // Developer Edition profile.
-@@ -2583,4 +2583,6 @@ pref("dom.event.clipboardevents.enable",
- pref("network.trr.mode", 2);
+@@ -2586,4 +2586,6 @@ pref("dom.event.clipboardevents.enable",
+ pref("network.trr.mode", 5);
  
- setAndLockPref("browser.newtabpage.activity-stream.showSponsored", false);
--setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
+ pref("browser.newtabpage.activity-stream.showSponsored", false);
+-pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 \ No newline at end of file
-+setAndLockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
-+setAndLockPref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
-+setAndLockPref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
++pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
++pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
++pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
 \ No newline at end of file
-Index: m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
+Index: firefox-84.0.2/browser/branding/aurora/pref/firefox-branding.js
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
-+++ m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
+--- firefox-84.0.2.orig/browser/branding/aurora/pref/firefox-branding.js
++++ firefox-84.0.2/browser/branding/aurora/pref/firefox-branding.js
 @@ -4,7 +4,7 @@
  
  // This file contains branding-specific prefs.
@@ -114,10 +114,10 @@ Index: m041/mozilla-release/browser/branding/aurora/pref/firefox-branding.js
  
  // The number of days a binary is permitted to be old
  // without checking for an update.  This assumes that
-Index: m041/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
+Index: firefox-84.0.2/browser/branding/nightly/pref/firefox-branding.js
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
-+++ m041/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
+--- firefox-84.0.2.orig/browser/branding/nightly/pref/firefox-branding.js
++++ firefox-84.0.2/browser/branding/nightly/pref/firefox-branding.js
 @@ -4,8 +4,8 @@
  
  // This file contains branding-specific prefs.
@@ -145,10 +145,10 @@ Index: m041/mozilla-release/browser/branding/nightly/pref/firefox-branding.js
  
  // The number of days a binary is permitted to be old
  // without checking for an update.  This assumes that
-Index: m041/mozilla-release/browser/branding/official/pref/firefox-branding.js
+Index: firefox-84.0.2/browser/branding/official/pref/firefox-branding.js
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/pref/firefox-branding.js
-+++ m041/mozilla-release/browser/branding/official/pref/firefox-branding.js
+--- firefox-84.0.2.orig/browser/branding/official/pref/firefox-branding.js
++++ firefox-84.0.2/browser/branding/official/pref/firefox-branding.js
 @@ -4,8 +4,8 @@
  
  // This file contains branding-specific prefs.
@@ -180,10 +180,10 @@ Index: m041/mozilla-release/browser/branding/official/pref/firefox-branding.js
  #endif
  
  // The number of days a binary is permitted to be old
-Index: m041/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
+Index: firefox-84.0.2/browser/branding/unofficial/pref/firefox-branding.js
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
-+++ m041/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
+--- firefox-84.0.2.orig/browser/branding/unofficial/pref/firefox-branding.js
++++ firefox-84.0.2/browser/branding/unofficial/pref/firefox-branding.js
 @@ -4,8 +4,8 @@
  
  // This file contains branding-specific prefs.
@@ -208,11 +208,11 @@ Index: m041/mozilla-release/browser/branding/unofficial/pref/firefox-branding.js
  
  // The number of days a binary is permitted to be old
  // without checking for an update.  This assumes that
-Index: m041/mozilla-release/modules/libpref/init/all.js
+Index: firefox-84.0.2/modules/libpref/init/all.js
 ===================================================================
---- m041.orig/mozilla-release/modules/libpref/init/all.js
-+++ m041/mozilla-release/modules/libpref/init/all.js
-@@ -4472,7 +4472,7 @@ pref("toolkit.legacyUserProfileCustomiza
+--- firefox-84.0.2.orig/modules/libpref/init/all.js
++++ firefox-84.0.2/modules/libpref/init/all.js
+@@ -4455,7 +4455,7 @@ pref("toolkit.legacyUserProfileCustomiza
    pref("datareporting.policy.currentPolicyVersion", 2);
    pref("datareporting.policy.minimumPolicyVersion", 1);
    pref("datareporting.policy.minimumPolicyVersion.channel-beta", 2);
@@ -221,10 +221,10 @@ Index: m041/mozilla-release/modules/libpref/init/all.js
  #endif
  
  #ifdef MOZ_SERVICES_HEALTHREPORT
-Index: m041/mozilla-release/browser/base/content/browser-menubar.inc
+Index: firefox-84.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-menubar.inc
-+++ m041/mozilla-release/browser/base/content/browser-menubar.inc
+--- firefox-84.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-84.0.2/browser/base/content/browser-menubar.inc
 @@ -466,7 +466,7 @@
                     data-l10n-id="menu-help">
                <menupopup id="menu_HelpPopup" onpopupshowing="buildHelpMenu();">
@@ -243,11 +243,11 @@ Index: m041/mozilla-release/browser/base/content/browser-menubar.inc
                            onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-keyboard-shortcuts"/>
                  <menuitem id="troubleShooting"
                            oncommand="openTroubleshootingPage()"
-Index: m041/mozilla-release/browser/base/content/utilityOverlay.js
+Index: firefox-84.0.2/browser/base/content/utilityOverlay.js
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/utilityOverlay.js
-+++ m041/mozilla-release/browser/base/content/utilityOverlay.js
-@@ -1076,10 +1076,18 @@ function openTourPage() {
+--- firefox-84.0.2.orig/browser/base/content/utilityOverlay.js
++++ firefox-84.0.2/browser/base/content/utilityOverlay.js
+@@ -1081,10 +1081,18 @@ function openTourPage() {
    openTrustedLinkIn(scope.UITour.url, "tab");
  }
  
@@ -268,10 +268,10 @@ Index: m041/mozilla-release/browser/base/content/utilityOverlay.js
  
    document.getElementById(
      "helpSafeMode"
-Index: m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
+Index: firefox-84.0.2/docshell/base/nsAboutRedirector.cpp
 ===================================================================
---- m041.orig/mozilla-release/docshell/base/nsAboutRedirector.cpp
-+++ m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
+--- firefox-84.0.2.orig/docshell/base/nsAboutRedirector.cpp
++++ firefox-84.0.2/docshell/base/nsAboutRedirector.cpp
 @@ -74,7 +74,7 @@ static const RedirEntry kRedirMap[] = {
  #ifdef MOZ_CRASHREPORTER
      {"crashes", "chrome://global/content/crashes.html", 0},
@@ -281,10 +281,27 @@ Index: m041/mozilla-release/docshell/base/nsAboutRedirector.cpp
       nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_MUST_LOAD_IN_CHILD},
      {"httpsonlyerror", "chrome://global/content/httpsonlyerror/errorpage.html",
-Index: m041/mozilla-release/browser/components/preferences/main.inc.xhtml
+Index: firefox-84.0.2/browser/components/preferences/main.js
 ===================================================================
---- m041.orig/mozilla-release/browser/components/preferences/main.inc.xhtml
-+++ m041/mozilla-release/browser/components/preferences/main.inc.xhtml
+--- firefox-84.0.2.orig/browser/components/preferences/main.js
++++ firefox-84.0.2/browser/components/preferences/main.js
+@@ -395,10 +395,10 @@ var gMainPane = {
+     let cfrLearnMoreUrl =
+       Services.urlFormatter.formatURLPref("app.support.baseURL") +
+       "extensionrecommendations";
+-    for (const id of ["cfrLearnMore", "cfrFeaturesLearnMore"]) {
++/*    for (const id of ["cfrLearnMore", "cfrFeaturesLearnMore"]) {
+       let link = document.getElementById(id);
+       link.setAttribute("href", cfrLearnMoreUrl);
+-    }
++    }*/
+ 
+     if (
+       Services.prefs.getBoolPref(
+Index: firefox-84.0.2/browser/components/preferences/main.inc.xhtml
+===================================================================
+--- firefox-84.0.2.orig/browser/components/preferences/main.inc.xhtml
++++ firefox-84.0.2/browser/components/preferences/main.inc.xhtml
 @@ -650,7 +650,7 @@
              preference="media.hardwaremediakeys.enabled"/>
      <label id="mediaControlLearnMore" class="learnMore" data-l10n-id="browsing-media-control-learn-more" is="text-link"/>
@@ -303,20 +320,3 @@ Index: m041/mozilla-release/browser/components/preferences/main.inc.xhtml
  </groupbox>
  
  <hbox id="networkProxyCategory"
-Index: m041/mozilla-release/browser/components/preferences/main.js
-===================================================================
---- m041.orig/mozilla-release/browser/components/preferences/main.js
-+++ m041/mozilla-release/browser/components/preferences/main.js
-@@ -395,10 +395,10 @@ var gMainPane = {
-     let cfrLearnMoreUrl =
-       Services.urlFormatter.formatURLPref("app.support.baseURL") +
-       "extensionrecommendations";
--    for (const id of ["cfrLearnMore", "cfrFeaturesLearnMore"]) {
-+/*    for (const id of ["cfrLearnMore", "cfrFeaturesLearnMore"]) {
-       let link = document.getElementById(id);
-       link.setAttribute("href", cfrLearnMoreUrl);
--    }
-+    }*/
- 
-     if (
-       Services.prefs.getBoolPref(

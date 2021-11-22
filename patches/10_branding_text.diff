@@ -1,40 +1,40 @@
-Index: m041/mozilla-release/browser/installer/windows/Makefile.in
+Index: firefox-84.0.2/browser/installer/windows/Makefile.in
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/Makefile.in
-+++ m041/mozilla-release/browser/installer/windows/Makefile.in
+--- firefox-84.0.2.orig/browser/installer/windows/Makefile.in
++++ firefox-84.0.2/browser/installer/windows/Makefile.in
 @@ -55,7 +55,7 @@ else
  PPL_LOCALE_ARGS=$(call EXPAND_LOCALE_SRCDIR,browser/locales)/installer
  endif
  
 -$(CONFIG_DIR)/setup.exe::
-+$(CONFIG_DIR)/MIFFInstaller.exe::
++$(CONFIG_DIR)/MiFFInstaller.exe::
  	$(RM) -r $(CONFIG_DIR)
  	$(MKDIR) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(srcdir)/,$(INSTALLER_FILES)) $(CONFIG_DIR)
-Index: m041/mozilla-release/browser/installer/windows/app.tag
+Index: firefox-84.0.2/browser/installer/windows/app.tag
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/app.tag
-+++ m041/mozilla-release/browser/installer/windows/app.tag
+--- firefox-84.0.2.orig/browser/installer/windows/app.tag
++++ firefox-84.0.2/browser/installer/windows/app.tag
 @@ -1,4 +1,4 @@
  ;!@Install@!UTF-8!
 -Title="Mozilla Firefox"
 -RunProgram="setup.exe"
-+Title="MIFF Installer"
-+RunProgram="MIFFInstaller.exe"
++Title="MiFF Installer"
++RunProgram="MiFFInstaller.exe"
  ;!@InstallEnd@!
 \ No newline at end of file
-Index: m041/mozilla-release/browser/installer/windows/nsis/installer.nsi
+Index: firefox-84.0.2/browser/installer/windows/nsis/installer.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/nsis/installer.nsi
-+++ m041/mozilla-release/browser/installer/windows/nsis/installer.nsi
+--- firefox-84.0.2.orig/browser/installer/windows/nsis/installer.nsi
++++ firefox-84.0.2/browser/installer/windows/nsis/installer.nsi
 @@ -94,8 +94,8 @@ Var PostSigningData
  !include common.nsh
  !include locales.nsi
  
 -VIAddVersionKey "FileDescription" "${BrandShortName} Installer"
 -VIAddVersionKey "OriginalFilename" "setup.exe"
-+VIAddVersionKey "FileDescription" "MIFF Installer"
-+VIAddVersionKey "OriginalFilename" "MIFFInstaller.exe"
++VIAddVersionKey "FileDescription" "MiFF Installer"
++VIAddVersionKey "OriginalFilename" "MiFFInstaller.exe"
  
  ; Must be inserted before other macros that use logging
  !insertmacro _LoggingCommon
@@ -44,14 +44,14 @@ Index: m041/mozilla-release/browser/installer/windows/nsis/installer.nsi
  
 -Name "${BrandFullName}"
 -OutFile "setup.exe"
-+Name "MIFF"
-+OutFile "MIFFInstaller.exe"
++Name "MiFF"
++OutFile "MiFFInstaller.exe"
  !ifdef HAVE_64BIT_BUILD
 -  InstallDir "$PROGRAMFILES64\${BrandFullName}\"
-+  InstallDir "$PROGRAMFILES64\MIFF\"
++  InstallDir "$PROGRAMFILES64\MiFF\"
  !else
 -  InstallDir "$PROGRAMFILES32\${BrandFullName}\"
-+  InstallDir "$PROGRAMFILES32\MIFF\"
++  InstallDir "$PROGRAMFILES32\MiFF\"
  !endif
  ShowInstDetails nevershow
  
@@ -60,20 +60,20 @@ Index: m041/mozilla-release/browser/installer/windows/nsis/installer.nsi
  
    SetOutPath "$INSTDIR"
 -  ${StartInstallLog} "${BrandFullName}" "${AB_CD}" "${AppVersion}" "${GREVersion}"
-+  ${StartInstallLog} "MIFF" "${AB_CD}" "${AppVersion}" "${GREVersion}"
++  ${StartInstallLog} "MiFF" "${AB_CD}" "${AppVersion}" "${GREVersion}"
  
    StrCpy $R9 "true"
    StrCpy $PreventRebootRequired "false"
-Index: m041/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
+Index: firefox-84.0.2/toolkit/mozapps/installer/windows/nsis/makensis.mk
 ===================================================================
---- m041.orig/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
-+++ m041/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
+--- firefox-84.0.2.orig/toolkit/mozapps/installer/windows/nsis/makensis.mk
++++ firefox-84.0.2/toolkit/mozapps/installer/windows/nsis/makensis.mk
 @@ -51,7 +51,7 @@ CUSTOM_UI = \
  	nsisui.exe \
  	$(NULL)
  
 -$(CONFIG_DIR)/setup.exe::
-+$(CONFIG_DIR)/MIFFInstaller.exe::
++$(CONFIG_DIR)/MiFFInstaller.exe::
  	$(INSTALL) $(addprefix $(MOZILLA_DIR)/toolkit/mozapps/installer/windows/nsis/,$(TOOLKIT_NSIS_FILES)) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(MOZILLA_DIR)/other-licenses/nsis/Plugins/,$(CUSTOM_NSIS_PLUGINS)) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(MOZILLA_DIR)/other-licenses/nsis/,$(CUSTOM_UI)) $(CONFIG_DIR)
@@ -82,23 +82,23 @@ Index: m041/mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
  
  ifdef ZIP_IN
 -installer:: $(CONFIG_DIR)/setup.exe $(ZIP_IN)
-+installer:: $(CONFIG_DIR)/MIFFInstaller.exe $(ZIP_IN)
++installer:: $(CONFIG_DIR)/MiFFInstaller.exe $(ZIP_IN)
  	@echo 'Packaging $(WIN32_INSTALLER_OUT).'
  	$(NSINSTALL) -D '$(ABS_DIST)/$(PKG_INST_PATH)'
- 	$(MOZILLA_DIR)/mach repackage installer \
+ 	$(PYTHON3) $(MOZILLA_DIR)/mach repackage installer \
 @@ -69,7 +69,7 @@ installer:: $(CONFIG_DIR)/setup.exe $(ZI
  	  --package-name '$(MOZ_PKG_DIR)' \
  	  --package '$(ZIP_IN)' \
  	  --tag $(topsrcdir)/$(MOZ_BUILD_APP)/installer/windows/app.tag \
 -	  --setupexe $(CONFIG_DIR)/setup.exe \
-+	  --setupexe $(CONFIG_DIR)/MIFFInstaller.exe \
++	  --setupexe $(CONFIG_DIR)/MiFFInstaller.exe \
  	  --sfx-stub $(SFX_MODULE) \
  	  $(USE_UPX)
  ifdef MOZ_STUB_INSTALLER
-Index: m041/mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
+Index: firefox-84.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
+--- firefox-84.0.2.orig/browser/locales/en-US/browser/preferences/preferences.ftl
++++ firefox-84.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
 @@ -590,7 +590,7 @@ home-restore-defaults =
  # "Firefox" should be treated as a brand and kept in English,
  # while "Home" and "(Default)" can be localized.
@@ -124,7 +124,7 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/preferences/preference
  # They can be moved within the sentence as needed to adapt
  # to your language, but should not be changed or translated.
 -sync-mobile-promo = Download Firefox for <img data-l10n-name="android-icon"/> <a data-l10n-name="android-link">Android</a> or <img data-l10n-name="ios-icon"/> <a data-l10n-name="ios-link">iOS</a> to sync with your mobile device.
-+sync-mobile-promo = Mobile versions of MIFF in development
++sync-mobile-promo = Mobile versions of MiFF in development
  
  ## Firefox Account - Signed in
  
@@ -133,152 +133,32 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/preferences/preference
  sync-engine-addons =
      .label = Add-ons
 -    .tooltiptext = Extensions and themes for Firefox desktop
-+    .tooltiptext = Extensions and themes for MIFF desktop
++    .tooltiptext = Extensions and themes for MiFF desktop
      .accesskey = A
  
  sync-engine-prefs =
-Index: m041/mozilla-release/toolkit/content/aboutSupport.js
+Index: firefox-84.0.2/browser/locales/en-US/browser/aboutLogins.ftl
 ===================================================================
---- m041.orig/mozilla-release/toolkit/content/aboutSupport.js
-+++ m041/mozilla-release/toolkit/content/aboutSupport.js
-@@ -73,7 +73,7 @@ function toFluentID(str) {
- // and it's the function's job to update the page with it.
- var snapshotFormatters = {
-   async application(data) {
--    $("application-box").textContent = data.name;
-+    $("application-box").textContent = "MIFF";
-     $("useragent-box").textContent = data.userAgent;
-     $("os-box").textContent = data.osVersion;
-     $("binary-box").textContent = Services.dirsvc.get(
-Index: m041/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
-===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/aboutDialog.ftl
-@@ -3,7 +3,7 @@
- # file, You can obtain one at http://mozilla.org/MPL/2.0/.
- 
- aboutDialog-title =
--    .title = About { -brand-full-name }
-+    .title = About MIFF
- 
- releaseNotes-link = What’s new
- 
-@@ -12,7 +12,7 @@ update-checkForUpdatesButton =
-     .accesskey = C
- 
- update-updateButton =
--    .label = Restart to Update { -brand-shorter-name }
-+    .label = Restart to Update MIFF
-     .accesskey = R
- 
- update-checkingForUpdates = Checking for updates…
-@@ -24,8 +24,8 @@ update-failed-main =
-     Update failed. <a data-l10n-name="failed-link-main">Download the latest version</a>
- 
- update-adminDisabled = Updates disabled by your system administrator
--update-noUpdatesFound = { -brand-short-name } is up to date
--update-otherInstanceHandlingUpdates = { -brand-short-name } is being updated by another instance
-+update-noUpdatesFound = MIFF is up to date
-+update-otherInstanceHandlingUpdates = MIFF is being updated by another instance
- 
- update-manual = Updates available at <label data-l10n-name="manual-link"/>
- 
-Index: m041/mozilla-release/browser/locales/en-US/browser/browser.ftl
-===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/browser.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/browser.ftl
-@@ -14,10 +14,10 @@
- # Variables:
- #  $content-title (String): the title of the web content.
- browser-main-window =
--  .data-title-default = { -brand-full-name }
--  .data-title-private = { -brand-full-name } (Private Browsing)
--  .data-content-title-default = { $content-title } — { -brand-full-name }
--  .data-content-title-private = { $content-title } — { -brand-full-name } (Private Browsing)
-+  .data-title-default = MIFF
-+  .data-title-private = MIFF (Private Browsing)
-+  .data-content-title-default = { $content-title } — MIFF
-+  .data-content-title-private = { $content-title } — MIFF (Private Browsing)
- 
- # These are the default window titles on macOS. The first two are for use when
- # there is no content title:
-@@ -34,8 +34,8 @@ browser-main-window =
- # Variables:
- #  $content-title (String): the title of the web content.
- browser-main-window-mac =
--  .data-title-default = { -brand-full-name }
--  .data-title-private = { -brand-full-name } — (Private Browsing)
-+  .data-title-default = MIFF
-+  .data-title-private = MIFF — (Private Browsing)
-   .data-content-title-default = { $content-title }
-   .data-content-title-private = { $content-title } — (Private Browsing)
- 
-Index: m041/mozilla-release/browser/locales/en-US/browser/protectionsPanel.ftl
-===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/protectionsPanel.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/protectionsPanel.ftl
-@@ -42,7 +42,7 @@ protections-panel-not-blocking-why-etp-o
- 
- ##
- 
--protections-panel-no-trackers-found = No trackers known to { -brand-short-name } were detected on this page.
-+protections-panel-no-trackers-found = No trackers known to MIFF were detected on this page.
- 
- protections-panel-content-blocking-tracking-protection = Tracking Content
- 
-Index: m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
-===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
-@@ -57,7 +57,7 @@ about-logins-login-list-alerts-option =
- login-list-last-changed-option = Last Modified
- login-list-last-used-option = Last Used
- login-list-intro-title = No logins found
--login-list-intro-description = When you save a password in { -brand-product-name }, it will show up here.
-+login-list-intro-description = When you save a password in MIFF, it will show up here.
- about-logins-login-list-empty-search-title = No logins found
- about-logins-login-list-empty-search-description = There are no results matching your search.
- login-list-item-title-new-login = New Login
-@@ -72,12 +72,12 @@ about-logins-list-item-vulnerable-passwo
- 
+--- firefox-84.0.2.orig/browser/locales/en-US/browser/aboutLogins.ftl
++++ firefox-84.0.2/browser/locales/en-US/browser/aboutLogins.ftl
+@@ -62,11 +62,11 @@ about-logins-list-item-vulnerable-passwo
  about-logins-login-intro-heading-logged-out = Looking for your saved logins? Set up { -sync-brand-short-name } or Import Them.
  about-logins-login-intro-heading-logged-in = No synced logins found.
--login-intro-description = If you saved your logins to { -brand-product-name } on a different device, here’s how to get them here:
+ login-intro-description = If you saved your logins to { -brand-product-name } on a different device, here’s how to get them here:
 -login-intro-instruction-fxa = Create or sign in to your { -fxaccount-brand-name } on the device where your logins are saved
-+login-intro-description = If you saved your logins to MIFF on a different device, here’s how to get them here:
 +login-intro-instruction-fxa = Sign in to privacy.app on the device where your logins are saved
  login-intro-instruction-fxa-settings = Make sure you’ve selected the Logins checkbox in { -sync-brand-short-name } Settings
  about-logins-intro-instruction-help = Visit <a data-l10n-name="help-link">{ -lockwise-brand-short-name } Support</a> for more help
  about-logins-intro-import = If your logins are saved in another browser, you can <a data-l10n-name="import-link">import them into { -lockwise-brand-short-name }</a>
 -about-logins-intro-import2 = If your logins are saved outside of { -brand-product-name }, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
-+about-logins-intro-import2 = If your logins are saved outside of MIFF, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
++about-logins-intro-import2 = If your logins are saved outside of MiFF, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
  
  ## Login
  
-@@ -106,7 +106,7 @@ login-item-time-used = Last used: { DATE
- 
- ## OS Authentication dialog
- 
--about-logins-os-auth-dialog-caption = { -brand-full-name }
-+about-logins-os-auth-dialog-caption = MIFF
- 
- ## The macOS strings are preceded by the operating system with "Firefox is trying to "
- ## and includes subtitle of "Enter password for the user "xxx" to allow this." These
-@@ -147,8 +147,8 @@ master-password-reload-button =
- 
- enable-password-sync-notification-message =
-   { PLATFORM() ->
--      [windows] Want your logins everywhere you use { -brand-product-name }? Go to your { -sync-brand-short-name } Options and select the Logins checkbox.
--     *[other] Want your logins everywhere you use { -brand-product-name }? Go to your { -sync-brand-short-name } Preferences and select the Logins checkbox.
-+      [windows] Want your logins everywhere you use MIFF? Go to your { -sync-brand-short-name } Options and select the Logins checkbox.
-+     *[other] Want your logins everywhere you use MIFF? Go to your { -sync-brand-short-name } Preferences and select the Logins checkbox.
-   }
- enable-password-sync-preferences-button =
-   .label =
-Index: m041/mozilla-release/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
+Index: firefox-84.0.2/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
 ===================================================================
---- m041.orig/mozilla-release/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
-+++ m041/mozilla-release/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
+--- firefox-84.0.2.orig/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
++++ firefox-84.0.2/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
 @@ -58,7 +58,7 @@
        </div>
      </div>
@@ -289,23 +169,10 @@ Index: m041/mozilla-release/browser/components/privatebrowsing/content/aboutPriv
 +    <a id="private-browsing-vpn-link" class="vpn-promo" data-l10n-id="about-private-browsing-turn-on-vpn"></a>-->
    </body>
  </html>
-Index: m041/mozilla-release/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
+Index: firefox-84.0.2/browser/locales/en-US/browser/menubar.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
-@@ -10,7 +10,7 @@ about-private-browsing-info-myths = Comm
- about-private-browsing =
-     .title = Search the Web
- about-private-browsing-not-private = You are currently not in a private window.
--about-private-browsing-info-description = { -brand-short-name } clears your search and browsing history when you quit the app or close all Private Browsing tabs and windows. While this doesn’t make you anonymous to websites or your internet service provider, it makes it easier to keep what you do online private from anyone else who uses this computer.
-+about-private-browsing-info-description = MIFF clears your search and browsing history when you quit the app or close all Private Browsing tabs and windows. While this doesn’t make you anonymous to websites or your internet service provider, it makes it easier to keep what you do online private from anyone else who uses this computer.
- 
- about-private-browsing-need-more-privacy = Need more privacy?
- about-private-browsing-turn-on-vpn = Try { -mozilla-vpn-brand-name }
-Index: m041/mozilla-release/browser/locales/en-US/browser/menubar.ftl
-===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/menubar.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/menubar.ftl
+--- firefox-84.0.2.orig/browser/locales/en-US/browser/menubar.ftl
++++ firefox-84.0.2/browser/locales/en-US/browser/menubar.ftl
 @@ -192,7 +192,7 @@ menu-tools-addons =
      .label = Add-ons
      .accesskey = A
@@ -324,45 +191,10 @@ Index: m041/mozilla-release/browser/locales/en-US/browser/menubar.ftl
      .accesskey = R
  menu-tools-web-developer =
      .label = Web Developer
-@@ -240,10 +240,10 @@ menu-help =
-     .label = Help
-     .accesskey = H
- menu-help-product =
--    .label = { -brand-shorter-name } Help
-+    .label = MIFF Help
-     .accesskey = H
- menu-help-show-tour =
--    .label = { -brand-shorter-name } Tour
-+    .label = MIFF Tour
-     .accesskey = o
- menu-help-import-from-another-browser =
-     .label = Import from Another Browser…
-Index: m041/mozilla-release/browser/locales/en-US/browser/newtab/onboarding.ftl
+Index: firefox-84.0.2/browser/branding/aurora/locales/en-US/brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/newtab/onboarding.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/newtab/onboarding.ftl
-@@ -8,7 +8,7 @@
- 
- ## Welcome page strings
- 
--onboarding-welcome-header = Welcome to { -brand-short-name }
-+onboarding-welcome-header = Welcome to MIFF
- onboarding-start-browsing-button-label = Start Browsing
- onboarding-not-now-button-label = Not now
- onboarding-cards-dismiss =
-@@ -29,7 +29,7 @@ return-to-amo-add-extension-label = Add
- 
- # The <span data-l10n-name="zap"></span> in this string allows a "zap" underline style to be
- # automatically added to the text inside it. { -brand-short-name } should stay inside the span.
--onboarding-multistage-welcome-header = Welcome to <span data-l10n-name="zap">{ -brand-short-name }</span>
-+onboarding-multistage-welcome-header = Welcome to MIFF
- onboarding-multistage-welcome-subtitle = The fast, safe, and private browser that’s backed by a non-profit.
- onboarding-multistage-welcome-primary-button-label = Start Setup
- onboarding-multistage-welcome-secondary-button-label = Sign in
-Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
-===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
-+++ m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
+--- firefox-84.0.2.orig/browser/branding/aurora/locales/en-US/brand.ftl
++++ firefox-84.0.2/browser/branding/aurora/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -370,20 +202,20 @@ Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
 --brand-shorter-name = Firefox
 --brand-short-name = Firefox Developer Edition
 --brand-full-name = Firefox Developer Edition
-+-brand-shorter-name = MIFF
-+-brand-short-name = MIFF
-+-brand-full-name = MIFF
++-brand-shorter-name = MiFF
++-brand-short-name = MiFF
++-brand-full-name = MiFF
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 --brand-product-name = Firefox
 --vendor-short-name = Mozilla
-+-brand-product-name = MIFF
++-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
+Index: firefox-84.0.2/browser/branding/nightly/locales/en-US/brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
-+++ m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
+--- firefox-84.0.2.orig/browser/branding/nightly/locales/en-US/brand.ftl
++++ firefox-84.0.2/browser/branding/nightly/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -391,20 +223,20 @@ Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
 --brand-shorter-name = Nightly
 --brand-short-name = Nightly
 --brand-full-name = Firefox Nightly
-+-brand-shorter-name = MIFF
-+-brand-short-name = MIFF
-+-brand-full-name = MIFF
++-brand-shorter-name = MiFF
++-brand-short-name = MiFF
++-brand-full-name = MiFF
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 --brand-product-name = Firefox
 --vendor-short-name = Mozilla
-+-brand-product-name = MIFF
++-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.ftl
+Index: firefox-84.0.2/browser/branding/official/locales/en-US/brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/locales/en-US/brand.ftl
-+++ m041/mozilla-release/browser/branding/official/locales/en-US/brand.ftl
+--- firefox-84.0.2.orig/browser/branding/official/locales/en-US/brand.ftl
++++ firefox-84.0.2/browser/branding/official/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -412,20 +244,20 @@ Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.ftl
 --brand-shorter-name = Firefox
 --brand-short-name = Firefox
 --brand-full-name = Mozilla Firefox
-+-brand-shorter-name = MIFF
-+-brand-short-name = MIFF
-+-brand-full-name = MIFF
++-brand-shorter-name = MiFF
++-brand-short-name = MiFF
++-brand-full-name = MiFF
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 --brand-product-name = Firefox
 --vendor-short-name = Mozilla
-+-brand-product-name = MIFF
++-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = Firefox and the Firefox logos are trademarks of the Mozilla Foundation.
-Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
+Index: firefox-84.0.2/browser/branding/unofficial/locales/en-US/brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
-+++ m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
+--- firefox-84.0.2.orig/browser/branding/unofficial/locales/en-US/brand.ftl
++++ firefox-84.0.2/browser/branding/unofficial/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -433,20 +265,20 @@ Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
 --brand-shorter-name = Nightly
 --brand-short-name = Nightly
 --brand-full-name = Nightly
-+-brand-shorter-name = MIFF
-+-brand-short-name = MIFF
-+-brand-full-name = MIFF
++-brand-shorter-name = MiFF
++-brand-short-name = MiFF
++-brand-full-name = MiFF
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 --brand-product-name = Firefox
 --vendor-short-name = Mozilla
-+-brand-product-name = MIFF
++-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: m041/mozilla-release/browser/branding/official/branding.nsi
+Index: firefox-84.0.2/browser/branding/official/branding.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/branding.nsi
-+++ m041/mozilla-release/browser/branding/official/branding.nsi
+--- firefox-84.0.2.orig/browser/branding/official/branding.nsi
++++ firefox-84.0.2/browser/branding/official/branding.nsi
 @@ -8,12 +8,12 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -455,8 +287,8 @@ Index: m041/mozilla-release/browser/branding/official/branding.nsi
 -!define BrandFullName         "Mozilla Firefox"
 -!define CompanyName           "Mozilla Corporation"
 -!define URLInfoAbout          "https://www.mozilla.org"
-+!define BrandFullNameInternal "MIFF"
-+!define BrandFullName         "MIFF"
++!define BrandFullNameInternal "MiFF"
++!define BrandFullName         "MiFF"
 +!define CompanyName           "Magnusson Institute"
 +!define URLInfoAbout          "https://privacy.app"
  !define URLUpdateInfo         "https://www.mozilla.org/firefox/${AppVersion}/releasenotes"
@@ -465,10 +297,10 @@ Index: m041/mozilla-release/browser/branding/official/branding.nsi
  
  ; The OFFICIAL define is a workaround to support different urls for Release and
  ; Beta since they share the same branding when building with other branches that
-Index: m041/mozilla-release/browser/branding/unofficial/branding.nsi
+Index: firefox-84.0.2/browser/branding/unofficial/branding.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/branding.nsi
-+++ m041/mozilla-release/browser/branding/unofficial/branding.nsi
+--- firefox-84.0.2.orig/browser/branding/unofficial/branding.nsi
++++ firefox-84.0.2/browser/branding/unofficial/branding.nsi
 @@ -8,11 +8,11 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -478,18 +310,18 @@ Index: m041/mozilla-release/browser/branding/unofficial/branding.nsi
 -!define CompanyName           "mozilla.org"
 -!define URLInfoAbout          "https://www.mozilla.org"
 -!define HelpLink              "https://support.mozilla.org"
-+!define BrandFullNameInternal "MIFF"
-+!define BrandFullName         "MIFF"
++!define BrandFullNameInternal "MiFF"
++!define BrandFullName         "MiFF"
 +!define CompanyName           "Magnusson Institute"
 +!define URLInfoAbout          "https://privacy.app"
 +!define HelpLink              "https://privacy.app/support"
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-latest"
-Index: m041/mozilla-release/browser/branding/aurora/branding.nsi
+Index: firefox-84.0.2/browser/branding/aurora/branding.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/branding.nsi
-+++ m041/mozilla-release/browser/branding/aurora/branding.nsi
+--- firefox-84.0.2.orig/browser/branding/aurora/branding.nsi
++++ firefox-84.0.2/browser/branding/aurora/branding.nsi
 @@ -8,12 +8,12 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -500,19 +332,19 @@ Index: m041/mozilla-release/browser/branding/aurora/branding.nsi
 -!define CompanyName           "mozilla.org"
 -!define URLInfoAbout          "https://www.mozilla.org"
 -!define HelpLink              "https://support.mozilla.org"
-+!define BrandFullNameInternal "MIFF"
-+!define BrandShortName        "MIFF"
-+!define BrandFullName         "MIFF"
++!define BrandFullNameInternal "MiFF"
++!define BrandShortName        "MiFF"
++!define BrandFullName         "MiFF"
 +!define CompanyName           "Magnusson Institute"
 +!define URLInfoAbout          "https://privacy.app"
 +!define HelpLink              "https://privacy.app/support"
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-devedition-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-devedition-latest"
-Index: m041/mozilla-release/browser/branding/nightly/branding.nsi
+Index: firefox-84.0.2/browser/branding/nightly/branding.nsi
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/branding.nsi
-+++ m041/mozilla-release/browser/branding/nightly/branding.nsi
+--- firefox-84.0.2.orig/browser/branding/nightly/branding.nsi
++++ firefox-84.0.2/browser/branding/nightly/branding.nsi
 @@ -8,11 +8,11 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -522,77 +354,18 @@ Index: m041/mozilla-release/browser/branding/nightly/branding.nsi
 -!define CompanyName           "mozilla.org"
 -!define URLInfoAbout          "https://www.mozilla.org"
 -!define HelpLink              "https://support.mozilla.org"
-+!define BrandFullNameInternal "MIFF"
-+!define BrandFullName         "MIFF"
++!define BrandFullNameInternal "MiFF"
++!define BrandFullName         "MiFF"
 +!define CompanyName           "Magnusson Institute"
 +!define URLInfoAbout          "https://privacy.app"
 +!define HelpLink              "https://privacy.app/support"
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-nightly-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-nightly-latest"
-Index: m041/mozilla-release/browser/base/content/browser.js
+Index: firefox-84.0.2/browser/branding/aurora/locales/en-US/brand.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser.js
-+++ m041/mozilla-release/browser/base/content/browser.js
-@@ -1023,7 +1023,7 @@ var gPopupBlockerObserver = {
-     if (gBrowser.selectedBrowser.popupBlocker.shouldShowNotification) {
-       if (Services.prefs.getBoolPref("privacy.popups.showBrowserMessage")) {
-         var brandBundle = document.getElementById("bundle_brand");
--        var brandShortName = brandBundle.getString("brandShortName");
-+        var brandShortName = "MIFF"
- 
-         var stringKey =
-           AppConstants.platform == "win"
-@@ -7853,9 +7853,7 @@ var WebAuthnPromptHelper = {
-       /* Might fail for arbitrary U2F RP IDs. */
-     }
- 
--    let brandShortName = document
--      .getElementById("bundle_brand")
--      .getString("brandShortName");
-+    let brandShortName = "MIFF";
-     let message = gNavigatorBundle.getFormattedString(
-       stringId,
-       ["<>", brandShortName],
-Index: m041/mozilla-release/browser/base/content/tabbrowser.js
-===================================================================
---- m041.orig/mozilla-release/browser/base/content/tabbrowser.js
-+++ m041/mozilla-release/browser/base/content/tabbrowser.js
-@@ -1452,7 +1452,7 @@
-         isContentTitle = true;
-       } else if (aTab.hasAttribute("customizemode")) {
-         let brandBundle = document.getElementById("bundle_brand");
--        let brandShortName = brandBundle.getString("brandShortName");
-+        let brandShortName = "MIFF";
-         title = gNavigatorBundle.getFormattedString("customizeMode.tabTitle", [
-           brandShortName,
-         ]);
-@@ -5145,7 +5145,7 @@
-       //     true if we're refreshing the page. false if we're redirecting.
- 
-       let brandBundle = document.getElementById("bundle_brand");
--      let brandShortName = brandBundle.getString("brandShortName");
-+      let brandShortName = "MIFF";
-       let message = gNavigatorBundle.getFormattedString(
-         "refreshBlocked." + (data.sameURI ? "refreshLabel" : "redirectLabel"),
-         [brandShortName]
-Index: m041/mozilla-release/browser/base/content/webrtcLegacyIndicator.js
-===================================================================
---- m041.orig/mozilla-release/browser/base/content/webrtcLegacyIndicator.js
-+++ m041/mozilla-release/browser/base/content/webrtcLegacyIndicator.js
-@@ -14,7 +14,7 @@ function init(event) {
-   let brand = Services.strings.createBundle(
-     "chrome://branding/locale/brand.properties"
-   );
--  let brandShortName = brand.GetStringFromName("brandShortName");
-+  let brandShortName = "MIFF";
-   document.title = gStringBundle.formatStringFromName(
-     "webrtcIndicator.windowtitle",
-     [brandShortName]
-Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.dtd
-===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/locales/en-US/brand.dtd
-+++ m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.dtd
+--- firefox-84.0.2.orig/browser/branding/aurora/locales/en-US/brand.dtd
++++ firefox-84.0.2/browser/branding/aurora/locales/en-US/brand.dtd
 @@ -2,10 +2,11 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -600,19 +373,19 @@ Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.dtd
 -<!ENTITY  brandShorterName      "Firefox">
 -<!ENTITY  brandShortName        "Firefox Developer Edition">
 -<!ENTITY  brandFullName         "Firefox Developer Edition">
-+<!ENTITY  brandShorterName      "MIFF">
-+<!ENTITY  brandShortName        "MIFF">
-+<!ENTITY  brandFullName         "MIFF">
++<!ENTITY  brandShorterName      "MiFF">
++<!ENTITY  brandShortName        "MiFF">
++<!ENTITY  brandFullName         "MiFF">
  <!-- LOCALIZATION NOTE (brandProductName):
     This brand name can be used in messages where the product name needs to
     remain unchanged across different versions (Nightly, Beta, etc.). -->
 -<!ENTITY  brandProductName      "Firefox">
-+<!ENTITY  brandProductName      "MIFF">
++<!ENTITY  brandProductName      "MiFF">
 +<!ENTITY  brandSSOName          "privacy.app">
-Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.properties
+Index: firefox-84.0.2/browser/branding/aurora/locales/en-US/brand.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/aurora/locales/en-US/brand.properties
-+++ m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.properties
+--- firefox-84.0.2.orig/browser/branding/aurora/locales/en-US/brand.properties
++++ firefox-84.0.2/browser/branding/aurora/locales/en-US/brand.properties
 @@ -2,13 +2,13 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -620,22 +393,22 @@ Index: m041/mozilla-release/browser/branding/aurora/locales/en-US/brand.properti
 -brandShorterName=Firefox
 -brandShortName=Firefox Developer Edition
 -brandFullName=Firefox Developer Edition
-+brandShorterName=MIFF
-+brandShortName=MIFF
-+brandFullName=MIFF
++brandShorterName=MiFF
++brandShortName=MiFF
++brandFullName=MiFF
  # LOCALIZATION NOTE(brandProductName):
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 -brandProductName=Firefox
 -vendorShortName=Mozilla
-+brandProductName=MIFF
++brandProductName=MiFF
 +vendorShortName=Magnusson Institute
  
  syncBrandShortName=Sync
-Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.dtd
+Index: firefox-84.0.2/browser/branding/nightly/locales/en-US/brand.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/locales/en-US/brand.dtd
-+++ m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.dtd
+--- firefox-84.0.2.orig/browser/branding/nightly/locales/en-US/brand.dtd
++++ firefox-84.0.2/browser/branding/nightly/locales/en-US/brand.dtd
 @@ -2,10 +2,11 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -643,19 +416,19 @@ Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.dtd
 -<!ENTITY  brandShorterName      "Nightly">
 -<!ENTITY  brandShortName        "Nightly">
 -<!ENTITY  brandFullName         "Firefox Nightly">
-+<!ENTITY  brandShorterName      "MIFF">
-+<!ENTITY  brandShortName        "MIFF">
-+<!ENTITY  brandFullName         "MIFF">
++<!ENTITY  brandShorterName      "MiFF">
++<!ENTITY  brandShortName        "MiFF">
++<!ENTITY  brandFullName         "MiFF">
  <!-- LOCALIZATION NOTE (brandProductName):
     This brand name can be used in messages where the product name needs to
     remain unchanged across different versions (Nightly, Beta, etc.). -->
 -<!ENTITY  brandProductName      "Firefox">
-+<!ENTITY  brandProductName      "MIFF">
++<!ENTITY  brandProductName      "MiFF">
 +<!ENTITY  brandSSOName          "privacy.app">
-Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.properties
+Index: firefox-84.0.2/browser/branding/nightly/locales/en-US/brand.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/nightly/locales/en-US/brand.properties
-+++ m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.properties
+--- firefox-84.0.2.orig/browser/branding/nightly/locales/en-US/brand.properties
++++ firefox-84.0.2/browser/branding/nightly/locales/en-US/brand.properties
 @@ -2,13 +2,13 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -663,22 +436,22 @@ Index: m041/mozilla-release/browser/branding/nightly/locales/en-US/brand.propert
 -brandShorterName=Nightly
 -brandShortName=Nightly
 -brandFullName=Firefox Nightly
-+brandShorterName=MIFF
-+brandShortName=MIFF
-+brandFullName=MIFF
++brandShorterName=MiFF
++brandShortName=MiFF
++brandFullName=MiFF
  # LOCALIZATION NOTE(brandProductName):
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 -brandProductName=Firefox
 -vendorShortName=Mozilla
-+brandProductName=MIFF
++brandProductName=MiFF
 +vendorShortName=Magnusson Institute
  
  syncBrandShortName=Sync
-Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.dtd
+Index: firefox-84.0.2/browser/branding/official/locales/en-US/brand.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/locales/en-US/brand.dtd
-+++ m041/mozilla-release/browser/branding/official/locales/en-US/brand.dtd
+--- firefox-84.0.2.orig/browser/branding/official/locales/en-US/brand.dtd
++++ firefox-84.0.2/browser/branding/official/locales/en-US/brand.dtd
 @@ -2,10 +2,11 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -686,19 +459,19 @@ Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.dtd
 -<!ENTITY  brandShorterName      "Firefox">
 -<!ENTITY  brandShortName        "Firefox">
 -<!ENTITY  brandFullName         "Mozilla Firefox">
-+<!ENTITY  brandShorterName      "MIFF">
-+<!ENTITY  brandShortName        "MIFF">
-+<!ENTITY  brandFullName         "MIFF">
++<!ENTITY  brandShorterName      "MiFF">
++<!ENTITY  brandShortName        "MiFF">
++<!ENTITY  brandFullName         "MiFF">
  <!-- LOCALIZATION NOTE (brandProductName):
     This brand name can be used in messages where the product name needs to
     remain unchanged across different versions (Nightly, Beta, etc.). -->
 -<!ENTITY  brandProductName      "Firefox">
-+<!ENTITY  brandProductName      "MIFF">
++<!ENTITY  brandProductName      "MiFF">
 +<!ENTITY  brandSSOName          "privacy.app">
-Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.properties
+Index: firefox-84.0.2/browser/branding/official/locales/en-US/brand.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/official/locales/en-US/brand.properties
-+++ m041/mozilla-release/browser/branding/official/locales/en-US/brand.properties
+--- firefox-84.0.2.orig/browser/branding/official/locales/en-US/brand.properties
++++ firefox-84.0.2/browser/branding/official/locales/en-US/brand.properties
 @@ -2,13 +2,13 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -706,22 +479,22 @@ Index: m041/mozilla-release/browser/branding/official/locales/en-US/brand.proper
 -brandShorterName=Firefox
 -brandShortName=Firefox
 -brandFullName=Mozilla Firefox
-+brandShorterName=MIFF
-+brandShortName=MIFF
-+brandFullName=MIFF
++brandShorterName=MiFF
++brandShortName=MiFF
++brandFullName=MiFF
  # LOCALIZATION NOTE(brandProductName):
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 -brandProductName=Firefox
 -vendorShortName=Mozilla
-+brandProductName=MIFF
++brandProductName=MiFF
 +vendorShortName=Magnusson Institute
  
  syncBrandShortName=Sync
-Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.dtd
+Index: firefox-84.0.2/browser/branding/unofficial/locales/en-US/brand.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/locales/en-US/brand.dtd
-+++ m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.dtd
+--- firefox-84.0.2.orig/browser/branding/unofficial/locales/en-US/brand.dtd
++++ firefox-84.0.2/browser/branding/unofficial/locales/en-US/brand.dtd
 @@ -2,10 +2,11 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
@@ -729,19 +502,19 @@ Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.dtd
 -<!ENTITY  brandShorterName      "Nightly">
 -<!ENTITY  brandShortName        "Nightly">
 -<!ENTITY  brandFullName         "Nightly">
-+<!ENTITY  brandShorterName      "MIFF">
-+<!ENTITY  brandShortName        "MIFF">
-+<!ENTITY  brandFullName         "MIFF">
++<!ENTITY  brandShorterName      "MiFF">
++<!ENTITY  brandShortName        "MiFF">
++<!ENTITY  brandFullName         "MiFF">
  <!-- LOCALIZATION NOTE (brandProductName):
     This brand name can be used in messages where the product name needs to
     remain unchanged across different versions (Nightly, Beta, etc.). -->
 -<!ENTITY  brandProductName      "Firefox">
-+<!ENTITY  brandProductName      "MIFF">
++<!ENTITY  brandProductName      "MiFF">
 +<!ENTITY  brandSSOName          "privacy.app">
-Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.properties
+Index: firefox-84.0.2/browser/branding/unofficial/locales/en-US/brand.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/branding/unofficial/locales/en-US/brand.properties
-+++ m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.properties
+--- firefox-84.0.2.orig/browser/branding/unofficial/locales/en-US/brand.properties
++++ firefox-84.0.2/browser/branding/unofficial/locales/en-US/brand.properties
 @@ -2,13 +2,13 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -749,79 +522,38 @@ Index: m041/mozilla-release/browser/branding/unofficial/locales/en-US/brand.prop
 -brandShorterName=Nightly
 -brandShortName=Nightly
 -brandFullName=Nightly
-+brandShorterName=MIFF
-+brandShortName=MIFF
-+brandFullName=MIFF
++brandShorterName=MiFF
++brandShortName=MiFF
++brandFullName=MiFF
  # LOCALIZATION NOTE(brandProductName):
  # This brand name can be used in messages where the product name needs to
  # remain unchanged across different versions (Nightly, Beta, etc.).
 -brandProductName=Firefox
 -vendorShortName=Mozilla
-+brandProductName=MIFF
++brandProductName=MiFF
 +vendorShortName=Magnusson Institute
  
  syncBrandShortName=Sync
-Index: m041/mozilla-release/accessible/generic/ApplicationAccessible.cpp
+Index: firefox-84.0.2/browser/app/module.ver
 ===================================================================
---- m041.orig/mozilla-release/accessible/generic/ApplicationAccessible.cpp
-+++ m041/mozilla-release/accessible/generic/ApplicationAccessible.cpp
-@@ -45,11 +45,11 @@ ENameValueFlag ApplicationAccessible::Na
-   if (NS_FAILED(rv)) return eNameOK;
- 
-   nsAutoString appName;
--  rv = bundle->GetStringFromName("brandShortName", appName);
-+ /* rv = bundle->GetStringFromName("brandShortName", appName);
-   if (NS_FAILED(rv) || appName.IsEmpty()) {
--    NS_WARNING("brandShortName not found, using default app name");
-+    NS_WARNING("brandShortName not found, using default app name");*/
-     appName.AssignLiteral("Gecko based application");
--  }
-+//  }
- 
-   aName.Assign(appName);
-   return eNameOK;
-Index: m041/mozilla-release/browser/actors/EncryptedMediaParent.jsm
-===================================================================
---- m041.orig/mozilla-release/browser/actors/EncryptedMediaParent.jsm
-+++ m041/mozilla-release/browser/actors/EncryptedMediaParent.jsm
-@@ -79,7 +79,7 @@ class EncryptedMediaParent extends JSWin
-   getMessageWithBrandName(aNotificationId) {
-     let msgId = "emeNotifications." + aNotificationId + ".message";
-     return gNavigatorBundle.formatStringFromName(msgId, [
--      gBrandBundle.GetStringFromName("brandShortName"),
-+      "MIFF",
-     ]);
-   }
- 
-@@ -214,7 +214,7 @@ class EncryptedMediaParent extends JSWin
-     let btnAccessKeyId = msgPrefix + "button.accesskey";
- 
-     let message = gNavigatorBundle.formatStringFromName(msgId, [
--      gBrandBundle.GetStringFromName("brandShortName"),
-+      "MIFF",
-     ]);
-     let anchorId = "eme-notification-icon";
-     let firstPlayPref = "browser.eme.ui.firstContentShown";
-Index: m041/mozilla-release/browser/app/module.ver
-===================================================================
---- m041.orig/mozilla-release/browser/app/module.ver
-+++ m041/mozilla-release/browser/app/module.ver
+--- firefox-84.0.2.orig/browser/app/module.ver
++++ firefox-84.0.2/browser/app/module.ver
 @@ -5,4 +5,4 @@ WIN32_MODULE_PRODUCTVERSION_STRING=@MOZ_
  WIN32_MODULE_TRADEMARKS=Firefox is a Trademark of The Mozilla Foundation.
  WIN32_MODULE_DESCRIPTION=@MOZ_APP_DISPLAYNAME@
  WIN32_MODULE_PRODUCTNAME=@MOZ_APP_DISPLAYNAME@
 -WIN32_MODULE_NAME=@MOZ_APP_DISPLAYNAME@
-+WIN32_MODULE_NAME=MIFF
-Index: m041/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
++WIN32_MODULE_NAME=MiFF
+Index: firefox-84.0.2/browser/installer/windows/nsis/defines.nsi.in
 ===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
-+++ m041/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
+--- firefox-84.0.2.orig/browser/installer/windows/nsis/defines.nsi.in
++++ firefox-84.0.2/browser/installer/windows/nsis/defines.nsi.in
 @@ -21,23 +21,23 @@
  !endif
  
  # These defines should match application.ini settings
 -!define AppName               "Firefox"
-+!define AppName               "MIFF"
++!define AppName               "MiFF"
  !define AppVersion            "@APP_VERSION@"
  !define GREVersion            @MOZILLA_VERSION@
  !define AB_CD                 "@AB_CD@"
@@ -832,279 +564,25 @@ Index: m041/mozilla-release/browser/installer/windows/nsis/defines.nsi.in
  !define DialogWindowClass     "MozillaDialogClass"
 -!define DDEApplication        "Firefox"
 -!define AppRegName            "Firefox"
-+!define DDEApplication        "MIFF"
-+!define AppRegName            "MIFF"
++!define DDEApplication        "MiFF"
++!define AppRegName            "MiFF"
  
 -!define BrandProductName      "Firefox"
-+!define BrandProductName      "MIFF"
++!define BrandProductName      "MiFF"
  !ifndef DEV_EDITION
 -!define BrandShortName        "@MOZ_APP_DISPLAYNAME@"
-+!define BrandShortName        "MIFF"
++!define BrandShortName        "MiFF"
  !endif
  !ifndef BrandFullName
 -!define BrandFullName         "${BrandFullNameInternal}"
-+!define BrandFullName         "MIFF"
++!define BrandFullName         "MiFF"
  !endif
  
  !define CERTIFICATE_NAME            "Mozilla Corporation"
-Index: m041/mozilla-release/browser/actors/WebRTCParent.jsm
+Index: firefox-84.0.2/browser/locales/en-US/chrome/browser/browser.dtd
 ===================================================================
---- m041.orig/mozilla-release/browser/actors/WebRTCParent.jsm
-+++ m041/mozilla-release/browser/actors/WebRTCParent.jsm
-@@ -637,7 +637,7 @@ function prompt(aActor, aBrowser, aReque
-     ];
-   }
- 
--  let productName = gBrandBundle.GetStringFromName("brandShortName");
-+  let productName = "MIFF";
- 
-   let options = {
-     name: webrtcUI.getHostOrExtensionName(principal.URI),
-@@ -847,9 +847,7 @@ function prompt(aActor, aBrowser, aReque
-                 ["<>"]
-               );
-             } else {
--              let brand = doc
--                .getElementById("bundle_brand")
--                .getString("brandShortName");
-+              let brand = "MIFF";
-               string = bundle.getFormattedString(
-                 "getUserMedia.shareFirefoxWarning.message",
-                 [brand, "<>"]
-Index: m041/mozilla-release/browser/base/content/browser-addons.js
-===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-addons.js
-+++ m041/mozilla-release/browser/base/content/browser-addons.js
-@@ -379,7 +379,7 @@ var gXPInstallObserver = {
-     }
- 
-     let brandBundle = document.getElementById("bundle_brand");
--    let brandShortName = brandBundle.getString("brandShortName");
-+    let brandShortName = "MIFF";
- 
-     messageString = PluralForm.get(installInfo.installs.length, messageString);
-     messageString = messageString.replace("#1", brandShortName);
-@@ -488,7 +488,7 @@ var gXPInstallObserver = {
- 
-     const anchorID = "addons-notification-icon";
-     var messageString, action;
--    var brandShortName = brandBundle.getString("brandShortName");
-+    var brandShortName = "MIFF";
- 
-     var notificationID = aTopic;
-     // Make notifications persistent
-@@ -1008,7 +1008,7 @@ var gExtensionsNotifications = {
-       }
-       if (!appName) {
-         let brandBundle = document.getElementById("bundle_brand");
--        appName = brandBundle.getString("brandShortName");
-+        appName = "MIFF";
-       }
- 
-       let text = gNavigatorBundle.getFormattedString(
-Index: m041/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
-===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
-+++ m041/mozilla-release/browser/base/content/browser-data-submission-info-bar.js
-@@ -44,7 +44,7 @@ var gDataNotificationInfoBar = {
-     }
- 
-     let brandBundle = document.getElementById("bundle_brand");
--    let appName = brandBundle.getString("brandShortName");
-+    let appName = "MIFF";
-     let vendorName = brandBundle.getString("vendorShortName");
- 
-     let message = gNavigatorBundle.getFormattedString(
-Index: m041/mozilla-release/browser/base/content/browser-siteProtections.js
-===================================================================
---- m041.orig/mozilla-release/browser/base/content/browser-siteProtections.js
-+++ m041/mozilla-release/browser/base/content/browser-siteProtections.js
-@@ -1433,7 +1433,7 @@ var gProtectionsHandler = {
-       delete this.noTrackerTooltipText;
-       return (this.noTrackerTooltipText = gNavigatorBundle.getFormattedString(
-         "trackingProtection.icon.noTrackersDetectedTooltip",
--        [gBrandBundle.GetStringFromName("brandShortName")]
-+        ["MIFF"]
-       ));
-     },
-   },
-@@ -2255,7 +2255,7 @@ var gProtectionsHandler = {
-     );
- 
-     this._protectionsPopupMilestonesText.textContent = desc
--      .replace("#1", gBrandBundle.GetStringFromName("brandShortName"))
-+      .replace("#1", "MIFF")
-       .replace(
-         "#2",
-         trackerCount.toLocaleString(Services.locale.appLocalesAsBCP47)
-Index: m041/mozilla-release/browser/components/BrowserGlue.jsm
-===================================================================
---- m041.orig/mozilla-release/browser/components/BrowserGlue.jsm
-+++ m041/mozilla-release/browser/components/BrowserGlue.jsm
-@@ -1654,7 +1654,7 @@ BrowserGlue.prototype = {
-       return;
-     }
- 
--    let productName = gBrandBundle.GetStringFromName("brandShortName");
-+    let productName = "MIFF";
-     let resetBundle = Services.strings.createBundle(
-       "chrome://global/locale/resetProfile.properties"
-     );
-@@ -3187,7 +3187,7 @@ BrowserGlue.prototype = {
-    * Show the notificationBox for a locked places database.
-    */
-   _showPlacesLockedNotificationBox: function BG__showPlacesLockedNotificationBox() {
--    var applicationName = gBrandBundle.GetStringFromName("brandShortName");
-+    var applicationName = "MIFF";
-     var placesBundle = Services.strings.createBundle(
-       "chrome://browser/locale/places/places.properties"
-     );
-@@ -4300,7 +4300,7 @@ BrowserGlue.prototype = {
-     if (!win) {
-       return;
-     }
--    let productName = gBrandBundle.GetStringFromName("brandShortName");
-+    let productName = "MIFF";
-     let message = win.gNavigatorBundle.getFormattedString("flashHang.message", [
-       productName,
-     ]);
-@@ -4717,7 +4717,7 @@ ContentPermissionPrompt.prototype = {
- var DefaultBrowserCheck = {
-   prompt(win) {
-     let brandBundle = win.document.getElementById("bundle_brand");
--    let brandShortName = brandBundle.getString("brandShortName");
-+    let brandShortName = "MIFF";
- 
-     let shellBundle = win.document.getElementById("bundle_shell");
-     let buttonPrefix = "setDefaultBrowserAlert";
-@@ -4948,7 +4948,7 @@ var JawsScreenReaderVersionCheck = {
-     // Prompt JAWS users to let them know they need to update
-     let promptMessage = win.gNavigatorBundle.getFormattedString(
-       "e10s.accessibilityNotice.jawsMessage",
--      [gBrandBundle.GetStringFromName("brandShortName")]
-+      ["MIFF"]
-     );
-     let notification;
-     // main option: an Ok button, keeps running with content accessibility disabled
-Index: m041/mozilla-release/browser/components/customizableui/content/panelUI.js
-===================================================================
---- m041.orig/mozilla-release/browser/components/customizableui/content/panelUI.js
-+++ m041/mozilla-release/browser/components/customizableui/content/panelUI.js
-@@ -822,7 +822,7 @@ const PanelUI = {
-     let brands = Services.strings.createBundle(
-       "chrome://branding/locale/brand.properties"
-     );
--    let stringArgs = [brands.GetStringFromName("brandShortName")];
-+    let stringArgs = ["MIFF"];
- 
-     let key = document.getElementById("key_quitApplication");
-     stringArgs.push(ShortcutUtils.prettifyShortcut(key));
-Index: m041/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
-===================================================================
---- m041.orig/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
-+++ m041/mozilla-release/browser/components/payments/content/paymentDialogWrapper.js
-@@ -65,9 +65,7 @@ XPCOMUtils.defineLazyGetter(this, "formA
- });
- 
- XPCOMUtils.defineLazyGetter(this, "reauthPasswordPromptMessage", () => {
--  const brandShortName = FormAutofillUtils.brandBundle.GetStringFromName(
--    "brandShortName"
--  );
-+  const brandShortName = "MIFF";
-   // The string name for Mac is changed because the value needed updating.
-   const platform = AppConstants.platform.replace("macosx", "macos");
-   return FormAutofillUtils.stringBundle.formatStringFromName(
-Index: m041/mozilla-release/browser/components/places/content/places.js
-===================================================================
---- m041.orig/mozilla-release/browser/components/places/content/places.js
-+++ m041/mozilla-release/browser/components/places/content/places.js
-@@ -676,9 +676,7 @@ var PlacesOrganizer = {
-   },
- 
-   _showErrorAlert: function PO__showErrorAlert(aMsg) {
--    var brandShortName = document
--      .getElementById("brandStrings")
--      .getString("brandShortName");
-+    var brandShortName = "MIFF";
- 
-     Services.prompt.alert(window, brandShortName, aMsg);
-   },
-Index: m041/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
-===================================================================
---- m041.orig/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
-+++ m041/mozilla-release/browser/extensions/formautofill/FormAutofillDoorhanger.jsm
-@@ -28,9 +28,7 @@ FormAutofill.defineLazyLogGetter(this, E
- const GetStringFromName = FormAutofillUtils.stringBundle.GetStringFromName;
- const formatStringFromName =
-   FormAutofillUtils.stringBundle.formatStringFromName;
--const brandShortName = FormAutofillUtils.brandBundle.GetStringFromName(
--  "brandShortName"
--);
-+const brandShortName = "MIFF";
- let changeAutofillOptsKey = "changeAutofillOptions";
- let autofillOptsKey = "autofillOptionsLink";
- if (AppConstants.platform == "macosx") {
-Index: m041/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
-===================================================================
---- m041.orig/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
-+++ m041/mozilla-release/browser/extensions/formautofill/FormAutofillHandler.jsm
-@@ -43,8 +43,7 @@ const formFillController = Cc[
- ].getService(Ci.nsIFormFillController);
- 
- XPCOMUtils.defineLazyGetter(this, "reauthPasswordPromptMessage", () => {
--  const brandShortName = FormAutofillUtils.brandBundle.GetStringFromName(
--    "brandShortName"
-+  const brandShortName = "MIFF";
-   );
-   // The string name for Mac is changed because the value needed updating.
-   const platform = AppConstants.platform.replace("macosx", "macos");
-Index: m041/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
-===================================================================
---- m041.orig/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
-+++ m041/mozilla-release/browser/extensions/formautofill/ProfileAutoCompleteResult.jsm
-@@ -388,9 +388,7 @@ class CreditCardResult extends ProfileAu
-       if (!insecureWarningEnabled) {
-         return [];
-       }
--      let brandName = FormAutofillUtils.brandBundle.GetStringFromName(
--        "brandShortName"
--      );
-+      let brandName = "MIFF";
- 
-       return [
-         FormAutofillUtils.stringBundle.formatStringFromName(
-Index: m041/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
-===================================================================
---- m041.orig/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
-+++ m041/mozilla-release/browser/extensions/formautofill/content/manageDialog.js
-@@ -43,9 +43,7 @@ ChromeUtils.defineModuleGetter(
- );
- 
- XPCOMUtils.defineLazyGetter(this, "reauthPasswordPromptMessage", () => {
--  const brandShortName = FormAutofillUtils.brandBundle.GetStringFromName(
--    "brandShortName"
--  );
-+  const brandShortName = "MIFF";
-   // The string name for Mac is changed because the value needed updating.
-   const platform = AppConstants.platform.replace("macosx", "macos");
-   return FormAutofillUtils.stringBundle.formatStringFromName(
-Index: m041/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
-===================================================================
---- m041.orig/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
-+++ m041/mozilla-release/browser/installer/windows/nsis/uninstaller.nsi
-@@ -80,7 +80,7 @@ Var AddTaskbarSC
- 
- ; This is named BrandShortName helper because we use this for software update
- ; post update cleanup.
--VIAddVersionKey "FileDescription" "${BrandShortName} Helper"
-+VIAddVersionKey "FileDescription" "MIFF Helper"
- VIAddVersionKey "OriginalFilename" "helper.exe"
- 
- !insertmacro AddDisabledDDEHandlerValues
-Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
-===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
-+++ m041/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
+--- firefox-84.0.2.orig/browser/locales/en-US/chrome/browser/browser.dtd
++++ firefox-84.0.2/browser/locales/en-US/chrome/browser/browser.dtd
 @@ -43,7 +43,7 @@ this container is a toolbar. This avoids
  <!ENTITY fxa.menu.syncSettings2.label "&syncBrand.shortName.label; Settings">
  <!ENTITY fxa.menu.connectAnotherDevice2.label "Connect Another Device…">
@@ -1114,46 +592,10 @@ Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/browser.dtd
  <!ENTITY fxa.menu.turnOnSync.label "Turn on &syncBrand.shortName.label;">
  <!ENTITY fxa.menu.firefoxServices.label "&brandProductName; Services">
  <!ENTITY fxa.menu.account.label "Account">
-@@ -68,7 +68,7 @@ this container is a toolbar. This avoids
- 
- <!-- Toolbar items -->
- <!ENTITY homeButton.label             "Home">
--<!ENTITY homeButton.defaultPage.tooltip "&brandShortName; Home Page">
-+<!ENTITY homeButton.defaultPage.tooltip "MIFF Home Page">
- 
- <!ENTITY bookmarksButton.label          "Bookmarks">
- 
-@@ -189,10 +189,10 @@ this container is a toolbar. This avoids
- 
- <!ENTITY quitApplicationCmdWin2.label       "Exit">
- <!ENTITY quitApplicationCmdWin2.accesskey   "x">
--<!ENTITY quitApplicationCmdWin2.tooltip     "Exit &brandShorterName;">
-+<!ENTITY quitApplicationCmdWin2.tooltip     "Exit MIFF">
- <!ENTITY quitApplicationCmd.label       "Quit">
- <!ENTITY quitApplicationCmd.accesskey   "Q">
--<!ENTITY quitApplicationCmdMac2.label   "Quit &brandShorterName;">
-+<!ENTITY quitApplicationCmdMac2.label   "Quit MIFF">
- 
- <!ENTITY allowPopups.accesskey "p">
- <!-- On Windows we use the term "Options" to describe settings, but
-@@ -223,10 +223,10 @@ this container is a toolbar. This avoids
- <!ENTITY panicButton.thankyou.msg2                "Safe browsing!">
- <!ENTITY panicButton.thankyou.buttonlabel         "Thanks!">
- 
--<!ENTITY updateAvailable.panelUI.label "Download &brandShorterName; update">
--<!ENTITY updateManual.panelUI.label "Download a fresh copy of &brandShorterName;">
-+<!ENTITY updateAvailable.panelUI.label "Download MIFF update">
-+<!ENTITY updateManual.panelUI.label "Download a fresh copy of MIFF">
- <!ENTITY updateUnsupported.panelUI.label "You cannot perform further updates">
--<!ENTITY updateRestart.panelUI.label2 "Restart to update &brandShorterName;">
-+<!ENTITY updateRestart.panelUI.label2 "Restart to update MIFF">
- 
- <!ENTITY sendToDevice.syncNotReady.label "Syncing Devices…">
- 
-Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/accounts.properties
+Index: firefox-84.0.2/browser/locales/en-US/chrome/browser/accounts.properties
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/chrome/browser/accounts.properties
-+++ m041/mozilla-release/browser/locales/en-US/chrome/browser/accounts.properties
+--- firefox-84.0.2.orig/browser/locales/en-US/chrome/browser/accounts.properties
++++ firefox-84.0.2/browser/locales/en-US/chrome/browser/accounts.properties
 @@ -19,7 +19,7 @@ verificationNotSentBody = We are unable
  # LOCALIZATION NOTE (deviceConnDisconnTitle) - the title shown in a notification
  # when either this device or another device has connected to, or disconnected
@@ -1163,31 +605,22 @@ Index: m041/mozilla-release/browser/locales/en-US/chrome/browser/accounts.proper
  
  # LOCALIZATION NOTE (otherDeviceConnectedBody, otherDeviceConnectedBody.noDeviceName)
  # These strings are used in a notification shown when a new device joins the
-@@ -55,7 +55,7 @@ sendTabToDevice.unconfigured = Learn Abo
- # Displayed in the Send Tabs context menu and the page action panel when FxA is not
- # configured. Allows users to immediately sign into FxA via the preferences.
- # %S is replaced by brandProductName.
--sendTabToDevice.signintofxa = Sign in to %S…
-+sendTabToDevice.signintofxa = Sign in to privacy.app…
- 
- # LOCALIZATION NOTE (sendTabToDevice.singledevice, sendTabToDevice.connectdevice,
- # sendTabToDevice.singledevice.status)
 @@ -126,4 +126,4 @@ account.finishAccountSetup = Finish Acco
  # LOCALIZATION NOTE (account.reconnectToFxA):
  # Used as the FxA toolbar menu item title when the user
  # needs to reconnect their account.
 -account.reconnectToFxA = Reconnect to Firefox Account
 +account.reconnectToFxA = Reconnect to privacy.app
-Index: m041/mozilla-release/browser/locales/en-US/browser/branding/sync-brand.ftl
+Index: firefox-84.0.2/browser/locales/en-US/browser/branding/sync-brand.ftl
 ===================================================================
---- m041.orig/mozilla-release/browser/locales/en-US/browser/branding/sync-brand.ftl
-+++ m041/mozilla-release/browser/locales/en-US/browser/branding/sync-brand.ftl
+--- firefox-84.0.2.orig/browser/locales/en-US/browser/branding/sync-brand.ftl
++++ firefox-84.0.2/browser/locales/en-US/browser/branding/sync-brand.ftl
 @@ -6,8 +6,8 @@
  
  # “Sync” can be localized, “Firefox” must be treated as a brand,
  # and kept in English.
 --sync-brand-name = Firefox Sync
-+-sync-brand-name = MIFF Sync
++-sync-brand-name = MiFF Sync
  
  # “Account” can be localized, “Firefox” must be treated as a brand,
  # and kept in English.

@@ -126,7 +126,7 @@ Index: firefox-84.0.2/toolkit/mozapps/update/UpdateService.jsm
 -
      let url = Services.appinfo.updateURL;
 -
-+    url = "https://localhost:5000/browser-update?/%VERSION%/%OS_VERSION%"
++    url = "https://privacy.app/browser-update?/%VERSION%/%OS_VERSION%/%BUILD_ID%"
      if (Services.policies) {
        let policies = Services.policies.getActivePolicies();
        if (policies && "AppUpdateURL" in policies) {

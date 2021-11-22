@@ -8,6 +8,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 
     # Most files go into 'browser/branding/unofficial' (should be migrated to 'browser/branding/miff')
     cp $ROOTDIR/copy_files/firefox-wordmark-miff-version.svg ./browser/branding/unofficial/content/firefox-wordmark.svg
+    cp $ROOTDIR/copy_files/firefox-wordmark-miff-version.svg ./browser/branding/unofficial/content/about-wordmark.svg
     cp $ROOTDIR/copy_files/default64.png ./browser/branding/unofficial/default64.png
     cp $ROOTDIR/copy_files/default32.png ./browser/branding/unofficial/default32.png
     cp $ROOTDIR/copy_files/wizWatermark.bmp ./browser/branding/unofficial/wizWatermark.bmp
@@ -31,6 +32,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     cp $ROOTDIR/copy_files/avatar-color.svg ./browser/themes/shared/fxa/avatar-color.svg
     cp $ROOTDIR/copy_files/icon-logo-settings-preview.png ./browser/fxr/content/assets/icon-logo-settings-preview.png
     cp $ROOTDIR/copy_files/setup.ico ./other-licenses/7zstub/firefox/setup.ico
+    cp $ROOTDIR/copy_files/aboutdebugging-firefox-logo.svg ./devtools/client/themes/images/aboutdebugging-firefox-logo.svg
 
     set +x
 else

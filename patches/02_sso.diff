@@ -1,21 +1,28 @@
-Index: firefox-84.0.2/browser/app/profile/firefox.js
+Index: firefox-89.0/browser/app/profile/firefox.js
 ===================================================================
---- firefox-84.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-84.0.2/browser/app/profile/firefox.js
-@@ -1353,7 +1353,7 @@ pref("browser.newtab.preload", true);
- pref("browser.library.activity-stream.enabled", true);
+--- firefox-89.0.orig/browser/app/profile/firefox.js
++++ firefox-89.0/browser/app/profile/firefox.js
+@@ -1427,7 +1427,10 @@ pref("browser.newtabpage.activity-stream
+ #endif
  
  // The remote FxA root content URL for the Activity Stream firstrun page.
 -pref("browser.newtabpage.activity-stream.fxaccounts.endpoint", "https://accounts.firefox.com/");
++/* MagIns - This URL is the login page for Firefox Accounts/Sync. This domain also has a /metrics endpoint
++            that is called right after login on default Firefox.
++pref("browser.newtabpage.activity-stream.fxaccounts.endpoint", "https://accounts.firefox.com/");*/
 +pref("browser.newtabpage.activity-stream.fxaccounts.endpoint", "https://privacy.app/member");
  
  // The pref that controls if the search shortcuts experiment is on
  pref("browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts", true);
-@@ -1500,16 +1500,16 @@ pref("browser.uiCustomization.state", ""
+@@ -1587,16 +1590,31 @@ pref("browser.uiCustomization.state", ""
  pref("identity.fxaccounts.enabled", true);
  
  // The remote FxA root content URL. Must use HTTPS.
 -pref("identity.fxaccounts.remote.root", "https://accounts.firefox.com/");
++/* MagIns - This URL is the login page for Firefox Accounts/Sync. This is the same URL as
++            browser.newtabpage.activity-stream.fxaccounts.endpoint, the preferences are just
++            used for different purposes.
++pref("identity.fxaccounts.remote.root", "https://accounts.firefox.com/");*/
 +pref("identity.fxaccounts.remote.root", "https://privacy.app/member");
  
  // The value of the context query parameter passed in fxa requests.
@@ -23,70 +30,86 @@ Index: firefox-84.0.2/browser/app/profile/firefox.js
  
  // The remote URL of the FxA Profile Server
 -pref("identity.fxaccounts.remote.profile.uri", "https://profile.accounts.firefox.com/v1");
++/* MagIns - Mozilla stores 'display' account information, things like email and profile picture.
++            This request comes at the end of the login process. For our SSO, this returns empty
++            JSON.
++pref("identity.fxaccounts.remote.profile.uri", "https://profile.accounts.firefox.com/v1");*/
 +pref("identity.fxaccounts.remote.profile.uri", "https://privacy.app/member");
  
  // The remote URL of the FxA OAuth Server
 -pref("identity.fxaccounts.remote.oauth.uri", "https://oauth.accounts.firefox.com/v1");
++/* MagIns - As part of Firefox's setup for Sync, an OAuth handshake is done. This is used as
++            authentication for getting the user's Sync collection (see
++            identity.sync.tokenserver.uri). We do not do an actual OAuth handshake, but we do
++            return a random token for the code to run smoothly. In vanilla Firefox, this
++            handshake can be authenticated with a session token or Browser ID (see
++            identity.sync.useSessionTokensForOAuth).
++pref("identity.fxaccounts.remote.oauth.uri", "https://oauth.accounts.firefox.com/v1");*/
 +pref("identity.fxaccounts.remote.oauth.uri", "https://privacy.app/member");
  
  // Whether FxA pairing using QR codes is enabled.
  pref("identity.fxaccounts.pairing.enabled", true);
-@@ -1518,19 +1518,19 @@ pref("identity.fxaccounts.pairing.enable
+@@ -1605,7 +1623,10 @@ pref("identity.fxaccounts.pairing.enable
  pref("identity.fxaccounts.remote.pairing.uri", "wss://channelserver.services.mozilla.com");
  
  // Token server used by the FxA Sync identity.
 -pref("identity.sync.tokenserver.uri", "https://token.services.mozilla.com/1.0/sync/1.5");
++/* MagIns - Once a user has been authenticated through login, the browser requests their Sync
++            collection from this endpoint.
++pref("identity.sync.tokenserver.uri", "https://token.services.mozilla.com/1.0/sync/1.5");*/
 +pref("identity.sync.tokenserver.uri", "https://privacy.app/member/sync/init");
- 
- // Fetch Sync tokens using the OAuth token function
--pref("identity.sync.useOAuthForSyncToken", true);
-+pref("identity.sync.useOAuthForSyncToken", false);
- 
- // Using session tokens to fetch OAuth tokens
--pref("identity.fxaccounts.useSessionTokensForOAuth", true);
-+pref("identity.fxaccounts.useSessionTokensForOAuth", false);
  
  // Auto-config URL for FxA self-hosters, makes an HTTP request to
  // [identity.fxaccounts.autoconfig.uri]/.well-known/fxa-client-configuration
- // This is now the prefered way of pointing to a custom FxA server, instead
- // of making changes to "identity.fxaccounts.*.uri".
--pref("identity.fxaccounts.autoconfig.uri", "");
-+//pref("identity.fxaccounts.autoconfig.uri", "");
- 
- // URL for help link about Send Tab.
- pref("identity.sendtabpromo.url", "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/send-tab");
-Index: firefox-84.0.2/modules/libpref/init/all.js
+Index: firefox-89.0/modules/libpref/init/all.js
 ===================================================================
---- firefox-84.0.2.orig/modules/libpref/init/all.js
-+++ firefox-84.0.2/modules/libpref/init/all.js
-@@ -4579,7 +4579,7 @@ pref("services.common.log.logger.tokense
+--- firefox-89.0.orig/modules/libpref/init/all.js
++++ firefox-89.0/modules/libpref/init/all.js
+@@ -4497,7 +4497,17 @@ pref("services.common.log.logger.tokense
    pref("services.sync.maxResyncs", 1);
  
    // The URL of the Firefox Accounts auth server backend
 -  pref("identity.fxaccounts.auth.uri", "https://api.accounts.firefox.com/v1");
++/* MagIns - Several endpoints on this domain are automatically hit during the login process.
++            These include /account/login (POSTing login email and cryptographically-stretched
++            password), /sms/status (GET if SMS messages are allowed for user's location),
++            /recovery_email/status (GET if user has verified their email), /account/devices
++            (GET list of devices associated with user), /certificate/sign (POST a public key
++            for BrowserID, Mozilla returns a signed cert), /account/keys (GET kA|wrapKb pair
++            for eventual Sync use), /account/device (POST a device to register with Mozilla),
++            and /account/attached_clients (GET a list of all devices, sessions, and OAuth
++            clients associated with the user).
++  pref("identity.fxaccounts.auth.uri", "https://api.accounts.firefox.com/v1");*/
 +  pref("identity.fxaccounts.auth.uri", "https://privacy.app/member");
  
    // Percentage chance we skip an extension storage sync (kinto life support).
    pref("services.sync.extension-storage.skipPercentageChance", 50);
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsCommon.js
+Index: firefox-89.0/services/fxaccounts/FxAccountsCommon.js
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsCommon.js
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsCommon.js
-@@ -112,9 +112,9 @@ exports.COMMAND_SENDTAB = exports.COMMAN
+--- firefox-89.0.orig/services/fxaccounts/FxAccountsCommon.js
++++ firefox-89.0/services/fxaccounts/FxAccountsCommon.js
+@@ -101,7 +101,12 @@ exports.COMMAND_SENDTAB = exports.COMMAN
  exports.FX_OAUTH_CLIENT_ID = "5882386c6d801776";
  exports.SCOPE_PROFILE = "profile";
  exports.SCOPE_PROFILE_WRITE = "profile:write";
 -exports.SCOPE_OLD_SYNC = "https://identity.mozilla.com/apps/oldsync";
++/* MagIns - Mozilla allows trusted OAuth reliers to request keys and credentials for Firefox Sync.
++            During login, the browser will POST the SCOPE_OLD_SYNC value to /account/scoped-key-data,
++            getting the keys in return. For our SSO, we don't need actual values, just a 200 JSON
++            response with entries for each scope passed.
++exports.SCOPE_OLD_SYNC = "https://identity.mozilla.com/apps/oldsync";*/
 +exports.SCOPE_OLD_SYNC = "mi_sso";
- exports.SCOPE_ECOSYSTEM_TELEMETRY =
--  "https://identity.mozilla.com/ids/ecosystem_telemetry";
-+  "mi_sso";
  // This scope and its associated key material are used by the old Kinto webextension
  // storage backend. We plan to remove that at some point (ref Bug 1637465) and when
  // we do, all uses of this legacy scope can be removed.
-@@ -288,17 +288,18 @@ exports.LEGACY_DERIVED_KEYS_NAMES = ["kS
+@@ -281,16 +286,21 @@ exports.LEGACY_DERIVED_KEYS_NAMES = ["kS
+ 
  // The fields we save in the plaintext JSON.
  // See bug 1013064 comments 23-25 for why the sessionToken is "safe"
++/* MagIns - In vanilla Firefox, some of these values are returned through WebChannel, others
++            are returned through the account/login endpoint. In our SSO, only WebChannel is
++            used. All fields not used and not required for code functionality are commented
++            out.*/
  exports.FXA_PWDMGR_PLAINTEXT_FIELDS = new Set([
 -  "email",
 +//  "email",
@@ -95,42 +118,42 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsCommon.js
 +//  "authAt",
    "sessionToken",
 -  "uid",
--  "ecosystemAnonId",
 +//  "uid",
-+//  "ecosystemAnonId",
-   "ecosystemUserId",
    "oauthTokens",
 -  "profile",
 +//  "profile",
    "device",
    "profileCache",
-+  "memberId" //Magnusson Institute member number
++  "memberId"
  ]);
  
  // Fields we store in secure storage if it exists.
-Index: firefox-84.0.2/services/fxaccounts/FxAccounts.jsm
+Index: firefox-89.0/services/fxaccounts/FxAccounts.jsm
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccounts.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccounts.jsm
-@@ -560,7 +560,7 @@ class FxAccounts {
+--- firefox-89.0.orig/services/fxaccounts/FxAccounts.jsm
++++ firefox-89.0/services/fxaccounts/FxAccounts.jsm
+@@ -535,7 +535,9 @@ class FxAccounts {
    getSignedInUser() {
      // Note we don't return the session token, but use it to see if we
      // should fetch the profile.
 -    const ACCT_DATA_FIELDS = ["email", "uid", "verified", "sessionToken"];
++/* MagIns - We remove email and replace uid with memberId when reading saved account data.
++    const ACCT_DATA_FIELDS = ["email", "uid", "verified", "sessionToken"];*/
 +    const ACCT_DATA_FIELDS = ["memberId", "verified", "sessionToken"];
      const PROFILE_FIELDS = ["displayName", "avatar", "avatarDefault"];
      return this._withCurrentAccountState(async currentState => {
        const data = await currentState.getUserAccountData(ACCT_DATA_FIELDS);
-@@ -1434,7 +1434,7 @@ FxAccountsInternal.prototype = {
+@@ -1221,6 +1223,9 @@ FxAccountsInternal.prototype = {
    // We return a promise for testing only. Other callers can ignore this,
    // since verification polling continues in the background.
    async pollEmailStatus(currentState, sessionToken, why) {
--    log.debug("entering pollEmailStatus: " + why);
-+/*    log.debug("entering pollEmailStatus: " + why);
++/* MagIns - Mozilla requires that users verify their email. Since our SSO does not use emails,
++            we return "verified" as true when users login, and comment out this function to
++            stop the browser from checking again.
+     log.debug("entering pollEmailStatus: " + why);
      let nextPollMs;
      try {
-       const response = await this.checkEmailStatus(sessionToken, {
-@@ -1488,7 +1488,7 @@ FxAccountsInternal.prototype = {
+@@ -1275,7 +1280,7 @@ FxAccountsInternal.prototype = {
        sessionToken,
        nextPollMs,
        why
@@ -139,36 +162,25 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccounts.jsm
    },
  
    // Easy-to-mock testable method
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
-@@ -808,31 +808,19 @@ FxAccountsClient.prototype = {
+--- firefox-89.0.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
+@@ -764,6 +764,9 @@ FxAccountsClient.prototype = {
        log.debug("Received new request during backoff, re-rejecting.");
        throw this.backoffError;
      }
--    let response;
--    try {
--      response = await this.hawk.request(
--        path,
--        method,
--        credentials,
--        jsonPayload
--      );
--    } catch (error) {
--      log.error(`error ${method}ing ${path}`, error);
--      if (error.retryAfter) {
--        log.debug("Received backoff response; caching error as flag.");
--        this.backoffError = error;
--        // Schedule clearing of cached-error-as-flag.
--        CommonUtils.namedTimer(
--          this._clearBackoff,
--          error.retryAfter * 1000,
--          this,
--          "fxaBackoffTimer"
--        );
--      }
--      throw error;
++/* MagIns - HAWK authentication relies on HKDF derivation of a session token. We provide a session
++            token for code functionality, but do not use it for any authentication. Instead, we
++            make FxAccounts requests with XML HTTP Requests, which uses the Flask session.
+     let response;
+     try {
+       response = await this.hawk.request(
+@@ -786,9 +789,22 @@ FxAccountsClient.prototype = {
+         );
+       }
+       throw error;
++    }*/
 +    var response = new XMLHttpRequest();
 +    response.open(method, this.hawk.host + path, false);
 +    response.setRequestHeader("Accept", "application/json");
@@ -182,123 +194,96 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsClient.jsm
 +
      try {
 -      return JSON.parse(response.body);
++/* MagIns - Change the JSON parse to work with XHR
++      return JSON.parse(response.body);*/
 +      return JSON.parse(response.responseText);
      } catch (error) {
        log.error("json parse error on response: " + response.body);
        // eslint-disable-next-line no-throw-literal
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
+Index: firefox-89.0/services/fxaccounts/FxAccountsProfileClient.jsm
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsOAuthGrantClient.jsm
-@@ -138,11 +138,12 @@ FxAccountsOAuthGrantClient.prototype = {
-    */
-   async _createRequest(path, method = "POST", params) {
-     let requestUrl = this.serverURL + path;
--    let request = new this._Request(requestUrl);
-+    let request = new XMLHttpRequest();
-     method = method.toUpperCase();
-+    request.open(method, requestUrl, false);
- 
--    request.setHeader("Accept", "application/json");
--    request.setHeader("Content-Type", "application/json");
-+    request.setRequestHeader("Accept", "application/json");
-+    request.setRequestHeader("Content-Type", "application/json");
- 
-     if (method != "POST") {
-       throw new FxAccountsOAuthGrantClientError({
-@@ -154,7 +155,7 @@ FxAccountsOAuthGrantClient.prototype = {
-     }
- 
-     try {
--      await request.post(params);
-+      request.send(JSON.stringify(params));
-     } catch (error) {
-       throw new FxAccountsOAuthGrantClientError({
-         error: ERROR_NETWORK,
-@@ -165,7 +166,7 @@ FxAccountsOAuthGrantClient.prototype = {
- 
-     let body = null;
-     try {
--      body = JSON.parse(request.response.body);
-+      body = JSON.parse(request.responseText);
-     } catch (e) {
-       throw new FxAccountsOAuthGrantClientError({
-         error: ERROR_PARSE,
-@@ -175,7 +176,7 @@ FxAccountsOAuthGrantClient.prototype = {
-       });
-     }
- 
--    if (request.response.success) {
-+    if (request.status == 200) {
-       return body;
-     }
- 
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
-===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsProfileClient.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
-@@ -162,12 +162,13 @@ FxAccountsProfileClient.prototype = {
+--- firefox-89.0.orig/services/fxaccounts/FxAccountsProfileClient.jsm
++++ firefox-89.0/services/fxaccounts/FxAccountsProfileClient.jsm
+@@ -162,12 +162,21 @@ FxAccountsProfileClient.prototype = {
     */
    async _rawRequest(path, method, token, etag = null, payload = null) {
      let profileDataUrl = this.serverURL + path;
 -    let request = new this._Request(profileDataUrl);
++/* MagIns - HAWK authentication relies on HKDF derivation of a session token. We provide a session
++            token for code functionality, but do not use it for any authentication. Instead, we
++            make FxAccounts requests with XML HTTP Requests, which uses the Flask session.
++    let request = new this._Request(profileDataUrl);*/
 +    let request = new XMLHttpRequest();
 +    request.open(method, profileDataUrl, false);
  
--    request.setHeader("Authorization", "Bearer " + token);
++/* MagIns - Change the headers to work with XHR
+     request.setHeader("Authorization", "Bearer " + token);
 -    request.setHeader("Accept", "application/json");
++    request.setHeader("Accept", "application/json");*/
 +    request.setRequestHeader("Authorization", "Bearer " + token);
 +    request.setRequestHeader("Accept", "application/json");
      if (etag) {
 -      request.setHeader("If-None-Match", etag);
++//      request.setHeader("If-None-Match", etag);
 +      request.setRequestHeader("If-None-Match", etag);
      }
  
      if (method != "GET" && method != "POST") {
-@@ -180,7 +181,7 @@ FxAccountsProfileClient.prototype = {
+@@ -180,7 +189,9 @@ FxAccountsProfileClient.prototype = {
        });
      }
      try {
 -      await request.dispatch(method, payload);
++/* MagIns - The XHR is sent differently from a HAWK request
++      await request.dispatch(method, payload);*/
 +      request.send();
      } catch (error) {
        throw new FxAccountsProfileClientError({
          error: ERROR_NETWORK,
-@@ -191,10 +192,10 @@ FxAccountsProfileClient.prototype = {
+@@ -191,10 +202,14 @@ FxAccountsProfileClient.prototype = {
  
      let body = null;
      try {
 -      if (request.response.status == 304) {
++/* MagIns - Use XHR status code property
++      if (request.response.status == 304) {*/
 +      if (request.status == 304) {
          return null;
        }
 -      body = JSON.parse(request.response.body);
++/* MagIns - Change the JSON parse to work with XHR
++      body = JSON.parse(request.response.body);*/
 +      body = JSON.parse(request.responseText);
      } catch (e) {
        throw new FxAccountsProfileClientError({
          error: ERROR_PARSE,
-@@ -205,7 +206,7 @@ FxAccountsProfileClient.prototype = {
+@@ -205,7 +220,9 @@ FxAccountsProfileClient.prototype = {
      }
  
      // "response.success" means status code is 200
 -    if (!request.response.success) {
++/* MagIns - XHR does not have an explicit success property, so compare against 200 instead.
++    if (!request.response.success) {*/
 +    if (request.status != 200) {
        throw new FxAccountsProfileClientError({
          error: body.error || ERROR_UNKNOWN,
          errno: body.errno || ERRNO_UNKNOWN_ERROR,
-@@ -215,7 +216,7 @@ FxAccountsProfileClient.prototype = {
+@@ -215,7 +232,10 @@ FxAccountsProfileClient.prototype = {
      }
      return {
        body,
 -      etag: request.response.headers.etag,
-+//      etag: request.response.headers.etag,
++/* MagIns - Since this request is made automatically during login, and we return an empty
++            response from /profile anyway, implementing an ETag would not significantly
++            reduce bandwidth.
++      etag: request.response.headers.etag,*/
      };
    },
  
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
+Index: firefox-89.0/services/fxaccounts/FxAccountsWebChannel.jsm
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsWebChannel.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
+--- firefox-89.0.orig/services/fxaccounts/FxAccountsWebChannel.jsm
++++ firefox-89.0/services/fxaccounts/FxAccountsWebChannel.jsm
 @@ -252,7 +252,7 @@ FxAccountsWebChannel.prototype = {
        case COMMAND_LOGOUT:
        case COMMAND_DELETE:
@@ -322,99 +307,98 @@ Index: firefox-84.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
        await fxa.telemetry.recordDisconnection(null, "webchannel");
        // true argument is `localOnly`, because server-side stuff
        // has already been taken care of by the content server
-@@ -663,9 +663,9 @@ FxAccountsWebChannelHelpers.prototype =
+@@ -663,9 +663,11 @@ FxAccountsWebChannelHelpers.prototype =
     */
    openSyncPreferences(browser, entryPoint) {
      let uri = "about:preferences";
--    if (entryPoint) {
-+/*    if (entryPoint) {
++/* MagIns - For UI simplicity, don't add an entrypoint component when going to
++            about:preferences#sync
+     if (entryPoint) {
        uri += "?entrypoint=" + encodeURIComponent(entryPoint);
 -    }
 +    }*/
      uri += "#sync";
  
      browser.loadURI(uri, {
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
+Index: firefox-89.0/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsStorage.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsStorage.jsm
-@@ -163,7 +163,7 @@ FxAccountsStorageManager.prototype = {
+--- firefox-89.0.orig/services/fxaccounts/FxAccountsStorage.jsm
++++ firefox-89.0/services/fxaccounts/FxAccountsStorage.jsm
+@@ -156,7 +156,9 @@ FxAccountsStorageManager.prototype = {
      // We know we are initialized - this means our .cachedPlain is accurate
      // and doesn't need to be read (it was read if necessary by initialize).
      // So if there's no uid, there's no user signed in.
 -    if (!("uid" in this.cachedPlain)) {
++/* MagIns - We replace uid with memberId
++    if (!("uid" in this.cachedPlain)) {*/
 +    if (!("memberId" in this.cachedPlain)) {
        return null;
      }
      let result = {};
-@@ -218,12 +218,12 @@ FxAccountsStorageManager.prototype = {
+@@ -205,12 +207,16 @@ FxAccountsStorageManager.prototype = {
    // a different user, nor to set the user as signed-out.
    async updateAccountData(newFields) {
      await this._promiseInitialized;
 -    if (!("uid" in this.cachedPlain)) {
++/* MagIns - We replace uid with memberId
++    if (!("uid" in this.cachedPlain)) {*/
 +    if (!("memberId" in this.cachedPlain)) {
        // If this storage instance shows no logged in user, then you can't
        // update fields.
        throw new Error("No user is logged in");
      }
 -    if (!newFields || "uid" in newFields) {
++/* MagIns - We replace uid with memberId
++    if (!newFields || "uid" in newFields) {*/
 +    if (!newFields || "memberId" in newFields) {
        throw new Error("Can't change uid");
      }
      log.debug("_updateAccountData with items", Object.keys(newFields));
-@@ -588,7 +588,7 @@ LoginManagerStorage.prototype = {
+@@ -369,6 +375,8 @@ FxAccountsStorageManager.prototype = {
+   async __write() {
+     // Write everything back - later we could track what's actually dirty,
+     // but for now we write it all.
++/* MagIns - The Firefox code expects a username saved to local storage before sync begins*/
++    Services.prefs.setStringPref("services.sync.username", "Magnusson Institute Member");
+     log.debug("writing plain storage", Object.keys(this.cachedPlain));
+     let toWritePlain = {
+       version: DATA_FORMAT_VERSION,
+@@ -571,7 +579,9 @@ LoginManagerStorage.prototype = {
        if (existingLogins.length) {
          Services.logins.modifyLogin(existingLogins[0], login);
        } else {
 -        Services.logins.addLogin(login);
-+//        Services.logins.addLogin(login);
++/* MagIns - The user's login for Firefox Accounts is added to the login manager. Since our SSO
++            doesn't have proper login information, we skip this step.
++        Services.logins.addLogin(login);*/
        }
        log.trace("finished write of user data to the login manager");
      } catch (ex) {
-Index: firefox-84.0.2/services/fxaccounts/FxAccountsKeys.jsm
+Index: firefox-89.0/services/sync/modules/UIState.jsm
 ===================================================================
---- firefox-84.0.2.orig/services/fxaccounts/FxAccountsKeys.jsm
-+++ firefox-84.0.2/services/fxaccounts/FxAccountsKeys.jsm
-@@ -391,7 +391,7 @@ class FxAccountsKeys {
-    * the derived value in order to support key rotation.
-    */
-   async _fetchScopedKeysMetadata(sessionToken) {
--    // Hard-coded list of scopes that we know about.
-+/*    // Hard-coded list of scopes that we know about.
-     // This list will probably grow in future.
-     // Note that LEGACY_SCOPE_WEBEXT_SYNC is not in this list, it gets special-case handling below.
-     const scopes = [SCOPE_OLD_SYNC, SCOPE_ECOSYSTEM_TELEMETRY].join(" ");
-@@ -420,7 +420,7 @@ class FxAccountsKeys {
-       ...scopedKeysMetadata[SCOPE_OLD_SYNC],
-       identifier: LEGACY_SCOPE_WEBEXT_SYNC,
-     };
--    return scopedKeysMetadata;
-+    return scopedKeysMetadata;*/
-   }
- 
-   /**
-Index: firefox-84.0.2/services/sync/modules/UIState.jsm
-===================================================================
---- firefox-84.0.2.orig/services/sync/modules/UIState.jsm
-+++ firefox-84.0.2/services/sync/modules/UIState.jsm
-@@ -171,9 +171,9 @@ const UIStateInternal = {
+--- firefox-89.0.orig/services/sync/modules/UIState.jsm
++++ firefox-89.0/services/sync/modules/UIState.jsm
+@@ -171,9 +171,14 @@ const UIStateInternal = {
        } else {
          status = STATUS_SIGNED_IN;
        }
--      state.uid = userData.uid;
--      state.email = userData.email;
++/* MagIns - These values are displayed in the UI, on the Sync page of about:preferences and the
++            toolbar account button. We use generic values instead of a specific email or name.
+       state.uid = userData.uid;
+       state.email = userData.email;
 -      state.displayName = userData.displayName;
++      state.displayName = userData.displayName;*/
 +      state.uid = "Magnusson Institute Member";
 +      state.email = "Magnusson Institute Member";
 +      state.displayName = "";
        // for better or worse, this module renames these attribues.
        state.avatarURL = userData.avatar;
        state.avatarIsDefault = userData.avatarDefault;
-Index: firefox-84.0.2/browser/base/content/browser-sync.js
+Index: firefox-89.0/browser/base/content/browser-sync.js
 ===================================================================
---- firefox-84.0.2.orig/browser/base/content/browser-sync.js
-+++ firefox-84.0.2/browser/base/content/browser-sync.js
-@@ -804,9 +804,9 @@ var gSync = {
+--- firefox-89.0.orig/browser/base/content/browser-sync.js
++++ firefox-89.0/browser/base/content/browser-sync.js
+@@ -1265,9 +1265,9 @@ var gSync = {
  
    async openFxAManagePageFromFxaMenu(panel = undefined) {
      this.emitFxaToolbarTelemetry("account_settings", panel);
@@ -426,16 +410,19 @@ Index: firefox-84.0.2/browser/base/content/browser-sync.js
      }
      this.openFxAManagePage(entryPoint);
    },
-Index: firefox-84.0.2/dom/push/PushService.jsm
+Index: firefox-89.0/dom/push/PushService.jsm
 ===================================================================
---- firefox-84.0.2.orig/dom/push/PushService.jsm
-+++ firefox-84.0.2/dom/push/PushService.jsm
-@@ -594,10 +594,11 @@ var PushService = {
+--- firefox-89.0.orig/dom/push/PushService.jsm
++++ firefox-89.0/dom/push/PushService.jsm
+@@ -594,10 +594,15 @@ var PushService = {
        this._db = this._service.newPushDB();
      }
  
--    return this._service.init(options, this, serverURI).then(() => {
-+/*    return this._service.init(options, this, serverURI).then(() => {
++/* MagIns - Before registering a device during the login process, the browser does a WebSocket handshake
++            to push.services.mozilla.com. The end result of this handshake is initiating a Push endpoint,
++            which is included in the device registration payload. We do not currently support Push, so
++            we disable the WebSocket handshake.
+     return this._service.init(options, this, serverURI).then(() => {
        this._startObservers();
        return this._dropExpiredRegistrations();
 -    });
@@ -444,3 +431,19 @@ Index: firefox-84.0.2/dom/push/PushService.jsm
    },
  
    /**
+Index: firefox-89.0/services/fxaccounts/FxAccountsConfig.jsm
+===================================================================
+--- firefox-89.0.orig/services/fxaccounts/FxAccountsConfig.jsm
++++ firefox-89.0/services/fxaccounts/FxAccountsConfig.jsm
+@@ -82,9 +82,9 @@ var FxAccountsConfig = {
+   },
+ 
+   async promiseManageURI(entrypoint, extraParams = {}) {
+-    return this._buildURL("settings", {
++    return this._buildURL("member", {
+       extraParams: { entrypoint, ...extraParams },
+-      addAccountIdentifiers: true,
++      addAccountIdentifiers: false,
+     });
+   },
+ 

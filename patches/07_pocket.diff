@@ -1,25 +1,8 @@
-Index: firefox-84.0.2/browser/base/content/browser.xhtml
+Index: firefox-89.0/browser/base/content/browser-context.inc
 ===================================================================
---- firefox-84.0.2.orig/browser/base/content/browser.xhtml
-+++ firefox-84.0.2/browser/base/content/browser.xhtml
-@@ -1465,10 +1465,10 @@
-                        label="&bookmarksSubview.label;"
-                        closemenu="none"
-                        oncommand="BookmarkingUI.showSubView(this);"/>
--        <toolbarbutton id="appMenu-library-pocket-button"
-+<!--        <toolbarbutton id="appMenu-library-pocket-button"
-                        class="subviewbutton subviewbutton-iconic"
-                        label="&pocketMenuitem.label;"
--                       oncommand="Pocket.openList(event)"/>
-+                       oncommand="Pocket.openList(event)"/>-->
-         <toolbarbutton id="appMenu-library-history-button"
-                        class="subviewbutton subviewbutton-iconic subviewbutton-nav"
-                        label="&historyMenu.label;"
-Index: firefox-84.0.2/browser/base/content/browser-context.inc
-===================================================================
---- firefox-84.0.2.orig/browser/base/content/browser-context.inc
-+++ firefox-84.0.2/browser/base/content/browser-context.inc
-@@ -76,9 +76,9 @@
+--- firefox-89.0.orig/browser/base/content/browser-context.inc
++++ firefox-89.0/browser/base/content/browser-context.inc
+@@ -101,9 +101,9 @@
        <menuitem id="context-savelink"
                  data-l10n-id="main-context-menu-save-link"
                  oncommand="gContextMenu.saveLink();"/>
@@ -31,23 +14,23 @@ Index: firefox-84.0.2/browser/base/content/browser-context.inc
        <menuitem id="context-copyemail"
                  data-l10n-id="main-context-menu-copy-email"
                  oncommand="gContextMenu.copyEmail();"/>
-@@ -216,9 +216,9 @@
+@@ -255,9 +255,10 @@
        <menuitem id="context-savepage"
                  data-l10n-id="main-context-menu-page-save"
                  oncommand="gContextMenu.savePageAs();"/>
--      <menuitem id="context-pocket"
-+<!--      <menuitem id="context-pocket"
++<!-- MagIns - Remove "Save Page to Pocket" option from context menu
+       <menuitem id="context-pocket"
                  data-l10n-id="main-context-menu-save-to-pocket"
 -                oncommand="Pocket.savePage(gContextMenu.browser, gContextMenu.browser.currentURI.spec, gContextMenu.browser.contentTitle);"/>
 +                oncommand="Pocket.savePage(gContextMenu.browser, gContextMenu.browser.currentURI.spec, gContextMenu.browser.contentTitle);"/>-->
- <!--      <menuseparator id="context-sep-sendpagetodevice" class="sync-ui-item"
-                      hidden="true"/>-->
- <!--      <menu id="context-sendpagetodevice"
-Index: firefox-84.0.2/browser/components/BrowserGlue.jsm
+ <!-- MagIns - Remove "Send Page to Device" option from context menu
+       <menu id="context-sendpagetodevice"
+             class="sync-ui-item"
+Index: firefox-89.0/browser/components/BrowserGlue.jsm
 ===================================================================
---- firefox-84.0.2.orig/browser/components/BrowserGlue.jsm
-+++ firefox-84.0.2/browser/components/BrowserGlue.jsm
-@@ -1417,7 +1417,7 @@ BrowserGlue.prototype = {
+--- firefox-89.0.orig/browser/components/BrowserGlue.jsm
++++ firefox-89.0/browser/components/BrowserGlue.jsm
+@@ -1387,7 +1387,7 @@ BrowserGlue.prototype = {
        Normandy.init();
      }
  
@@ -56,22 +39,23 @@ Index: firefox-84.0.2/browser/components/BrowserGlue.jsm
  
      AboutHomeStartupCache.init();
  
-Index: firefox-84.0.2/browser/components/newtab/lib/AboutPreferences.jsm
+Index: firefox-89.0/browser/components/newtab/lib/AboutPreferences.jsm
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/lib/AboutPreferences.jsm
-+++ firefox-84.0.2/browser/components/newtab/lib/AboutPreferences.jsm
-@@ -108,7 +108,7 @@ this.AboutPreferences = class AboutPrefe
+--- firefox-89.0.orig/browser/components/newtab/lib/AboutPreferences.jsm
++++ firefox-89.0/browser/components/newtab/lib/AboutPreferences.jsm
+@@ -153,7 +153,8 @@ this.AboutPreferences = class AboutPrefe
      this.renderPreferences(window, [
-       ...PREFS_BEFORE_SECTIONS,
+       ...PREFS_BEFORE_SECTIONS(featureConfig),
        ...sections,
--      ...PREFS_AFTER_SECTIONS,
-+//      ...PREFS_AFTER_SECTIONS,
+-      ...PREFS_AFTER_SECTIONS(featureConfig),
++/* MagIns - PREFS_AFTER_SECTIONS contains the Snippets section, news and notes from Mozilla.
++      ...PREFS_AFTER_SECTIONS(featureConfig),*/
      ]);
    }
  
-@@ -164,6 +164,9 @@ this.AboutPreferences = class AboutPrefe
-         rowsPref,
+@@ -210,6 +211,9 @@ this.AboutPreferences = class AboutPrefe
          shouldHidePref,
+         eventSource,
        } = sectionData;
 +      if (id === "topstories") {
 +        return;
@@ -79,11 +63,11 @@ Index: firefox-84.0.2/browser/components/newtab/lib/AboutPreferences.jsm
        const { feed: name, titleString = {}, descString, nestedPrefs = [] } =
          prefData || {};
  
-Index: firefox-84.0.2/browser/components/newtab/lib/SectionsManager.jsm
+Index: firefox-89.0/browser/components/newtab/lib/SectionsManager.jsm
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/lib/SectionsManager.jsm
-+++ firefox-84.0.2/browser/components/newtab/lib/SectionsManager.jsm
-@@ -108,14 +108,14 @@ const BUILT_IN_SECTIONS = {
+--- firefox-89.0.orig/browser/components/newtab/lib/SectionsManager.jsm
++++ firefox-89.0/browser/components/newtab/lib/SectionsManager.jsm
+@@ -125,14 +125,14 @@ const BUILT_IN_SECTIONS = ({
            name: "section.highlights.includeDownloads",
            titleString: "home-prefs-highlights-option-most-recent-download",
          },
@@ -100,42 +84,41 @@ Index: firefox-84.0.2/browser/components/newtab/lib/SectionsManager.jsm
        ],
      },
      shouldHidePref: false,
-Index: firefox-84.0.2/browser/app/profile/firefox.js
+Index: firefox-89.0/browser/app/profile/firefox.js
 ===================================================================
---- firefox-84.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-84.0.2/browser/app/profile/firefox.js
-@@ -1233,8 +1233,8 @@ pref("services.sync.prefs.sync.browser.n
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSearch", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites", true);
--pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.topsites", true);
--pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.topSitesRows", true);
-+pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.topsites", false);
-+pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.topSitesRows", false);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.snippets", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.section.topstories", true);
- pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.section.topstories.rows", true);
-@@ -1416,7 +1416,7 @@ pref("browser.newtabpage.activity-stream
+--- firefox-89.0.orig/browser/app/profile/firefox.js
++++ firefox-89.0/browser/app/profile/firefox.js
+@@ -1486,7 +1486,9 @@ pref("browser.newtabpage.activity-stream
  pref("browser.newtabpage.activity-stream.discoverystream.spocs.personalized", true);
  
  // User pref to show stories on newtab (feeds.system.topstories has to be set to true as well)
 -pref("browser.newtabpage.activity-stream.feeds.section.topstories", true);
++/* MagIns - Show sponsored news stories on the Home page
++pref("browser.newtabpage.activity-stream.feeds.section.topstories", true);*/
 +pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
  
  // The pref controls if search hand-off is enabled for Activity Stream.
- #ifdef NIGHTLY_BUILD
-@@ -2584,3 +2584,6 @@ pref("dom.event.clipboardevents.enable",
+ pref("browser.newtabpage.activity-stream.improvesearch.handoffToAwesomebar", true);
+@@ -2722,4 +2724,12 @@ pref("app.shield.optoutstudies.enabled",
+ //3 - Only. Only use TRR. Never use the native (This mode also requires the bootstrapAddress pref to be set)
  //4 - Reserved (used to be Shadow mode)
  //5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
- pref("network.trr.mode", 5);
+-pref("network.trr.mode", 5);
+\ No newline at end of file
++pref("network.trr.mode", 5);
 +
++/* MagIns - On the Home Page, Mozilla by default allows sponsored articles to appear in the
++            "Recommended by Pocket" section. This preference disables sponsored stories.*/
 +pref("browser.newtabpage.activity-stream.showSponsored", false);
++
++/* MagIns - On the Home Page, Mozilla by default allows sponsored sites to appear in the "Top
++            Sites" section. This preference disables sponsored sites.*/
 +pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 \ No newline at end of file
-Index: firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-options.js
+Index: firefox-89.0/browser/components/newtab/content-src/lib/link-menu-options.js
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/content-src/lib/link-menu-options.js
-+++ firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-options.js
+--- firefox-89.0.orig/browser/components/newtab/content-src/lib/link-menu-options.js
++++ firefox-89.0/browser/components/newtab/content-src/lib/link-menu-options.js
 @@ -209,7 +209,7 @@ export const LinkMenuOptions = {
      }),
      userEvent: "UNPIN",
@@ -154,11 +137,11 @@ Index: firefox-84.0.2/browser/components/newtab/content-src/lib/link-menu-option
    EditTopSite: (site, index) => ({
      id: "newtab-menu-edit-topsites",
      icon: "edit",
-Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bundle.js
+Index: firefox-89.0/browser/components/newtab/data/content/activity-stream.bundle.js
 ===================================================================
---- firefox-84.0.2.orig/browser/components/newtab/data/content/activity-stream.bundle.js
-+++ firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bundle.js
-@@ -5116,7 +5116,7 @@ const LinkMenuOptions = {
+--- firefox-89.0.orig/browser/components/newtab/data/content/activity-stream.bundle.js
++++ firefox-89.0/browser/components/newtab/data/content/activity-stream.bundle.js
+@@ -4656,7 +4656,7 @@ const LinkMenuOptions = {
      userEvent: "UNPIN"
    }),
    SaveToPocket: (site, index, eventSource) => ({
@@ -167,7 +150,7 @@ Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bun
      icon: "pocket-save",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
        type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].SAVE_TO_POCKET,
-@@ -5138,10 +5138,10 @@ const LinkMenuOptions = {
+@@ -4678,10 +4678,10 @@ const LinkMenuOptions = {
          } : {})
        }]
      }),
@@ -180,7 +163,7 @@ Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bun
      icon: "pocket-delete",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
        type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].DELETE_FROM_POCKET,
-@@ -5149,10 +5149,10 @@ const LinkMenuOptions = {
+@@ -4689,10 +4689,10 @@ const LinkMenuOptions = {
          pocket_id: site.pocket_id
        }
      }),
@@ -193,7 +176,7 @@ Index: firefox-84.0.2/browser/components/newtab/data/content/activity-stream.bun
      icon: "pocket-archive",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
        type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].ARCHIVE_FROM_POCKET,
-@@ -5160,7 +5160,7 @@ const LinkMenuOptions = {
+@@ -4700,7 +4700,7 @@ const LinkMenuOptions = {
          pocket_id: site.pocket_id
        }
      }),

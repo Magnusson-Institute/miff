@@ -46,4 +46,3 @@ Resources:
 https://firefox-source-docs.mozilla.org/setup/windows_build.html#building-firefox-on-windows
 
 https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial.html
-

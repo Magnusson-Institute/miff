@@ -1,4 +1,9 @@
 # MiFF build - with patches
+### Branches
+main - active development
+
+stable - mirror of tagged releases
+
 
 ## Win10 build setup
 

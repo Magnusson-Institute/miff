@@ -1,8 +1,8 @@
-Index: firefox-89.0.2/browser/app/profile/firefox.js
+Index: firefox-92.0/browser/app/profile/firefox.js
 ===================================================================
---- firefox-89.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-89.0.2/browser/app/profile/firefox.js
-@@ -37,12 +37,19 @@ pref("extensions.webextOptionalPermissio
+--- firefox-92.0.orig/browser/app/profile/firefox.js
++++ firefox-92.0/browser/app/profile/firefox.js
+@@ -36,12 +36,19 @@ pref("extensions.webextOptionalPermissio
  pref("extensions.postDownloadThirdPartyPrompt", true);
  
  // Preferences for AMO integration
@@ -22,22 +22,22 @@ Index: firefox-89.0.2/browser/app/profile/firefox.js
 +pref("extensions.getAddons.discovery.api_url", "https://services.addons.mozilla.org/api/v4/discovery/?lang=%LOCALE%&edition=%DISTRIBUTION%");*/
 +pref("extensions.getAddons.discovery.api_url", "");
  
- // Use bloomfilters for the addons blocklist, instead of JSON only.
- pref("extensions.blocklist.useMLBF", true);
-@@ -1387,7 +1394,11 @@ pref("browser.menu.showCharacterEncoding
+ // The URL for the privacy policy related to recommended extensions.
+ pref("extensions.recommendations.privacyPolicyUrl", "https://www.mozilla.org/privacy/firefox/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_content=privacy-policy-link#addons");
+@@ -1395,7 +1402,11 @@ pref("browser.menu.showCharacterEncoding
  // This is a fallback value for when prompt callers do not specify a modalType.
  pref("prompts.defaultModalType", 3);
  
 -pref("browser.topsites.useRemoteSetting", true);
 +/* MagIns - Firefox presents sponsored websites as "Top Sites", the list of which is
-+            maintainted by Remote Settings. We don't want sponsored sites, so don't
++            maintained by Remote Settings. We don't want sponsored sites, so don't
 +            bother fetching them.
 +pref("browser.topsites.useRemoteSetting", true);*/
 +pref("browser.topsites.useRemoteSetting", false);
- 
- // The base URL for the Quick Suggest anonymizing proxy. To make a request to
- // the proxy, include a campaign ID in the path.
-@@ -1436,7 +1447,11 @@ pref("browser.newtabpage.activity-stream
+ // Fetch sponsored Top Sites from Mozilla Tiles Service (Contile)
+ pref("browser.topsites.contile.enabled", true);
+ pref("browser.topsites.contile.endpoint", "https://contile.services.mozilla.com/v1/tiles");
+@@ -1447,7 +1458,11 @@ pref("browser.newtabpage.activity-stream
  // This url, if changed, MUST continue to point to an https url. Pulling arbitrary content to inject into
  // this page over http opens us up to a man-in-the-middle attack that we'd rather not face. If you are a downstream
  // repackager of this code using an alternate snippet url, please keep your users safe
@@ -50,7 +50,7 @@ Index: firefox-89.0.2/browser/app/profile/firefox.js
  pref("browser.newtabpage.activity-stream.asrouter.providers.messaging-experiments", "{\"id\":\"messaging-experiments\",\"enabled\":true,\"type\":\"remote-experiments\",\"messageGroups\":[\"cfr\",\"whats-new-panel\",\"moments-page\",\"cfr-fxa\",\"aboutwelcome\",\"infobar\"],\"updateCycleInMs\":3600000}");
  
  // ASRouter user prefs
-@@ -1678,23 +1693,31 @@ pref("browser.translation.ui.show", fals
+@@ -1689,23 +1704,31 @@ pref("browser.translation.ui.show", fals
  pref("browser.translation.engine", "Google");
  
  // Telemetry settings.
@@ -95,7 +95,7 @@ Index: firefox-89.0.2/browser/app/profile/firefox.js
  pref("browser.ping-centre.log", false);
  
  // Enable GMP support in the addon manager.
-@@ -2532,7 +2555,11 @@ pref("first-startup.timeout", 30000);
+@@ -2533,7 +2556,11 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -108,10 +108,10 @@ Index: firefox-89.0.2/browser/app/profile/firefox.js
  #endif
  
  // Test Prefs that do nothing for testing
-@@ -2555,3 +2582,135 @@ pref("first-startup.timeout", 30000);
- // are expected to go away once a standardized alternative becomes
- // available.
- pref("svg.context-properties.content.allowed-domains", "profile.accounts.firefox.com,profile.stage.mozaws.net");
+@@ -2561,3 +2588,134 @@ pref("svg.context-properties.content.all
+ #ifdef NIGHTLY_BUILD
+   pref("extensions.translations.disabled", true);
+ #endif
 +
 +/* MagIns - The browser milestone records the version number of the last successful
 +            startup. After updates/upgrades, the user's homepage is changed to show
@@ -155,8 +155,7 @@ Index: firefox-89.0.2/browser/app/profile/firefox.js
 +pref("geo.enabled", false);
 +
 +/* MagIns - The media.navigator.enabled preference allows WebRTC to access the name
-+            of devices
-+*/
++            of devices*/
 +pref("media.navigator.enabled", false);
 +
 +//This preference determines when cookies are deleted. Here are the different
@@ -194,7 +193,7 @@ Index: firefox-89.0.2/browser/app/profile/firefox.js
 +
 +//Setting this preference to false will disable data sharing with Firefox for
 +//Android
-+lockPref("toolkit.telemetry.enabled", false);
++pref("toolkit.telemetry.enabled", false);
 +
 +/* MagIns - WebGL is a JavaScript API conforming closely to OpenGL, thus allowing the API
 +            to use hardware acceleration with a user's GPU. It also creates a fingerprint
@@ -245,11 +244,11 @@ Index: firefox-89.0.2/browser/app/profile/firefox.js
 +//5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
 +pref("network.trr.mode", 5);
 \ No newline at end of file
-Index: firefox-89.0.2/modules/libpref/init/all.js
+Index: firefox-92.0/modules/libpref/init/all.js
 ===================================================================
---- firefox-89.0.2.orig/modules/libpref/init/all.js
-+++ firefox-89.0.2/modules/libpref/init/all.js
-@@ -781,8 +781,10 @@ pref("toolkit.scrollbox.clickToScroll.sc
+--- firefox-92.0.orig/modules/libpref/init/all.js
++++ firefox-92.0/modules/libpref/init/all.js
+@@ -794,8 +794,10 @@ pref("toolkit.scrollbox.clickToScroll.sc
  pref("toolkit.tabbox.switchByScrolling", false);
  
  // Telemetry settings.
@@ -262,7 +261,7 @@ Index: firefox-89.0.2/modules/libpref/init/all.js
  // Telemetry server owner. Please change if you set toolkit.telemetry.server to a different server
  pref("toolkit.telemetry.server_owner", "Mozilla");
  // Determines whether full SQL strings are returned when they might contain sensitive info
-@@ -1740,8 +1742,12 @@ pref("network.dns.native-is-localhost",
+@@ -1737,8 +1739,12 @@ pref("network.dns.native-is-localhost",
  // a revalidation in the background.
  pref("network.dnsCacheExpirationGracePeriod", 60);
  
@@ -277,14 +276,13 @@ Index: firefox-89.0.2/modules/libpref/init/all.js
  
  // This preference controls whether .onion hostnames are
  // rejected before being given to DNS. RFC 7686
-@@ -3762,15 +3768,20 @@ pref("network.psl.onUpdate_notify", fals
- #endif
+@@ -3723,11 +3729,16 @@ pref("network.psl.onUpdate_notify", fals
  
  // All the Geolocation preferences are here.
--//
+ //
 +/* MagIns - By default, geolocation requests go through Google's API, and in Developer/Beta
-+            versions uses both Google and Mozilla APIs. As part of disabling geolocation in
-+            MiFF, we remove the API endpoints from the relevant preferences.*/
++            versions uses Mozilla's API. As part of disabling geolocation in MiFF, we remove
++            the API endpoints from the relevant preferences.*/
  #ifndef EARLY_BETA_OR_EARLIER
 -  pref("geo.provider.network.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
 +//  pref("geo.provider.network.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
@@ -294,15 +292,10 @@ Index: firefox-89.0.2/modules/libpref/init/all.js
 -  pref("geo.provider.network.url", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
 +//  pref("geo.provider.network.url", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
 +  pref("geo.provider.network.url", "");
-   // On Nightly and early Beta, make duplicate location services requests
-   // to google so we can compare results.
--  pref("geo.provider.network.compare.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
-+//  pref("geo.provider.network.compare.url", "https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_LOCATION_SERVICE_API_KEY%");
-+  pref("geo.provider.network.compare.url", "");
  #endif
  
  // Timeout to wait before sending the location request.
-@@ -3793,7 +3804,11 @@ pref("geo.provider.network.timeout", 600
+@@ -3750,7 +3761,11 @@ pref("geo.provider.network.timeout", 600
  
  // Region
  pref("browser.region.log", false);
@@ -315,7 +308,7 @@ Index: firefox-89.0.2/modules/libpref/init/all.js
  // Include wifi data in region request.
  pref("browser.region.network.scan", false);
  // Timeout for whole region request.
-@@ -4360,8 +4375,12 @@ pref("layers.omtp.enabled", false);
+@@ -4310,8 +4325,12 @@ pref("layers.omtp.enabled", false);
  //  * userChrome.css
  pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);
  
@@ -329,7 +322,7 @@ Index: firefox-89.0.2/modules/libpref/init/all.js
    pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
    pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
    pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
-@@ -4371,12 +4390,15 @@ pref("toolkit.legacyUserProfileCustomiza
+@@ -4321,12 +4340,15 @@ pref("toolkit.legacyUserProfileCustomiza
    pref("datareporting.policy.firstRunURL", "https://www.mozilla.org/privacy/firefox/");
  #endif
  
@@ -346,11 +339,11 @@ Index: firefox-89.0.2/modules/libpref/init/all.js
    #endif
  #endif
  
-Index: firefox-89.0.2/browser/components/preferences/privacy.js
+Index: firefox-92.0/browser/components/preferences/privacy.js
 ===================================================================
---- firefox-89.0.2.orig/browser/components/preferences/privacy.js
-+++ firefox-89.0.2/browser/components/preferences/privacy.js
-@@ -620,13 +620,13 @@ var gPrivacyPane = {
+--- firefox-92.0.orig/browser/components/preferences/privacy.js
++++ firefox-92.0/browser/components/preferences/privacy.js
+@@ -624,13 +624,13 @@ var gPrivacyPane = {
  
      this.initListenersForExtensionControllingPasswordManager();
      // set up the breach alerts Learn More link with the correct URL
@@ -366,16 +359,16 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
  
      this._initSafeBrowsing();
  
-@@ -757,6 +757,8 @@ var gPrivacyPane = {
-       .getElementById("notificationPermissionsLearnMore")
-       .setAttribute("href", notificationInfoURL);
+@@ -770,6 +770,8 @@ var gPrivacyPane = {
+         .setAttribute("href", windowsSSOURL);
+     }
  
 +/* MagIns - To prevent users from reenabling Telemetry uploads, we comment out the code
 +            initiating those sections of the Preferences page.
      if (AppConstants.MOZ_DATA_REPORTING) {
        this.initDataCollection();
        if (AppConstants.MOZ_CRASHREPORTER) {
-@@ -777,7 +779,7 @@ var gPrivacyPane = {
+@@ -790,7 +792,7 @@ var gPrivacyPane = {
          this.initOptOutStudyCheckbox();
        }
        this.initAddonRecommendationsCheckbox();
@@ -384,10 +377,10 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
  
      let signonBundle = document.getElementById("signonBundle");
      let pkiBundle = document.getElementById("pkiBundle");
-Index: firefox-89.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
+Index: firefox-92.0/toolkit/components/normandy/lib/ClientEnvironment.jsm
 ===================================================================
---- firefox-89.0.2.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm
-+++ firefox-89.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
+--- firefox-92.0.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm
++++ firefox-92.0/toolkit/components/normandy/lib/ClientEnvironment.jsm
 @@ -53,7 +53,10 @@ class ClientEnvironment extends ClientEn
     */
    static async getClientClassification() {
@@ -400,10 +393,10 @@ Index: firefox-89.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
      }
      return _classifyRequest;
    }
-Index: firefox-89.0.2/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-89.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-89.0.2/services/fxaccounts/FxAccountsClient.jsm
+--- firefox-92.0.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
 @@ -542,7 +542,12 @@ FxAccountsClient.prototype = {
     */
    async registerDevice(sessionTokenHex, name, type, options = {}) {
@@ -418,11 +411,11 @@ Index: firefox-89.0.2/services/fxaccounts/FxAccountsClient.jsm
      let creds = await deriveHawkCredentials(sessionTokenHex, "sessionToken");
      let body = { name, type };
  
-Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
+Index: firefox-92.0/browser/components/preferences/privacy.inc.xhtml
 ===================================================================
---- firefox-89.0.2.orig/browser/components/preferences/privacy.inc.xhtml
-+++ firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
-@@ -813,6 +813,8 @@
+--- firefox-92.0.orig/browser/components/preferences/privacy.inc.xhtml
++++ firefox-92.0/browser/components/preferences/privacy.inc.xhtml
+@@ -828,6 +828,8 @@
  
  <!-- Firefox Data Collection and Use -->
  #ifdef MOZ_DATA_REPORTING
@@ -431,7 +424,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
  <hbox id="dataCollectionCategory"
        class="subcategory"
        hidden="true"
-@@ -894,7 +896,7 @@
+@@ -910,7 +912,7 @@
      </hbox>
  #endif
    </vbox>

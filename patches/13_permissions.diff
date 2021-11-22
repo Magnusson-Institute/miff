@@ -16,3 +16,78 @@ Index: firefox-89.0.2/browser/base/content/browser.js
      let mainAction = {
        label: gNavigatorBundle.getString("canvas.allow2"),
        accessKey: gNavigatorBundle.getString("canvas.allow2.accesskey"),
+Index: firefox-89.0.2/browser/app/profile/firefox.js
+===================================================================
+--- firefox-89.0.2.orig/browser/app/profile/firefox.js
++++ firefox-89.0.2/browser/app/profile/firefox.js
+@@ -2662,7 +2662,13 @@ pref("media.navigator.enabled", false);
+ //1 = Prompt for each cookie
+ //2 = Accept for current session only
+ //3 = Accept for N days
+-pref("network.cookie.lifetimePolicy", 2);
++/* MagIns - This preference, despite the name, applies to both cookies and browser cache.
++            While we would like to accept for current session only here, we do need to
++            save some cache data for our chat client to function. We are able to clear
++            cookies through the privacy.clearOnShutdown.cookies preference.*/
++pref("network.cookie.lifetimePolicy", 0);
++
++pref("privacy.sanitize.sanitizeOnShutdown", true);
+ 
+ /* MagIns - Link prefetching allows browsers to load resources ahead of time that users
+             are likely to need, based on rel="prefetch" parameter in HTML pages. While
+Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
+===================================================================
+--- firefox-89.0.2.orig/browser/components/preferences/privacy.inc.xhtml
++++ firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
+@@ -332,13 +332,13 @@
+       <hbox flex="1" id="deleteOnCloseNote" class="info-panel">
+         <description flex="1" data-l10n-id="sitedata-delete-on-close-private-browsing" />
+       </hbox>
+-      <hbox id="keepRow"
++<!--      <hbox id="keepRow"
+             align="center">
+         <checkbox id="deleteOnClose"
+                   data-l10n-id="sitedata-delete-on-close"
+                   preference="network.cookie.lifetimePolicy"
+                   flex="1" />
+-      </hbox>
++      </hbox>-->
+     </vbox>
+     <vbox align="end">
+       <!-- Please don't remove the wrapping hbox/vbox/box for these elements. It's used to properly compute the search tooltip position. -->
+Index: firefox-89.0.2/browser/components/preferences/privacy.js
+===================================================================
+--- firefox-89.0.2.orig/browser/components/preferences/privacy.js
++++ firefox-89.0.2/browser/components/preferences/privacy.js
+@@ -683,8 +683,9 @@ var gPrivacyPane = {
+     setSyncToPrefListener("blockCookiesMenu", () =>
+       this.writeBlockCookiesFrom()
+     );
++/* MagIns - Remove instance of old Cookies and Site Data delete checkbox
+     setSyncFromPrefListener("deleteOnClose", () => this.readDeleteOnClose());
+-    setSyncToPrefListener("deleteOnClose", () => this.writeDeleteOnClose());
++    setSyncToPrefListener("deleteOnClose", () => this.writeDeleteOnClose());*/
+     setSyncFromPrefListener("savePasswords", () => this.readSavePasswords());
+ 
+     let microControlHandler = el =>
+@@ -1273,8 +1274,9 @@ var gPrivacyPane = {
+     let cookieExpirationLocked = Services.prefs.prefIsLocked(
+       "network.cookie.lifetimePolicy"
+     );
++/* MagIns - Remove instance of old Cookies and Site Data delete checkbox
+     deleteOnCloseCheckbox.disabled =
+-      privateBrowsing || completelyBlockCookies || cookieExpirationLocked;
++      privateBrowsing || completelyBlockCookies || cookieExpirationLocked;*/
+     deleteOnCloseNote.hidden = !privateBrowsing;
+ 
+     switch (behavior) {
+@@ -1489,7 +1491,8 @@ var gPrivacyPane = {
+   updatePrivacyMicroControls() {
+     // Check the "Delete cookies when Firefox is closed" checkbox and disable the setting
+     // when we're in auto private mode (or reset it back otherwise).
+-    document.getElementById("deleteOnClose").checked = this.readDeleteOnClose();
++/* MagIns - Remove instance of old Cookies and Site Data delete checkbox
++    document.getElementById("deleteOnClose").checked = this.readDeleteOnClose();*/
+ 
+     let clearDataSettings = document.getElementById("clearDataSettings");
+ 

@@ -1,7 +1,7 @@
-Index: firefox-89.0/browser/app/profile/firefox.js
+Index: firefox-89.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-89.0.orig/browser/app/profile/firefox.js
-+++ firefox-89.0/browser/app/profile/firefox.js
+--- firefox-89.0.2.orig/browser/app/profile/firefox.js
++++ firefox-89.0.2/browser/app/profile/firefox.js
 @@ -37,12 +37,19 @@ pref("extensions.webextOptionalPermissio
  pref("extensions.postDownloadThirdPartyPrompt", true);
  
@@ -24,16 +24,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // Use bloomfilters for the addons blocklist, instead of JSON only.
  pref("extensions.blocklist.useMLBF", true);
-@@ -73,7 +80,7 @@ pref("extensions.webextensions.backgroun
- 
- // Require signed add-ons by default
- pref("extensions.langpacks.signatures.required", true);
--pref("xpinstall.signatures.required", true);
-+pref("xpinstall.signatures.required", false);
- pref("xpinstall.signatures.devInfoURL", "https://wiki.mozilla.org/Addons/Extension_Signing");
- 
- // Enable extensionStorage storage actor by default
-@@ -1383,7 +1390,11 @@ pref("browser.menu.showCharacterEncoding
+@@ -1387,7 +1394,11 @@ pref("browser.menu.showCharacterEncoding
  // This is a fallback value for when prompt callers do not specify a modalType.
  pref("prompts.defaultModalType", 3);
  
@@ -46,7 +37,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // The base URL for the Quick Suggest anonymizing proxy. To make a request to
  // the proxy, include a campaign ID in the path.
-@@ -1432,7 +1443,11 @@ pref("browser.newtabpage.activity-stream
+@@ -1436,7 +1447,11 @@ pref("browser.newtabpage.activity-stream
  // This url, if changed, MUST continue to point to an https url. Pulling arbitrary content to inject into
  // this page over http opens us up to a man-in-the-middle attack that we'd rather not face. If you are a downstream
  // repackager of this code using an alternate snippet url, please keep your users safe
@@ -59,7 +50,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  pref("browser.newtabpage.activity-stream.asrouter.providers.messaging-experiments", "{\"id\":\"messaging-experiments\",\"enabled\":true,\"type\":\"remote-experiments\",\"messageGroups\":[\"cfr\",\"whats-new-panel\",\"moments-page\",\"cfr-fxa\",\"aboutwelcome\",\"infobar\"],\"updateCycleInMs\":3600000}");
  
  // ASRouter user prefs
-@@ -1674,23 +1689,31 @@ pref("browser.translation.ui.show", fals
+@@ -1678,23 +1693,31 @@ pref("browser.translation.ui.show", fals
  pref("browser.translation.engine", "Google");
  
  // Telemetry settings.
@@ -104,7 +95,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  pref("browser.ping-centre.log", false);
  
  // Enable GMP support in the addon manager.
-@@ -2528,7 +2551,11 @@ pref("first-startup.timeout", 30000);
+@@ -2532,7 +2555,11 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -117,7 +108,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  #endif
  
  // Test Prefs that do nothing for testing
-@@ -2551,3 +2578,135 @@ pref("first-startup.timeout", 30000);
+@@ -2555,3 +2582,135 @@ pref("first-startup.timeout", 30000);
  // are expected to go away once a standardized alternative becomes
  // available.
  pref("svg.context-properties.content.allowed-domains", "profile.accounts.firefox.com,profile.stage.mozaws.net");
@@ -254,10 +245,10 @@ Index: firefox-89.0/browser/app/profile/firefox.js
 +//5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
 +pref("network.trr.mode", 5);
 \ No newline at end of file
-Index: firefox-89.0/modules/libpref/init/all.js
+Index: firefox-89.0.2/modules/libpref/init/all.js
 ===================================================================
---- firefox-89.0.orig/modules/libpref/init/all.js
-+++ firefox-89.0/modules/libpref/init/all.js
+--- firefox-89.0.2.orig/modules/libpref/init/all.js
++++ firefox-89.0.2/modules/libpref/init/all.js
 @@ -781,8 +781,10 @@ pref("toolkit.scrollbox.clickToScroll.sc
  pref("toolkit.tabbox.switchByScrolling", false);
  
@@ -355,10 +346,10 @@ Index: firefox-89.0/modules/libpref/init/all.js
    #endif
  #endif
  
-Index: firefox-89.0/browser/components/preferences/privacy.js
+Index: firefox-89.0.2/browser/components/preferences/privacy.js
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/privacy.js
-+++ firefox-89.0/browser/components/preferences/privacy.js
+--- firefox-89.0.2.orig/browser/components/preferences/privacy.js
++++ firefox-89.0.2/browser/components/preferences/privacy.js
 @@ -620,13 +620,13 @@ var gPrivacyPane = {
  
      this.initListenersForExtensionControllingPasswordManager();
@@ -393,10 +384,10 @@ Index: firefox-89.0/browser/components/preferences/privacy.js
  
      let signonBundle = document.getElementById("signonBundle");
      let pkiBundle = document.getElementById("pkiBundle");
-Index: firefox-89.0/toolkit/components/normandy/lib/ClientEnvironment.jsm
+Index: firefox-89.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
 ===================================================================
---- firefox-89.0.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm
-+++ firefox-89.0/toolkit/components/normandy/lib/ClientEnvironment.jsm
+--- firefox-89.0.2.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm
++++ firefox-89.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
 @@ -53,7 +53,10 @@ class ClientEnvironment extends ClientEn
     */
    static async getClientClassification() {
@@ -409,10 +400,10 @@ Index: firefox-89.0/toolkit/components/normandy/lib/ClientEnvironment.jsm
      }
      return _classifyRequest;
    }
-Index: firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-89.0.2/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-89.0.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
+--- firefox-89.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-89.0.2/services/fxaccounts/FxAccountsClient.jsm
 @@ -542,7 +542,12 @@ FxAccountsClient.prototype = {
     */
    async registerDevice(sessionTokenHex, name, type, options = {}) {
@@ -427,10 +418,10 @@ Index: firefox-89.0/services/fxaccounts/FxAccountsClient.jsm
      let creds = await deriveHawkCredentials(sessionTokenHex, "sessionToken");
      let body = { name, type };
  
-Index: firefox-89.0/browser/components/preferences/privacy.inc.xhtml
+Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/privacy.inc.xhtml
-+++ firefox-89.0/browser/components/preferences/privacy.inc.xhtml
+--- firefox-89.0.2.orig/browser/components/preferences/privacy.inc.xhtml
++++ firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
 @@ -813,6 +813,8 @@
  
  <!-- Firefox Data Collection and Use -->

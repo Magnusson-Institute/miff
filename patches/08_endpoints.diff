@@ -86,17 +86,18 @@ Index: firefox-92.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
 ===================================================================
 --- firefox-92.0.orig/toolkit/mozapps/extensions/internal/XPIInstall.jsm
 +++ firefox-92.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
-@@ -2822,7 +2822,8 @@ var UpdateChecker = function(
+@@ -2822,7 +2822,9 @@ var UpdateChecker = function(
    }
  
    let url = escapeAddonURI(aAddon, updateURL, aReason, aAppVersion);
 -  this._parser = AddonUpdateChecker.checkForUpdates(aAddon.id, url, this);
-+  let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(url)
++/* MagIns - Route update checks for addons through privacy.app*/
++  let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(url);
 +  this._parser = AddonUpdateChecker.checkForUpdates(aAddon.id, newUrl, this);
  };
  
  UpdateChecker.prototype = {
-@@ -4041,10 +4042,10 @@ var XPIInstall = {
+@@ -4041,10 +4043,10 @@ var XPIInstall = {
      }
  
      url = await UpdateUtils.formatUpdateURL(url);

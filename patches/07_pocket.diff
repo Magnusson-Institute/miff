@@ -142,16 +142,15 @@ Index: firefox-96.0.1/browser/components/newtab/data/content/activity-stream.bun
 ===================================================================
 --- firefox-96.0.1.orig/browser/components/newtab/data/content/activity-stream.bundle.js
 +++ firefox-96.0.1/browser/components/newtab/data/content/activity-stream.bundle.js
-@@ -4136,7 +4136,7 @@ const LinkMenuOptions = {
+@@ -4136,6 +4136,7 @@ const LinkMenuOptions = {
      userEvent: "UNPIN"
    }),
    SaveToPocket: (site, index, eventSource = "CARDGRID") => ({
--    id: "newtab-menu-save-to-pocket",
-+/*    id: "newtab-menu-save-to-pocket",
++/* MagIns - Remove "Save Link to Pocket" entry from links on New Tab Home screen
+     id: "newtab-menu-save-to-pocket",
      icon: "pocket-save",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
-       type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].SAVE_TO_POCKET,
-@@ -4158,10 +4158,10 @@ const LinkMenuOptions = {
+@@ -4158,10 +4159,10 @@ const LinkMenuOptions = {
          } : {})
        }]
      }),
@@ -164,7 +163,7 @@ Index: firefox-96.0.1/browser/components/newtab/data/content/activity-stream.bun
      icon: "pocket-delete",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
        type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].DELETE_FROM_POCKET,
-@@ -4169,10 +4169,10 @@ const LinkMenuOptions = {
+@@ -4169,10 +4170,10 @@ const LinkMenuOptions = {
          pocket_id: site.pocket_id
        }
      }),
@@ -177,7 +176,7 @@ Index: firefox-96.0.1/browser/components/newtab/data/content/activity-stream.bun
      icon: "pocket-archive",
      action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
        type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].ARCHIVE_FROM_POCKET,
-@@ -4180,7 +4180,7 @@ const LinkMenuOptions = {
+@@ -4180,7 +4181,7 @@ const LinkMenuOptions = {
          pocket_id: site.pocket_id
        }
      }),

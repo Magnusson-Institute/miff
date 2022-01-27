@@ -110,6 +110,20 @@ Index: firefox-96.0.1/toolkit/mozapps/extensions/internal/XPIInstall.jsm
        true
      ).catch(e => logger.error(`System addon update list error ${e}`));
  
+@@ -4320,7 +4322,12 @@ var XPIInstall = {
+       );
+     }
+ 
+-    let url = Services.io.newURI(aUrl);
++/* MagIns -  After users sign in to sync (if they have addon syncing enabled) Firefox downloads
++            the synced extensions from Mozilla servers. For privacy, we route these downloads
++            through privacy.app
++    let url = Services.io.newURI(aUrl);*/
++    let newUrl = "https://privacy.app/extension-download?url=" + encodeURIComponent(aUrl);
++    let url = Services.io.newURI(newUrl);
+ 
+     if (url instanceof Ci.nsIFileURL) {
+       let install = new LocalAddonInstall(location, url, aOptions);
 Index: firefox-96.0.1/toolkit/modules/GMPInstallManager.jsm
 ===================================================================
 --- firefox-96.0.1.orig/toolkit/modules/GMPInstallManager.jsm
@@ -283,3 +297,20 @@ Index: firefox-96.0.1/browser/components/newtab/lib/PersonalityProvider/Personal
      await this.setInterestConfig();
      if (!this.interestConfig) {
        return;
+Index: firefox-96.0.1/toolkit/mozapps/extensions/internal/AddonRepository.jsm
+===================================================================
+--- firefox-96.0.1.orig/toolkit/mozapps/extensions/internal/AddonRepository.jsm
++++ firefox-96.0.1/toolkit/mozapps/extensions/internal/AddonRepository.jsm
+@@ -471,7 +471,11 @@ var AddonRepository = {
+       });
+     };
+ 
+-    return fetchNextPage(startURL);
++/* MagIns - After users sign in to sync (if they have addon syncing enabled) Firefox communicates
++            with Mozilla services and gets download links for the addons. For privacy, route these
++            requests through our SSO*/
++    let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(startURL);
++    return fetchNextPage(newUrl);
+   },
+ 
+   /**

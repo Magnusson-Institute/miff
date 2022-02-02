@@ -1,26 +1,48 @@
-Index: firefox-89.0.2/browser/config/mozconfig
+Index: firefox-92.0/browser/config/version.txt
 ===================================================================
---- firefox-89.0.2.orig/browser/config/mozconfig
-+++ firefox-89.0.2/browser/config/mozconfig
-@@ -7,3 +7,6 @@
- # to the top of your mozconfig file.
- 
- ac_add_options --enable-application=browser
+--- firefox-92.0.orig/browser/config/version.txt
++++ firefox-92.0/browser/config/version.txt
+@@ -1 +1 @@
+-92.0
++92.0.0.1
+Index: firefox-92.0/browser/config/version_display.txt
+===================================================================
+--- firefox-92.0.orig/browser/config/version_display.txt
++++ firefox-92.0/browser/config/version_display.txt
+@@ -1 +1 @@
+-92.0
++92.0.0.1
+Index: firefox-92.0/browser/config/linux_mozconfig
+===================================================================
+--- /dev/null
++++ firefox-92.0/browser/config/linux_mozconfig
+@@ -0,0 +1,12 @@
++# This Source Code Form is subject to the terms of the Mozilla Public
++# License, v. 2.0. If a copy of the MPL was not distributed with this
++# file, You can obtain one at http://mozilla.org/MPL/2.0/.
++
++# This file specifies the build flags for Firefox.  You can use it by adding:
++#  . $topsrcdir/browser/config/mozconfig
++# to the top of your mozconfig file.
++
++ac_add_options --enable-application=browser
++ac_add_options --with-google-safebrowsing-api-keyfile="/home/mi-linux/miff-dev/GoogleSB.txt"
++
++export MOZILLA_OFFICIAL=1
+Index: firefox-92.0/browser/config/win_mozconfig
+===================================================================
+--- /dev/null
++++ firefox-92.0/browser/config/win_mozconfig
+@@ -0,0 +1,12 @@
++# This Source Code Form is subject to the terms of the Mozilla Public
++# License, v. 2.0. If a copy of the MPL was not distributed with this
++# file, You can obtain one at http://mozilla.org/MPL/2.0/.
++
++# This file specifies the build flags for Firefox.  You can use it by adding:
++#  . $topsrcdir/browser/config/mozconfig
++# to the top of your mozconfig file.
++
++ac_add_options --enable-application=browser
 +ac_add_options --with-google-safebrowsing-api-keyfile="C:/mozilla-source/GoogleSB.txt"
 +
 +export MOZILLA_OFFICIAL=1
-\ No newline at end of file
-Index: firefox-89.0.2/browser/config/version.txt
-===================================================================
---- firefox-89.0.2.orig/browser/config/version.txt
-+++ firefox-89.0.2/browser/config/version.txt
-@@ -1 +1 @@
--89.0.2
-+89.0.2.3
-Index: firefox-89.0.2/browser/config/version_display.txt
-===================================================================
---- firefox-89.0.2.orig/browser/config/version_display.txt
-+++ firefox-89.0.2/browser/config/version_display.txt
-@@ -1 +1 @@
--89.0.2
-+89.0.2.3

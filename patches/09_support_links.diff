@@ -1,7 +1,7 @@
-Index: firefox-89.0/browser/app/profile/firefox.js
+Index: firefox-89.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-89.0.orig/browser/app/profile/firefox.js
-+++ firefox-89.0/browser/app/profile/firefox.js
+--- firefox-89.0.2.orig/browser/app/profile/firefox.js
++++ firefox-89.0.2/browser/app/profile/firefox.js
 @@ -56,7 +56,7 @@ pref("extensions.blocklist.useMLBF", tru
  pref("extensions.blocklist.useMLBF.stashes", true);
  
@@ -20,7 +20,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  // How long to show a Hearbeat survey (two hours, in seconds)
  pref("browser.uitour.surveyDuration", 7200);
  
-@@ -832,7 +832,7 @@ pref("accessibility.typeaheadfind.linkso
+@@ -836,7 +836,7 @@ pref("accessibility.typeaheadfind.linkso
  pref("accessibility.typeaheadfind.flashBar", 1);
  
  // Accessibility indicator preferences such as support URL, enabled flag.
@@ -29,7 +29,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  pref("accessibility.indicator.enabled", false);
  
  pref("plugins.testmode", false);
-@@ -943,7 +943,7 @@ pref("gecko.handlerService.schemes.ircs.
+@@ -947,7 +947,7 @@ pref("gecko.handlerService.schemes.ircs.
  pref("gecko.handlerService.schemes.ircs.3.name", "chrome://browser-region/locale/region.properties");
  pref("gecko.handlerService.schemes.ircs.3.uriTemplate", "chrome://browser-region/locale/region.properties");
  
@@ -38,7 +38,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  pref("browser.xr.warning.infoURL", "https://www.mozilla.org/%LOCALE%/firefox/xr/");
  
  pref("browser.sessionstore.resume_from_crash", true);
-@@ -1071,17 +1071,25 @@ pref("breakpad.reportURL", "https://cras
+@@ -1075,17 +1075,25 @@ pref("breakpad.reportURL", "https://cras
  
  // URL for "Learn More" for DataCollection
  pref("toolkit.datacollection.infoURL",
@@ -58,7 +58,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
 -pref("app.support.baseURL", "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/");
 +/* MagIns
 +pref("app.support.baseURL", "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/");*/
-+pref("app.support.baseURL", "https://privacy.app/support");
++pref("app.support.baseURL", "https://privacy.app/support/");
  
  // base url for web-based feedback pages
 -pref("app.feedback.baseURL", "https://ideas.mozilla.org/");
@@ -68,7 +68,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // Name of alternate about: page for certificate errors (when undefined, defaults to about:neterror)
  pref("security.alternate_certificate_error_page", "certerror");
-@@ -1637,8 +1645,8 @@ pref("identity.sendtabpromo.url", "https
+@@ -1645,8 +1653,8 @@ pref("identity.sendtabpromo.url", "https
  
  // URLs for promo links to mobile browsers. Note that consumers are expected to
  // append a value for utm_campaign.
@@ -79,7 +79,7 @@ Index: firefox-89.0/browser/app/profile/firefox.js
  
  // Migrate any existing Firefox Account data from the default profile to the
  // Developer Edition profile.
-@@ -2732,4 +2740,10 @@ pref("browser.newtabpage.activity-stream
+@@ -2740,4 +2748,10 @@ pref("browser.newtabpage.activity-stream
  
  /* MagIns - On the Home Page, Mozilla by default allows sponsored sites to appear in the "Top
              Sites" section. This preference disables sponsored sites.*/
@@ -93,10 +93,10 @@ Index: firefox-89.0/browser/app/profile/firefox.js
 +pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
 +pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
 \ No newline at end of file
-Index: firefox-89.0/browser/branding/unofficial/pref/firefox-branding.js
+Index: firefox-89.0.2/browser/branding/unofficial/pref/firefox-branding.js
 ===================================================================
---- firefox-89.0.orig/browser/branding/unofficial/pref/firefox-branding.js
-+++ firefox-89.0/browser/branding/unofficial/pref/firefox-branding.js
+--- firefox-89.0.2.orig/browser/branding/unofficial/pref/firefox-branding.js
++++ firefox-89.0.2/browser/branding/unofficial/pref/firefox-branding.js
 @@ -4,8 +4,8 @@
  
  // This file contains branding-specific prefs.
@@ -121,11 +121,11 @@ Index: firefox-89.0/browser/branding/unofficial/pref/firefox-branding.js
  
  // The number of days a binary is permitted to be old
  // without checking for an update.  This assumes that
-Index: firefox-89.0/modules/libpref/init/all.js
+Index: firefox-89.0.2/modules/libpref/init/all.js
 ===================================================================
---- firefox-89.0.orig/modules/libpref/init/all.js
-+++ firefox-89.0/modules/libpref/init/all.js
-@@ -4387,7 +4387,7 @@ pref("toolkit.legacyUserProfileCustomiza
+--- firefox-89.0.2.orig/modules/libpref/init/all.js
++++ firefox-89.0.2/modules/libpref/init/all.js
+@@ -4390,7 +4390,7 @@ pref("toolkit.legacyUserProfileCustomiza
    pref("datareporting.policy.currentPolicyVersion", 2);
    pref("datareporting.policy.minimumPolicyVersion", 1);
    pref("datareporting.policy.minimumPolicyVersion.channel-beta", 2);
@@ -134,10 +134,10 @@ Index: firefox-89.0/modules/libpref/init/all.js
  #endif
  
  /* MagIns - The Firefox Health Report collects information about browser performance. By
-Index: firefox-89.0/browser/base/content/browser-menubar.inc
+Index: firefox-89.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- firefox-89.0.orig/browser/base/content/browser-menubar.inc
-+++ firefox-89.0/browser/base/content/browser-menubar.inc
+--- firefox-89.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-89.0.2/browser/base/content/browser-menubar.inc
 @@ -468,7 +468,7 @@
  <!-- Note: Items under here are cloned to the AppMenu Help submenu. The cloned items
       have their strings defined by appmenu-data-l10n-id. -->
@@ -147,10 +147,10 @@ Index: firefox-89.0/browser/base/content/browser-menubar.inc
                            data-l10n-id="menu-get-help"
                            appmenu-data-l10n-id="appmenu-get-help"
  #ifdef XP_MACOSX
-Index: firefox-89.0/docshell/base/nsAboutRedirector.cpp
+Index: firefox-89.0.2/docshell/base/nsAboutRedirector.cpp
 ===================================================================
---- firefox-89.0.orig/docshell/base/nsAboutRedirector.cpp
-+++ firefox-89.0/docshell/base/nsAboutRedirector.cpp
+--- firefox-89.0.2.orig/docshell/base/nsAboutRedirector.cpp
++++ firefox-89.0.2/docshell/base/nsAboutRedirector.cpp
 @@ -79,7 +79,7 @@ static const RedirEntry kRedirMap[] = {
  #ifdef MOZ_CRASHREPORTER
      {"crashes", "chrome://global/content/crashes.html", 0},
@@ -160,10 +160,10 @@ Index: firefox-89.0/docshell/base/nsAboutRedirector.cpp
       nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
           nsIAboutModule::URI_MUST_LOAD_IN_CHILD},
      {"httpsonlyerror", "chrome://global/content/httpsonlyerror/errorpage.html",
-Index: firefox-89.0/browser/components/preferences/main.js
+Index: firefox-89.0.2/browser/components/preferences/main.js
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/main.js
-+++ firefox-89.0/browser/components/preferences/main.js
+--- firefox-89.0.2.orig/browser/components/preferences/main.js
++++ firefox-89.0.2/browser/components/preferences/main.js
 @@ -390,10 +390,10 @@ var gMainPane = {
      let cfrLearnMoreUrl =
        Services.urlFormatter.formatURLPref("app.support.baseURL") +
@@ -177,10 +177,10 @@ Index: firefox-89.0/browser/components/preferences/main.js
  
      if (
        Services.prefs.getBoolPref(
-Index: firefox-89.0/browser/components/preferences/main.inc.xhtml
+Index: firefox-89.0.2/browser/components/preferences/main.inc.xhtml
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/main.inc.xhtml
-+++ firefox-89.0/browser/components/preferences/main.inc.xhtml
+--- firefox-89.0.2.orig/browser/components/preferences/main.inc.xhtml
++++ firefox-89.0.2/browser/components/preferences/main.inc.xhtml
 @@ -656,7 +656,7 @@
              preference="media.hardwaremediakeys.enabled"/>
      <label id="mediaControlLearnMore" class="learnMore" data-l10n-id="browsing-media-control-learn-more" is="text-link"/>
@@ -199,3 +199,21 @@ Index: firefox-89.0/browser/components/preferences/main.inc.xhtml
  </groupbox>
  
  <hbox id="networkProxyCategory"
+Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
+===================================================================
+--- firefox-89.0.2.orig/browser/components/preferences/privacy.inc.xhtml
++++ firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
+@@ -307,9 +307,10 @@
+       </radiogroup>
+     </vbox>
+     <vbox id="doNotTrackLearnMoreBox">
+-      <label><label class="tail-with-learn-more" data-l10n-id="do-not-track-description" id="doNotTrackDesc"></label><label
+-      class="learnMore" is="text-link" href="https://www.mozilla.org/dnt"
+-      data-l10n-id="do-not-track-learn-more"></label></label>
++      <label>
++        <label class="tail-with-learn-more" data-l10n-id="do-not-track-description" id="doNotTrackDesc"></label>
++<!--        <label class="learnMore" is="text-link" href="https://www.mozilla.org/dnt" data-l10n-id="do-not-track-learn-more"></label>-->
++      </label>
+       <radiogroup id="doNotTrackRadioGroup" aria-labelledby="doNotTrackDesc" preference="privacy.donottrackheader.enabled">
+         <radio value="true" data-l10n-id="do-not-track-option-always"/>
+         <radio value="false" data-l10n-id="do-not-track-option-default-content-blocking-known"/>

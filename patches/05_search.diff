@@ -1,8 +1,8 @@
-Index: firefox-89.0/browser/components/preferences/search.js
+Index: firefox-96.0.1/browser/components/preferences/search.js
 ===================================================================
---- firefox-89.0.orig/browser/components/preferences/search.js
-+++ firefox-89.0/browser/components/preferences/search.js
-@@ -329,6 +329,9 @@ var gSearchPane = {
+--- firefox-96.0.1.orig/browser/components/preferences/search.js
++++ firefox-96.0.1/browser/components/preferences/search.js
+@@ -235,6 +235,9 @@ var gSearchPane = {
      // Now clean-up and rebuild the list.
      list.removeAllItems();
      gEngineView._engineStore._engines.forEach(e => {
@@ -12,7 +12,7 @@ Index: firefox-89.0/browser/components/preferences/search.js
        let item = list.appendItem(e.name);
        item.setAttribute(
          "class",
-@@ -341,7 +344,7 @@ var gSearchPane = {
+@@ -247,7 +250,7 @@ var gSearchPane = {
        if (e.name == currentEngine) {
          list.selectedItem = item;
        }
@@ -21,11 +21,11 @@ Index: firefox-89.0/browser/components/preferences/search.js
    },
  
    handleEvent(aEvent) {
-Index: firefox-89.0/toolkit/components/search/SearchService.jsm
+Index: firefox-96.0.1/toolkit/components/search/SearchService.jsm
 ===================================================================
---- firefox-89.0.orig/toolkit/components/search/SearchService.jsm
-+++ firefox-89.0/toolkit/components/search/SearchService.jsm
-@@ -512,7 +512,7 @@ SearchService.prototype = {
+--- firefox-96.0.1.orig/toolkit/components/search/SearchService.jsm
++++ firefox-96.0.1/toolkit/components/search/SearchService.jsm
+@@ -503,7 +503,7 @@ SearchService.prototype = {
     *   The engine that is default.
     */
    _originalDefaultEngine(privateMode = false) {
@@ -34,13 +34,13 @@ Index: firefox-89.0/toolkit/components/search/SearchService.jsm
        privateMode && this._searchPrivateDefault
          ? this._searchPrivateDefault
          : this._searchDefault
-@@ -530,7 +530,8 @@ SearchService.prototype = {
+@@ -521,7 +521,8 @@ SearchService.prototype = {
  
      // Something unexpected as happened. In order to recover the original
      // default engine, use the first visible engine which is the best we can do.
--    return this._getSortedEngines(false)[0];
-+    return this._getSortedEngines(false)[0];*/
-+    return this._getSortedEngines(false).filter(e=>e._name == "DuckDuckGo")[0];
+-    return this._sortedVisibleEngines[0];
++    return this._sortedVisibleEngines[0];*/
++    return this._sortedVisibleEngines.filter(e=>e._name == "DuckDuckGo")[0];
    },
  
    /**

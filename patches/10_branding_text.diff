@@ -1,7 +1,7 @@
-Index: firefox-92.0/browser/installer/windows/Makefile.in
+Index: firefox-96.0.1/browser/installer/windows/Makefile.in
 ===================================================================
---- firefox-92.0.orig/browser/installer/windows/Makefile.in
-+++ firefox-92.0/browser/installer/windows/Makefile.in
+--- firefox-96.0.1.orig/browser/installer/windows/Makefile.in
++++ firefox-96.0.1/browser/installer/windows/Makefile.in
 @@ -55,7 +55,7 @@ else
  PPL_LOCALE_ARGS=$(call EXPAND_LOCALE_SRCDIR,browser/locales)/installer
  endif
@@ -11,10 +11,10 @@ Index: firefox-92.0/browser/installer/windows/Makefile.in
  	$(RM) -r $(CONFIG_DIR)
  	$(MKDIR) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(srcdir)/,$(INSTALLER_FILES)) $(CONFIG_DIR)
-Index: firefox-92.0/browser/installer/windows/app.tag
+Index: firefox-96.0.1/browser/installer/windows/app.tag
 ===================================================================
---- firefox-92.0.orig/browser/installer/windows/app.tag
-+++ firefox-92.0/browser/installer/windows/app.tag
+--- firefox-96.0.1.orig/browser/installer/windows/app.tag
++++ firefox-96.0.1/browser/installer/windows/app.tag
 @@ -1,4 +1,4 @@
  ;!@Install@!UTF-8!
 -Title="Mozilla Firefox"
@@ -23,10 +23,10 @@ Index: firefox-92.0/browser/installer/windows/app.tag
 +RunProgram="MiFFInstaller.exe"
  ;!@InstallEnd@!
 \ No newline at end of file
-Index: firefox-92.0/browser/installer/windows/nsis/installer.nsi
+Index: firefox-96.0.1/browser/installer/windows/nsis/installer.nsi
 ===================================================================
---- firefox-92.0.orig/browser/installer/windows/nsis/installer.nsi
-+++ firefox-92.0/browser/installer/windows/nsis/installer.nsi
+--- firefox-96.0.1.orig/browser/installer/windows/nsis/installer.nsi
++++ firefox-96.0.1/browser/installer/windows/nsis/installer.nsi
 @@ -95,8 +95,8 @@ Var PostSigningData
  !include common.nsh
  !include locales.nsi
@@ -64,10 +64,10 @@ Index: firefox-92.0/browser/installer/windows/nsis/installer.nsi
  
    StrCpy $R9 "true"
    StrCpy $PreventRebootRequired "false"
-Index: firefox-92.0/toolkit/mozapps/installer/windows/nsis/makensis.mk
+Index: firefox-96.0.1/toolkit/mozapps/installer/windows/nsis/makensis.mk
 ===================================================================
---- firefox-92.0.orig/toolkit/mozapps/installer/windows/nsis/makensis.mk
-+++ firefox-92.0/toolkit/mozapps/installer/windows/nsis/makensis.mk
+--- firefox-96.0.1.orig/toolkit/mozapps/installer/windows/nsis/makensis.mk
++++ firefox-96.0.1/toolkit/mozapps/installer/windows/nsis/makensis.mk
 @@ -51,7 +51,7 @@ CUSTOM_UI = \
  	nsisui.exe \
  	$(NULL)
@@ -95,11 +95,11 @@ Index: firefox-92.0/toolkit/mozapps/installer/windows/nsis/makensis.mk
  	  --sfx-stub $(SFX_MODULE) \
  	  $(USE_UPX)
  ifdef MOZ_STUB_INSTALLER
-Index: firefox-92.0/browser/locales/en-US/browser/preferences/preferences.ftl
+Index: firefox-96.0.1/browser/locales/en-US/browser/preferences/preferences.ftl
 ===================================================================
---- firefox-92.0.orig/browser/locales/en-US/browser/preferences/preferences.ftl
-+++ firefox-92.0/browser/locales/en-US/browser/preferences/preferences.ftl
-@@ -568,7 +568,7 @@ home-restore-defaults =
+--- firefox-96.0.1.orig/browser/locales/en-US/browser/preferences/preferences.ftl
++++ firefox-96.0.1/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -577,7 +577,7 @@ home-restore-defaults =
  # "Firefox" should be treated as a brand and kept in English,
  # while "Home" and "(Default)" can be localized.
  home-mode-choice-default =
@@ -108,7 +108,7 @@ Index: firefox-92.0/browser/locales/en-US/browser/preferences/preferences.ftl
  
  home-mode-choice-custom =
      .label = Custom URLs…
-@@ -597,8 +597,8 @@ choose-bookmark =
+@@ -606,8 +606,8 @@ choose-bookmark =
  
  ## Home Section - Firefox Home Content Customization
  
@@ -119,7 +119,7 @@ Index: firefox-92.0/browser/locales/en-US/browser/preferences/preferences.ftl
  
  home-prefs-search-header =
      .label = Web Search
-@@ -767,7 +767,7 @@ sync-signedout-account-signin3 =
+@@ -766,7 +766,7 @@ sync-signedout-account-signin3 =
  #
  # They can be moved within the sentence as needed to adapt
  # to your language, but should not be changed or translated.
@@ -128,7 +128,7 @@ Index: firefox-92.0/browser/locales/en-US/browser/preferences/preferences.ftl
  
  ## Firefox Account - Signed in
  
-@@ -870,7 +870,7 @@ sync-engine-creditcards =
+@@ -869,7 +869,7 @@ sync-engine-creditcards =
  
  sync-engine-addons =
      .label = Add-ons
@@ -137,33 +137,26 @@ Index: firefox-92.0/browser/locales/en-US/browser/preferences/preferences.ftl
      .accesskey = A
  
  sync-engine-settings =
-Index: firefox-92.0/browser/locales/en-US/browser/aboutLogins.ftl
+Index: firefox-96.0.1/browser/locales/en-US/browser/aboutLogins.ftl
 ===================================================================
---- firefox-92.0.orig/browser/locales/en-US/browser/aboutLogins.ftl
-+++ firefox-92.0/browser/locales/en-US/browser/aboutLogins.ftl
-@@ -63,11 +63,15 @@ about-logins-list-item-vulnerable-passwo
+--- firefox-96.0.1.orig/browser/locales/en-US/browser/aboutLogins.ftl
++++ firefox-96.0.1/browser/locales/en-US/browser/aboutLogins.ftl
+@@ -71,7 +71,9 @@ about-logins-list-section-week = Last 7
  about-logins-login-intro-heading-logged-out2 = Looking for your saved logins? Turn on sync or import them.
  about-logins-login-intro-heading-logged-in = No synced logins found.
  login-intro-description = If you saved your logins to { -brand-product-name } on a different device, here’s how to get them here:
 -login-intro-instructions-fxa = Create or sign in to your { -fxaccount-brand-name(capitalization: "sentence") } on the device where your logins are saved.
-+# MagIns
++# MagIns - Reword instructions for privacy.app sync
 +# login-intro-instructions-fxa = Create or sign in to your { -fxaccount-brand-name(capitalization: "sentence") } on the device where your logins are saved.
-+login-intro-instruction-fxa = Sign in to privacy.app on the device where your logins are saved
++login-intro-instructions-fxa = Sign in to privacy.app on the device where your logins are saved.
  login-intro-instructions-fxa-settings = Go to Settings > Sync > Turn on syncing… Select the Logins and passwords checkbox.
- login-intro-instructions-fxa-help = Visit <a data-l10n-name="help-link">{ -lockwise-brand-short-name } Support</a> for more help.
- about-logins-intro-import = If your logins are saved in another browser, you can <a data-l10n-name="import-link">import them into { -lockwise-brand-short-name }</a>
--about-logins-intro-import2 = If your logins are saved outside of { -brand-product-name }, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
-+# MagIns
-+# about-logins-intro-import2 = If your logins are saved outside of { -brand-product-name }, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
-+about-logins-intro-import2 = If your logins are saved outside of MiFF, you can <a data-l10n-name="import-browser-link">import them from another browser</a> or <a data-l10n-name="import-file-link">from a file</a>
- 
- ## Login
- 
-Index: firefox-92.0/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
+ login-intro-instructions-fxa-passwords-help = Visit <a data-l10n-name="passwords-help-link">passwords support</a> for more help.
+ about-logins-intro-browser-only-import = If your logins are saved in another browser, you can <a data-l10n-name="import-link">import them into { -brand-product-name }</a>
+Index: firefox-96.0.1/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
 ===================================================================
---- firefox-92.0.orig/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
-+++ firefox-92.0/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
-@@ -58,6 +58,7 @@
+--- firefox-96.0.1.orig/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
++++ firefox-96.0.1/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
+@@ -60,6 +60,7 @@
        </div>
      </div>
  
@@ -171,7 +164,7 @@ Index: firefox-92.0/browser/components/privatebrowsing/content/aboutPrivateBrows
      <div class="promo">
        <div class="promo-image-large">
          <img src="" alt="" />
-@@ -72,6 +73,6 @@
+@@ -74,6 +75,6 @@
            </div>
          </div>
        </div>
@@ -179,11 +172,11 @@ Index: firefox-92.0/browser/components/privatebrowsing/content/aboutPrivateBrows
 +    </div>-->
    </body>
  </html>
-Index: firefox-92.0/browser/locales/en-US/browser/menubar.ftl
+Index: firefox-96.0.1/browser/locales/en-US/browser/menubar.ftl
 ===================================================================
---- firefox-92.0.orig/browser/locales/en-US/browser/menubar.ftl
-+++ firefox-92.0/browser/locales/en-US/browser/menubar.ftl
-@@ -258,7 +258,7 @@ menu-tools-sync-now =
+--- firefox-96.0.1.orig/browser/locales/en-US/browser/menubar.ftl
++++ firefox-96.0.1/browser/locales/en-US/browser/menubar.ftl
+@@ -255,7 +255,7 @@ menu-tools-sync-now =
      .label = Sync Now
      .accesskey = o
  menu-tools-fxa-re-auth =
@@ -192,10 +185,10 @@ Index: firefox-92.0/browser/locales/en-US/browser/menubar.ftl
      .accesskey = R
  menu-tools-browser-tools =
      .label = Browser Tools
-Index: firefox-92.0/browser/branding/aurora/locales/en-US/brand.ftl
+Index: firefox-96.0.1/browser/branding/aurora/locales/en-US/brand.ftl
 ===================================================================
---- firefox-92.0.orig/browser/branding/aurora/locales/en-US/brand.ftl
-+++ firefox-92.0/browser/branding/aurora/locales/en-US/brand.ftl
+--- firefox-96.0.1.orig/browser/branding/aurora/locales/en-US/brand.ftl
++++ firefox-96.0.1/browser/branding/aurora/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -213,10 +206,10 @@ Index: firefox-92.0/browser/branding/aurora/locales/en-US/brand.ftl
 +-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: firefox-92.0/browser/branding/nightly/locales/en-US/brand.ftl
+Index: firefox-96.0.1/browser/branding/nightly/locales/en-US/brand.ftl
 ===================================================================
---- firefox-92.0.orig/browser/branding/nightly/locales/en-US/brand.ftl
-+++ firefox-92.0/browser/branding/nightly/locales/en-US/brand.ftl
+--- firefox-96.0.1.orig/browser/branding/nightly/locales/en-US/brand.ftl
++++ firefox-96.0.1/browser/branding/nightly/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -234,10 +227,10 @@ Index: firefox-92.0/browser/branding/nightly/locales/en-US/brand.ftl
 +-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: firefox-92.0/browser/branding/official/locales/en-US/brand.ftl
+Index: firefox-96.0.1/browser/branding/official/locales/en-US/brand.ftl
 ===================================================================
---- firefox-92.0.orig/browser/branding/official/locales/en-US/brand.ftl
-+++ firefox-92.0/browser/branding/official/locales/en-US/brand.ftl
+--- firefox-96.0.1.orig/browser/branding/official/locales/en-US/brand.ftl
++++ firefox-96.0.1/browser/branding/official/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -255,10 +248,10 @@ Index: firefox-92.0/browser/branding/official/locales/en-US/brand.ftl
 +-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = Firefox and the Firefox logos are trademarks of the Mozilla Foundation.
-Index: firefox-92.0/browser/branding/unofficial/locales/en-US/brand.ftl
+Index: firefox-96.0.1/browser/branding/unofficial/locales/en-US/brand.ftl
 ===================================================================
---- firefox-92.0.orig/browser/branding/unofficial/locales/en-US/brand.ftl
-+++ firefox-92.0/browser/branding/unofficial/locales/en-US/brand.ftl
+--- firefox-96.0.1.orig/browser/branding/unofficial/locales/en-US/brand.ftl
++++ firefox-96.0.1/browser/branding/unofficial/locales/en-US/brand.ftl
 @@ -16,11 +16,11 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -276,10 +269,10 @@ Index: firefox-92.0/browser/branding/unofficial/locales/en-US/brand.ftl
 +-brand-product-name = MiFF
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: firefox-92.0/browser/branding/official/branding.nsi
+Index: firefox-96.0.1/browser/branding/official/branding.nsi
 ===================================================================
---- firefox-92.0.orig/browser/branding/official/branding.nsi
-+++ firefox-92.0/browser/branding/official/branding.nsi
+--- firefox-96.0.1.orig/browser/branding/official/branding.nsi
++++ firefox-96.0.1/browser/branding/official/branding.nsi
 @@ -8,12 +8,12 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -298,10 +291,10 @@ Index: firefox-92.0/browser/branding/official/branding.nsi
  
  ; The OFFICIAL define is a workaround to support different urls for Release and
  ; Beta since they share the same branding when building with other branches that
-Index: firefox-92.0/browser/branding/unofficial/branding.nsi
+Index: firefox-96.0.1/browser/branding/unofficial/branding.nsi
 ===================================================================
---- firefox-92.0.orig/browser/branding/unofficial/branding.nsi
-+++ firefox-92.0/browser/branding/unofficial/branding.nsi
+--- firefox-96.0.1.orig/browser/branding/unofficial/branding.nsi
++++ firefox-96.0.1/browser/branding/unofficial/branding.nsi
 @@ -8,11 +8,11 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -319,10 +312,10 @@ Index: firefox-92.0/browser/branding/unofficial/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-latest"
-Index: firefox-92.0/browser/branding/aurora/branding.nsi
+Index: firefox-96.0.1/browser/branding/aurora/branding.nsi
 ===================================================================
---- firefox-92.0.orig/browser/branding/aurora/branding.nsi
-+++ firefox-92.0/browser/branding/aurora/branding.nsi
+--- firefox-96.0.1.orig/browser/branding/aurora/branding.nsi
++++ firefox-96.0.1/browser/branding/aurora/branding.nsi
 @@ -8,12 +8,12 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -342,10 +335,10 @@ Index: firefox-92.0/browser/branding/aurora/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-devedition-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-devedition-latest"
-Index: firefox-92.0/browser/branding/nightly/branding.nsi
+Index: firefox-96.0.1/browser/branding/nightly/branding.nsi
 ===================================================================
---- firefox-92.0.orig/browser/branding/nightly/branding.nsi
-+++ firefox-92.0/browser/branding/nightly/branding.nsi
+--- firefox-96.0.1.orig/browser/branding/nightly/branding.nsi
++++ firefox-96.0.1/browser/branding/nightly/branding.nsi
 @@ -8,11 +8,11 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -363,123 +356,40 @@ Index: firefox-92.0/browser/branding/nightly/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-nightly-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-nightly-latest"
-Index: firefox-92.0/browser/branding/aurora/locales/en-US/brand.dtd
+Index: firefox-96.0.1/browser/branding/official/locales/en-US/brand.dtd
 ===================================================================
---- firefox-92.0.orig/browser/branding/aurora/locales/en-US/brand.dtd
-+++ firefox-92.0/browser/branding/aurora/locales/en-US/brand.dtd
-@@ -2,10 +2,11 @@
+--- firefox-96.0.1.orig/browser/branding/official/locales/en-US/brand.dtd
++++ firefox-96.0.1/browser/branding/official/locales/en-US/brand.dtd
+@@ -2,6 +2,13 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
  
--<!ENTITY  brandShorterName      "Firefox">
--<!ENTITY  brandShortName        "Firefox Developer Edition">
--<!ENTITY  brandFullName         "Firefox Developer Edition">
-+<!ENTITY  brandShorterName      "MiFF">
-+<!ENTITY  brandShortName        "MiFF">
-+<!ENTITY  brandFullName         "MiFF">
- <!-- LOCALIZATION NOTE (brandProductName):
-    This brand name can be used in messages where the product name needs to
-    remain unchanged across different versions (Nightly, Beta, etc.). -->
--<!ENTITY  brandProductName      "Firefox">
-+<!ENTITY  brandProductName      "MiFF">
-+<!ENTITY  brandSSOName          "privacy.app">
-Index: firefox-92.0/browser/branding/nightly/locales/en-US/brand.dtd
-===================================================================
---- firefox-92.0.orig/browser/branding/nightly/locales/en-US/brand.dtd
-+++ firefox-92.0/browser/branding/nightly/locales/en-US/brand.dtd
-@@ -2,10 +2,11 @@
-    - License, v. 2.0. If a copy of the MPL was not distributed with this
-    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- 
--<!ENTITY  brandShorterName      "Nightly">
--<!ENTITY  brandShortName        "Nightly">
--<!ENTITY  brandFullName         "Firefox Nightly">
-+<!ENTITY  brandShorterName      "MiFF">
-+<!ENTITY  brandShortName        "MiFF">
-+<!ENTITY  brandFullName         "MiFF">
- <!-- LOCALIZATION NOTE (brandProductName):
-    This brand name can be used in messages where the product name needs to
-    remain unchanged across different versions (Nightly, Beta, etc.). -->
--<!ENTITY  brandProductName      "Firefox">
-+<!ENTITY  brandProductName      "MiFF">
-+<!ENTITY  brandSSOName          "privacy.app">
-Index: firefox-92.0/browser/branding/official/locales/en-US/brand.dtd
-===================================================================
---- firefox-92.0.orig/browser/branding/official/locales/en-US/brand.dtd
-+++ firefox-92.0/browser/branding/official/locales/en-US/brand.dtd
-@@ -2,10 +2,11 @@
-    - License, v. 2.0. If a copy of the MPL was not distributed with this
-    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- 
--<!ENTITY  brandShorterName      "Firefox">
--<!ENTITY  brandShortName        "Firefox">
++<!-- MagIns - Change branding to MiFF
+ <!ENTITY  brandShorterName      "Firefox">
+ <!ENTITY  brandShortName        "Firefox">
 -<!ENTITY  brandFullName         "Mozilla Firefox">
++<!ENTITY  brandFullName         "Mozilla Firefox">-->
 +<!ENTITY  brandShorterName      "MiFF">
 +<!ENTITY  brandShortName        "MiFF">
 +<!ENTITY  brandFullName         "MiFF">
- <!-- LOCALIZATION NOTE (brandProductName):
-    This brand name can be used in messages where the product name needs to
-    remain unchanged across different versions (Nightly, Beta, etc.). -->
--<!ENTITY  brandProductName      "Firefox">
-+<!ENTITY  brandProductName      "MiFF">
-+<!ENTITY  brandSSOName          "privacy.app">
-Index: firefox-92.0/browser/branding/unofficial/locales/en-US/brand.dtd
-===================================================================
---- firefox-92.0.orig/browser/branding/unofficial/locales/en-US/brand.dtd
-+++ firefox-92.0/browser/branding/unofficial/locales/en-US/brand.dtd
-@@ -2,10 +2,11 @@
-    - License, v. 2.0. If a copy of the MPL was not distributed with this
-    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- 
--<!ENTITY  brandShorterName      "Nightly">
--<!ENTITY  brandShortName        "Nightly">
--<!ENTITY  brandFullName         "Nightly">
-+<!ENTITY  brandShorterName      "MiFF">
-+<!ENTITY  brandShortName        "MiFF">
-+<!ENTITY  brandFullName         "MiFF">
- <!-- LOCALIZATION NOTE (brandProductName):
-    This brand name can be used in messages where the product name needs to
-    remain unchanged across different versions (Nightly, Beta, etc.). -->
--<!ENTITY  brandProductName      "Firefox">
-+<!ENTITY  brandProductName      "MiFF">
-+<!ENTITY  brandSSOName          "privacy.app">
-Index: firefox-92.0/browser/branding/unofficial/locales/en-US/brand.properties
-===================================================================
---- firefox-92.0.orig/browser/branding/unofficial/locales/en-US/brand.properties
-+++ firefox-92.0/browser/branding/unofficial/locales/en-US/brand.properties
-@@ -2,11 +2,13 @@
- # License, v. 2.0. If a copy of the MPL was not distributed with this
- # file, You can obtain one at http://mozilla.org/MPL/2.0/.
- 
--brandShorterName=Nightly
--brandShortName=Nightly
--brandFullName=Nightly
-+brandShorterName=MiFF
-+brandShortName=MiFF
-+brandFullName=MiFF
- # LOCALIZATION NOTE(brandProductName):
- # This brand name can be used in messages where the product name needs to
- # remain unchanged across different versions (Nightly, Beta, etc.).
--brandProductName=Firefox
--vendorShortName=Mozilla
-+brandProductName=MiFF
-+vendorShortName=Magnusson Institute
 +
-+syncBrandShortName=Sync
-Index: firefox-92.0/browser/app/module.ver
++<!-- MagIns - Add a new variable brandSSOName to differentiate between MiFF and privacy.app-->
++<!ENTITY  brandSSOName          "privacy.app">
+\ No newline at end of file
+Index: firefox-96.0.1/browser/app/module.ver
 ===================================================================
---- firefox-92.0.orig/browser/app/module.ver
-+++ firefox-92.0/browser/app/module.ver
+--- firefox-96.0.1.orig/browser/app/module.ver
++++ firefox-96.0.1/browser/app/module.ver
 @@ -5,4 +5,4 @@ WIN32_MODULE_PRODUCTVERSION_STRING=@MOZ_
  WIN32_MODULE_TRADEMARKS=Firefox is a Trademark of The Mozilla Foundation.
  WIN32_MODULE_DESCRIPTION=@MOZ_APP_DISPLAYNAME@
  WIN32_MODULE_PRODUCTNAME=@MOZ_APP_DISPLAYNAME@
 -WIN32_MODULE_NAME=@MOZ_APP_DISPLAYNAME@
 +WIN32_MODULE_NAME=MiFF
-Index: firefox-92.0/browser/installer/windows/nsis/defines.nsi.in
+Index: firefox-96.0.1/browser/installer/windows/nsis/defines.nsi.in
 ===================================================================
---- firefox-92.0.orig/browser/installer/windows/nsis/defines.nsi.in
-+++ firefox-92.0/browser/installer/windows/nsis/defines.nsi.in
+--- firefox-96.0.1.orig/browser/installer/windows/nsis/defines.nsi.in
++++ firefox-96.0.1/browser/installer/windows/nsis/defines.nsi.in
 @@ -21,23 +21,23 @@
  !endif
  
@@ -511,23 +421,10 @@ Index: firefox-92.0/browser/installer/windows/nsis/defines.nsi.in
  !endif
  
  !define CERTIFICATE_NAME            "Mozilla Corporation"
-Index: firefox-92.0/browser/locales/en-US/chrome/browser/browser.dtd
+Index: firefox-96.0.1/browser/locales/en-US/chrome/browser/accounts.properties
 ===================================================================
---- firefox-92.0.orig/browser/locales/en-US/chrome/browser/browser.dtd
-+++ firefox-92.0/browser/locales/en-US/chrome/browser/browser.dtd
-@@ -29,7 +29,7 @@ this container is a toolbar. This avoids
- <!-- LOCALIZATION NOTE (fxa.menu) Used to define the different labels
-      for the Firefox Account toolbar menu screen. The `Signed in as` text is
-      followed by the user's email. -->
--<!ENTITY fxa.menu.signin.label "Sign in to &brandProductName;">
-+<!ENTITY fxa.menu.signin.label "Sign in to &brandSSOName;">
- 
- <!-- LOCALIZATION NOTE (fxa.service) Used to define the different FxA services
-      for the Firefox Account toolbar menu screen.  -->
-Index: firefox-92.0/browser/locales/en-US/chrome/browser/accounts.properties
-===================================================================
---- firefox-92.0.orig/browser/locales/en-US/chrome/browser/accounts.properties
-+++ firefox-92.0/browser/locales/en-US/chrome/browser/accounts.properties
+--- firefox-96.0.1.orig/browser/locales/en-US/chrome/browser/accounts.properties
++++ firefox-96.0.1/browser/locales/en-US/chrome/browser/accounts.properties
 @@ -3,7 +3,7 @@
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
@@ -546,10 +443,10 @@ Index: firefox-92.0/browser/locales/en-US/chrome/browser/accounts.properties
  
  # LOCALIZATION NOTE (otherDeviceConnectedBody, otherDeviceConnectedBody.noDeviceName)
  # These strings are used in a notification shown when a new device joins the
-Index: firefox-92.0/browser/locales/en-US/browser/branding/sync-brand.ftl
+Index: firefox-96.0.1/browser/locales/en-US/browser/branding/sync-brand.ftl
 ===================================================================
---- firefox-92.0.orig/browser/locales/en-US/browser/branding/sync-brand.ftl
-+++ firefox-92.0/browser/locales/en-US/browser/branding/sync-brand.ftl
+--- firefox-96.0.1.orig/browser/locales/en-US/browser/branding/sync-brand.ftl
++++ firefox-96.0.1/browser/locales/en-US/browser/branding/sync-brand.ftl
 @@ -6,6 +6,6 @@
  # and kept in English.
  -fxaccount-brand-name =
@@ -559,3 +456,29 @@ Index: firefox-92.0/browser/locales/en-US/browser/branding/sync-brand.ftl
 +        [sentence] Magnusson Institute account
 +       *[title] Magnusson Institute Account
      }
+Index: firefox-96.0.1/browser/branding/official/locales/en-US/brand.properties
+===================================================================
+--- firefox-96.0.1.orig/browser/branding/official/locales/en-US/brand.properties
++++ firefox-96.0.1/browser/branding/official/locales/en-US/brand.properties
+@@ -2,7 +2,16 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-brandShorterName=Firefox
+-brandShortName=Firefox
+-brandFullName=Mozilla Firefox
+-vendorShortName=Mozilla
++# MagIns - Change branding to MiFF
++# brandShorterName=Firefox
++# brandShortName=Firefox
++# brandFullName=Mozilla Firefox
++# vendorShortName=Mozilla
++
++brandShorterName=MiFF
++brandShortName=MiFF
++brandFullName=MiFF
++vendorShortName=Magnusson Institute
++
++# MagIns - Add a new variable syncBrandShortName to remove brand name from Sync
++syncBrandShortName=Sync
+\ No newline at end of file

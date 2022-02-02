@@ -1,8 +1,8 @@
-Index: firefox-92.0/browser/app/profile/firefox.js
+Index: firefox-96.0.1/browser/app/profile/firefox.js
 ===================================================================
---- firefox-92.0.orig/browser/app/profile/firefox.js
-+++ firefox-92.0/browser/app/profile/firefox.js
-@@ -1446,7 +1446,10 @@ pref("browser.newtabpage.activity-stream
+--- firefox-96.0.1.orig/browser/app/profile/firefox.js
++++ firefox-96.0.1/browser/app/profile/firefox.js
+@@ -1500,7 +1500,10 @@ pref("browser.newtabpage.activity-stream
  #endif
  
  // The remote FxA root content URL for the Activity Stream firstrun page.
@@ -14,7 +14,7 @@ Index: firefox-92.0/browser/app/profile/firefox.js
  
  // The pref that controls if the search shortcuts experiment is on
  pref("browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts", true);
-@@ -1606,16 +1609,31 @@ pref("browser.uiCustomization.state", ""
+@@ -1670,16 +1673,31 @@ pref("browser.uiCustomization.state", ""
  pref("identity.fxaccounts.enabled", true);
  
  // The remote FxA root content URL. Must use HTTPS.
@@ -49,7 +49,7 @@ Index: firefox-92.0/browser/app/profile/firefox.js
  
  // Whether FxA pairing using QR codes is enabled.
  pref("identity.fxaccounts.pairing.enabled", true);
-@@ -1624,7 +1642,10 @@ pref("identity.fxaccounts.pairing.enable
+@@ -1688,7 +1706,10 @@ pref("identity.fxaccounts.pairing.enable
  pref("identity.fxaccounts.remote.pairing.uri", "wss://channelserver.services.mozilla.com");
  
  // Token server used by the FxA Sync identity.
@@ -61,11 +61,11 @@ Index: firefox-92.0/browser/app/profile/firefox.js
  
  // Auto-config URL for FxA self-hosters, makes an HTTP request to
  // [identity.fxaccounts.autoconfig.uri]/.well-known/fxa-client-configuration
-Index: firefox-92.0/modules/libpref/init/all.js
+Index: firefox-96.0.1/modules/libpref/init/all.js
 ===================================================================
---- firefox-92.0.orig/modules/libpref/init/all.js
-+++ firefox-92.0/modules/libpref/init/all.js
-@@ -4447,7 +4447,17 @@ pref("services.common.log.logger.tokense
+--- firefox-96.0.1.orig/modules/libpref/init/all.js
++++ firefox-96.0.1/modules/libpref/init/all.js
+@@ -4469,7 +4469,17 @@ pref("services.common.log.logger.tokense
    pref("services.sync.maxResyncs", 1);
  
    // The URL of the Firefox Accounts auth server backend
@@ -84,10 +84,10 @@ Index: firefox-92.0/modules/libpref/init/all.js
  
    // Percentage chance we skip an extension storage sync (kinto life support).
    pref("services.sync.extension-storage.skipPercentageChance", 50);
-Index: firefox-92.0/services/fxaccounts/FxAccountsCommon.js
+Index: firefox-96.0.1/services/fxaccounts/FxAccountsCommon.js
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccountsCommon.js
-+++ firefox-92.0/services/fxaccounts/FxAccountsCommon.js
+--- firefox-96.0.1.orig/services/fxaccounts/FxAccountsCommon.js
++++ firefox-96.0.1/services/fxaccounts/FxAccountsCommon.js
 @@ -101,7 +101,12 @@ exports.COMMAND_SENDTAB = exports.COMMAN
  exports.FX_OAUTH_CLIENT_ID = "5882386c6d801776";
  exports.SCOPE_PROFILE = "profile";
@@ -102,7 +102,7 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsCommon.js
  // This scope and its associated key material are used by the old Kinto webextension
  // storage backend. We plan to remove that at some point (ref Bug 1637465) and when
  // we do, all uses of this legacy scope can be removed.
-@@ -281,16 +286,21 @@ exports.LEGACY_DERIVED_KEYS_NAMES = ["kS
+@@ -281,17 +286,22 @@ exports.LEGACY_DERIVED_KEYS_NAMES = ["kS
  
  // The fields we save in the plaintext JSON.
  // See bug 1013064 comments 23-25 for why the sessionToken is "safe"
@@ -124,14 +124,15 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsCommon.js
 +//  "profile",
    "device",
    "profileCache",
+   "encryptedSendTabKeys",
 +  "memberId"
  ]);
  
  // Fields we store in secure storage if it exists.
-Index: firefox-92.0/services/fxaccounts/FxAccounts.jsm
+Index: firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccounts.jsm
-+++ firefox-92.0/services/fxaccounts/FxAccounts.jsm
+--- firefox-96.0.1.orig/services/fxaccounts/FxAccounts.jsm
++++ firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
 @@ -191,9 +191,13 @@ AccountState.prototype = {
    },
  
@@ -187,10 +188,10 @@ Index: firefox-92.0/services/fxaccounts/FxAccounts.jsm
    },
  
    // Easy-to-mock testable method
-Index: firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-96.0.1/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
+--- firefox-96.0.1.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-96.0.1/services/fxaccounts/FxAccountsClient.jsm
 @@ -764,6 +764,9 @@ FxAccountsClient.prototype = {
        log.debug("Received new request during backoff, re-rejecting.");
        throw this.backoffError;
@@ -225,10 +226,10 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
      } catch (error) {
        log.error("json parse error on response: " + response.body);
        // eslint-disable-next-line no-throw-literal
-Index: firefox-92.0/services/fxaccounts/FxAccountsProfileClient.jsm
+Index: firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccountsProfileClient.jsm
-+++ firefox-92.0/services/fxaccounts/FxAccountsProfileClient.jsm
+--- firefox-96.0.1.orig/services/fxaccounts/FxAccountsProfileClient.jsm
++++ firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
 @@ -162,12 +162,21 @@ FxAccountsProfileClient.prototype = {
     */
    async _rawRequest(path, method, token, etag = null, payload = null) {
@@ -305,11 +306,11 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsProfileClient.jsm
      };
    },
  
-Index: firefox-92.0/services/fxaccounts/FxAccountsWebChannel.jsm
+Index: firefox-96.0.1/services/fxaccounts/FxAccountsWebChannel.jsm
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccountsWebChannel.jsm
-+++ firefox-92.0/services/fxaccounts/FxAccountsWebChannel.jsm
-@@ -252,7 +252,7 @@ FxAccountsWebChannel.prototype = {
+--- firefox-96.0.1.orig/services/fxaccounts/FxAccountsWebChannel.jsm
++++ firefox-96.0.1/services/fxaccounts/FxAccountsWebChannel.jsm
+@@ -251,7 +251,7 @@ FxAccountsWebChannel.prototype = {
        case COMMAND_LOGOUT:
        case COMMAND_DELETE:
          this._helpers
@@ -318,7 +319,7 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsWebChannel.jsm
            .catch(error => this._sendError(error, message, sendingContext));
          break;
        case COMMAND_CAN_LINK_ACCOUNT:
-@@ -491,10 +491,10 @@ FxAccountsWebChannelHelpers.prototype =
+@@ -490,10 +490,10 @@ FxAccountsWebChannelHelpers.prototype =
     *
     * @param the uid of the account which have been logged out
     */
@@ -332,7 +333,7 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsWebChannel.jsm
        await fxa.telemetry.recordDisconnection(null, "webchannel");
        // true argument is `localOnly`, because server-side stuff
        // has already been taken care of by the content server
-@@ -665,9 +665,11 @@ FxAccountsWebChannelHelpers.prototype =
+@@ -658,9 +658,11 @@ FxAccountsWebChannelHelpers.prototype =
     */
    openSyncPreferences(browser, entryPoint) {
      let uri = "about:preferences";
@@ -345,10 +346,10 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsWebChannel.jsm
      uri += "#sync";
  
      browser.loadURI(uri, {
-Index: firefox-92.0/services/fxaccounts/FxAccountsStorage.jsm
+Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccountsStorage.jsm
-+++ firefox-92.0/services/fxaccounts/FxAccountsStorage.jsm
+--- firefox-96.0.1.orig/services/fxaccounts/FxAccountsStorage.jsm
++++ firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
 @@ -156,7 +156,9 @@ FxAccountsStorageManager.prototype = {
      // We know we are initialized - this means our .cachedPlain is accurate
      // and doesn't need to be read (it was read if necessary by initialize).
@@ -437,10 +438,10 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsStorage.jsm
          Services.logins.addLogin(login);
        }
        log.trace("finished write of user data to the login manager");
-Index: firefox-92.0/services/sync/modules/UIState.jsm
+Index: firefox-96.0.1/services/sync/modules/UIState.jsm
 ===================================================================
---- firefox-92.0.orig/services/sync/modules/UIState.jsm
-+++ firefox-92.0/services/sync/modules/UIState.jsm
+--- firefox-96.0.1.orig/services/sync/modules/UIState.jsm
++++ firefox-96.0.1/services/sync/modules/UIState.jsm
 @@ -171,9 +171,14 @@ const UIStateInternal = {
        } else {
          status = STATUS_SIGNED_IN;
@@ -457,10 +458,10 @@ Index: firefox-92.0/services/sync/modules/UIState.jsm
        // for better or worse, this module renames these attribues.
        state.avatarURL = userData.avatar;
        state.avatarIsDefault = userData.avatarDefault;
-Index: firefox-92.0/browser/base/content/browser-sync.js
+Index: firefox-96.0.1/browser/base/content/browser-sync.js
 ===================================================================
---- firefox-92.0.orig/browser/base/content/browser-sync.js
-+++ firefox-92.0/browser/base/content/browser-sync.js
+--- firefox-96.0.1.orig/browser/base/content/browser-sync.js
++++ firefox-96.0.1/browser/base/content/browser-sync.js
 @@ -1206,9 +1206,9 @@ var gSync = {
  
    async openFxAManagePageFromFxaMenu(panel = undefined) {
@@ -473,11 +474,11 @@ Index: firefox-92.0/browser/base/content/browser-sync.js
      }
      this.openFxAManagePage(entryPoint);
    },
-Index: firefox-92.0/dom/push/PushService.jsm
+Index: firefox-96.0.1/dom/push/PushService.jsm
 ===================================================================
---- firefox-92.0.orig/dom/push/PushService.jsm
-+++ firefox-92.0/dom/push/PushService.jsm
-@@ -594,10 +594,15 @@ var PushService = {
+--- firefox-96.0.1.orig/dom/push/PushService.jsm
++++ firefox-96.0.1/dom/push/PushService.jsm
+@@ -588,10 +588,15 @@ var PushService = {
        this._db = this._service.newPushDB();
      }
  
@@ -494,10 +495,10 @@ Index: firefox-92.0/dom/push/PushService.jsm
    },
  
    /**
-Index: firefox-92.0/services/fxaccounts/FxAccountsConfig.jsm
+Index: firefox-96.0.1/services/fxaccounts/FxAccountsConfig.jsm
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccountsConfig.jsm
-+++ firefox-92.0/services/fxaccounts/FxAccountsConfig.jsm
+--- firefox-96.0.1.orig/services/fxaccounts/FxAccountsConfig.jsm
++++ firefox-96.0.1/services/fxaccounts/FxAccountsConfig.jsm
 @@ -65,12 +65,13 @@ var FxAccountsConfig = {
  
    async promiseConnectAccountURI(entrypoint, extraParams = {}) {

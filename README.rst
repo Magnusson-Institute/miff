@@ -30,13 +30,13 @@ MiFF is open source and distributed under MPL 2
 details.
 
 
----------
 "Patches"
 ---------
 
 Test.
 
 
+--------------
 ``01_privacy``
 --------------
 

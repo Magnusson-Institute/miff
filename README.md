@@ -235,14 +235,28 @@ add them with `quilt add <filename>`.
 
 _(This is under development)_
 
-Very similar to Ubuntu, obviously, but enough differences that this will be self-contained:
+Similar to Ubuntu, obviously, but enough differences that this will be self-contained:
 
 _(It's (currently) unclear if FF on m1 should be built native or
 cross-platform. One confusion is in trying between these, the
 "~/.mozbuild" probably gets populated with conflicting tools?
-This is currently being done on an 'x86' environment/terminal.)_
+My current approach is to work in a pure 'x86' environment/terminal)_
 
-First, create a working directory where you want to work, here we'll call it "~/dev/ff01"; create it and bootstrap:
+The C++ tools used to build on Mac are based off Xcode; so first
+install latest version of Xcode from the App Store, then finalize it's
+installation from command line, and install Mercurial (and make sure
+your python is 3.8.x, thought right now I'm trying with 3.9.9) and
+other items:
+
+```
+brew install mercurial
+brew install yasm
+brew install libgtk2.0-dev
+brew install quilt
+```
+
+Next, create a working directory where you want to work, here we'll
+call it "~/dev/ff01"; create it and bootstrap:
 
 ```
 mkdir ~/dev/ff01
@@ -253,16 +267,14 @@ python3 bootstrap.py
 
 Press "enter" for destination, for default; so it'll start in
 "~/ff01/mozilla-unified" in this example.  Mercurial will pull from
-"https://hg.mozilla.org/mozilla-unified"; which is full tree. We will build that first,
-then later we can get more clever and build from tar files. Follow instructions from script, then
-make sure to start a new terminal so all the settings have taken effect.
+"https://hg.mozilla.org/mozilla-unified"; which is full tree. We will
+build that first, that will ensure tooling etc is pulled in.  Follow
+instructions from script, then make sure to start a new terminal so
+all the settings have taken effect.
 
 The various tooling specific to FF build will be set up by the above bootstrap in ```~/.mozbuild/```
 
-The C++ tools used to build on Mac are based off Xcode; so first
-install latest version of Xcode from the App Store, then finalize it's
-installation from command line, and install Mercurial (and make sure
-your python is 3.8.x)
+A bit of setup:
 
 ```
 sudo xcode-select --switch /Applications/Xcode.app
@@ -272,8 +284,8 @@ python3 -m pip install --user mercurial
 hg version
 ```
 
-Do *not* run "brew install mercurial", that's something else, it will
-drag in newer versions of Python (3.9.x) etc.
+_ .. hmm, I had a warning to myself "Do *not* run "brew install mercurial", that's something else, it will
+drag in newer versions of Python (3.9.x) etc" that I'm "now" ignoring (Dec 21) .. _
 
 HOWEVER. Your "latest version" of Xcode will probably have an SDK that
 is too modern. So you need to "downgrade" locally for Moz.  At time of
@@ -287,6 +299,9 @@ state that they support the 11.1 SDK.
 
 The older (documentation) instructions suggests pulling 10.12 SDK from
 Xcode 8.2. We will go with that for now. Download:
+
+_(Update: mozbug trackers seem to indicate they're using 12.2 from
+8.3.3 now, at https://developer.apple.com/download/all/?q=8.3.3 which will be a 'xip' file)_
 
 ```https://download.developer.apple.com/Developer_Tools/Xcode_8.2/Xcode_8.2.xip```
 
@@ -329,21 +344,29 @@ the object tree will be in:
 Next, build the same (or very similar) version of FF from a clean
 source code tarball. Make sure to match (exactly) the tagged version
 in m041 (e.g. from top of
-```https://github.com/Magnusson-Institute/m041/releases```).
+```https://github.com/Magnusson-Institute/m041/tags```).
 
-In this case, our latest m041 tag is "89.0.0.1", which matches Mozilla FF tag "89.0" (the fourth
-digit ".1" is our internal release schedule, tracking FF). So in this case, download
-```https://archive.mozilla.org/pub/firefox/releases/89.0/source/firefox-89.0.source.tar.xz```,
+In this case, our latest m041 tag is "89.0.2.3", which matches Mozilla FF tag "89.0.2" (the fourth
+digit ".3" is our internal release schedule, tracking FF). So in this case, download
+```https://archive.mozilla.org/pub/firefox/releases/89.0.2/source/firefox-89.0.2.source.tar.xz```,
 download our own (tagged) m041 tarball, and place it alongside, extract all the tarballs, net
 result should look like:
 
 ```
+#
+# eg in this case you're downloading:
+# https://github.com/Magnusson-Institute/m041/archive/refs/tags/v89.0.2.3.tar.gz
+# https://archive.mozilla.org/pub/firefox/releases/89.0.2/source/firefox-89.0.2.source.tar.xz
+#
+# and result should be:
+#
 ~/dev/ff01/mozilla-unified/...
-~/dev/ff01/firefox-89.0/..
-~/dev/ff01/m041-89.0.0.1/...
+~/dev/ff01/firefox-89.0.2/..
+~/dev/ff01/m041-89.0.2.3/...
+#
 ```
 
-First re-build clean 89.0 by itself _without_ applying any patches, to make sure your build environment
+First re-build clean 89.0.2 by itself _without_ applying any patches, to make sure your build environment
 is all working:
 
 ```
@@ -351,11 +374,12 @@ is all working:
 cd ~/dev/ff01
 
 # if you haven't extracted it yet:
-tar xzf ./firefox-89.0.source.tar.xz
+tar xzf ./firefox-89.0.2.source.tar.xz
 
-cd firefox-89.0
+cd firefox-89.0.2
 
 # remember to update/create mozconfig:
+# (it might not exist)
 echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> ./mozconfig
 
 # now this should work:
@@ -370,10 +394,10 @@ Now you can apply the patches:
 cd ~/dev/ff01
 
 # first, even if it's a tarball, needs to be called 'm041':
-mv m041-89.0.0.1 m041
+mv m041-89.0.2.3 m041
 
 # make sure you're in the right spot
-cd ~/dev/ff01/firefox-89.0
+cd ~/dev/ff01/firefox-89.0.2
 
 # first copy the files that are meant to outright over-write:
 ../m041/copy_files.sh
@@ -400,9 +424,69 @@ quilt push -a
 ./mach package
 ```
 
-And there we go (first build per above steps: 20210704).
+And there we go (first build per above steps: 2021-07-04).
 
+## NOTES (2021=12=21) on Mac m1 (much newer setup)
 
+so i don't forget:
+
+looks like their nightly (latest) nowadays can work fine with the latest SDK (2021-12-22),
+however, that's not the case with immediately recent version (e.g. 89.0.2).
+
+looks like one wants python 3.8 specifically, might need some "hard coding" of setup:
+
+```
+brew reinstall python@3.8
+brew doctor
+brew link --overwrite python@3.8
+which python3
+python3 --version
+brew reinstall hg
+brew link --overwrite mercurial
+hg --version
+brew update
+```
+
+might need on second round of build to tell mach that yes system python3 is ok:
+
+```
+export MACH_USE_SYSTEM_PYTHON="yes try it"
+```
+
+might run into issues with missing headers, try this (this takes a while):
+
+```
+sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install
+cd /Library/Developer/CommandLineTools/Packages/
+open macOS_SDK_headers_for_macOS_10.14.pkg
+```
+
+here's a collection of pesky SDKs:
+
+https://github.com/phracker/MacOSX-SDKs/releases
+
+i went with 11.1 instead.
+
+current patch issues:
+
+```
+Applying patch patches/11_various_branding.diff
+patching file browser/base/content/aboutDialog.xhtml
+Hunk #2 succeeded at 143 with fuzz 2 (offset -1 lines).
+missing header for unified diff at line 39 of patch
+can't find file to patch at input line 39
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|       </vbox>
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+patching file browser/locales/en-US/browser/aboutDialog.ftl
+patching file toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
+Patch patches/11_various_branding.diff does not apply (enforce with -f)
+```
 
 
 ## TODO:

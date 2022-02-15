@@ -63,8 +63,9 @@ all of the changes.
   (TODO: generalize this to ``miff-backend``)
 
 
--------
+-----------
 ``03_sync``
+-----------
 
 * Similar to ``02_sso`` but for sync requests
   

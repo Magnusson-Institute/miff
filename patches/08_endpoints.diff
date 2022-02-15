@@ -1,8 +1,8 @@
-Index: firefox-92.0/modules/libpref/init/all.js
+Index: firefox-96.0.1/modules/libpref/init/all.js
 ===================================================================
---- firefox-92.0.orig/modules/libpref/init/all.js
-+++ firefox-92.0/modules/libpref/init/all.js
-@@ -4052,7 +4052,10 @@ pref("browser.safebrowsing.allowOverride
+--- firefox-96.0.1.orig/modules/libpref/init/all.js
++++ firefox-96.0.1/modules/libpref/init/all.js
+@@ -4045,7 +4045,10 @@ pref("browser.safebrowsing.allowOverride
  pref("browser.safebrowsing.downloads.enabled", true);
  pref("browser.safebrowsing.downloads.remote.enabled", true);
  pref("browser.safebrowsing.downloads.remote.timeout_ms", 15000);
@@ -14,19 +14,11 @@ Index: firefox-92.0/modules/libpref/init/all.js
  pref("browser.safebrowsing.downloads.remote.block_dangerous",            true);
  pref("browser.safebrowsing.downloads.remote.block_dangerous_host",       true);
  pref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", true);
-Index: firefox-92.0/toolkit/components/url-classifier/UrlClassifierListManager.jsm
+Index: firefox-96.0.1/toolkit/components/url-classifier/UrlClassifierListManager.jsm
 ===================================================================
---- firefox-92.0.orig/toolkit/components/url-classifier/UrlClassifierListManager.jsm
-+++ firefox-92.0/toolkit/components/url-classifier/UrlClassifierListManager.jsm
-@@ -499,6 +499,7 @@ PROT_ListManager.prototype.makeUpdateReq
-     if (this.needsUpdate_[this.tablesData[tableName].updateUrl][tableName]) {
-       streamerMap.tableNames[tableName] = true;
-     }
-+
-     if (!streamerMap.tableList) {
-       streamerMap.tableList = tableName;
-     } else {
-@@ -574,10 +575,17 @@ PROT_ListManager.prototype.makeUpdateReq
+--- firefox-96.0.1.orig/toolkit/components/url-classifier/UrlClassifierListManager.jsm
++++ firefox-96.0.1/toolkit/components/url-classifier/UrlClassifierListManager.jsm
+@@ -574,10 +574,17 @@ PROT_ListManager.prototype.makeUpdateReq
  
    log("update request: " + JSON.stringify(streamerMap, undefined, 2) + "\n");
  
@@ -34,7 +26,7 @@ Index: firefox-92.0/toolkit/components/url-classifier/UrlClassifierListManager.j
 +            we need to explicitly add streamerMap.requestPayload to the update URL so that
 +            we encode it properly*/
 +  var originalUrl = updateUrl;
-+  updateUrl = "https://privacy.app/block-tables?url=" + encodeURIComponent(updateUrl);
++  updateUrl = Services.prefs.getStringPref("miff.endpoint.block-tables") + encodeURIComponent(updateUrl);
 +
    // Don't send an empty request.
    if (streamerMap.requestPayload.length) {
@@ -44,24 +36,29 @@ Index: firefox-92.0/toolkit/components/url-classifier/UrlClassifierListManager.j
        streamerMap.tableList,
        streamerMap.requestPayload,
        streamerMap.isPostRequest
-@@ -590,6 +598,7 @@ PROT_ListManager.prototype.makeUpdateReq
+@@ -588,8 +595,10 @@ PROT_ListManager.prototype.makeUpdateReq
+   }
+ };
  
++/* MagIns - Add the originalUrl parameter to bind to error/success functions*/
  PROT_ListManager.prototype.makeUpdateRequestForEntry_ = function(
    updateUrl,
 +  originalUrl,
    tableList,
    requestPayload,
    isPostRequest
-@@ -607,7 +616,7 @@ PROT_ListManager.prototype.makeUpdateReq
+@@ -607,7 +616,9 @@ PROT_ListManager.prototype.makeUpdateReq
      Ci.nsIUrlClassifierStreamUpdater
    );
  
 -  this.requestBackoffs_[updateUrl].noteRequest();
++/* MagIns - Firefox tracks the table updates by their original URL
++  this.requestBackoffs_[updateUrl].noteRequest();*/
 +  this.requestBackoffs_[originalUrl].noteRequest();
  
    if (
      !streamer.downloadUpdates(
-@@ -615,16 +624,16 @@ PROT_ListManager.prototype.makeUpdateReq
+@@ -615,16 +626,18 @@ PROT_ListManager.prototype.makeUpdateReq
        requestPayload,
        isPostRequest,
        updateUrl,
@@ -78,30 +75,33 @@ Index: firefox-92.0/toolkit/components/url-classifier/UrlClassifierListManager.j
    } else {
      let table = Object.keys(this.tablesData).find(key => {
 -      return this.tablesData[key].updateUrl === updateUrl;
-+      return "https://privacy.app/block-tables?url=" + encodeURIComponent(this.tablesData[key].updateUrl) === updateUrl;
++/* MagIns - Route Safe Browsing requests through privacy.app.
++      return this.tablesData[key].updateUrl === updateUrl;*/
++      return Services.prefs.getStringPref("miff.endpoint.block-tables") + encodeURIComponent(this.tablesData[key].updateUrl) === updateUrl;
      });
      let provider = this.tablesData[table].provider;
      Services.obs.notifyObservers(null, "safebrowsing-update-begin", provider);
-Index: firefox-92.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
+Index: firefox-96.0.1/toolkit/mozapps/extensions/internal/XPIInstall.jsm
 ===================================================================
---- firefox-92.0.orig/toolkit/mozapps/extensions/internal/XPIInstall.jsm
-+++ firefox-92.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
-@@ -2822,7 +2822,8 @@ var UpdateChecker = function(
+--- firefox-96.0.1.orig/toolkit/mozapps/extensions/internal/XPIInstall.jsm
++++ firefox-96.0.1/toolkit/mozapps/extensions/internal/XPIInstall.jsm
+@@ -2827,7 +2827,9 @@ var UpdateChecker = function(
    }
  
    let url = escapeAddonURI(aAddon, updateURL, aReason, aAppVersion);
 -  this._parser = AddonUpdateChecker.checkForUpdates(aAddon.id, url, this);
-+  let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(url)
++/* MagIns - Route update checks for addons through privacy.app*/
++  let newUrl = Services.prefs.getStringPref("miff.endpoint.extension-version-check") + encodeURIComponent(url);
 +  this._parser = AddonUpdateChecker.checkForUpdates(aAddon.id, newUrl, this);
  };
  
  UpdateChecker.prototype = {
-@@ -4041,10 +4042,10 @@ var XPIInstall = {
+@@ -4047,10 +4049,10 @@ var XPIInstall = {
      }
  
      url = await UpdateUtils.formatUpdateURL(url);
 -
-+    let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(url);
++    let newUrl = Services.prefs.getStringPref("miff.endpoint.extension-version-check") + encodeURIComponent(url);
      logger.info(`Starting system add-on update check from ${url}.`);
      let res = await ProductAddonChecker.getProductAddonList(
 -      url,
@@ -109,27 +109,42 @@ Index: firefox-92.0/toolkit/mozapps/extensions/internal/XPIInstall.jsm
        true
      ).catch(e => logger.error(`System addon update list error ${e}`));
  
-Index: firefox-92.0/toolkit/modules/GMPInstallManager.jsm
+@@ -4320,7 +4322,12 @@ var XPIInstall = {
+       );
+     }
+ 
+-    let url = Services.io.newURI(aUrl);
++/* MagIns -  After users sign in to sync (if they have addon syncing enabled) Firefox downloads
++            the synced extensions from Mozilla servers. For privacy, we route these downloads
++            through privacy.app
++    let url = Services.io.newURI(aUrl);*/
++    let newUrl = Services.prefs.getStringPref("miff.endpoint.extension-download") + encodeURIComponent(aUrl);
++    let url = Services.io.newURI(newUrl);
+ 
+     if (url instanceof Ci.nsIFileURL) {
+       let install = new LocalAddonInstall(location, url, aOptions);
+Index: firefox-96.0.1/toolkit/modules/GMPInstallManager.jsm
 ===================================================================
---- firefox-92.0.orig/toolkit/modules/GMPInstallManager.jsm
-+++ firefox-92.0/toolkit/modules/GMPInstallManager.jsm
-@@ -164,9 +164,9 @@ GMPInstallManager.prototype = {
+--- firefox-96.0.1.orig/toolkit/modules/GMPInstallManager.jsm
++++ firefox-96.0.1/toolkit/modules/GMPInstallManager.jsm
+@@ -164,9 +164,10 @@ GMPInstallManager.prototype = {
      }
  
      url = await UpdateUtils.formatUpdateURL(url);
 -
-+    let newUrl = "https://privacy.app/extension-version-check?url=" + encodeURIComponent(url);
++/* MagIns - Route requests for GeckoMediaPlugin download links through privacy.app*/
++    let newUrl = Services.prefs.getStringPref("miff.endpoint.extension-version-check") + encodeURIComponent(url);
      log.info("Using url (with replacement): " + url);
 -    return url;
 +    return newUrl;
    },
+ 
    /**
-    * Performs an addon check.
-Index: firefox-92.0/browser/app/profile/firefox.js
+Index: firefox-96.0.1/browser/app/profile/firefox.js
 ===================================================================
---- firefox-92.0.orig/browser/app/profile/firefox.js
-+++ firefox-92.0/browser/app/profile/firefox.js
-@@ -822,7 +822,7 @@ pref("browser.xul.error_pages.expert_bad
+--- firefox-96.0.1.orig/browser/app/profile/firefox.js
++++ firefox-96.0.1/browser/app/profile/firefox.js
+@@ -877,7 +877,7 @@ pref("browser.xul.error_pages.expert_bad
  pref("browser.xul.error_pages.show_safe_browsing_details_on_load", false);
  
  // Enable captive portal detection.
@@ -138,7 +153,7 @@ Index: firefox-92.0/browser/app/profile/firefox.js
  
  // If true, network link events will change the value of navigator.onLine
  pref("network.manage-offline-status", true);
-@@ -1470,7 +1470,7 @@ pref("browser.newtabpage.activity-stream
+@@ -1529,7 +1529,7 @@ pref("browser.newtabpage.activity-stream
  
  // The pref that controls if ASRouter uses the remote fluent files.
  // It's enabled by default, but could be disabled to force ASRouter to use the local files.
@@ -147,94 +162,137 @@ Index: firefox-92.0/browser/app/profile/firefox.js
  
  // These prefs control if Discovery Stream is enabled.
  pref("browser.newtabpage.activity-stream.discoverystream.enabled", true);
-Index: firefox-92.0/services/common/kinto-http-client.js
+@@ -2837,4 +2837,15 @@ pref("browser.newtabpage.activity-stream
+ 
+ /* MagIns - On the Home Page, Mozilla by default allows sponsored sites to appear in the "Top
+             Sites" section. This preference disables sponsored sites.*/
+-pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
+\ No newline at end of file
++pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
++
++/* MagIns - Create a new preference for constructing extension version check links*/
++pref("miff.endpoint.extension-version-check", "https://privacy.app/extension-version-check?url=");
++
++pref("miff.endpoint.extension-download", "https://privacy.app/extension-download?url=");
++
++pref("miff.endpoint.browser-certificates", "https://privacy.app/browser-certificates?url=");
++
++pref("miff.endpoint.block-tables", "https://privacy.app/block-tables?url=");
++
++pref("miff.endpoint.remote-settings", "https://privacy.app/remote-settings?url=");
+\ No newline at end of file
+Index: firefox-96.0.1/services/common/kinto-http-client.js
 ===================================================================
---- firefox-92.0.orig/services/common/kinto-http-client.js
-+++ firefox-92.0/services/common/kinto-http-client.js
-@@ -2397,7 +2397,8 @@ XPCOMUtils.defineLazyGlobalGetters(globa
+--- firefox-96.0.1.orig/services/common/kinto-http-client.js
++++ firefox-96.0.1/services/common/kinto-http-client.js
+@@ -25,6 +25,8 @@ var EXPORTED_SYMBOLS = ["KintoHttpClient
+ 
+ const { setTimeout, clearTimeout } = ChromeUtils.import("resource://gre/modules/Timer.jsm");
+ const { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
++/* MagIns - Import the Services module to use preferences for constructed links*/
++const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+ XPCOMUtils.defineLazyGlobalGetters(global, ["fetch"]);
+ 
+ /*
+@@ -2519,7 +2521,8 @@ XPCOMUtils.defineLazyGlobalGetters(globa
                      : msg;
              }
              const uri = this.remote + addEndpointOptions(request.path, options);
 -            const result = await this.http.request(uri, cleanUndefinedProperties({
-+            let newUri = "https://privacy.app/remote-settings?url=" + encodeURIComponent(uri);
++            let newUri = Services.prefs.getStringPref("miff.endpoint.remote-settings") + encodeURIComponent(uri);
 +            const result = await this.http.request(newUri, cleanUndefinedProperties({
                  // Limit requests to only those parts that would be allowed in
                  // a batch request -- don't pass through other fancy fetch()
                  // options like integrity, redirect, mode because they will
-Index: firefox-92.0/services/settings/Attachments.jsm
+Index: firefox-96.0.1/services/settings/Attachments.jsm
 ===================================================================
---- firefox-92.0.orig/services/settings/Attachments.jsm
-+++ firefox-92.0/services/settings/Attachments.jsm
-@@ -388,7 +388,8 @@ class Downloader {
+--- firefox-96.0.1.orig/services/settings/Attachments.jsm
++++ firefox-96.0.1/services/settings/Attachments.jsm
+@@ -4,6 +4,9 @@
+ 
+ var EXPORTED_SYMBOLS = ["Downloader"];
+ 
++/* MagIns - Import the Services module to use preferences for constructed links*/
++const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
++
+ const { XPCOMUtils } = ChromeUtils.import(
+   "resource://gre/modules/XPCOMUtils.jsm"
+ );
+@@ -386,7 +389,10 @@ class Downloader {
    async _baseAttachmentsURL() {
      if (!this._cdnURL) {
-       const server = Services.prefs.getCharPref("services.settings.server");
--      const serverInfo = await (await fetch(`${server}/`)).json();
-+      let newUrl = "https://privacy.app/remote-settings?url=" + encodeURIComponent(server);
-+      const serverInfo = await (await fetch(newUrl)).json();
+       const server = Utils.SERVER_URL;
+-      const serverInfo = await (await Utils.fetch(`${server}/`)).json();
++/* MagIns - Route remote settings requests through privacy.app
++      const serverInfo = await (await Utils.fetch(`${server}/`)).json();*/
++      let newUrl = Services.prefs.getStringPref("miff.endpoint.remote-settings") + encodeURIComponent(server);
++      const serverInfo = await (await Utils.fetch(newUrl)).json();
        // Server capabilities expose attachments configuration.
        const {
          capabilities: {
-@@ -404,7 +405,8 @@ class Downloader {
+@@ -402,7 +408,10 @@ class Downloader {
    async _fetchAttachment(url) {
      const headers = new Headers();
      headers.set("Accept-Encoding", "gzip");
--    const resp = await fetch(url, { headers });
-+    let newUrl = "https://privacy.app/browser-certificates?url=" + encodeURIComponent(url);
-+    const resp = await fetch(newUrl, { headers });
+-    const resp = await Utils.fetch(url, { headers });
++/* MagIns - Route browser certificate updates through privacy.app
++    const resp = await Utils.fetch(url, { headers });*/
++    let newUrl = Services.prefs.getStringPref("miff.endpoint.browser-certificates") + encodeURIComponent(url);
++    const resp = await Utils.fetch(newUrl, { headers });
      if (!resp.ok) {
        throw new Downloader.DownloadError(url, resp);
      }
-Index: firefox-92.0/services/settings/RemoteSettingsClient.jsm
+Index: firefox-96.0.1/services/settings/RemoteSettingsClient.jsm
 ===================================================================
---- firefox-92.0.orig/services/settings/RemoteSettingsClient.jsm
-+++ firefox-92.0/services/settings/RemoteSettingsClient.jsm
+--- firefox-96.0.1.orig/services/settings/RemoteSettingsClient.jsm
++++ firefox-96.0.1/services/settings/RemoteSettingsClient.jsm
 @@ -858,7 +858,10 @@ class RemoteSettingsClient extends Event
      const {
        signature: { x5u, signature },
      } = metadata;
--    const certChain = await (await fetch(x5u)).text();
+-    const certChain = await (await Utils.fetch(x5u)).text();
 +/* MagIns - Route browser certificate updates through privacy.app
-+    const certChain = await (await fetch(x5u)).text();*/
-+    let newUrl = "https://privacy.app/browser-certificates?url=" + encodeURIComponent(x5u);
-+    const certChain = await (await fetch(newUrl)).text();
++    const certChain = await (await Utils.fetch(x5u)).text();*/
++    let newUrl = Services.prefs.getStringPref("miff.remote-settings.browser-certificates") + encodeURIComponent(x5u);
++    const certChain = await (await Utils.fetch(newUrl)).text();
      // Merge remote records with local ones and serialize as canonical JSON.
      const serialized = await RemoteSettingsWorker.canonicalStringify(
        records,
-Index: firefox-92.0/services/settings/Utils.jsm
+Index: firefox-96.0.1/services/settings/Utils.jsm
 ===================================================================
---- firefox-92.0.orig/services/settings/Utils.jsm
-+++ firefox-92.0/services/settings/Utils.jsm
-@@ -213,7 +213,10 @@ var Utils = {
+--- firefox-96.0.1.orig/services/settings/Utils.jsm
++++ firefox-96.0.1/services/settings/Utils.jsm
+@@ -292,7 +292,10 @@ var Utils = {
            .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
            .join("&");
      }
--    const response = await fetch(url);
+-    const response = await Utils.fetch(url);
 +/* MagIns - Route Remote Settings updates through privacy.app
-+    const response = await fetch(url);*/
-+    let newUrl = "https://privacy.app/remote-settings?url=" + encodeURIComponent(url);
-+    const response = await fetch(newUrl);
++    const response = await Utils.fetch(url);*/
++    let newUrl = Services.prefs.getStringPref("miff.endpoint.remote-settings") + encodeURIComponent(url);
++    const response = await Utils.fetch(newUrl);
  
      if (response.status >= 500) {
        throw new Error(`Server error ${response.status} ${response.statusText}`);
-Index: firefox-92.0/toolkit/components/normandy/lib/NormandyApi.jsm
+Index: firefox-96.0.1/toolkit/components/normandy/lib/NormandyApi.jsm
 ===================================================================
---- firefox-92.0.orig/toolkit/components/normandy/lib/NormandyApi.jsm
-+++ firefox-92.0/toolkit/components/normandy/lib/NormandyApi.jsm
-@@ -40,7 +40,8 @@ var NormandyApi = {
+--- firefox-96.0.1.orig/toolkit/components/normandy/lib/NormandyApi.jsm
++++ firefox-96.0.1/toolkit/components/normandy/lib/NormandyApi.jsm
+@@ -40,7 +40,9 @@ var NormandyApi = {
          url.searchParams.set(key, data[key]);
        }
      }
 -    return fetch(url.href, {
-+    let newUrl = "https://privacy.app/browser-certificates?url=" + encodeURIComponent(url.href);
++/* MagIns - Route browser certificate updates through privacy.app*/
++    let newUrl = Services.prefs.getStringPref("miff.remote-settings.browser-certificates") + encodeURIComponent(url.href);
 +    return fetch(newUrl, {
        method: "get",
        headers: { Accept: "application/json" },
        credentials: "omit",
-Index: firefox-92.0/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
+Index: firefox-96.0.1/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
 ===================================================================
---- firefox-92.0.orig/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
-+++ firefox-92.0/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
+--- firefox-96.0.1.orig/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
++++ firefox-96.0.1/toolkit/components/url-classifier/nsUrlClassifierStreamUpdater.cpp
 @@ -225,7 +225,10 @@ nsresult nsUrlClassifierStreamUpdater::F
  
    nsCString updateUrl(aUpdateUrl);
@@ -247,11 +305,11 @@ Index: firefox-92.0/toolkit/components/url-classifier/nsUrlClassifierStreamUpdat
    }
  
    nsCOMPtr<nsIURI> uri;
-Index: firefox-92.0/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
+Index: firefox-96.0.1/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
 ===================================================================
---- firefox-92.0.orig/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
-+++ firefox-92.0/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
-@@ -69,10 +69,17 @@ this.PersonalityProvider = class Persona
+--- firefox-96.0.1.orig/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
++++ firefox-96.0.1/browser/components/newtab/lib/PersonalityProvider/PersonalityProvider.jsm
+@@ -64,10 +64,17 @@ this.PersonalityProvider = class Persona
        return this._baseAttachmentsURL;
      }
      const server = Services.prefs.getCharPref("services.settings.server");
@@ -261,7 +319,7 @@ Index: firefox-92.0/browser/components/newtab/lib/PersonalityProvider/Personalit
          credentials: "omit",
        })
 +    ).json();*/
-+    let newUrl = "https://privacy.app/remote-settings?url=" + encodeURIComponent(server);
++    let newUrl = Services.prefs.getStringPref("miff.endpoint.remote-settings") + encodeURIComponent(server);
 +    const serverInfo = await (
 +      await fetch(newUrl, {
 +        credentials: "omit",
@@ -269,7 +327,7 @@ Index: firefox-92.0/browser/components/newtab/lib/PersonalityProvider/Personalit
      ).json();
      const {
        capabilities: {
-@@ -223,7 +230,7 @@ this.PersonalityProvider = class Persona
+@@ -218,7 +225,7 @@ this.PersonalityProvider = class Persona
    }
  
    async init(callback) {
@@ -278,3 +336,29 @@ Index: firefox-92.0/browser/components/newtab/lib/PersonalityProvider/Personalit
      await this.setInterestConfig();
      if (!this.interestConfig) {
        return;
+Index: firefox-96.0.1/toolkit/mozapps/extensions/internal/AddonRepository.jsm
+===================================================================
+--- firefox-96.0.1.orig/toolkit/mozapps/extensions/internal/AddonRepository.jsm
++++ firefox-96.0.1/toolkit/mozapps/extensions/internal/AddonRepository.jsm
+@@ -4,6 +4,8 @@
+ 
+ "use strict";
+ 
++/* MagIns - Import the Services module to use preferences for constructed links*/
++const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+ const { XPCOMUtils } = ChromeUtils.import(
+   "resource://gre/modules/XPCOMUtils.jsm"
+ );
+@@ -471,7 +473,11 @@ var AddonRepository = {
+       });
+     };
+ 
+-    return fetchNextPage(startURL);
++/* MagIns - After users sign in to sync (if they have addon syncing enabled) Firefox communicates
++            with Mozilla services and gets download links for the addons. For privacy, route these
++            requests through our SSO*/
++    let newUrl = Services.prefs.getStringPref("miff.endpoint.extension-version-check") + encodeURIComponent(startURL);
++    return fetchNextPage(newUrl);
+   },
+ 
+   /**

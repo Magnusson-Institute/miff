@@ -186,6 +186,12 @@ track the version number. If you are working on development you will want
 to leave this patch unapplied. Before creating a release/update, set the
 appropriate version number in this patch and create a matching tag on Github.
 
+These features are controlled by the mozconfig files, one for each file.
+The mozilla build tool will only use the mozconfig if the build is run like
+so: ```env MOZCONFIG="path/to/mozconfig" ./mach build```.
+
+Any changes to mozconfig or the version number trigger a full build.
+
 And you should have a working, re-branded Firefox.
 
 # To make modifications yourself

@@ -1,7 +1,7 @@
-Index: firefox-92.0/browser/components/preferences/sync.inc.xhtml
+Index: firefox-96.0.1/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- firefox-92.0.orig/browser/components/preferences/sync.inc.xhtml
-+++ firefox-92.0/browser/components/preferences/sync.inc.xhtml
+--- firefox-96.0.1.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-96.0.1/browser/components/preferences/sync.inc.xhtml
 @@ -64,7 +64,7 @@
              <!-- logged in and verified and all is good -->
              <hbox id="fxaLoginVerified" align="center" flex="1">
@@ -24,11 +24,11 @@ Index: firefox-92.0/browser/components/preferences/sync.inc.xhtml
                  </hbox>
                  <hbox>
                    <html:a id="verifiedManage" class="openLink"
-Index: firefox-92.0/browser/components/preferences/sync.js
+Index: firefox-96.0.1/browser/components/preferences/sync.js
 ===================================================================
---- firefox-92.0.orig/browser/components/preferences/sync.js
-+++ firefox-92.0/browser/components/preferences/sync.js
-@@ -227,9 +227,9 @@ var gSyncPane = {
+--- firefox-96.0.1.orig/browser/components/preferences/sync.js
++++ firefox-96.0.1/browser/components/preferences/sync.js
+@@ -217,9 +217,9 @@ var gSyncPane = {
        gSyncPane.signIn();
        return false;
      });
@@ -40,7 +40,7 @@ Index: firefox-92.0/browser/components/preferences/sync.js
      setEventListener(
        "verifyFxaAccount",
        "command",
-@@ -487,7 +487,7 @@ var gSyncPane = {
+@@ -477,7 +477,7 @@ var gSyncPane = {
    },
  
    openChangeProfileImage(event) {
@@ -49,7 +49,7 @@ Index: firefox-92.0/browser/components/preferences/sync.js
        FxAccounts.config
          .promiseChangeAvatarURI(this._getEntryPoint())
          .then(url => {
-@@ -498,7 +498,7 @@ var gSyncPane = {
+@@ -488,7 +488,7 @@ var gSyncPane = {
          });
        // Prevent page from scrolling on the space key.
        event.preventDefault();
@@ -58,10 +58,10 @@ Index: firefox-92.0/browser/components/preferences/sync.js
    },
  
    openManageFirefoxAccount(event) {
-Index: firefox-92.0/browser/locales/generic/profile/bookmarks.html.in
+Index: firefox-96.0.1/browser/locales/generic/profile/bookmarks.html.in
 ===================================================================
---- firefox-92.0.orig/browser/locales/generic/profile/bookmarks.html.in
-+++ firefox-92.0/browser/locales/generic/profile/bookmarks.html.in
+--- firefox-96.0.1.orig/browser/locales/generic/profile/bookmarks.html.in
++++ firefox-96.0.1/browser/locales/generic/profile/bookmarks.html.in
 @@ -18,32 +18,5 @@
  <title>@bookmarks_title@</title>
  <h1>@bookmarks_heading@</h1>
@@ -96,10 +96,10 @@ Index: firefox-92.0/browser/locales/generic/profile/bookmarks.html.in
 -#endif
 +<dl>
  </dl>
-Index: firefox-92.0/browser/components/newtab/lib/DefaultSites.jsm
+Index: firefox-96.0.1/browser/components/newtab/lib/DefaultSites.jsm
 ===================================================================
---- firefox-92.0.orig/browser/components/newtab/lib/DefaultSites.jsm
-+++ firefox-92.0/browser/components/newtab/lib/DefaultSites.jsm
+--- firefox-96.0.1.orig/browser/components/newtab/lib/DefaultSites.jsm
++++ firefox-96.0.1/browser/components/newtab/lib/DefaultSites.jsm
 @@ -8,39 +8,39 @@ const DEFAULT_SITES_MAP = new Map([
    // This first item is the global list fallback for any unexpected geos
    [
@@ -149,11 +149,11 @@ Index: firefox-92.0/browser/components/newtab/lib/DefaultSites.jsm
    ],
  ]);
  
-Index: firefox-92.0/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+Index: firefox-96.0.1/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 ===================================================================
---- firefox-92.0.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-+++ firefox-92.0/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-@@ -233,11 +233,14 @@ class AboutWelcomeParent extends JSWindo
+--- firefox-96.0.1.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ firefox-96.0.1/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+@@ -251,11 +251,14 @@ class AboutWelcomeParent extends JSWindo
          SpecialMessageActions.handleAction(data, browser);
          break;
        case "AWPage:FXA_METRICS_FLOW_URI":
@@ -170,11 +170,11 @@ Index: firefox-92.0/browser/components/newtab/aboutwelcome/AboutWelcomeParent.js
          break;
        case "AWPage:GET_ATTRIBUTION_DATA":
          let attributionData = await AboutWelcomeDefaults.getAttributionContent();
-Index: firefox-92.0/browser/components/preferences/preferences.js
+Index: firefox-96.0.1/browser/components/preferences/preferences.js
 ===================================================================
---- firefox-92.0.orig/browser/components/preferences/preferences.js
-+++ firefox-92.0/browser/components/preferences/preferences.js
-@@ -169,7 +169,7 @@ function init_all() {
+--- firefox-96.0.1.orig/browser/components/preferences/preferences.js
++++ firefox-96.0.1/browser/components/preferences/preferences.js
+@@ -241,7 +241,7 @@ function init_all() {
      let helpButton = document.getElementById("helpButton");
      let helpUrl =
        Services.urlFormatter.formatURLPref("app.support.baseURL") +
@@ -183,11 +183,11 @@ Index: firefox-92.0/browser/components/preferences/preferences.js
      helpButton.setAttribute("href", helpUrl);
  
      document.getElementById("addonsButton").addEventListener("click", e => {
-Index: firefox-92.0/browser/app/profile/firefox.js
+Index: firefox-96.0.1/browser/app/profile/firefox.js
 ===================================================================
---- firefox-92.0.orig/browser/app/profile/firefox.js
-+++ firefox-92.0/browser/app/profile/firefox.js
-@@ -286,16 +286,12 @@ pref("browser.shell.setDefaultBrowserUse
+--- firefox-96.0.1.orig/browser/app/profile/firefox.js
++++ firefox-96.0.1/browser/app/profile/firefox.js
+@@ -274,16 +274,12 @@ pref("browser.shell.setDefaultBrowserUse
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
  pref("browser.startup.page",                1);
@@ -204,26 +204,13 @@ Index: firefox-92.0/browser/app/profile/firefox.js
 -pref("browser.startup.firstrunSkipsHomepage", true);
 +pref("browser.startup.firstrunSkipsHomepage", false);
  
- // Show an about:blank window as early as possible for quick startup feedback.
- // Held to nightly on Linux due to bug 1450626.
-Index: firefox-92.0/docshell/base/nsAboutRedirector.cpp
+ // Whether we should show the session-restore infobar on startup
+ pref("browser.startup.couldRestoreSession.count", 0);
+Index: firefox-96.0.1/toolkit/content/jar.mn
 ===================================================================
---- firefox-92.0.orig/docshell/base/nsAboutRedirector.cpp
-+++ firefox-92.0/docshell/base/nsAboutRedirector.cpp
-@@ -99,8 +99,6 @@ static const RedirEntry kRedirMap[] = {
-          nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-          nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
-          nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS},
--    {"mozilla", "chrome://global/content/mozilla.html",
--     nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT},
-     {"neterror", "chrome://global/content/netError.xhtml",
-      nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-          nsIAboutModule::URI_CAN_LOAD_IN_CHILD | nsIAboutModule::ALLOW_SCRIPT |
-Index: firefox-92.0/toolkit/content/jar.mn
-===================================================================
---- firefox-92.0.orig/toolkit/content/jar.mn
-+++ firefox-92.0/toolkit/content/jar.mn
-@@ -49,8 +49,6 @@ toolkit.jar:
+--- firefox-96.0.1.orig/toolkit/content/jar.mn
++++ firefox-96.0.1/toolkit/content/jar.mn
+@@ -51,8 +51,6 @@ toolkit.jar:
     content/global/filepicker.properties
     content/global/customElements.js
     content/global/globalOverlay.js
@@ -232,11 +219,11 @@ Index: firefox-92.0/toolkit/content/jar.mn
     content/global/preferencesBindings.js
     content/global/process-content.js
     content/global/resetProfile.css
-Index: firefox-92.0/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+Index: firefox-96.0.1/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 ===================================================================
---- firefox-92.0.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-+++ firefox-92.0/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-@@ -922,10 +922,10 @@ function addUtmParams(url, utmTerm) {
+--- firefox-96.0.1.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ firefox-96.0.1/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+@@ -1130,10 +1130,10 @@ function addUtmParams(url, utmTerm) {
      returnUrl = new URL(url);
    }
  
@@ -249,10 +236,10 @@ Index: firefox-92.0/browser/components/newtab/aboutwelcome/content/aboutwelcome.
    return returnUrl;
  }
  
-Index: firefox-92.0/browser/base/content/browser-menubar.inc
+Index: firefox-96.0.1/browser/base/content/browser-menubar.inc
 ===================================================================
---- firefox-92.0.orig/browser/base/content/browser-menubar.inc
-+++ firefox-92.0/browser/base/content/browser-menubar.inc
+--- firefox-96.0.1.orig/browser/base/content/browser-menubar.inc
++++ firefox-96.0.1/browser/base/content/browser-menubar.inc
 @@ -473,10 +473,11 @@
  #else
                            />
@@ -266,10 +253,10 @@ Index: firefox-92.0/browser/base/content/browser-menubar.inc
                  <menuitem id="helpSafeMode"
                            oncommand="safeModeRestart();"
                            data-l10n-id="menu-help-enter-troubleshoot-mode2"
-Index: firefox-92.0/browser/components/newtab/lib/SearchShortcuts.jsm
+Index: firefox-96.0.1/browser/components/newtab/lib/SearchShortcuts.jsm
 ===================================================================
---- firefox-92.0.orig/browser/components/newtab/lib/SearchShortcuts.jsm
-+++ firefox-92.0/browser/components/newtab/lib/SearchShortcuts.jsm
+--- firefox-96.0.1.orig/browser/components/newtab/lib/SearchShortcuts.jsm
++++ firefox-96.0.1/browser/components/newtab/lib/SearchShortcuts.jsm
 @@ -8,28 +8,17 @@ const { Services } = ChromeUtils.import(
  // List of sites we match against Topsites in order to identify sites
  // that should be converted to search Topsites
@@ -299,11 +286,11 @@ Index: firefox-92.0/browser/components/newtab/lib/SearchShortcuts.jsm
    {
      keyword: "@wikipedia",
      shortURL: "wikipedia",
-Index: firefox-92.0/browser/components/newtab/lib/ActivityStream.jsm
+Index: firefox-96.0.1/browser/components/newtab/lib/ActivityStream.jsm
 ===================================================================
---- firefox-92.0.orig/browser/components/newtab/lib/ActivityStream.jsm
-+++ firefox-92.0/browser/components/newtab/lib/ActivityStream.jsm
-@@ -324,7 +324,7 @@ const PREFS_CONFIG = new Map([
+--- firefox-96.0.1.orig/browser/components/newtab/lib/ActivityStream.jsm
++++ firefox-96.0.1/browser/components/newtab/lib/ActivityStream.jsm
+@@ -317,7 +317,7 @@ const PREFS_CONFIG = new Map([
            return "";
          }
          const searchShortcuts = [];
@@ -312,7 +299,7 @@ Index: firefox-92.0/browser/components/newtab/lib/ActivityStream.jsm
            searchShortcuts.push("baidu");
          } else if (["BY", "KZ", "RU", "TR"].includes(geo)) {
            searchShortcuts.push("yandex");
-@@ -333,7 +333,7 @@ const PREFS_CONFIG = new Map([
+@@ -326,7 +326,7 @@ const PREFS_CONFIG = new Map([
          }
          if (["DE", "FR", "GB", "IT", "JP", "US"].includes(geo)) {
            searchShortcuts.push("amazon");
@@ -321,10 +308,10 @@ Index: firefox-92.0/browser/components/newtab/lib/ActivityStream.jsm
          return searchShortcuts.join(",");
        },
      },
-Index: firefox-92.0/toolkit/mozapps/extensions/content/aboutaddons.html
+Index: firefox-96.0.1/toolkit/mozapps/extensions/content/aboutaddons.html
 ===================================================================
---- firefox-92.0.orig/toolkit/mozapps/extensions/content/aboutaddons.html
-+++ firefox-92.0/toolkit/mozapps/extensions/content/aboutaddons.html
+--- firefox-96.0.1.orig/toolkit/mozapps/extensions/content/aboutaddons.html
++++ firefox-96.0.1/toolkit/mozapps/extensions/content/aboutaddons.html
 @@ -36,7 +36,8 @@
      <div id="full">
        <div id="sidebar">
@@ -344,11 +331,11 @@ Index: firefox-92.0/toolkit/mozapps/extensions/content/aboutaddons.html
        <taar-notice></taar-notice>
        <recommended-addon-list type="extension" hide-installed></recommended-addon-list>
        <footer is="recommended-footer" class="view-footer"></footer>
-Index: firefox-92.0/browser/base/content/utilityOverlay.js
+Index: firefox-96.0.1/browser/base/content/utilityOverlay.js
 ===================================================================
---- firefox-92.0.orig/browser/base/content/utilityOverlay.js
-+++ firefox-92.0/browser/base/content/utilityOverlay.js
-@@ -1082,9 +1082,11 @@ function openFeedbackPage() {
+--- firefox-96.0.1.orig/browser/base/content/utilityOverlay.js
++++ firefox-96.0.1/browser/base/content/utilityOverlay.js
+@@ -1002,9 +1002,11 @@ function openFeedbackPage() {
  }
  
  function buildHelpMenu() {
@@ -361,10 +348,10 @@ Index: firefox-92.0/browser/base/content/utilityOverlay.js
  
    document.getElementById(
      "helpSafeMode"
-Index: firefox-92.0/services/settings/dumps/main/top-sites.json
+Index: firefox-96.0.1/services/settings/dumps/main/top-sites.json
 ===================================================================
---- firefox-92.0.orig/services/settings/dumps/main/top-sites.json
-+++ firefox-92.0/services/settings/dumps/main/top-sites.json
+--- firefox-96.0.1.orig/services/settings/dumps/main/top-sites.json
++++ firefox-96.0.1/services/settings/dumps/main/top-sites.json
 @@ -1,843 +1,4 @@
  {
    "data": [
@@ -1209,11 +1196,11 @@ Index: firefox-92.0/services/settings/dumps/main/top-sites.json
 -    }
    ]
  }
-Index: firefox-92.0/browser/components/newtab/lib/TopSitesFeed.jsm
+Index: firefox-96.0.1/browser/components/newtab/lib/TopSitesFeed.jsm
 ===================================================================
---- firefox-92.0.orig/browser/components/newtab/lib/TopSitesFeed.jsm
-+++ firefox-92.0/browser/components/newtab/lib/TopSitesFeed.jsm
-@@ -554,6 +554,7 @@ this.TopSitesFeed = class TopSitesFeed {
+--- firefox-96.0.1.orig/browser/components/newtab/lib/TopSitesFeed.jsm
++++ firefox-96.0.1/browser/components/newtab/lib/TopSitesFeed.jsm
+@@ -559,6 +559,7 @@ this.TopSitesFeed = class TopSitesFeed {
     * @returns {Boolean} Did we insert any search shortcuts?
     */
    async _maybeInsertSearchShortcuts(plainPinnedSites) {
@@ -1221,7 +1208,7 @@ Index: firefox-92.0/browser/components/newtab/lib/TopSitesFeed.jsm
      // Only insert shortcuts if the experiment is running
      if (this.store.getState().Prefs.values[SEARCH_SHORTCUTS_EXPERIMENT]) {
        // We don't want to insert shortcuts we've previously inserted
-@@ -625,7 +626,7 @@ this.TopSitesFeed = class TopSitesFeed {
+@@ -630,7 +631,7 @@ this.TopSitesFeed = class TopSitesFeed {
          return true;
        }
      }
@@ -1230,11 +1217,11 @@ Index: firefox-92.0/browser/components/newtab/lib/TopSitesFeed.jsm
      return false;
    }
  
-Index: firefox-92.0/browser/base/content/appmenu-viewcache.inc.xhtml
+Index: firefox-96.0.1/browser/base/content/appmenu-viewcache.inc.xhtml
 ===================================================================
---- firefox-92.0.orig/browser/base/content/appmenu-viewcache.inc.xhtml
-+++ firefox-92.0/browser/base/content/appmenu-viewcache.inc.xhtml
-@@ -759,10 +759,12 @@
+--- firefox-96.0.1.orig/browser/base/content/appmenu-viewcache.inc.xhtml
++++ firefox-96.0.1/browser/base/content/appmenu-viewcache.inc.xhtml
+@@ -542,10 +542,12 @@
  
    <panelview id="PanelUI-fxa" class="PanelUI-subView" descriptionheightworkaround="true">
      <vbox id="PanelUI-fxa-menu" class="panel-subview-body">

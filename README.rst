@@ -29,18 +29,139 @@ MiFF is open source and distributed under MPL 2
 (https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
 details.
 
+TODO: add reference to the UK paper that runs browsers for 30 minutes; include our objective
+to have zero internet accesses that were not initiated by user.
+
 
 "Patches"
 ---------
 
-Test.
+TODO: general intro to the patch strategy
+
+Note: for many of the patch files, we include extensive comments on
+all of the changes.
 
 
 --------------
 ``01_privacy``
 --------------
 
-Test.
+* Disabling all telemetry
+
+* Enabling a number of privacy settings
+
+* Several changes to baseline configuration (towards more private)
+
+
+----------
+``02_sso``
+----------
+
+* Changes from Mozilla HAWK requests to XHR
+
+* Changes from Mozilla endpoint names to Privacy.App endpoints
+  (TODO: generalize this to ``miff-backend``)
+
+
+-------
+``03_sync``
+
+* Similar to ``02_sso`` but for sync requests
+  
+
+------------------------
+``04_connected_devices``
+------------------------
+
+* Disabling device push and connected devices
+  
+
+-------------
+``05_search``
+-------------
+
+* Removing Google as default search engine,
+  replace with DuckDuckGo as default
+
+* Adds StartPage as an option
+
+
+---------
+``06_ui``
+---------
+
+* Remove default bookmarks
+
+* Removes recommended sites
+  
+
+-------------
+``07_pocket``
+-------------
+
+* Remove pocket
+
+
+----------------
+``08_endpoints``
+----------------
+
+* Routing security or settings requests through Privacy.App
+  (TODO: generalize to ``miff-backend``)
+
+
+--------------------
+``09_support_links``
+--------------------
+
+* Change help and support links to Privacy.App
+  (TODO: generalize to ``miff-backend``)
+
+
+--------------------
+``10_branding_text``
+--------------------
+
+* Changing brand names to comply with Mozilla Trademark Guidelines [#fn03]_
+  (TODO: generalize to ``miff-backend``)
+
+
+-----------------------
+``11_various_branding``
+-----------------------
+
+* Changing brandind messages to comply with Mozilla Trademark Guidelines [#fn03]_
+  (TODO: generalize to ``miff-backend``)
+
+
+--------------
+``12_updates``
+--------------
+
+* Change update server to be from Privacy.App
+  (TODO: generalize to ``miff-backend``)
+
+
+------------------
+``13_permissions``
+------------------
+
+* Some fixes to support web apps that require local storage
+  but do not work with cookies - in particular so that
+  ``snackabra`` [#fn04]_ (and similar apps) can work properly
+  even with privacy settings dialed up
+
+
+
+--------------------
+``99_disable_debug``
+--------------------
+
+* Turns off browser debugger and other debugging tools
+  (note: this is partly necessary from the workflow of developing
+  for ``miff``, since we debug the above patches using those tools)
+
+
 
 
 Branches
@@ -683,5 +804,6 @@ details.
 
 .. [#fn03] https://www.mozilla.org/en-US/foundation/trademarks/policy/
 
-
+.. [#fn04] https://snackabra.io
+	   
 	   

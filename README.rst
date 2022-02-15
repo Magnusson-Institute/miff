@@ -25,6 +25,21 @@ This project is not affiliated with Mozilla Foundation, Mozilla Corporation, Goo
 If you make and/or distribute your own build of miff or miff-backend, please
 respect Mozilla's guidelines. [#fn03]_
 
+MiFF is open source and distributed under MPL 2
+(https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
+details.
+
+
+"Patches"
+---------
+
+Test.
+
+``01_privacy``
+--------------
+
+Test.
+
 
 Branches
 --------
@@ -216,7 +231,7 @@ Working with the update patch (patch #12)
 If you have not run ``./mach build`` before, quilt will fail trying
 to apply 12_updates.diff. The build process creates several generated
 files on a first run, including the certificates for update validation.
-You will need to run ``./mach build``` first, then apply patch 12 and
+You will need to run ``./mach build`` first, then apply patch 12 and
 beyond.
 
 There is an additional step if you are not working in a Windows
@@ -635,6 +650,15 @@ https://firefox-source-docs.mozilla.org/setup/windows_build.html#building-firefo
 https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial.html
 
 
+LICENSE
+-------
+
+MiFF is open source and distributed under MPL 2
+(https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
+details.
+
+
+
 |
 |
 
@@ -646,7 +670,12 @@ https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial.html
 .. rubric:: Footnotes
 
 .. [#fn01] We would call it "Mostly It's Firefox", but that would be in violation
-	   of Mozilla's (reasonable) trademark rules.
+	   of Mozilla's (reasonable) trademark rules. [#fn03]_  And we didn't want to call
+	   it "unmozzilad firefox", because we're big fans and that's too negative. A more correct name
+	   might be "ungoogled-firefox" but that would confuse most people.
+	   And we can't be clever like "GNU" ("Gnu's Not Unix") because neither Mozilla nor Firefox
+	   starts with a vowel. In short, officially, "MiFF" doesn't stand for anything
+	   at all.
 
 .. [#fn02] https://github.com/Eloston/ungoogled-chromium
 

@@ -47,7 +47,8 @@ MiFF Source: https://github.com/Magnusson-Institute/miff/releases/tag/v96.0.1.1
 
 Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/96.0.1/releasenotes/
 
-Matching Firefox Source: 
+Matching Firefox Source: https://archive.mozilla.org/pub/firefox/releases/96.0.1/source/firefox-96.0.1.source.tar.xz
+
 
 ### v92.0.0.1
 
@@ -402,14 +403,14 @@ There are two sources of changes:
 If you're just applying changes and patches and re-building, do
 something like this:
 
-::
-
-   cd /c/mozilla-source/firefox-84.0.2
-   ../miff/copy_files.sh
-   ln -s ../miff/patches .
-   quilt push -a
-   ./mach build
-   ./mach run
+```bash
+cd /c/mozilla-source/firefox-84.0.2
+../miff/copy_files.sh
+ln -s ../miff/patches .
+quilt push -a
+./mach build
+./mach run
+```
 
 
 # Creating an update file
@@ -478,12 +479,12 @@ For example, if you want to start making changes to 'aboutDialog.ftl'.
 First, apply patches and file replacements as per above. Then:
 
 
-::
-
-   bash
-   cd /mozilla-source/firefox-84.0.2
-   quilt new NN_description_of_changes.diff
-   quilt add browser/locales/en-US/browser/aboutDialog.ftl 
+```
+bash
+cd /mozilla-source/firefox-84.0.2
+quilt new NN_description_of_changes.diff
+quilt add browser/locales/en-US/browser/aboutDialog.ftl 
+```
 
 
 Where 'NN' is a new (higher) patch number than what is already in
@@ -491,23 +492,22 @@ Where 'NN' is a new (higher) patch number than what is already in
 
 Now make some edits to this file (aboutDialog.ftl). Then refresh the patch file:
 
-::
-
-   quilt refresh
+```
+quilt refresh
+```
 
 
 That will create an 'NN' patch file.
 
-To work with an existing patch / set of changes
------------------------------------------------
+## To work with an existing patch / set of changes
+
 
 You will need to selectively 'quilt push' until you are at the patch
 file you want to be using to cluster your changes.  Make sure the
 file(s) you are working with are referenced in that patch file (if not
 add them with `quilt add <filename>`.
 
-Some principles
----------------
+## Some principles
 
 * Try labeling changes with the "MIFF NN" string
   where 'NN' is the patch (diff) file
@@ -519,10 +519,7 @@ Some principles
   modified files, you can see what's been done (roughly)
 
 
-.. _m1_build:
-
-Set up on Mac OS X (m1)
------------------------
+## Set up on Mac OS X (m1)
 
 Similar to Ubuntu, obviously, but enough differences that this will be self-contained:
 
@@ -537,24 +534,24 @@ installation from command line, and install Mercurial (and make sure
 your python is 3.8.x, thought right now I'm trying with 3.9.9) and
 other items:
 
-::
-   
+```
    brew install mercurial
    brew install yasm
    brew install libgtk2.0-dev
    brew install quilt
-
+```
 
 Next, create a working directory where you want to work, here we'll
 call it "~/dev/ff01"; create it and bootstrap:
 
 
-::
    
+```
    mkdir ~/dev/ff01
    cd ~/dev/ff01
    curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
    python3 bootstrap.py
+```
 
 
 Press "enter" for destination, for default; so it'll start in
@@ -569,13 +566,13 @@ The various tooling specific to FF build will be set up by the above bootstrap i
 A bit of setup:
 
 
-::
-   
+```
    sudo xcode-select --switch /Applications/Xcode.app
    sudo xcodebuild -license
    echo "export PATH=\"$(python3 -m site --user-base)/bin:$PATH\"" >> ~/.zshenv
    python3 -m pip install --user mercurial
    hg version
+```
 
 
 _ .. hmm, I had a warning to myself "Do *not* run "brew install mercurial", that's something else, it will
@@ -604,41 +601,41 @@ file - it'll look like an xcode app copy in your Download folder, but
 it's "really" directory tree under ~/Downloads/Xcode.app:
 
 
-::
-   
+```
    mkdir -p ~/.mozbuild/macos-sdk
    # This assumes that Xcode is in your "Downloads" folder
    cp -aH ~/Downloads/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk ~/.mozbuild/macos-sdk/
+```
 
 
 And add the following line to the "mozconfig" file (which will be
 created if it's not there); should be in your FF source code
 directory:
 
-::
-   
+```
    echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> ~/dev/ff01/mozilla-unified/mozconfig
+```
 
 
 
 Again, make sure to start a new terminal so all the settings have
 taken effect, and then you should be able to start the (huge) build:
 
-::
-   
+```
    cd ~/dev/ff01/mozilla-unified
    ./mach build
    ./mach run
 
    # if you want to try to package it, you would also:
    # ./mach package
+```
 
 
 the object tree will be in:
 
-::
-   
+```
    ~/dev/ff01/mozilla-unified/obj-x86_64-apple-darwin20.5.0
+```
 
 
 Next, build the same (or very similar) version of FF from a clean
@@ -648,13 +645,12 @@ in miff (e.g. from top of
 
 In this case, our latest miff tag is "89.0.2.3", which matches Mozilla FF tag "89.0.2" (the fourth
 digit ".3" is our internal release schedule, tracking FF). So in this case, download
-https://archive.mozilla.org/pub/firefox/releases/89.0.2/source/firefox-89.0.2.source.tar.xz,
+``https://archive.mozilla.org/pub/firefox/releases/89.0.2/source/firefox-89.0.2.source.tar.xz``,
 download our own (tagged) miff tarball, and place it alongside, extract all the tarballs, net
 result should look like:
 
 
-::
-   
+```
    #
    # eg in this case you're downloading:
    # https://github.com/Magnusson-Institute/miff/archive/refs/tags/v89.0.2.3.tar.gz
@@ -666,13 +662,13 @@ result should look like:
    ~/dev/ff01/firefox-89.0.2/..
    ~/dev/ff01/miff-89.0.2.3/...
    #
+```
 
 
 First re-build clean 89.0.2 by itself _without_ applying any patches, to make sure your build environment
 is all working:
 
-::
-   
+```
    # examples assume this root dev directory
    cd ~/dev/ff01
 
@@ -688,11 +684,12 @@ is all working:
    # now this should work:
    ./mach build
    ./mach run
+```
 
 Now you can apply the patches:
 
-::
-   
+ 
+```
    # make sure we're in the right place
    cd ~/dev/ff01
 
@@ -725,12 +722,12 @@ Now you can apply the patches:
    # and if that all looks good, build a .dmg,
    # the result will be in obj-*/dist
    ./mach package
+```
 
 
 And there we go (first build per above steps: 2021-07-04).
 
-NOTE (2021=12=21) on Mac m1
----------------------------
+## NOTE (2021=12=21) on Mac m1
 
 so i don't forget ... looks like their nightly (latest) nowadays can
 work fine with the latest SDK (2021-12-22), however, that's not the
@@ -738,8 +735,7 @@ case with immediately recent version (e.g. 89.0.2); and looks like one
 wants python 3.8 specifically, might need some "hard coding" of setup:
 
 
-::
-   
+```
    brew reinstall python@3.8
    brew doctor
    brew link --overwrite python@3.8
@@ -749,23 +745,24 @@ wants python 3.8 specifically, might need some "hard coding" of setup:
    brew link --overwrite mercurial
    hg --version
    brew update
+```
 
 
 might need on second round of build to tell mach that yes system python3 is ok:
 
-::
-   
+```
    export MACH_USE_SYSTEM_PYTHON="yes try it"
+```
 
 
 might run into issues with missing headers, try this (this takes a while):
 
-::
-   
+```
    sudo rm -rf /Library/Developer/CommandLineTools
    xcode-select --install
    cd /Library/Developer/CommandLineTools/Packages/
    open macOS_SDK_headers_for_macOS_10.14.pkg
+```
 
 
 here's a collection of pesky SDKs:
@@ -776,8 +773,7 @@ i went with 11.1 instead.
 
 current patch issues:
 
-::
-   
+```   
    Applying patch patches/11_various_branding.diff
    patching file browser/base/content/aboutDialog.xhtml
    Hunk #2 succeeded at 143 with fuzz 2 (offset -1 lines).
@@ -793,11 +789,11 @@ current patch issues:
    patching file browser/locales/en-US/browser/aboutDialog.ftl
    patching file toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
    Patch patches/11_various_branding.diff does not apply (enforce with -f)
+```   
 
 
 
-TODO (informal section - will migrate to issues)
-------------------------------------------------
+# TODO (informal section - will migrate to issues)
 
 * [PSM 07/05]: need to update
 ``locales/en-US/toolkit/about/aboutRights.ftl`` to correctly
@@ -807,14 +803,14 @@ works with ``miff`` would need to change.
 
 * [PSM 07/05]: these need to be changed to 'miff-help':
 
-::
-
-	   browser/base/content/aboutDialog.xhtml
+```
+        browser/base/content/aboutDialog.xhtml
    130	<label is="text-link" onclick="openHelpLink('firefox-help')" data-l10n-id="aboutdialog-help-user"/>
-   browser/base/content/browser-menubar.inc
+        browser/base/content/browser-menubar.inc
    467	oncommand="openHelpLink('firefox-help')"
-   browser/base/content/browser.js
+        browser/base/content/browser.js
    2601	openHelpLink("firefox-help");
+```
 
 and a matching ``privacy.app/supportmiff-help`` endpoint added (i think that's where they'll go,
 thought right now it looks like still landing on ``https://privacy.app/supportfirefox-help``)
@@ -828,8 +824,8 @@ thought right now it looks like still landing on ``https://privacy.app/supportfi
 
 * [PSM 07/05]: i am currently experimenting with using these additional lines in the "mozconfig" file:
 
-::
 
+```
    # this fixes -DMOZ_DISTRIBUTION_ID="org.mozilla"
    ac_add_options --with-distribution-id=app.privacy
 
@@ -840,30 +836,30 @@ thought right now it looks like still landing on ``https://privacy.app/supportfi
    ac_add_options --with-branding=browser/branding/unofficial
 
    # unsure if this needs fixing? -DMOZ_USER_DIR="Mozilla" 
+```
 
 as well as one change, and one addition, to "browser/branding/unofficial/configure.sh":
 
-::
-   
+  
+```
    #MOZ_APP_DISPLAYNAME=Nightly
    # MagIns - changed
    MOZ_APP_DISPLAYNAME=Miff
    # MagIns - added, not sure (yet) if it makes much difference:
    MOZ_APP_VENDOR=PrivacyApp
+```
 
 they might help on a Mac (or Mobile) build.
 
 
-Resources
----------
+# Resources
 
 https://firefox-source-docs.mozilla.org/setup/windows_build.html#building-firefox-on-windows
 
 https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial.html
 
 
-LICENSE
--------
+# LICENSE
 
 MiFF is open source and distributed under MPL 2
 (https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
@@ -871,13 +867,7 @@ details.
 
 
 
-|
-|
-
-------------------
-
-
-
+----------------
 
 # Footnotes
 

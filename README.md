@@ -352,14 +352,15 @@ For future - check out "hg help -e fsmonitor")
 
 ## Take a specific tarball
 
-Now grab a specific version that we have patch support for.  Currently
-that is only 84.0.2:
+Now grab a specific version that we have patch support for.  For our examples here,
+we will use ``84.0.2`` throughout, but you can see latest tagged releases on our github at
+https://github.com/Magnusson-Institute/miff/tags
 
-archive.mozilla.org/pub/firefox/releases/84.0.2/source/
-
-And download the compressed (xz) tar ball.  Untar it alongside
+Visity archive.mozilla.org/pub/firefox/releases/84.0.2/source/ and
+download the compressed (xz) tar ball.  Untar it alongside
 mozilla-release and move ''miff'' right next to it, should eventually
 get something like this
+
 
 ```
    /c/mozilla-source/bootstrap.py
@@ -368,9 +369,8 @@ get something like this
    /c/mozilla-source/miff/
 ```
 
-
-Next, go to the specific release (84.0.2 in this case) and build it
-clean:
+Next, go to the specific release (again, ``84.0.2`` throught our
+example) and build it clean:
 
 ```bash
 cd /c/mozilla-source/firefox-84.0.2
@@ -382,9 +382,8 @@ cd /c/mozilla-source/firefox-84.0.2
 That should be analogous to the mozilla-release setup, note that you
 don't need to do "bootstrap".
 
-Note also, you need to pick a matching miff "release"; for 84.0.2, as
-in this example, then this (tagged) version would be the correct
-patch tarball to start with:
+Note also, you need to pick a matching miff "release". This (tagged)
+version would be the correct patch tarball to start with:
 
 https://github.com/Magnusson-Institute/miff/archive/refs/tags/v84.0.2.4.tar.gz
 
@@ -414,7 +413,6 @@ quilt push -a
 
 
 # Creating an update file
-
 
 Firefox updates replace the files in a user's install directory. These
 updates are packaged as a special type of xz or bz2 archive called a

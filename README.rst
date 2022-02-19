@@ -29,17 +29,29 @@ MiFF is open source and distributed under MPL 2
 (https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
 details.
 
-TODO: add reference to the UK paper that runs browsers for 30 minutes; include our objective
-to have zero internet accesses that were not initiated by user.
+Instructions for building for various targets:
+
+* :ref:`MacOS (m1) build <m1_build>`
+
+*TODO: add reference to the UK paper that runs browsers for 30 minutes; include our objective
+to have zero internet accesses that were not initiated by user.*
 
 
 "Patches"
 ---------
 
-TODO: general intro to the patch strategy
+All of MiFF's patches for the Gecko source code are located in the
+``patches``:
 
-Note: for many of the patch files, we include extensive comments on
-all of the changes.
+* All patches follow naming conventions of ``NN_<description>.diff``.
+* The ``patches/series`` file lists all patches, and the order
+  in which they will be applied. By naming convention, they are
+  applied in "NN" order.
+  
+Contents of the diff files follow the unified GNU diff format. [#fn05]_
+
+*Note: for many of the patch files, we include extensive comments on
+all of the changes.*
 
 
 --------------
@@ -433,6 +445,8 @@ Some principles
   modified files, you can see what's been done (roughly)
 
 
+.. _m1_build:
+
 Set up on Mac OS X (m1)
 -----------------------
 
@@ -804,6 +818,8 @@ details.
 .. [#fn02] https://github.com/Eloston/ungoogled-chromium
 
 .. [#fn03] https://www.mozilla.org/en-US/foundation/trademarks/policy/
+
+.. [#fn05] https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html
 
 .. [#fn04] https://snackabra.io
 	   

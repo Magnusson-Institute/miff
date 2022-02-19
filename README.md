@@ -1,6 +1,6 @@
 # MiFF
 
-MiFF [#fn01]_ is lightway approach to replace Mozilla and Google (and
+MiFF[^1] is lightway approach to replace Mozilla and Google (and
 any other) service dependencies from Mozilla Firefox (GeckoView),
 including removing anything resembling "phone home", as well as some
 modifications to certain settings. Note that we "replace" service
@@ -124,7 +124,7 @@ Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/84.0.2/rel
 This project is built from Mozilla's open source GeckoView software.
 This project is not affiliated with Mozilla Foundation, Mozilla Corporation, Google, or Alphabet.
 If you make and/or distribute your own build of miff or miff-backend, please
-respect Mozilla's guidelines. [#fn03]_
+respect Mozilla's guidelines.[^2]
 
 MiFF is open source and distributed under MPL 2
 (https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
@@ -150,7 +150,7 @@ All of MiFF's patches for the Gecko source code are located in the
   in which they will be applied. By naming convention, they are
   applied in "NN" order.
   
-Contents of the diff files follow the unified GNU diff format. [#fn05]_
+Contents of the diff files follow the unified GNU diff format.[^3]
 
 *Note: for many of the patch files, we include extensive comments on
 all of the changes.*
@@ -218,13 +218,13 @@ all of the changes.*
 
 ## ``10_branding_text``
 
-* Changing brand names to comply with Mozilla Trademark Guidelines [#fn03]_
+* Changing brand names to comply with Mozilla Trademark Guidelines[^2]
   (TODO: generalize to ``miff-backend``)
 
 
 ## ``11_various_branding``
 
-* Changing brandind messages to comply with Mozilla Trademark Guidelines [#fn03]_
+* Changing brandind messages to comply with Mozilla Trademark Guidelines[^2]
   (TODO: generalize to ``miff-backend``)
 
 
@@ -238,7 +238,7 @@ all of the changes.*
 
 * Some fixes to support web apps that require local storage
   but do not work with cookies - in particular so that
-  ``snackabra`` [#fn04]_ (and similar apps) can work properly
+  ``snackabra`` (https://snackabra.io) and similar apps can work properly
   even with privacy settings dialed up
 
 
@@ -297,10 +297,10 @@ First, install Python (3.6 or later): ``sudo apt install python3 python3-dev``
 
 The Firefox documentation recommends downloading Mercurial through pip, but apt works as well. Run either command:
 
-::
-
-   python3 -m pip install --user mercurial
-   sudo apt install mercurial
+```bash
+python3 -m pip install --user mercurial
+sudo apt install mercurial
+```
 
 
 You will also need to install yasm and libgtk2.0-dev through ``apt``.
@@ -320,22 +320,21 @@ https://hg.mozilla.org/releases/mozilla-release/tags
 
 Or just take the head:
 
-::
-
-   mkdir /c/mozilla-source
-   cd /c/mozilla-source
-   hg clone https://hg.mozilla.org/releases/mozilla-release/
-
+```bash
+mkdir /c/mozilla-source
+cd /c/mozilla-source
+hg clone https://hg.mozilla.org/releases/mozilla-release/
+```
 
 Then 'bootstrap' all the tools and configurations needed, follow
 instructions along these lines:
 
-::
-
-   cd /c/mozilla-source/mozilla-release
-   ./mach bootstrap
-   ./mach build
-   ./mach run
+```bash
+cd /c/mozilla-source/mozilla-release
+./mach bootstrap
+./mach build
+./mach run
+```
 
 Once the above works, you have a dev environment (Mozilla
 tooling). That confirms a working build environment. However, the toolchains
@@ -361,22 +360,22 @@ And download the compressed (xz) tar ball.  Untar it alongside
 mozilla-release and move ''miff'' right next to it, should eventually
 get something like this
 
-::
-
+```
    /c/mozilla-source/bootstrap.py
    /c/mozilla-source/mozilla-release/
    /c/mozilla-source/firefox-84.0.2/
    /c/mozilla-source/miff/
+```
 
 
 Next, go to the specific release (84.0.2 in this case) and build it
 clean:
 
-::
-
-   cd /c/mozilla-source/firefox-84.0.2
-   ./mach build
-   ./mach run
+```bash
+cd /c/mozilla-source/firefox-84.0.2
+./mach build
+./mach run
+```
 
 
 That should be analogous to the mozilla-release setup, note that you
@@ -880,22 +879,19 @@ details.
 
 
 
-.. rubric:: Footnotes
+# Footnotes
 
-.. [#fn01] We would call it "Mostly It's Firefox", but that would be in violation
-	   of Mozilla's (reasonable) trademark rules. [#fn03]_  And we didn't want to call
-	   it "unmozzilad firefox", because we're big fans and that's too negative. A more correct name
-	   might be "ungoogled-firefox" but that would confuse most people.
-	   And we can't be clever like "GNU" ("Gnu's Not Unix") because neither Mozilla nor Firefox
-	   starts with a vowel. In short, officially, "MiFF" doesn't stand for anything
-	   at all.
+[^1]: We would call it "Mostly It's Firefox", but that would be in
+      violation of Mozilla's (reasonable) trademark rules.[^2]
+      And we didn't want to call it "unmozzilad firefox", because
+      we're big fans and that's too negative. A more correct name
+      might be "ungoogled-firefox" but that would confuse most people.
+      And we can't be clever like "GNU" ("Gnu's Not Unix") because
+      neither Mozilla nor Firefox starts with a vowel. In short,
+      officially, "MiFF" doesn't stand for anything at all.
 
+[^2]: https://www.mozilla.org/en-US/foundation/trademarks/policy/
 
+[^3]: https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html
 
-.. [#fn03] https://www.mozilla.org/en-US/foundation/trademarks/policy/
-
-.. [#fn05] https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html
-
-.. [#fn04] https://snackabra.io
-	   
 	   

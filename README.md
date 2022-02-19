@@ -32,8 +32,8 @@ Source code releases are [tagged on
 github](https://github.com/Magnusson-Institute/miff/tags). Not all
 versions are supported for all targets. Expand below for details.
 
-<details open>
-<summary><b>(click to expand or hide)</b></summary>
+<details>
+<summary><b>(List of older MiFF versions - click to expand/colalpse)</b></summary>
 <!-- MarkdownMiffVersions -->
 
 ### v96.0.1.1

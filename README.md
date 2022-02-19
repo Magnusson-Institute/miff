@@ -88,30 +88,17 @@ Source: https://github.com/Magnusson-Institute/miff/releases/tag/v89.0.2.4
 Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/84.0.2/releasenotes/
 
 <!-- MarkdownMiffVersions -->
-
+</details>
 
 
 # Table of Contents
 
+<details open>
+<summary><b>Click to collapse/expand</b></summary>
 <!-- MarkdownTOC -->
 1. [Introduction](#introduction)
 1. ["Patches"](#patches)
-1. [My Instructions](#my-instructions)
-1. [Alfa Driver DVDs](#alfa-driver-dvds)
-    1. [Disk 1: ALFA_Driver_DVD_old](#disk-1-alfa_driver_dvd_old)
-    1. [Disk 2: ALFA_Driver_DVD_v3.0](#recommended)
-    1. [Disk copy instructions on Linux](#disk-copy-instructions-on-linux)
-1. [License](#license)
-1. [Driver Installation Instructions on Linux](#driver-installation-instructions-on-linux)
-    1. [1. Alfa AWUS036NH 2000mW Tx Power 2.4GHz USB Wi-Fi adapter](#1-alfa-awus036nh-2000mw-tx-power-24ghz-usb-wi-fi-adapter)
-        1. [SPEED:](#speed)
-        1. [INSTALL DRIVER:](#install-driver)
-        1. [CONNECT AND CONFIGURE:](#connect-and-configure)
-    1. [2. Alfa AWUS036AC 802.11ac Long Range AC1200 Dual Band 2.4GHz/5GHz WiFi USB adapter](#2-alfa-awus036ac-80211ac-long-range-ac1200-dual-band-24ghz5ghz-wifi-usb-adapter)
-        1. [SPEED:](#speed-1)
-        1. [INSTALL DRIVER:](#install-driver-1)
-        1. [CONNECT AND CONFIGURE:](#connect-and-configure-1)
-
+    1. ["01 - 'privacy'"](#patch-01)
 <!-- /MarkdownTOC -->
 </details>
 
@@ -157,6 +144,8 @@ Contents of the diff files follow the unified GNU diff format.[^3]
 all of the changes.*
 
 
+
+<a id="patch-01"></a>
 
 ## ``01_privacy``
 
@@ -578,9 +567,7 @@ drag in newer versions of Python (3.9.x) etc" that I'm "now" ignoring (Dec 21) .
 
 HOWEVER. Your "latest version" of Xcode will probably have an SDK that
 is too modern. So you need to "downgrade" locally for Moz.  At time of
-writing, their _documentation_
-(https://firefox-source-docs.mozilla.org/setup/macos_build.html#macos-sdk-is-unsupported)
-states that they are using the 10.12 SDK, but their _error messages_
+writing, their documentation[^4] states that they are using the 10.12 SDK, but their _error messages_
 state that they support the 11.1 SDK.
 
 (Apple documentation on the different versions is summarized here:
@@ -882,4 +869,6 @@ details.
 
 [^3]: https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html
 
-	   
+[^4]: https://firefox-source-docs.mozilla.org/setup/macos_build.html#macos-sdk-is-unsupported
+
+	  

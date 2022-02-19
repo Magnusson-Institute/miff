@@ -25,22 +25,29 @@ work").
 * [Linux (v92.x)](https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.tar.bz2)
 
 
-
 ## Older MiFF versions
 
 Source code releases are [tagged on
 github](https://github.com/Magnusson-Institute/miff/tags). Not all
-versions are supported for all targets. Expand below for details.
+versions are supported for all targets. Expand below for details.  We
+track Firefox releases [shortly after Mozilla releases
+them](https://www.mozilla.org/en-US/firefox/releases/).
+
+<!-- TODO: add system requirements -->
 
 <details>
-<summary><b>(List of older MiFF versions - click to expand/colalpse)</b></summary>
+<summary><b>Click to expand/collapse</b></summary>
 <!-- MarkdownMiffVersions -->
 
 ### v96.0.1.1
 
 *Latest* - binaries not packaged yet.
 
-Source: (https://github.com/Magnusson-Institute/miff/releases/tag/v96.0.1.1)
+MiFF Source: https://github.com/Magnusson-Institute/miff/releases/tag/v96.0.1.1
+
+Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/96.0.1/releasenotes/
+
+Matching Firefox Source: 
 
 ### v92.0.0.1
 
@@ -48,26 +55,46 @@ Windows installer: https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.exe
 
 Linux: https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.tar.bz2
 
-## v89.0.2.3
+Source: https://github.com/Magnusson-Institute/miff/releases/tag/v92.0.0.1
 
-### v89.0.2.2
+Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/92.0/releasenotes/
 
-### v89.0.2.1
+
+### v89.0.2.3
+
+MacOS installer: https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg
+(note: this is v89.0.0.1).
+
+Source: https://github.com/Magnusson-Institute/miff/releases/tag/v89.0.2.3
+
+Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/89.0.2/releasenotes/
+
+Earlier point releases for v89.0.2.x:
+
+* https://github.com/Magnusson-Institute/miff/releases/tag/v89.0.2.2
+* https://github.com/Magnusson-Institute/miff/releases/tag/v89.0.2.1
 
 ### v89.0.0.1
 
-MacOS installer: https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg
+Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/89.0/releasenotes/
+
+Source: https://github.com/Magnusson-Institute/miff/releases/tag/v89.0.0.1
 
 ### v84.0.2.4
 
-### v84.0.2
+Source: https://github.com/Magnusson-Institute/miff/releases/tag/v89.0.2.4
+
+Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/84.0.2/releasenotes/
+
+<!-- MarkdownMiffVersions -->
 
 
-<!-- /MarkdownMiffVersions -->
 
+# Table of Contents
 
-1. [All of my Wifi adapter repos:](#all-of-my-wifi-adapter-repos)
-1. [Wiki Instructions](#wiki-instructions)
+<!-- MarkdownTOC -->
+1. [Introduction](#introduction)
+1. ["Patches"](#patches)
 1. [My Instructions](#my-instructions)
 1. [Alfa Driver DVDs](#alfa-driver-dvds)
     1. [Disk 1: ALFA_Driver_DVD_old](#disk-1-alfa_driver_dvd_old)
@@ -88,21 +115,11 @@ MacOS installer: https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg
 </details>
 
 
-<a id="all-of-my-wifi-adapter-repos"></a>
 
 
+<a id="introduction"></a>
 
-You can download pre-built latest versions off MI's servers:
-
-            latest_miff_version_windows='https://cdn.privacy.app/miffrelease/MiFF-89.0.2.3.exe',
-            latest_miff_version_macos='https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg',
-            latest_miff_version_linux='https://cdn.privacy.app/miffrelease/miff-84.0.2.5.en-US.linux-x86_64.tar.bz2',
-
-* TODO: add windows link and system requirements
-
-* TODO: add linux link and system requirements
-
-* TODO: add macos link and system requirements
+# Introduction
 
 This project is built from Mozilla's open source GeckoView software.
 This project is not affiliated with Mozilla Foundation, Mozilla Corporation, Google, or Alphabet.
@@ -121,8 +138,9 @@ Instructions for building for various targets:
 to have zero internet accesses that were not initiated by user.*
 
 
-"Patches"
----------
+<a id="patches"></a>
+
+# "Patches"
 
 All of MiFF's patches for the Gecko source code are located in the
 ``patches``:
@@ -138,9 +156,8 @@ Contents of the diff files follow the unified GNU diff format. [#fn05]_
 all of the changes.*
 
 
---------------
-``01_privacy``
---------------
+
+## ``01_privacy``
 
 * Disabling all telemetry
 
@@ -149,9 +166,7 @@ all of the changes.*
 * Several changes to baseline configuration (towards more private)
 
 
-----------
-``02_sso``
-----------
+## ``02_sso``
 
 * Changes from Mozilla HAWK requests to XHR
 
@@ -159,23 +174,17 @@ all of the changes.*
   (TODO: generalize this to ``miff-backend``)
 
 
------------
-``03_sync``
------------
+## ``03_sync``
 
 * Similar to ``02_sso`` but for sync requests
   
 
-------------------------
-``04_connected_devices``
-------------------------
+## ``04_connected_devices``
 
 * Disabling device push and connected devices
   
 
--------------
-``05_search``
--------------
+## ``05_search``
 
 * Removing Google as default search engine,
   replace with DuckDuckGo as default
@@ -183,65 +192,49 @@ all of the changes.*
 * Adds StartPage as an option
 
 
----------
-``06_ui``
----------
+## ``06_ui``
 
 * Remove default bookmarks
 
 * Removes recommended sites
   
 
--------------
-``07_pocket``
--------------
+## ``07_pocket``
 
 * Remove pocket
 
 
-----------------
-``08_endpoints``
-----------------
+## ``08_endpoints``
 
 * Routing security or settings requests through Privacy.App
   (TODO: generalize to ``miff-backend``)
 
 
---------------------
-``09_support_links``
---------------------
+## ``09_support_links``
 
 * Change help and support links to Privacy.App
   (TODO: generalize to ``miff-backend``)
 
 
---------------------
-``10_branding_text``
---------------------
+## ``10_branding_text``
 
 * Changing brand names to comply with Mozilla Trademark Guidelines [#fn03]_
   (TODO: generalize to ``miff-backend``)
 
 
------------------------
-``11_various_branding``
------------------------
+## ``11_various_branding``
 
 * Changing brandind messages to comply with Mozilla Trademark Guidelines [#fn03]_
   (TODO: generalize to ``miff-backend``)
 
 
---------------
-``12_updates``
---------------
+## ``12_updates``
 
 * Change update server to be from Privacy.App
   (TODO: generalize to ``miff-backend``)
 
 
-------------------
-``13_permissions``
-------------------
+## ``13_permissions``
 
 * Some fixes to support web apps that require local storage
   but do not work with cookies - in particular so that
@@ -250,9 +243,7 @@ all of the changes.*
 
 
 
---------------------
-``99_disable_debug``
---------------------
+## ``99_disable_debug``
 
 * Turns off browser debugger and other debugging tools
   (note: this is partly necessary from the workflow of developing
@@ -261,20 +252,16 @@ all of the changes.*
 
 
 
-Branches
---------
+# Branches
 
 master - active development; all releases (v92.x, v096.x, etc) are on the master
 
 stable - mirror of tagged releases (in case you need to try building on new targets for example)
 
 
-Patches
--------
 
 
-Win10 build setup
------------------
+# Win10 build setup
 
 When installing, the following workloads must be checked:
 
@@ -292,8 +279,7 @@ frameworks” group:
   you’ll be building for ARM64)
 
 
-Set up Cygwin
--------------
+## Set up Cygwin
 
 In Windows, we work in either Moz Shell for all the build tools from Mozilla (see
 below), and Cygwin64 for all of our own tooling (git, quilt, various
@@ -305,8 +291,7 @@ Install the following packages in Cygwin:
 * quilt
 * p7zip
 
-Ubuntu build setup
-------------------
+# Ubuntu build setup
 
 First, install Python (3.6 or later): ``sudo apt install python3 python3-dev``
 
@@ -323,8 +308,7 @@ You will also need to install yasm and libgtk2.0-dev through ``apt``.
 The rest of the process is similar to a Windows setup, but all commands can be done from the Ubuntu terminal.
 
 
-Check out with Mercurial
-------------------------
+## Check out with Mercurial
 
 Work environment is in "/mozilla-source" (MozDev "/c/mozilla-source"
 and Cygwin "/cygdrive/c/mozilla-source"
@@ -365,8 +349,8 @@ first problem).
 
 For future - check out "hg help -e fsmonitor")
 
-Take a specific tarball
------------------------
+
+## Take a specific tarball
 
 Now grab a specific version that we have patch support for.  Currently
 that is only 84.0.2:
@@ -404,8 +388,9 @@ patch tarball to start with:
 
 https://github.com/Magnusson-Institute/miff/archive/refs/tags/v84.0.2.4.tar.gz
 
-MiFF patches / changes
-----------------------
+
+# MiFF patches / changes
+
 
 There are two sources of changes:
 
@@ -428,10 +413,18 @@ something like this:
    ./mach run
 
 
-Creating an update file
------------------------
+# Creating an update file
 
-Firefox updates replace the files in a user's install directory. These updates are packaged as a special type of xz or bz2 archive called a MAR (Mozilla Archive). There are two tools that are available to create a MAR: a signmar tool created during the normal build process (obj*/dist/bin/signmar), and a Python tool (https://github.com/mozilla/build-mar). We need both to create a working update. The signmar creates a file manifest, but cannot sign the MAR; the Python tool can sign, but does not generate a file manifest.
+
+Firefox updates replace the files in a user's install directory. These
+updates are packaged as a special type of xz or bz2 archive called a
+MAR (Mozilla Archive). There are two tools that are available to
+create a MAR: a signmar tool created during the normal build process
+(obj*/dist/bin/signmar), and a Python tool
+(https://github.com/mozilla/build-mar). We need both to create a
+working update. The signmar creates a file manifest, but cannot sign
+the MAR; the Python tool can sign, but does not generate a file
+manifest.
 
 The Python tool can be installed with pip, but requires several other tools in order to install properly.
 
@@ -445,8 +438,7 @@ For Ubuntu:
 * liblzma-dev
 
 
-Working with the update patch (patch #12)
------------------------------------------
+## Working with the update patch (patch #12)
 
 If you have not run ``./mach build`` before, quilt will fail trying
 to apply 12_updates.diff. The build process creates several generated
@@ -462,8 +454,7 @@ obj-\* folder named ``obj-x86_64-pc-mingw32`` and the patch will
 apply correctly.
 
 
-Working with the release patch (patch #99)
-------------------------------------------
+## Working with the release patch (patch #99)
 
 The final patch in the series is used to disable debug features and to
 track the version number. If you are working on development you will want

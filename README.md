@@ -1,18 +1,102 @@
-====
-MiFF
-====
+# MiFF
 
-MiFF [#fn01]_ is lightway approach to replace Mozilla and Google (and any
-other) service dependencies from Mozilla Firefox, including removing
-anything resembling "phone home", as well as some modifications to
-certain settings. Note that we "replace" service dependencies, we
-don't "remove" them. Default build is to use https://Privacy.App as
-backend replacement for service dependencies, but you can run your own
-instance (miff-backend). This project was heavily inspired by the
-ungoogled-chromium project [#fn02]_ , but for (a) for Firefox and (b)
-replaces or redirects services rather than strip them out.
+MiFF [#fn01]_ is lightway approach to replace Mozilla and Google (and
+any other) service dependencies from Mozilla Firefox (GeckoView),
+including removing anything resembling "phone home", as well as some
+modifications to certain settings. Note that we "replace" service
+dependencies, we don't "remove" them. Default build is to use
+https://Privacy.App as backend replacement for service dependencies,
+but you can run [your own backend
+instance](https://github.com/magnusson-institute/miff-backend).
+
+This project was partly inspired by the [ungoogled-chromium
+project](https://github.com/Eloston/ungoogled-chromium) and borrows
+from their methodology.
+
+
+## Latest MiFF versions
+
+We host latest builds on ``cdn.privacy.app``, updates are signed and
+provided as well (once you've installed MiFF, updates should "just
+work").
+
+* [Windows (v92.x)](https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.exe)
+* [MacOS (v89.x)](https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg)
+* [Linux (v92.x)](https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.tar.bz2)
+
+
+
+## Older MiFF versions
+
+Source code releases are [tagged on
+github](https://github.com/Magnusson-Institute/miff/tags). Not all
+versions are supported for all targets. Expand below for details.
+
+<details open>
+<summary><b>(click to expand or hide)</b></summary>
+<!-- MarkdownMiffVersions -->
+
+### v96.0.1.1
+
+*Latest* - binaries not packaged yet.
+
+Source: (https://github.com/Magnusson-Institute/miff/releases/tag/v96.0.1.1)
+
+### v92.0.0.1
+
+Windows installer: https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.exe
+
+Linux: https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.tar.bz2
+
+## v89.0.2.3
+
+### v89.0.2.2
+
+### v89.0.2.1
+
+### v89.0.0.1
+
+MacOS installer: https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg
+
+### v84.0.2.4
+
+### v84.0.2
+
+
+<!-- /MarkdownMiffVersions -->
+
+
+1. [All of my Wifi adapter repos:](#all-of-my-wifi-adapter-repos)
+1. [Wiki Instructions](#wiki-instructions)
+1. [My Instructions](#my-instructions)
+1. [Alfa Driver DVDs](#alfa-driver-dvds)
+    1. [Disk 1: ALFA_Driver_DVD_old](#disk-1-alfa_driver_dvd_old)
+    1. [Disk 2: ALFA_Driver_DVD_v3.0](#recommended)
+    1. [Disk copy instructions on Linux](#disk-copy-instructions-on-linux)
+1. [License](#license)
+1. [Driver Installation Instructions on Linux](#driver-installation-instructions-on-linux)
+    1. [1. Alfa AWUS036NH 2000mW Tx Power 2.4GHz USB Wi-Fi adapter](#1-alfa-awus036nh-2000mw-tx-power-24ghz-usb-wi-fi-adapter)
+        1. [SPEED:](#speed)
+        1. [INSTALL DRIVER:](#install-driver)
+        1. [CONNECT AND CONFIGURE:](#connect-and-configure)
+    1. [2. Alfa AWUS036AC 802.11ac Long Range AC1200 Dual Band 2.4GHz/5GHz WiFi USB adapter](#2-alfa-awus036ac-80211ac-long-range-ac1200-dual-band-24ghz5ghz-wifi-usb-adapter)
+        1. [SPEED:](#speed-1)
+        1. [INSTALL DRIVER:](#install-driver-1)
+        1. [CONNECT AND CONFIGURE:](#connect-and-configure-1)
+
+<!-- /MarkdownTOC -->
+</details>
+
+
+<a id="all-of-my-wifi-adapter-repos"></a>
+
+
 
 You can download pre-built latest versions off MI's servers:
+
+            latest_miff_version_windows='https://cdn.privacy.app/miffrelease/MiFF-89.0.2.3.exe',
+            latest_miff_version_macos='https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg',
+            latest_miff_version_linux='https://cdn.privacy.app/miffrelease/miff-84.0.2.5.en-US.linux-x86_64.tar.bz2',
 
 * TODO: add windows link and system requirements
 
@@ -815,7 +899,7 @@ details.
 	   starts with a vowel. In short, officially, "MiFF" doesn't stand for anything
 	   at all.
 
-.. [#fn02] https://github.com/Eloston/ungoogled-chromium
+
 
 .. [#fn03] https://www.mozilla.org/en-US/foundation/trademarks/policy/
 

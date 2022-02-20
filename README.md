@@ -354,9 +354,6 @@ You will also need to install yasm and libgtk2.0-dev through ``apt``.
 
 The rest of the process is similar to a Windows setup, but all commands can be done from the Ubuntu terminal.
 
-</details>
-
-
 ### Check out with Mercurial
 
 Work environment is in "/mozilla-source" (MozDev "/c/mozilla-source"
@@ -566,6 +563,10 @@ add them with `quilt add <filename>`.
 * Try not just deleting or replacing things, but comment out the
   old code, so that when continuing to work with the resulting
   modified files, you can see what's been done (roughly)
+
+
+</details>
+
 
 
 <details>

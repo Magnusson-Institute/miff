@@ -95,11 +95,15 @@ Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/84.0.2/rel
 
 <details open>
 <summary><b>Click to collapse/expand</b></summary>
+
 <!-- MarkdownTOC -->
+
 1. [Introduction](#introduction)
 1. ["Patches"](#patches)
     1. ["01 - 'privacy'"](#patch-01)
+
 <!-- /MarkdownTOC -->
+
 </details>
 
 
@@ -141,13 +145,16 @@ All of MiFF's patches for the Gecko source code are located in the
 Contents of the diff files follow the unified GNU diff format.[^3]
 
 *Note: for many of the patch files, we include extensive comments on
-all of the changes.*
+all of the changes int he patchfiles themselves.*
 
+Expand section below for details on all the patch files.
 
+<details>
+<summary><b>Click to expand/collapse</b></summary>
 
 <a id="patch-01"></a>
 
-## ``01_privacy``
+### ``01_privacy``
 
 * Disabling all telemetry
 
@@ -156,7 +163,7 @@ all of the changes.*
 * Several changes to baseline configuration (towards more private)
 
 
-## ``02_sso``
+### ``02_sso``
 
 * Changes from Mozilla HAWK requests to XHR
 
@@ -164,17 +171,17 @@ all of the changes.*
   (TODO: generalize this to ``miff-backend``)
 
 
-## ``03_sync``
+### ``03_sync``
 
 * Similar to ``02_sso`` but for sync requests
   
 
-## ``04_connected_devices``
+### ``04_connected_devices``
 
 * Disabling device push and connected devices
   
 
-## ``05_search``
+### ``05_search``
 
 * Removing Google as default search engine,
   replace with DuckDuckGo as default
@@ -182,49 +189,49 @@ all of the changes.*
 * Adds StartPage as an option
 
 
-## ``06_ui``
+### ``06_ui``
 
 * Remove default bookmarks
 
 * Removes recommended sites
   
 
-## ``07_pocket``
+### ``07_pocket``
 
 * Remove pocket
 
 
-## ``08_endpoints``
+### ``08_endpoints``
 
 * Routing security or settings requests through Privacy.App
   (TODO: generalize to ``miff-backend``)
 
 
-## ``09_support_links``
+### ``09_support_links``
 
 * Change help and support links to Privacy.App
   (TODO: generalize to ``miff-backend``)
 
 
-## ``10_branding_text``
+### ``10_branding_text``
 
 * Changing brand names to comply with Mozilla Trademark Guidelines[^2]
   (TODO: generalize to ``miff-backend``)
 
 
-## ``11_various_branding``
+### ``11_various_branding``
 
 * Changing brandind messages to comply with Mozilla Trademark Guidelines[^2]
   (TODO: generalize to ``miff-backend``)
 
 
-## ``12_updates``
+### ``12_updates``
 
 * Change update server to be from Privacy.App
   (TODO: generalize to ``miff-backend``)
 
 
-## ``13_permissions``
+### ``13_permissions``
 
 * Some fixes to support web apps that require local storage
   but do not work with cookies - in particular so that
@@ -232,13 +239,15 @@ all of the changes.*
   even with privacy settings dialed up
 
 
+</details>
+
 
 ## ``99_disable_debug``
 
-* Turns off browser debugger and other debugging tools
-  (note: this is partly necessary from the workflow of developing
-  for ``miff``, since we debug the above patches using those tools)
-
+This patch file is a bit special. It turns off browser debugger and
+other debugging tools. This is necessary from the workflow of
+developing for ``miff``, since we debug patches using these
+tools, but a shipping final binary shouldn't have them enabled.
 
 
 
@@ -710,7 +719,30 @@ Now you can apply the patches:
 ```
 
 
-And there we go (first build per above steps: 2021-07-04).
+And there we go!
+
+## Catching up
+
+If you've already built a version of MiFF, and just want to catch up
+to a newer one, then often you can re-use some of your earlier work.
+
+First, move aside the old MiFF tree, e.g. let's say you're jumping from
+84.0.2 to 96.0.1, you would end up doing something like:
+
+
+```
+cd ~/dev/ff01
+# move old miff aside
+mv miff miff-84.0.2
+# extract new firefox version code
+tar xzf ~/Downloads/firefox-96.0.1.source.tar.xz
+# extract miff patches
+tar xzf ~/Downloads/miff-96.0.1.1.tar.gz
+# miff needs to be in 'miff'
+mv miff-96.0.1.1 miff
+```
+
+
 
 ## NOTE (2021=12=21) on Mac m1
 

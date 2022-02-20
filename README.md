@@ -1,20 +1,17 @@
 # MiFF
 
-MiFF[^1] is lightway approach to replace Mozilla and Google (and
-any other) service dependencies from Mozilla Firefox (GeckoView),
+MiFF[^1] is lightway approach to replace Mozilla and Google (and any
+other) service dependencies from Mozilla Firefox (GeckoView),
 including removing anything resembling "phone home", as well as some
 modifications to certain settings. Note that we "replace" service
 dependencies, we don't "remove" them. Default build is to use
 https://Privacy.App as backend replacement for service dependencies,
-but you can run [your own backend
-instance](https://github.com/magnusson-institute/miff-backend).
+but you can run your own backend instance
+(https://github.com/magnusson-institute/miff-backend).
 
 This project was partly inspired by the [ungoogled-chromium
 project](https://github.com/Eloston/ungoogled-chromium) and borrows
 from their methodology.
-
-
-## Latest MiFF versions
 
 We host latest builds on ``cdn.privacy.app``, updates are signed and
 provided as well (once you've installed MiFF, updates should "just
@@ -24,6 +21,31 @@ work").
 * [MacOS (v89.x)](https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg)
 * [Linux (v92.x)](https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.tar.bz2)
 
+You can download/install the above and just use them straight off the bat.
+They should (hopefully) give you a more private browsing experience than
+vanilla Firefox.[^1a]
+
+The rest of this README documents what we're trying to accomplish with
+this project, as well as open sources all of our modifications and
+backend server code.
+
+# Table of Contents
+
+<details open>
+<summary><i>Click to collapse/expand ToC</i></summary>
+
+<br/>
+
+<!-- MarkdownTOC -->
+
+1. [Introduction](#introduction)
+1. ["Patches"](#patches)
+    1. ["01 - 'privacy'"](#patch-01)
+
+<!-- /MarkdownTOC -->
+
+</details>
+
 
 ## Older MiFF versions
 
@@ -31,7 +53,7 @@ Source code releases are [tagged on
 github](https://github.com/Magnusson-Institute/miff/tags). Not all
 versions are supported for all targets. Expand below for details.  We
 track Firefox releases [shortly after Mozilla releases
-them](https://www.mozilla.org/en-US/firefox/releases/).
+them](https://www.mozilla.org/en-US/firefox/releases/).[^1b]
 
 <!-- TODO: add system requirements -->
 
@@ -91,21 +113,6 @@ Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/84.0.2/rel
 </details>
 
 
-# Table of Contents
-
-<details open>
-<summary><b>Click to collapse/expand</b></summary>
-
-<!-- MarkdownTOC -->
-
-1. [Introduction](#introduction)
-1. ["Patches"](#patches)
-    1. ["01 - 'privacy'"](#patch-01)
-
-<!-- /MarkdownTOC -->
-
-</details>
-
 
 
 
@@ -122,12 +129,14 @@ MiFF is open source and distributed under MPL 2
 (https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
 details.
 
-Instructions for building for various targets:
+# Building MiFF Yourself
 
-* :ref:`MacOS (m1) build <m1_build>`
+Below are instructions for building different targets, expand the one
+that you are interested in for particulars.
 
-*TODO: add reference to the UK paper that runs browsers for 30 minutes; include our objective
-to have zero internet accesses that were not initiated by user.*
+
+<!-- TODO: add reference to the UK paper that runs browsers for 30 minutes; include our objective
+to have zero internet accesses that were not initiated by user. -->
 
 
 <a id="patches"></a>
@@ -168,7 +177,7 @@ Expand section below for details on all the patch files.
 * Changes from Mozilla HAWK requests to XHR
 
 * Changes from Mozilla endpoint names to Privacy.App endpoints
-  (TODO: generalize this to ``miff-backend``)
+  <!-- TODO: generalize this to ``miff-backend`` -->
 
 
 ### ``03_sync``
@@ -204,31 +213,35 @@ Expand section below for details on all the patch files.
 ### ``08_endpoints``
 
 * Routing security or settings requests through Privacy.App
-  (TODO: generalize to ``miff-backend``)
+  <!-- TODO: generalize this to ``miff-backend`` -->
 
 
 ### ``09_support_links``
 
 * Change help and support links to Privacy.App
-  (TODO: generalize to ``miff-backend``)
+  <!-- TODO: generalize this to ``miff-backend`` -->
+
 
 
 ### ``10_branding_text``
 
 * Changing brand names to comply with Mozilla Trademark Guidelines[^2]
-  (TODO: generalize to ``miff-backend``)
+  <!-- TODO: generalize this to ``miff-backend`` -->
 
 
 ### ``11_various_branding``
 
 * Changing brandind messages to comply with Mozilla Trademark Guidelines[^2]
-  (TODO: generalize to ``miff-backend``)
+  <!-- TODO: generalize this to ``miff-backend`` -->
+
+
 
 
 ### ``12_updates``
 
 * Change update server to be from Privacy.App
-  (TODO: generalize to ``miff-backend``)
+  <!-- TODO: generalize this to ``miff-backend`` -->
+
 
 
 ### ``13_permissions``
@@ -259,8 +272,10 @@ stable - mirror of tagged releases (in case you need to try building on new targ
 
 
 
+<details>
+<summary><i>Windows Build</i></summary>
 
-# Win10 build setup
+## Windows (Win10) Build Setup
 
 When installing, the following workloads must be checked:
 
@@ -278,7 +293,7 @@ frameworks” group:
   you’ll be building for ARM64)
 
 
-## Set up Cygwin
+### Set up Cygwin
 
 In Windows, we work in either Moz Shell for all the build tools from Mozilla (see
 below), and Cygwin64 for all of our own tooling (git, quilt, various
@@ -290,7 +305,14 @@ Install the following packages in Cygwin:
 * quilt
 * p7zip
 
-# Ubuntu build setup
+</details>
+
+<br/>
+
+<details>
+<summary><i>Linux (Ubuntu) Build</i></summary>
+
+## Ubuntu build setup
 
 First, install Python (3.6 or later): ``sudo apt install python3 python3-dev``
 
@@ -301,13 +323,15 @@ python3 -m pip install --user mercurial
 sudo apt install mercurial
 ```
 
-
 You will also need to install yasm and libgtk2.0-dev through ``apt``.
 
 The rest of the process is similar to a Windows setup, but all commands can be done from the Ubuntu terminal.
 
+</details>
 
-## Check out with Mercurial
+
+
+### Check out with Mercurial
 
 Work environment is in "/mozilla-source" (MozDev "/c/mozilla-source"
 and Cygwin "/cygdrive/c/mozilla-source"
@@ -361,10 +385,10 @@ get something like this
 
 
 ```
-   /c/mozilla-source/bootstrap.py
-   /c/mozilla-source/mozilla-release/
-   /c/mozilla-source/firefox-84.0.2/
-   /c/mozilla-source/miff/
+/c/mozilla-source/bootstrap.py
+/c/mozilla-source/mozilla-release/
+/c/mozilla-source/firefox-84.0.2/
+/c/mozilla-source/miff/
 ```
 
 Next, go to the specific release (again, ``84.0.2`` throught our
@@ -386,7 +410,7 @@ version would be the correct patch tarball to start with:
 https://github.com/Magnusson-Institute/miff/archive/refs/tags/v84.0.2.4.tar.gz
 
 
-# MiFF patches / changes
+## MiFF patches / changes
 
 
 There are two sources of changes:
@@ -410,7 +434,7 @@ quilt push -a
 ```
 
 
-# Creating an update file
+## Creating an update file
 
 Firefox updates replace the files in a user's install directory. These
 updates are packaged as a special type of xz or bz2 archive called a
@@ -425,12 +449,14 @@ manifest.
 The Python tool can be installed with pip, but requires several other tools in order to install properly.
 
 For Cygwin:
+
 * python38
 * python38-devel
 * python38-cryptography
 * liblzma-devel
 
 For Ubuntu:
+
 * liblzma-dev
 
 
@@ -465,7 +491,8 @@ Any changes to mozconfig or the version number trigger a full build.
 
 And you should have a working, re-branded Firefox.
 
-# To make modifications yourself
+
+## Making modifications yourself
 
 First make sure you've done the above steps. 'miff' needs to be
 alongside your build directory, you need a symbolic link to 'patches',
@@ -515,14 +542,10 @@ add them with `quilt add <filename>`.
   modified files, you can see what's been done (roughly)
 
 
-## Set up on Mac OS X (m1)
+<details>
+<summary><i>macOS Build</i></summary>
 
-Similar to Ubuntu, obviously, but enough differences that this will be self-contained:
-
-_(It's (currently) unclear if FF on m1 should be built native or
-cross-platform. One confusion is in trying between these, the
-"~/.mozbuild" probably gets populated with conflicting tools?
-My current approach is to work in a pure 'x86' environment/terminal)_
+## Set up on Mac OS X (m1)[^4]
 
 The C++ tools used to build on Mac are based off Xcode; so first
 install latest version of Xcode from the App Store, then finalize it's
@@ -535,48 +558,46 @@ other items:
    brew install yasm
    brew install libgtk2.0-dev
    brew install quilt
+   # stay up-to-date, especially on m1 ...
+   brew update
+   brew upgrade
 ```
 
 Next, create a working directory where you want to work, here we'll
 call it "~/dev/ff01"; create it and bootstrap:
-
-
    
 ```
-   mkdir ~/dev/ff01
-   cd ~/dev/ff01
-   curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
-   python3 bootstrap.py
+mkdir ~/dev/ff01
+cd ~/dev/ff01
+curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
+python3 bootstrap.py
 ```
 
 
 Press "enter" for destination, for default; so it'll start in
 "~/ff01/mozilla-unified" in this example.  Mercurial will pull from
-"https://hg.mozilla.org/mozilla-unified"; which is full tree. We will
-build that first, that will ensure tooling etc is pulled in.  Follow
-instructions from script, then make sure to start a new terminal so
+"https://hg.mozilla.org/mozilla-unified"; which is full tree (be
+patient, it needs to download 650,000+ files). We will build that
+first, to ensure our tooling etc is properly set up.  Follow
+instructions from the script, then make sure to start a new terminal so
 all the settings have taken effect.
 
 The various tooling specific to FF build will be set up by the above bootstrap in ``~/.mozbuild/``
 
-A bit of setup:
+A few more macOS particulars: 
 
 
 ```
-   sudo xcode-select --switch /Applications/Xcode.app
-   sudo xcodebuild -license
-   echo "export PATH=\"$(python3 -m site --user-base)/bin:$PATH\"" >> ~/.zshenv
-   python3 -m pip install --user mercurial
-   hg version
+sudo xcode-select --switch /Applications/Xcode.app
+sudo xcodebuild -license
+echo "export PATH=\"$(python3 -m site --user-base)/bin:$PATH\"" >> ~/.zshenv
+python3 -m pip install --user mercurial
+hg version
 ```
-
-
-_ .. hmm, I had a warning to myself "Do *not* run "brew install mercurial", that's something else, it will
-drag in newer versions of Python (3.9.x) etc" that I'm "now" ignoring (Dec 21) .. _
 
 HOWEVER. Your "latest version" of Xcode will probably have an SDK that
 is too modern. So you need to "downgrade" locally for Moz.  At time of
-writing, their documentation[^4] states that they are using the 10.12 SDK, but their _error messages_
+writing, their documentation[^5] states that they are using the 10.12 SDK, but their _error messages_
 state that they support the 11.1 SDK.
 
 (Apple documentation on the different versions is summarized here:
@@ -596,9 +617,9 @@ it's "really" directory tree under ~/Downloads/Xcode.app:
 
 
 ```
-   mkdir -p ~/.mozbuild/macos-sdk
-   # This assumes that Xcode is in your "Downloads" folder
-   cp -aH ~/Downloads/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk ~/.mozbuild/macos-sdk/
+mkdir -p ~/.mozbuild/macos-sdk
+# This assumes that Xcode is in your "Downloads" folder
+cp -aH ~/Downloads/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk ~/.mozbuild/macos-sdk/
 ```
 
 
@@ -607,7 +628,7 @@ created if it's not there); should be in your FF source code
 directory:
 
 ```
-   echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> ~/dev/ff01/mozilla-unified/mozconfig
+echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> ~/dev/ff01/mozilla-unified/mozconfig
 ```
 
 
@@ -616,19 +637,19 @@ Again, make sure to start a new terminal so all the settings have
 taken effect, and then you should be able to start the (huge) build:
 
 ```
-   cd ~/dev/ff01/mozilla-unified
-   ./mach build
-   ./mach run
+cd ~/dev/ff01/mozilla-unified
+./mach build
+./mach run
 
-   # if you want to try to package it, you would also:
-   # ./mach package
+# if you want to try to package it, you would also:
+# ./mach package
 ```
 
 
 the object tree will be in:
 
 ```
-   ~/dev/ff01/mozilla-unified/obj-x86_64-apple-darwin20.5.0
+~/dev/ff01/mozilla-unified/obj-x86_64-apple-darwin20.5.0
 ```
 
 
@@ -645,17 +666,17 @@ result should look like:
 
 
 ```
-   #
-   # eg in this case you're downloading:
-   # https://github.com/Magnusson-Institute/miff/archive/refs/tags/v89.0.2.3.tar.gz
-   # https://archive.mozilla.org/pub/firefox/releases/89.0.2/source/firefox-89.0.2.source.tar.xz
-   #
-   # and result should be:
-   #
-   ~/dev/ff01/mozilla-unified/...
-   ~/dev/ff01/firefox-89.0.2/..
-   ~/dev/ff01/miff-89.0.2.3/...
-   #
+#
+# eg in this case you're downloading:
+# https://github.com/Magnusson-Institute/miff/archive/refs/tags/v89.0.2.3.tar.gz
+# https://archive.mozilla.org/pub/firefox/releases/89.0.2/source/firefox-89.0.2.source.tar.xz
+#
+# and result should be:
+#
+~/dev/ff01/mozilla-unified/...
+~/dev/ff01/firefox-89.0.2/..
+~/dev/ff01/miff-89.0.2.3/...
+#
 ```
 
 
@@ -663,59 +684,59 @@ First re-build clean 89.0.2 by itself _without_ applying any patches, to make su
 is all working:
 
 ```
-   # examples assume this root dev directory
-   cd ~/dev/ff01
+# examples assume this root dev directory
+cd ~/dev/ff01
 
-   # if you haven't extracted it yet:
-   tar xzf ./firefox-89.0.2.source.tar.xz
+# if you haven't extracted it yet:
+tar xzf ./firefox-89.0.2.source.tar.xz
 
-   cd firefox-89.0.2
+cd firefox-89.0.2
 
-   # remember to update/create mozconfig:
-   # (it might not exist)
-   echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> ./mozconfig
+# remember to update/create mozconfig:
+# (it might not exist)
+echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> ./mozconfig
 
-   # now this should work:
-   ./mach build
-   ./mach run
+# now this should work:
+./mach build
+./mach run
 ```
 
 Now you can apply the patches:
 
  
 ```
-   # make sure we're in the right place
-   cd ~/dev/ff01
+# make sure we're in the right place
+cd ~/dev/ff01
 
-   # first, even if it's a tarball, needs to be called 'miff':
-   mv miff-89.0.2.3 miff
+# first, even if it's a tarball, needs to be called 'miff':
+mv miff-89.0.2.3 miff
 
-   # make sure you're in the right spot
-   cd ~/dev/ff01/firefox-89.0.2
+# make sure you're in the right spot
+cd ~/dev/ff01/firefox-89.0.2
 
-   # first copy the files that are meant to outright over-write:
-   ../miff/copy_files.sh
+# first copy the files that are meant to outright over-write:
+../miff/copy_files.sh
 
-   # make sure your actual "obj" directory can be reached from the reference directory:
-   # (otherwise some patches will break)
-   ln -s obj-x86_64-apple-darwin20.5.0 obj-x86_64-pc-mingw32
+# make sure your actual "obj" directory can be reached from the reference directory:
+# (otherwise some patches will break)
+ln -s obj-x86_64-apple-darwin20.5.0 obj-x86_64-pc-mingw32
 
-   # now soft-link our patch system and apply them
-   ln -s ../miff/patches .
-   quilt push -a
+# now soft-link our patch system and apply them
+ln -s ../miff/patches .
+quilt push -a
 
-   # the above will fail on Patch 12, that's ok, first build with patches 1-11:
-   ./mach build
-   ./mach run
+# the above will fail on Patch 12, that's ok, first build with patches 1-11:
+./mach build
+./mach run
 
-   # then apply Patches 12+ and build again
-   quilt push -a
-   ./mach build
-   ./mach run
+# then apply Patches 12+ and build again
+quilt push -a
+./mach build
+./mach run
 
-   # and if that all looks good, build a .dmg,
-   # the result will be in obj-*/dist
-   ./mach package
+# and if that all looks good, build a .dmg,
+# the result will be in obj-*/dist
+./mach package
 ```
 
 
@@ -742,7 +763,9 @@ tar xzf ~/Downloads/miff-96.0.1.1.tar.gz
 mv miff-96.0.1.1 miff
 ```
 
+</details>
 
+<!--
 
 ## NOTE (2021=12=21) on Mac m1
 
@@ -788,85 +811,8 @@ https://github.com/phracker/MacOSX-SDKs/releases
 
 i went with 11.1 instead.
 
-current patch issues:
 
-```   
-   Applying patch patches/11_various_branding.diff
-   patching file browser/base/content/aboutDialog.xhtml
-   Hunk #2 succeeded at 143 with fuzz 2 (offset -1 lines).
-   missing header for unified diff at line 39 of patch
-   can't find file to patch at input line 39
-   Perhaps you used the wrong -p or --strip option?
-   The text leading up to this was:
-   --------------------------
-   |       </vbox>
-   --------------------------
-   No file to patch.  Skipping patch.
-   1 out of 1 hunk ignored
-   patching file browser/locales/en-US/browser/aboutDialog.ftl
-   patching file toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
-   Patch patches/11_various_branding.diff does not apply (enforce with -f)
-```   
-
-
-
-# TODO (informal section - will migrate to issues)
-
-* [PSM 07/05]: need to update
-``locales/en-US/toolkit/about/aboutRights.ftl`` to correctly
-position MiFF, including referencing our privacy policy. need
-to document what policy documents somebody *else* who
-works with ``miff`` would need to change.
-
-* [PSM 07/05]: these need to be changed to 'miff-help':
-
-```
-        browser/base/content/aboutDialog.xhtml
-   130	<label is="text-link" onclick="openHelpLink('firefox-help')" data-l10n-id="aboutdialog-help-user"/>
-        browser/base/content/browser-menubar.inc
-   467	oncommand="openHelpLink('firefox-help')"
-        browser/base/content/browser.js
-   2601	openHelpLink("firefox-help");
-```
-
-and a matching ``privacy.app/supportmiff-help`` endpoint added (i think that's where they'll go,
-thought right now it looks like still landing on ``https://privacy.app/supportfirefox-help``)
-
-* [PSM 07/05]: i _think_ we should replace all occurrences of
-  "mozilla.org" or "firefox.com" to "privacy.app" in file
-  ``source/browser/app/profile/firefox.js``; note that many have already been
-  modified with "MagIns" explanations.
-
-* [PSM 07/05]: need an endpoint for ``https://privacy.app/contribute/``
-
-* [PSM 07/05]: i am currently experimenting with using these additional lines in the "mozconfig" file:
-
-
-```
-   # this fixes -DMOZ_DISTRIBUTION_ID="org.mozilla"
-   ac_add_options --with-distribution-id=app.privacy
-
-   # this fixes -DMOZ_MACBUNDLE_ID=org.mozilla.nightly
-   ac_add_options --with-macbundlename-prefix=app.privacy
-
-   # this might help:
-   ac_add_options --with-branding=browser/branding/unofficial
-
-   # unsure if this needs fixing? -DMOZ_USER_DIR="Mozilla" 
-```
-
-as well as one change, and one addition, to "browser/branding/unofficial/configure.sh":
-
-  
-```
-   #MOZ_APP_DISPLAYNAME=Nightly
-   # MagIns - changed
-   MOZ_APP_DISPLAYNAME=Miff
-   # MagIns - added, not sure (yet) if it makes much difference:
-   MOZ_APP_VENDOR=PrivacyApp
-```
-
-they might help on a Mac (or Mobile) build.
+-->
 
 
 # Resources
@@ -897,10 +843,19 @@ details.
       neither Mozilla nor Firefox starts with a vowel. In short,
       officially, "MiFF" doesn't stand for anything at all.
 
+[^1a]: Currently this does connect to https://privacy.app - issue 4
+       (https://github.com/Magnusson-Institute/miff/issues/4) will
+       allow control over that.
+
+[^1b]: For an exhaustive set of mozilla tags for Firefox, see
+       https://hg.mozilla.org/releases/mozilla-release/tags
+
 [^2]: https://www.mozilla.org/en-US/foundation/trademarks/policy/
 
 [^3]: https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html
 
-[^4]: https://firefox-source-docs.mozilla.org/setup/macos_build.html#macos-sdk-is-unsupported
+[^4]: Latest succesful build: macOS Monterey (12.2.1), MacBook Pro (16-inch, 2021), Apple M1 Max.
+
+[^5]: https://firefox-source-docs.mozilla.org/setup/macos_build.html#macos-sdk-is-unsupported
 
 	  

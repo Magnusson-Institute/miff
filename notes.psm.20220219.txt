@@ -1,0 +1,89 @@
+_ .. hmm, I had a warning to myself "Do *not* run "brew install mercurial", that's something else, it will
+drag in newer versions of Python (3.9.x) etc" that I'm "now" ignoring (Dec 21) .. _
+
+
+# TODO (informal section - will migrate to issues)
+
+* [PSM 07/05]: need to update
+``locales/en-US/toolkit/about/aboutRights.ftl`` to correctly
+position MiFF, including referencing our privacy policy. need
+to document what policy documents somebody *else* who
+works with ``miff`` would need to change.
+
+* [PSM 07/05]: these need to be changed to 'miff-help':
+
+```
+        browser/base/content/aboutDialog.xhtml
+   130	<label is="text-link" onclick="openHelpLink('firefox-help')" data-l10n-id="aboutdialog-help-user"/>
+        browser/base/content/browser-menubar.inc
+   467	oncommand="openHelpLink('firefox-help')"
+        browser/base/content/browser.js
+   2601	openHelpLink("firefox-help");
+```
+
+and a matching ``privacy.app/supportmiff-help`` endpoint added (i think that's where they'll go,
+thought right now it looks like still landing on ``https://privacy.app/supportfirefox-help``)
+
+* [PSM 07/05]: i _think_ we should replace all occurrences of
+  "mozilla.org" or "firefox.com" to "privacy.app" in file
+  ``source/browser/app/profile/firefox.js``; note that many have already been
+  modified with "MagIns" explanations.
+
+* [PSM 07/05]: need an endpoint for ``https://privacy.app/contribute/``
+
+* [PSM 07/05]: i am currently experimenting with using these additional lines in the "mozconfig" file:
+
+
+```
+   # this fixes -DMOZ_DISTRIBUTION_ID="org.mozilla"
+   ac_add_options --with-distribution-id=app.privacy
+
+   # this fixes -DMOZ_MACBUNDLE_ID=org.mozilla.nightly
+   ac_add_options --with-macbundlename-prefix=app.privacy
+
+   # this might help:
+   ac_add_options --with-branding=browser/branding/unofficial
+
+
+
+
+
+
+   # unsure if this needs fixing? -DMOZ_USER_DIR="Mozilla" 
+```
+
+as well as one change, and one addition, to "browser/branding/unofficial/configure.sh":
+
+  
+```
+   #MOZ_APP_DISPLAYNAME=Nightly
+   # MagIns - changed
+   MOZ_APP_DISPLAYNAME=Miff
+   # MagIns - added, not sure (yet) if it makes much difference:
+   MOZ_APP_VENDOR=PrivacyApp
+```
+
+they might help on a Mac (or Mobile) build.
+
+
+
+current patch issues:
+
+```   
+   Applying patch patches/11_various_branding.diff
+   patching file browser/base/content/aboutDialog.xhtml
+   Hunk #2 succeeded at 143 with fuzz 2 (offset -1 lines).
+   missing header for unified diff at line 39 of patch
+   can't find file to patch at input line 39
+   Perhaps you used the wrong -p or --strip option?
+   The text leading up to this was:
+   --------------------------
+   |       </vbox>
+   --------------------------
+   No file to patch.  Skipping patch.
+   1 out of 1 hunk ignored
+   patching file browser/locales/en-US/browser/aboutDialog.ftl
+   patching file toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
+   Patch patches/11_various_branding.diff does not apply (enforce with -f)
+```   
+

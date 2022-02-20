@@ -131,15 +131,38 @@ details.
 
 # Building MiFF Yourself
 
-Below are instructions for building different targets
-
 <!-- TODO: add reference to the UK paper that runs browsers for 30 minutes; include our objective
 to have zero internet accesses that were not initiated by user. -->
 
-
 <a id="patches"></a>
 
-## "Patches"
+Regardless of what platform you are building for, there's a common flow:
+
+1. Set up your build system
+    1. Set up _general_ tooling
+    1. Set up _mozilla specific_ tooling
+    1. Set up _platform specific_ tooling and/or tweaks
+1. Build "latest and greatest" Firefox (Nightly)
+    1. Download Nightly from Mozilla version control (mercurial) servers
+    1. Build and run
+1. Build _specific_ release of Firefox
+    1. Download specific version (tarball) of Firefox (e.g. v92.0)
+    1. Build and run
+1. Build _patched_ version of _specific_ release
+    1. Download (matching) specific version of MiFF (this git, pick matching tag)
+    1. Apply patches
+    1. Build and run
+
+So, yes, if you're doing this the first time on a build system, you
+will end up building three times ... first "Nightly", then a specific
+release version of Firefox, then finally a patched version of that
+specific release, and that's "MiFF". The reason for this approach is
+to safeguard against tooling issues. Trust us, you do _not_ want to be
+debugging that.
+
+There are two main parts to "MiFF", more or less: first are a set of
+patches, as noted above, which modifies behavior. Second is a
+stand-alone backend server.
 
 All of MiFF's patches for the Gecko source code are located in the
 ``patches``:
@@ -153,6 +176,8 @@ Contents of the diff files follow the unified GNU diff format.[^3]
 
 *Note: for many of the patch files, we include extensive comments on
 all of the changes int he patchfiles themselves.*
+
+
 
 Expand section below for details on all the patch files.
 
@@ -253,7 +278,7 @@ Expand section below for details on all the patch files.
 </details>
 
 
-## ``99_disable_debug``
+### ``99_disable_debug``
 
 This patch file is a bit special. It turns off browser debugger and
 other debugging tools. This is necessary from the workflow of
@@ -330,7 +355,6 @@ You will also need to install yasm and libgtk2.0-dev through ``apt``.
 The rest of the process is similar to a Windows setup, but all commands can be done from the Ubuntu terminal.
 
 </details>
-
 
 
 ### Check out with Mercurial

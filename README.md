@@ -131,9 +131,7 @@ details.
 
 # Building MiFF Yourself
 
-Below are instructions for building different targets, expand the one
-that you are interested in for particulars.
-
+Below are instructions for building different targets
 
 <!-- TODO: add reference to the UK paper that runs browsers for 30 minutes; include our objective
 to have zero internet accesses that were not initiated by user. -->
@@ -141,7 +139,7 @@ to have zero internet accesses that were not initiated by user. -->
 
 <a id="patches"></a>
 
-# "Patches"
+## "Patches"
 
 All of MiFF's patches for the Gecko source code are located in the
 ``patches``:
@@ -271,6 +269,10 @@ master - active development; all releases (v92.x, v096.x, etc) are on the master
 stable - mirror of tagged releases (in case you need to try building on new targets for example)
 
 
+
+## Platform-specific Builds
+
+Below are sections on Windows, Linux, and MacOS. Expand the one you need.
 
 <details>
 <summary><i>Windows Build</i></summary>

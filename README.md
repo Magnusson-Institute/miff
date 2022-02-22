@@ -334,8 +334,6 @@ Install the following packages in Cygwin:
 
 </details>
 
-<br/>
-
 <details>
 <summary><i>Linux (Ubuntu) Build</i></summary>
 
@@ -572,23 +570,32 @@ add them with `quilt add <filename>`.
 <details>
 <summary><i>macOS Build</i></summary>
 
+<--! might need:
+export CPATH="/Users/petermagnusson/.mozbuild/macos-sdk/MacOSX10.12.sdk/usr/include"
+-->
+
 ## Set up on Mac OS X (m1)[^4]
 
 The C++ tools used to build on Mac are based off Xcode; so first
 install latest version of Xcode from the App Store, then finalize it's
-installation from command line, and install Mercurial (and make sure
-your python is 3.8.x, thought right now I'm trying with 3.9.9) and
-other items:
+installation from command line, and install Mercurial. Current macOS
+is Python 3.9.7 which works fine.
 
 ```
-   brew install mercurial
-   brew install yasm
-   brew install libgtk2.0-dev
-   brew install quilt
-   # stay up-to-date, especially on m1 ...
-   brew update
-   brew upgrade
+# install basics
+brew install mercurial yasm quilt
+
+# stay up-to-date, especially on m1 ...
+brew update
+brew upgrade
 ```
+
+<--! you might need to install libgtk2.0 - 
+   https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
+   (used to be able to do brew install libgtk2.0-dev ...)
+   -->
+
+
 
 Next, create a working directory where you want to work, here we'll
 call it "~/dev/ff01"; create it and bootstrap:
@@ -611,8 +618,14 @@ all the settings have taken effect.
 
 The various tooling specific to FF build will be set up by the above bootstrap in ``~/.mozbuild/``
 
-A few more macOS particulars: 
+<!--
+The following is a bit outdated, it doesn't seem to be needed for
+v96.0 onwards, we did need some of this stuff historically, dating
+back to v89. Instead, seems that all you need to do now is adjust
+some paths.
 
+################################################################
+A few more macOS particulars: 
 
 ```
 sudo xcode-select --switch /Applications/Xcode.app
@@ -658,7 +671,8 @@ directory:
 echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> ~/dev/ff01/mozilla-unified/mozconfig
 ```
 
-
+################################################################
+-->
 
 Again, make sure to start a new terminal so all the settings have
 taken effect, and then you should be able to start the (huge) build:
@@ -676,7 +690,7 @@ cd ~/dev/ff01/mozilla-unified
 the object tree will be in:
 
 ```
-~/dev/ff01/mozilla-unified/obj-x86_64-apple-darwin20.5.0
+~/dev/ff01/mozilla-unified/obj-x86_64-apple-darwin21.3.0
 ```
 
 
@@ -685,43 +699,52 @@ source code tarball. Make sure to match (exactly) the tagged version
 in miff (e.g. from top of
 ``https://github.com/Magnusson-Institute/miff/tags``).
 
-In this case, our latest miff tag is "89.0.2.3", which matches Mozilla FF tag "89.0.2" (the fourth
-digit ".3" is our internal release schedule, tracking FF). So in this case, download
-``https://archive.mozilla.org/pub/firefox/releases/89.0.2/source/firefox-89.0.2.source.tar.xz``,
-download our own (tagged) miff tarball, and place it alongside, extract all the tarballs, net
-result should look like:
+In this case, our latest miff tag at time of writing is "96.0.1.1",
+which matches Mozilla FF tag "96.0.1" (the fourth digit ".1" is our
+internal release schedule). So in this case, download
+``https://archive.mozilla.org/pub/firefox/releases/96.0.1/source/firefox-96.0.1.source.tar.xz``,
+download our own (tagged) miff tarball, and place it alongside,
+extract all the tarballs, net result should look like:
 
 
 ```
 #
 # eg in this case you're downloading:
-# https://github.com/Magnusson-Institute/miff/archive/refs/tags/v89.0.2.3.tar.gz
-# https://archive.mozilla.org/pub/firefox/releases/89.0.2/source/firefox-89.0.2.source.tar.xz
+# https://github.com/Magnusson-Institute/miff/archive/refs/tags/v96.0.1.1.tar.gz
+# https://archive.mozilla.org/pub/firefox/releases/96.0.1/source/firefox-96.0.1.source.tar.xz
 #
 # and result should be:
 #
 ~/dev/ff01/mozilla-unified/...
-~/dev/ff01/firefox-89.0.2/..
-~/dev/ff01/miff-89.0.2.3/...
+~/dev/ff01/firefox-96.0.1/..
+~/dev/ff01/miff-96.0.1.1/...
 #
 ```
 
 
-First re-build clean 89.0.2 by itself _without_ applying any patches, to make sure your build environment
-is all working:
+First re-build clean 96.0.1 by itself _without_ applying any patches,
+to make sure your build environment is all working.
+
+But first adjust your paths so that some key tool binaries are picked up
+from "~/.mozbuild" rather than your default macOS tooling.
 
 ```
+# insert clang and node from mozbuild
+export PATH="/Users/<you>/.mozbuild/clang/bin:/Users/<you>/.mozbuild/node/bin:$PATH"
+
 # examples assume this root dev directory
 cd ~/dev/ff01
 
 # if you haven't extracted it yet:
-tar xzf ./firefox-89.0.2.source.tar.xz
+tar xzf ~/Downloads/firefox-96.0.1.source.tar.xz
 
-cd firefox-89.0.2
+cd firefox-96.0.1
 
+<!--  ## not needed?
 # remember to update/create mozconfig:
 # (it might not exist)
 echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> ./mozconfig
+-->
 
 # now this should work:
 ./mach build
@@ -736,23 +759,27 @@ Now you can apply the patches:
 cd ~/dev/ff01
 
 # first, even if it's a tarball, needs to be called 'miff':
-mv miff-89.0.2.3 miff
+mv miff-96.0.1.1 miff
 
 # make sure you're in the right spot
-cd ~/dev/ff01/firefox-89.0.2
+cd ~/dev/ff01/firefox-96.0.1
 
 # first copy the files that are meant to outright over-write:
 ../miff/copy_files.sh
 
+<!-- note - if you're using some old tarballs for miff, you might need alias for 'm041' -->
+
+<!-- is this still needed?
 # make sure your actual "obj" directory can be reached from the reference directory:
 # (otherwise some patches will break)
-ln -s obj-x86_64-apple-darwin20.5.0 obj-x86_64-pc-mingw32
+ln -s obj-x86_64-apple-darwin21.3.0 obj-x86_64-pc-mingw32
+-->
 
 # now soft-link our patch system and apply them
 ln -s ../miff/patches .
 quilt push -a
 
-# the above will fail on Patch 12, that's ok, first build with patches 1-11:
+# the above might fail on Patch 12, that's ok, first build with patches 1-11:
 ./mach build
 ./mach run
 

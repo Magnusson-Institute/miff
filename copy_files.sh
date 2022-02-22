@@ -1,7 +1,7 @@
 #!/bin/bash 
-ROOTDIR="../m041"
+ROOTDIR="../miff"
 
-# m041 needs to be parallel, and we just sanity check the main browser target
+# miff needs to be parallel, and we just sanity check the main browser target
 if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     echo "Copying files"
     set -x
@@ -40,5 +40,5 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     set +x
 else
     # in case you're wondering, this is a trick to not double-echo with '-x', in case it's on for the whole file
-    { echo "You need to be at the root location of the browser, and '../m041' alongside you"; } 2> /dev/null
+    { echo "You need to be at the root location of the browser, and '../miff' alongside you"; } 2> /dev/null
 fi

@@ -188,54 +188,81 @@ Expand section below for details on all the patch files.
 
 ### ``01_privacy``
 
-* Disabling all telemetry
+* Makes several changes to baseline configuration (towards more private)
 
-* Enabling a number of privacy settings
+	* Disables all telemetry and remove related UI elements
+	
+	* Removes pings for Top Sites, Snippets, addon recommendations, etc.
 
-* Several changes to baseline configuration (towards more private)
+* Disables Mozilla's default browser agent (Windows only)
 
 
 ### ``02_sso``
 
-* Changes from Mozilla HAWK requests to XHR
-
-* Changes from Mozilla endpoint names to Privacy.App endpoints
+* Changes Mozilla FxA (Firefox Accounts) endpoints to Privacy.App endpoints
   <!-- TODO: generalize this to ``miff-backend`` -->
+* Removes email verification from FxA login process
+
+* Changes Mozilla HAWK requests to XHR, thus using Flask session for authentication
+
+* Uses "Magnusson Institute Member" as a generic username for FxA
+
 
 
 ### ``03_sync``
 
-* Similar to ``02_sso`` but for sync requests
-  
+* Similar to ``02_sso`` but changing requests for sync
+
+* Takes out cryptographic wrappers based on username/password combinations
+
 
 ### ``04_connected_devices``
 
-* Disabling device push and connected devices
+* Disables features that depend on device push
+
+	* Synced Tabs
+	
+	* "Connect Another Device" feature
   
 
 ### ``05_search``
 
-* Removing Google as default search engine,
-  replace with DuckDuckGo as default
+* Removes Google, Bing, and Amazon as default search engines
 
-* Adds StartPage as an option
+* Sets DuckDuckGo as the replacement default search engine
+
+	* Startpage is added as a search engine option during installer creation
 
 
 ### ``06_ui``
 
-* Remove default bookmarks
+* Removes default Mozilla bookmarks
 
-* Removes recommended sites
-  
+* Removes recommended sites and pinned search engines from Home screen
+
+* Disables custom profile pictures for FxA
+
+* Removes the about:mozilla page
+
+* Removes unneeded URL parameters for Privacy.App endpoints
+
 
 ### ``07_pocket``
 
-* Remove pocket
+* Removes "Recommended by Pocket" sponsored articles
+
+* Removes Save to Pocket feature
 
 
 ### ``08_endpoints``
 
-* Routing security or settings requests through Privacy.App
+* Routes Safebrowsing and Blocklist requests through Privacy.App
+  <!-- TODO: generalize this to ``miff-backend`` -->
+
+* Routes update checks for Addons and GeckoMediaPlugins through Privacy.App
+  <!-- TODO: generalize this to ``miff-backend`` -->
+
+* Routes downloads for Addons through Privacy.App
   <!-- TODO: generalize this to ``miff-backend`` -->
 
 

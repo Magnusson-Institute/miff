@@ -4,10 +4,7 @@ MiFF[^1] is lightway approach to replace Mozilla and Google (and any
 other) service dependencies from Mozilla Firefox (GeckoView),
 including removing anything resembling "phone home", as well as some
 modifications to certain settings. Note that we "replace" service
-dependencies, we don't "remove" them. Default build is to use
-https://Privacy.App as backend replacement for service dependencies,
-but you can run your own backend instance
-(https://github.com/magnusson-institute/miff-backend).
+dependencies, we don't "remove" them.
 
 This project was partly inspired by the [ungoogled-chromium
 project](https://github.com/Eloston/ungoogled-chromium) and borrows

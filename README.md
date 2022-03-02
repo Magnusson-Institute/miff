@@ -183,8 +183,112 @@ Contents of the diff files follow the unified GNU diff format.[^3]
 all of the changes int he patchfiles themselves.*
 
 
+## MiFF patches / changes
 
-Expand section below for details on all the patch files.
+There are two sources of changes:
+
+* File patches, these are encompassed by the `miff/patches/*.diff`
+  files, and managed with `quilt`.
+
+* Replacement files.  These are listed in `miff/copy_files/` and are
+  copied over with `copy_files.sh` into the firefox source tree.
+
+If you're just applying changes and patches and re-building, do
+something like this:
+
+```bash
+cd /c/mozilla-source/firefox-84.0.2
+../miff/copy_files.sh
+ln -s ../miff/patches .
+quilt push -a
+./mach build
+./mach run
+```
+
+
+## Working with the update patch (patch #12)
+
+If you have not run ``./mach build`` before, quilt will fail trying
+to apply 12_updates.diff. The build process creates several generated
+files on a first run, including the certificates for update validation.
+You will need to run ``./mach build`` first, then apply patch 12 and
+beyond.
+
+There is an additional step if you are not working in a Windows
+environment. The first build creates an obj-\* folder, where all the
+generated files live. The name of this folder is different on each OS.
+For non-Windows systems, create a symbolic link to your platform's
+obj-\* folder named ``obj-x86_64-pc-mingw32`` and the patch will
+apply correctly.
+
+
+## Working with the release patch (patch #99)
+
+The final patch in the series is used to disable debug features and to
+track the version number. If you are working on development you will want
+to leave this patch unapplied. Before creating a release/update, set the
+appropriate version number in this patch and create a matching tag on Github.
+
+These features are controlled by the mozconfig files, one for each file.
+The mozilla build tool will only use the mozconfig if the build is run like
+so: ``env MOZCONFIG="path/to/mozconfig" ./mach build``.
+
+Any changes to mozconfig or the version number trigger a full build.
+
+And you should have a working, re-branded Firefox.
+
+
+## Making modifications yourself
+
+First make sure you've done the above steps. 'miff' needs to be
+alongside your build directory, you need a symbolic link to 'patches',
+etc.
+
+For example, if you want to start making changes to 'aboutDialog.ftl'.
+First, apply patches and file replacements as per above. Then:
+
+
+```
+bash
+cd /mozilla-source/firefox-84.0.2
+quilt new NN_description_of_changes.diff
+quilt add browser/locales/en-US/browser/aboutDialog.ftl 
+```
+
+
+Where 'NN' is a new (higher) patch number than what is already in
+`miff/patches/series`. Quilt will only track changes made *after* a file is added to a patch.
+
+Now make some edits to this file (aboutDialog.ftl). Then refresh the patch file:
+
+```
+quilt refresh
+```
+
+
+That will create an 'NN' patch file.
+
+## To work with an existing patch / set of changes
+
+
+You will need to selectively 'quilt push' until you are at the patch
+file you want to be using to cluster your changes.  Make sure the
+file(s) you are working with are referenced in that patch file (if not
+add them with `quilt add <filename>`.
+
+## Some principles
+
+* Try labeling changes with the "MIFF NN" string
+  where 'NN' is the patch (diff) file
+  (it will be unique, does not exist in FF source code outside dictionary files)
+  (note: older tags might use "MagIns")
+
+* Try not just deleting or replacing things, but comment out the
+  old code, so that when continuing to work with the resulting
+  modified files, you can see what's been done (roughly)
+
+
+Expand section below for details on all the current patch files.
 
 <details>
 <summary><b>Click to expand/collapse</b></summary>
@@ -431,110 +535,6 @@ cd miff/
 git checkout v84.0.2.4
 ```
 
-
-## MiFF patches / changes
-
-There are two sources of changes:
-
-* File patches, these are encompassed by the `miff/patches/*.diff`
-  files, and managed with `quilt`.
-
-* Replacement files.  These are listed in `miff/copy_files/` and are
-  copied over with `copy_files.sh` into the firefox source tree.
-
-If you're just applying changes and patches and re-building, do
-something like this:
-
-```bash
-cd /c/mozilla-source/firefox-84.0.2
-../miff/copy_files.sh
-ln -s ../miff/patches .
-quilt push -a
-./mach build
-./mach run
-```
-
-
-## Working with the update patch (patch #12)
-
-If you have not run ``./mach build`` before, quilt will fail trying
-to apply 12_updates.diff. The build process creates several generated
-files on a first run, including the certificates for update validation.
-You will need to run ``./mach build`` first, then apply patch 12 and
-beyond.
-
-There is an additional step if you are not working in a Windows
-environment. The first build creates an obj-\* folder, where all the
-generated files live. The name of this folder is different on each OS.
-For non-Windows systems, create a symbolic link to your platform's
-obj-\* folder named ``obj-x86_64-pc-mingw32`` and the patch will
-apply correctly.
-
-
-## Working with the release patch (patch #99)
-
-The final patch in the series is used to disable debug features and to
-track the version number. If you are working on development you will want
-to leave this patch unapplied. Before creating a release/update, set the
-appropriate version number in this patch and create a matching tag on Github.
-
-These features are controlled by the mozconfig files, one for each file.
-The mozilla build tool will only use the mozconfig if the build is run like
-so: ``env MOZCONFIG="path/to/mozconfig" ./mach build``.
-
-Any changes to mozconfig or the version number trigger a full build.
-
-And you should have a working, re-branded Firefox.
-
-
-## Making modifications yourself
-
-First make sure you've done the above steps. 'miff' needs to be
-alongside your build directory, you need a symbolic link to 'patches',
-etc.
-
-For example, if you want to start making changes to 'aboutDialog.ftl'.
-First, apply patches and file replacements as per above. Then:
-
-
-```
-bash
-cd /mozilla-source/firefox-84.0.2
-quilt new NN_description_of_changes.diff
-quilt add browser/locales/en-US/browser/aboutDialog.ftl 
-```
-
-
-Where 'NN' is a new (higher) patch number than what is already in
-`miff/patches/series`. Quilt will only track changes made *after* a file is added to a patch.
-
-Now make some edits to this file (aboutDialog.ftl). Then refresh the patch file:
-
-```
-quilt refresh
-```
-
-
-That will create an 'NN' patch file.
-
-## To work with an existing patch / set of changes
-
-
-You will need to selectively 'quilt push' until you are at the patch
-file you want to be using to cluster your changes.  Make sure the
-file(s) you are working with are referenced in that patch file (if not
-add them with `quilt add <filename>`.
-
-## Some principles
-
-* Try labeling changes with the "MIFF NN" string
-  where 'NN' is the patch (diff) file
-  (it will be unique, does not exist in FF source code outside dictionary files)
-  (note: older tags might use "MagIns")
-
-* Try not just deleting or replacing things, but comment out the
-  old code, so that when continuing to work with the resulting
-  modified files, you can see what's been done (roughly)
 
 
 ## Creating an update file

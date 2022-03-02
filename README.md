@@ -43,7 +43,10 @@ backend server code.
 1. ["Patches"](#patches)
 1. [Branches](#branches)
 1. [Platform-specific Builds](platform-specific-builds)
-    1. [Windows (Win10) Build Setup](windows-win10-build-setup"]
+    1. [Windows (Win10/11) Build Setup](#windows-win10-build-setup)
+    1. [Ubuntu Build Setup](#ubuntu-build-setup)
+    1. [macOS Build Setup](#set-up-on-mac-os-x-m16)
+
 <!-- /MarkdownTOC -->
 
 </details>

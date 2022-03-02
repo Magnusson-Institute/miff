@@ -280,8 +280,6 @@ Expand section below for details on all the patch files.
   even with privacy settings dialed up
 
 
-</details>
-
 
 ### ``99_disable_debug``
 
@@ -289,6 +287,8 @@ This patch file is a bit special. It turns off browser debugger and
 other debugging tools. This is necessary from the workflow of
 developing for ``miff``, since we debug patches using these
 tools, but a shipping final binary shouldn't have them enabled.
+
+</details>
 
 
 
@@ -570,7 +570,7 @@ For Ubuntu:
 <details>
 <summary><i>macOS Build</i></summary>
 
-<--! might need:
+<!-- might need:
 export CPATH="/Users/petermagnusson/.mozbuild/macos-sdk/MacOSX10.12.sdk/usr/include"
 -->
 
@@ -590,7 +590,7 @@ brew update
 brew upgrade
 ```
 
-<--! you might need to install libgtk2.0 - 
+<!-- you might need to install libgtk2.0 - 
    https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
    (used to be able to do brew install libgtk2.0-dev ...)
    -->
@@ -879,8 +879,7 @@ https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial.html
 # LICENSE
 
 MiFF is open source and distributed under MPL 2
-(https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
-details.
+(https://www.mozilla.org/en-US/MPL/2.0/), see the ["LICENSE"](LICENSE) file for details.
 
 
 

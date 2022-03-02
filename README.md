@@ -39,9 +39,11 @@ backend server code.
 <!-- MarkdownTOC -->
 
 1. [Introduction](#introduction)
+1. [Building MiFF Yourself](#building-miff-yourself)
 1. ["Patches"](#patches)
-    1. ["01 - 'privacy'"](#patch-01)
-
+1. [Branches](#branches)
+1. [Platform-specific Builds](platform-specific-builds)
+    1. [Windows (Win10) Build Setup](windows-win10-build-setup"]
 <!-- /MarkdownTOC -->
 
 </details>
@@ -287,7 +289,7 @@ tools, but a shipping final binary shouldn't have them enabled.
 
 
 
-# Branches
+## Branches
 
 master - active development; all releases (v92.x, v096.x, etc) are on the master
 
@@ -302,7 +304,7 @@ Below are sections on Windows, Linux, and MacOS. Expand the one you need.
 <details>
 <summary><i>Windows Build</i></summary>
 
-## Windows (Win10) Build Setup
+### Windows (Win10) Build Setup
 
 When installing, the following workloads must be checked:
 
@@ -337,7 +339,7 @@ Install the following packages in Cygwin:
 <details>
 <summary><i>Linux (Ubuntu) Build</i></summary>
 
-## Ubuntu build setup
+### Ubuntu build setup
 
 First, install Python (3.6 or later):
 ``sudo apt install python3 python3-dev python3-pip``
@@ -390,7 +392,7 @@ pulled from the mozilla-release head recently, will probably lead back to the
 first problem).
 
 
-## Take a specific tarball
+### Take a specific tarball
 
 Now grab a specific version that we have patch support for. For our examples
 here, we will use ``84.0.2`` throughout, but you can see latest tagged releases

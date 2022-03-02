@@ -39,8 +39,12 @@ backend server code.
 <!-- MarkdownTOC -->
 
 1. [Introduction](#introduction)
-1. ["Patches"](#patches)
-    1. ["01 - 'privacy'"](#patch-01)
+1. [Building MiFF Yourself](#building-miff-yourself)
+1. [Patches](#patches)
+1. [Platform-specific Builds](platform-specific-builds)
+    1. [Windows (Win10/11) Build Setup](#windows-win10-build-setup)
+    1. [Ubuntu Build Setup](#ubuntu-build-setup)
+    1. [macOS Build Setup](#set-up-on-mac-os-x-m16)
 
 <!-- /MarkdownTOC -->
 
@@ -177,9 +181,120 @@ Contents of the diff files follow the unified GNU diff format.[^3]
 *Note: for many of the patch files, we include extensive comments on
 all of the changes int he patchfiles themselves.*
 
+## Branches
+
+master - active development; all releases (v92.x, v096.x, etc) are on the master
+
+stable - mirror of tagged releases (in case you need to try building on new targets for example)
 
 
-Expand section below for details on all the patch files.
+
+## MiFF patches / changes
+
+There are two sources of changes:
+
+* File patches, these are encompassed by the `miff/patches/*.diff`
+  files, and managed with `quilt`.
+
+* Replacement files.  These are listed in `miff/copy_files/` and are
+  copied over with `copy_files.sh` into the firefox source tree.
+
+If you're just applying changes and patches and re-building, do
+something like this:
+
+```bash
+cd /c/mozilla-source/firefox-84.0.2
+../miff/copy_files.sh
+ln -s ../miff/patches .
+quilt push -a
+./mach build
+./mach run
+```
+
+
+## Working with the update patch (patch #12)
+
+If you have not run ``./mach build`` before, quilt will fail trying
+to apply 12_updates.diff. The build process creates several generated
+files on a first run, including the certificates for update validation.
+You will need to run ``./mach build`` first, then apply patch 12 and
+beyond.
+
+There is an additional step if you are not working in a Windows
+environment. The first build creates an obj-\* folder, where all the
+generated files live. The name of this folder is different on each OS.
+For non-Windows systems, create a symbolic link to your platform's
+obj-\* folder named ``obj-x86_64-pc-mingw32`` and the patch will
+apply correctly.
+
+
+## Working with the release patch (patch #99)
+
+The final patch in the series is used to disable debug features and to
+track the version number. If you are working on development you will want
+to leave this patch unapplied. Before creating a release/update, set the
+appropriate version number in this patch and create a matching tag on Github.
+
+These features are controlled by the mozconfig files, one for each file.
+The mozilla build tool will only use the mozconfig if the build is run like
+so: ``env MOZCONFIG="path/to/mozconfig" ./mach build``.
+
+Any changes to mozconfig or the version number trigger a full build.
+
+And you should have a working, re-branded Firefox.
+
+
+## Making modifications yourself
+
+First make sure you've done the above steps. 'miff' needs to be
+alongside your build directory, you need a symbolic link to 'patches',
+etc.
+
+For example, if you want to start making changes to 'aboutDialog.ftl'.
+First, apply patches and file replacements as per above. Then:
+
+
+```
+bash
+cd /mozilla-source/firefox-84.0.2
+quilt new NN_description_of_changes.diff
+quilt add browser/locales/en-US/browser/aboutDialog.ftl 
+```
+
+
+Where 'NN' is a new (higher) patch number than what is already in
+`miff/patches/series`. Quilt will only track changes made *after* a file is added to a patch.
+
+Now make some edits to this file (aboutDialog.ftl). Then refresh the patch file:
+
+```
+quilt refresh
+```
+
+
+That will create an 'NN' patch file.
+
+## To work with an existing patch / set of changes
+
+
+You will need to selectively 'quilt push' until you are at the patch
+file you want to be using to cluster your changes.  Make sure the
+file(s) you are working with are referenced in that patch file (if not
+add them with `quilt add <filename>`.
+
+## Some principles
+
+* Try labeling changes with the "MIFF NN" string
+  where 'NN' is the patch (diff) file
+  (it will be unique, does not exist in FF source code outside dictionary files)
+  (note: older tags might use "MagIns")
+
+* Try not just deleting or replacing things, but comment out the
+  old code, so that when continuing to work with the resulting
+  modified files, you can see what's been done (roughly)
+
+
+Expand section below for details on all the current patch files.
 
 <details>
 <summary><b>Click to expand/collapse</b></summary>
@@ -302,8 +417,6 @@ Expand section below for details on all the patch files.
   even with privacy settings dialed up
 
 
-</details>
-
 
 ### ``99_disable_debug``
 
@@ -312,13 +425,9 @@ other debugging tools. This is necessary from the workflow of
 developing for ``miff``, since we debug patches using these
 tools, but a shipping final binary shouldn't have them enabled.
 
+</details>
 
 
-# Branches
-
-master - active development; all releases (v92.x, v096.x, etc) are on the master
-
-stable - mirror of tagged releases (in case you need to try building on new targets for example)
 
 
 
@@ -329,7 +438,7 @@ Below are sections on Windows, Linux, and MacOS. Expand the one you need.
 <details>
 <summary><i>Windows Build</i></summary>
 
-## Windows (Win10) Build Setup
+### Windows (Win10) Build Setup
 
 When installing, the following workloads must be checked:
 
@@ -364,7 +473,7 @@ Install the following packages in Cygwin:
 <details>
 <summary><i>Linux (Ubuntu) Build</i></summary>
 
-## Ubuntu build setup
+### Ubuntu build setup
 
 First, install Python (3.6 or later):
 ``sudo apt install python3 python3-dev python3-pip``
@@ -417,7 +526,7 @@ pulled from the mozilla-release head recently, will probably lead back to the
 first problem).
 
 
-## Take a specific tarball
+### Take a specific tarball
 
 Now grab a specific version that we have patch support for. For our examples
 here, we will use ``84.0.2`` throughout, but you can see latest tagged releases
@@ -454,110 +563,6 @@ git checkout v84.0.2.4
 ```
 
 
-## MiFF patches / changes
-
-There are two sources of changes:
-
-* File patches, these are encompassed by the `miff/patches/*.diff`
-  files, and managed with `quilt`.
-
-* Replacement files.  These are listed in `miff/copy_files/` and are
-  copied over with `copy_files.sh` into the firefox source tree.
-
-If you're just applying changes and patches and re-building, do
-something like this:
-
-```bash
-cd /c/mozilla-source/firefox-84.0.2
-../miff/copy_files.sh
-ln -s ../miff/patches .
-quilt push -a
-./mach build
-./mach run
-```
-
-
-## Working with the update patch (patch #12)
-
-If you have not run ``./mach build`` before, quilt will fail trying
-to apply 12_updates.diff. The build process creates several generated
-files on a first run, including the certificates for update validation.
-You will need to run ``./mach build`` first, then apply patch 12 and
-beyond.
-
-There is an additional step if you are not working in a Windows
-environment. The first build creates an obj-\* folder, where all the
-generated files live. The name of this folder is different on each OS.
-For non-Windows systems, create a symbolic link to your platform's
-obj-\* folder named ``obj-x86_64-pc-mingw32`` and the patch will
-apply correctly.
-
-
-## Working with the release patch (patch #99)
-
-The final patch in the series is used to disable debug features and to
-track the version number. If you are working on development you will want
-to leave this patch unapplied. Before creating a release/update, set the
-appropriate version number in this patch and create a matching tag on Github.
-
-These features are controlled by the mozconfig files, one for each file.
-The mozilla build tool will only use the mozconfig if the build is run like
-so: ``env MOZCONFIG="path/to/mozconfig" ./mach build``.
-
-Any changes to mozconfig or the version number trigger a full build.
-
-And you should have a working, re-branded Firefox.
-
-
-## Making modifications yourself
-
-First make sure you've done the above steps. 'miff' needs to be
-alongside your build directory, you need a symbolic link to 'patches',
-etc.
-
-For example, if you want to start making changes to 'aboutDialog.ftl'.
-First, apply patches and file replacements as per above. Then:
-
-
-```
-bash
-cd /mozilla-source/firefox-84.0.2
-quilt new NN_description_of_changes.diff
-quilt add browser/locales/en-US/browser/aboutDialog.ftl 
-```
-
-
-Where 'NN' is a new (higher) patch number than what is already in
-`miff/patches/series`. Quilt will only track changes made *after* a file is added to a patch.
-
-Now make some edits to this file (aboutDialog.ftl). Then refresh the patch file:
-
-```
-quilt refresh
-```
-
-
-That will create an 'NN' patch file.
-
-## To work with an existing patch / set of changes
-
-
-You will need to selectively 'quilt push' until you are at the patch
-file you want to be using to cluster your changes.  Make sure the
-file(s) you are working with are referenced in that patch file (if not
-add them with `quilt add <filename>`.
-
-## Some principles
-
-* Try labeling changes with the "MIFF NN" string
-  where 'NN' is the patch (diff) file
-  (it will be unique, does not exist in FF source code outside dictionary files)
-  (note: older tags might use "MagIns")
-
-* Try not just deleting or replacing things, but comment out the
-  old code, so that when continuing to work with the resulting
-  modified files, you can see what's been done (roughly)
-
 
 ## Creating an update file
 
@@ -592,7 +597,7 @@ For Ubuntu:
 <details>
 <summary><i>macOS Build</i></summary>
 
-<--! might need:
+<!-- might need:
 export CPATH="/Users/petermagnusson/.mozbuild/macos-sdk/MacOSX10.12.sdk/usr/include"
 -->
 
@@ -612,7 +617,7 @@ brew update
 brew upgrade
 ```
 
-<--! you might need to install libgtk2.0 - 
+<!-- you might need to install libgtk2.0 - 
    https://gitlab.gnome.org/GNOME/gtk-osx/-/blob/master/gtk-osx-setup.sh
    (used to be able to do brew install libgtk2.0-dev ...)
    -->
@@ -901,8 +906,7 @@ https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial.html
 # LICENSE
 
 MiFF is open source and distributed under MPL 2
-(https://www.mozilla.org/en-US/MPL/2.0/), see the "LICENSE" file for
-details.
+(https://www.mozilla.org/en-US/MPL/2.0/), see the ["LICENSE"](LICENSE) file for details.
 
 
 

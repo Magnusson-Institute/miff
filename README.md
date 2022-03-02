@@ -17,7 +17,7 @@ We host latest builds on ``cdn.privacy.app``, updates are signed and
 provided as well (once you've installed MiFF, updates should "just
 work").
 
-* [Windows (v92.x)](https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.exe)
+* [Windows (v96.x)](https://cdn.privacy.app/miffrelease/MiFF-96.0.1.1.exe)
 * [MacOS (v89.x)](https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg)
 * [Linux (v92.x)](https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.tar.bz2)
 
@@ -45,6 +45,7 @@ backend server code.
     1. [Windows (Win10/11) Build Setup](#windows-win10-build-setup)
     1. [Ubuntu Build Setup](#ubuntu-build-setup)
     1. [macOS Build Setup](#set-up-on-mac-os-x-m16)
+	1. [Mozilla Build Process](#)
 
 <!-- /MarkdownTOC -->
 
@@ -489,107 +490,6 @@ You will also need to install yasm and libgtk2.0-dev through ``apt``.
 
 The rest of the process is similar to a Windows setup, but all commands can be done from the Ubuntu terminal.
 
-### Check out with Mercurial
-
-In addition to the above tools, Firefox downloads several necessary toolchains
-as part of ``./mach bootstrap``. However, ``./mach bootstrap`` only works with
-Firefox source code downloaded through Mercurial bundles, not release tarballs.
-
-To get a working build environment, clone the head of the mozilla-central
-Mercurial bundle:
-
-```bash
-hg clone https://hg.mozilla.org/mozilla-central/
-```
-
-Next, 'bootstrap' all the tools and configurations needed, following
-instructions along these lines:
-
-```bash
-cd mozilla-central
-./mach bootstrap
-./mach build
-./mach run
-```
-
-On Linux environments, ``./mach bootstrap`` will also prompt several ``apt``
-package downloads. It can sometimes take multiple bootstrap runs to actually
-download all the packages.
-
-The toolchains downloaded during ``./mach bootstrap`` are the *latest*
-versions of the tools. If you are working with a Firefox version more than a
-few versions behind official releases, there will often be issues building the
-tarball. Furthermore, on Windows 'bootstrap' is very dependent on the Visual
-Studio installation. Updating Visual Studio tends to break the build command
-entirely, and you will have to run 'bootstrap' again (which, if you haven't
-pulled from the mozilla-release head recently, will probably lead back to the
-first problem).
-
-
-### Take a specific tarball
-
-Now grab a specific version that we have patch support for. For our examples
-here, we will use ``84.0.2`` throughout, but you can see latest tagged releases
-on our github at https://github.com/Magnusson-Institute/miff/tags
-
-Visit https://archive.mozilla.org/pub/firefox/releases/84.0.2/source/ and
-download the compressed (xz) tar ball.  Untar it alongside mozilla-release and
-move the ''miff'' folder right next to it, should eventually get a folder
-directory like this:
-
-```bash
-mozilla-central/
-firefox-84.0.2/
-miff/
-```
-
-Next, go to the tarball release folder (again, ``84.0.2`` throught our example)
-and build it clean. Note that ``./mach bootstrap`` is not run for the tarball.
-
-```bash
-cd firefox-84.0.2
-./mach build
-./mach run
-```
-
-To build an existing version of miff, you will need a matching miff "release".
-These releases use the Firefox version number as a root, with an added digit for
-miff changes. For the example of Firefox version 84.0.2, you would find a
-(tagged) miff release like v84.0.2.4 and checkout the tag:
-
-```bash
-cd miff/
-git checkout v84.0.2.4
-```
-
-
-
-## Creating an update file
-
-When the Firefox browser updates, the files in a user's install directory are
-replaced by new files in the update package. These updates are packaged as a
-special type of xz or bz2 archive called a MAR (Mozilla Archive). There are
-two tools that are available to create a MAR: a signmar tool created during
-the normal build process (obj*/dist/bin/signmar), and a Python tool
-(https://github.com/mozilla/build-mar). We need both to create a working
-update. The signmar creates a file manifest, but cannot sign the MAR; the
-Python tool can sign, but does not generate a file manifest.
-
-The Python tool can be installed with pip, but requires several other
-tools in order to install properly.
-
-For Cygwin:
-
-* python38
-* python38-devel
-* python38-cryptography
-* liblzma-devel
-
-For Ubuntu:
-
-* liblzma-dev
-
-
 </details>
 
 
@@ -843,6 +743,110 @@ tar xzf ~/Downloads/miff-96.0.1.1.tar.gz
 # miff needs to be in 'miff'
 mv miff-96.0.1.1 miff
 ```
+
+</details>
+
+<details>
+<summary><i>Mozilla Build Process</i></summary>
+### Check out with Mercurial
+
+In addition to the above tools, Firefox downloads several necessary toolchains
+as part of ``./mach bootstrap``. However, ``./mach bootstrap`` only works with
+Firefox source code downloaded through Mercurial bundles, not release tarballs.
+
+To get a working build environment, clone the head of the mozilla-central
+Mercurial bundle:
+
+```bash
+hg clone https://hg.mozilla.org/mozilla-central/
+```
+
+Next, 'bootstrap' all the tools and configurations needed, following
+instructions along these lines:
+
+```bash
+cd mozilla-central
+./mach bootstrap
+./mach build
+./mach run
+```
+
+On Linux environments, ``./mach bootstrap`` will also prompt several ``apt``
+package downloads. It can sometimes take multiple bootstrap runs to actually
+download all the packages.
+
+The toolchains downloaded during ``./mach bootstrap`` are the *latest*
+versions of the tools. If you are working with a Firefox version more than a
+few versions behind official releases, there will often be issues building the
+tarball. Furthermore, on Windows 'bootstrap' is very dependent on the Visual
+Studio installation. Updating Visual Studio tends to break the build command
+entirely, and you will have to run 'bootstrap' again (which, if you haven't
+pulled from the mozilla-release head recently, will probably lead back to the
+first problem).
+
+
+### Take a specific tarball
+
+Now grab a specific version that we have patch support for. For our examples
+here, we will use ``84.0.2`` throughout, but you can see latest tagged releases
+on our github at https://github.com/Magnusson-Institute/miff/tags
+
+Visit https://archive.mozilla.org/pub/firefox/releases/84.0.2/source/ and
+download the compressed (xz) tar ball.  Untar it alongside mozilla-release and
+move the ''miff'' folder right next to it, should eventually get a folder
+directory like this:
+
+```bash
+mozilla-central/
+firefox-84.0.2/
+miff/
+```
+
+Next, go to the tarball release folder (again, ``84.0.2`` throught our example)
+and build it clean. Note that ``./mach bootstrap`` is not run for the tarball.
+
+```bash
+cd firefox-84.0.2
+./mach build
+./mach run
+```
+
+To build an existing version of miff, you will need a matching miff "release".
+These releases use the Firefox version number as a root, with an added digit for
+miff changes. For the example of Firefox version 84.0.2, you would find a
+(tagged) miff release like v84.0.2.4 and checkout the tag:
+
+```bash
+cd miff/
+git checkout v84.0.2.4
+```
+
+
+
+## Creating an update file
+
+When the Firefox browser updates, the files in a user's install directory are
+replaced by new files in the update package. These updates are packaged as a
+special type of xz or bz2 archive called a MAR (Mozilla Archive). There are
+two tools that are available to create a MAR: a signmar tool created during
+the normal build process (obj*/dist/bin/signmar), and a Python tool
+(https://github.com/mozilla/build-mar). We need both to create a working
+update. The signmar creates a file manifest, but cannot sign the MAR; the
+Python tool can sign, but does not generate a file manifest.
+
+The Python tool can be installed with pip, but requires several other
+tools in order to install properly.
+
+For Cygwin:
+
+* python38
+* python38-devel
+* python38-cryptography
+* liblzma-devel
+
+For Ubuntu:
+
+* liblzma-dev
 
 </details>
 

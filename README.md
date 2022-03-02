@@ -40,8 +40,7 @@ backend server code.
 
 1. [Introduction](#introduction)
 1. [Building MiFF Yourself](#building-miff-yourself)
-1. ["Patches"](#patches)
-1. [Branches](#branches)
+1. [Patches](#patches)
 1. [Platform-specific Builds](platform-specific-builds)
     1. [Windows (Win10/11) Build Setup](#windows-win10-build-setup)
     1. [Ubuntu Build Setup](#ubuntu-build-setup)
@@ -181,6 +180,13 @@ Contents of the diff files follow the unified GNU diff format.[^3]
 
 *Note: for many of the patch files, we include extensive comments on
 all of the changes int he patchfiles themselves.*
+
+## Branches
+
+master - active development; all releases (v92.x, v096.x, etc) are on the master
+
+stable - mirror of tagged releases (in case you need to try building on new targets for example)
+
 
 
 ## MiFF patches / changes
@@ -395,12 +401,6 @@ tools, but a shipping final binary shouldn't have them enabled.
 </details>
 
 
-
-## Branches
-
-master - active development; all releases (v92.x, v096.x, etc) are on the master
-
-stable - mirror of tagged releases (in case you need to try building on new targets for example)
 
 
 

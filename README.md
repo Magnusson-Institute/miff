@@ -748,6 +748,7 @@ mv miff-96.0.1.1 miff
 
 <details>
 <summary><i>Mozilla Build Process</i></summary>
+
 ### Check out with Mercurial
 
 In addition to the above tools, Firefox downloads several necessary toolchains

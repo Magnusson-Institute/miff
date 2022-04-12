@@ -376,6 +376,24 @@ Index: firefox-98.0.1/browser/components/preferences/privacy.js
  
      let signonBundle = document.getElementById("signonBundle");
      let pkiBundle = document.getElementById("pkiBundle");
+@@ -2633,6 +2635,8 @@ var gPrivacyPane = {
+   },
+ 
+   initDataCollection() {
++/* MagIns - To prevent users from reenabling Telemetry uploads, we comment out the code
++            initiating those sections of the Preferences page.
+     if (
+       !AppConstants.MOZ_DATA_REPORTING &&
+       !Services.prefs.getBoolPref(
+@@ -2650,7 +2654,7 @@ var gPrivacyPane = {
+       "toolkit.datacollection.infoURL",
+       "dataCollectionPrivacyNotice"
+     );
+-    this.initPrivacySegmentation();
++    this.initPrivacySegmentation();*/
+   },
+ 
+   initSubmitCrashes() {
 Index: firefox-98.0.1/toolkit/components/normandy/lib/ClientEnvironment.jsm
 ===================================================================
 --- firefox-98.0.1.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm

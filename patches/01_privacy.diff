@@ -94,7 +94,32 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  pref("browser.ping-centre.log", false);
  
  // Enable GMP support in the addon manager.
-@@ -2637,7 +2659,11 @@ pref("first-startup.timeout", 30000);
+@@ -2000,7 +2022,9 @@ pref("browser.tabs.remote.warmup.maxTabs
+ pref("browser.tabs.remote.warmup.unloadDelayMs", 2000);
+ 
+ // For the about:tabcrashed page
+-pref("browser.tabs.crashReporting.sendReport", true);
++/* MagIns - Disable Mozilla crash reports
++pref("browser.tabs.crashReporting.sendReport", true);*/
++pref("browser.tabs.crashReporting.sendReport", false);
+ pref("browser.tabs.crashReporting.includeURL", false);
+ 
+ // If true, unprivileged extensions may use experimental APIs on
+@@ -2147,8 +2171,12 @@ pref("app.normandy.run_interval_seconds"
+ pref("app.normandy.shieldLearnMoreUrl", "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/shield");
+ pref("app.normandy.last_seen_buildid", "");
+ pref("app.normandy.onsync_skew_sec", 600);
++/* MagIns - By default, Firefox is allowed to install features and tools to your browser through
++            studies. Users are often enrolled automatically, only prompted for participation when
++            the study exceeds the default data collection policy.*/
+ #ifdef MOZ_DATA_REPORTING
+-  pref("app.shield.optoutstudies.enabled", true);
++//  pref("app.shield.optoutstudies.enabled", true);
++  pref("app.shield.optoutstudies.enabled", false);
+ #else
+   pref("app.shield.optoutstudies.enabled", false);
+ #endif
+@@ -2637,7 +2665,11 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -107,7 +132,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  #endif
  
  // Test Prefs that do nothing for testing
-@@ -2675,3 +2701,134 @@ pref("browser.snapshots.score.InNavigati
+@@ -2675,3 +2707,129 @@ pref("browser.snapshots.score.InNavigati
  pref("browser.snapshots.score.IsOverlappingVisit", 3);
  pref("browser.snapshots.score.IsUserPersisted", 1);
  pref("browser.snapshots.score.IsUsedRemoved", -10);
@@ -229,11 +254,6 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
 +            pastes, or cuts something from a webpage. Firefox enables this by default.*/
 +pref("dom.event.clipboardevents.enabled", false);
 +
-+/* MagIns - By default, Firefox is allowed to install features and tools to your browser through
-+            studies. Users are often enrolled automatically, only prompted for participation when
-+            the study exceeds the default data collection policy.*/
-+pref("app.shield.optoutstudies.enabled", false);
-+
 +//The resolver mode. You should not change the mode manually, instead use the UI in the Network Settings section of about:preferences
 +//0 - Off (default). use standard native resolving only (don't use TRR at all)
 +//1 - Reserved (used to be Race mode)
@@ -307,7 +327,17 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  // Include wifi data in region request.
  pref("browser.region.network.scan", false);
  // Timeout for whole region request.
-@@ -4323,8 +4338,12 @@ pref("toolkit.aboutProcesses.profileDura
+@@ -3934,7 +3949,8 @@ pref("network.captive-portal-service.max
+ pref("network.captive-portal-service.backoffFactor", "5.0");
+ pref("network.captive-portal-service.enabled", false);
+ 
+-pref("network.connectivity-service.enabled", true);
++/* MagIns - Disable Network Connectivity checks*/
++pref("network.connectivity-service.enabled", false);
+ pref("network.connectivity-service.DNSv4.domain", "example.org");
+ pref("network.connectivity-service.DNSv6.domain", "example.org");
+ pref("network.connectivity-service.IPv4.url", "http://detectportal.firefox.com/success.txt?ipv4");
+@@ -4323,8 +4339,12 @@ pref("toolkit.aboutProcesses.profileDura
  //  * userChrome.css
  pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);
  
@@ -321,7 +351,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
    pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
    pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
    pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
-@@ -4334,12 +4353,15 @@ pref("toolkit.legacyUserProfileCustomiza
+@@ -4334,12 +4354,15 @@ pref("toolkit.legacyUserProfileCustomiza
    pref("datareporting.policy.firstRunURL", "https://www.mozilla.org/privacy/firefox/");
  #endif
  

@@ -168,6 +168,31 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  
  // Whether we should show the session-restore infobar on startup
  pref("browser.startup.couldRestoreSession.count", 0);
+@@ -2233,7 +2229,9 @@ pref("toolkit.coverage.enabled", false);
+ pref("toolkit.coverage.endpoint.base", "https://coverage.mozilla.org");
+ 
+ // Discovery prefs
+-pref("browser.discovery.enabled", true);
++/* MagIns - Disable personalized recommendations in about:addons (Arkenfox 0322)
++pref("browser.discovery.enabled", true);*/
++pref("browser.discovery.enabled", false);
+ pref("browser.discovery.containers.enabled", true);
+ pref("browser.discovery.sites", "addons.mozilla.org");
+ 
+@@ -2729,6 +2727,13 @@ pref("browser.snapshots.score.IsOverlapp
+ pref("browser.snapshots.score.IsUserPersisted", 1);
+ pref("browser.snapshots.score.IsUsedRemoved", -10);
+ 
++/* MagIns - Disable Recommendation pane in about:addons (Arkenfox 0320)*/
++pref("extensions.getAddons.showPane", false);
++
++/* MagIns - Disable recommendations in about:addons Extensions and Themes panes
++            (Arkenfox 0321)*/
++pref("extensions.htmlaboutaddons.recommendations.enabled", false);
++
+ /* MagIns - The browser milestone records the version number of the last successful
+             startup. After updates/upgrades, the user's homepage is changed to show
+             a promotional page about the update. Setting this to "ignore", the value
 Index: firefox-98.0.1/toolkit/content/jar.mn
 ===================================================================
 --- firefox-98.0.1.orig/toolkit/content/jar.mn
@@ -270,29 +295,6 @@ Index: firefox-98.0.1/browser/components/newtab/lib/ActivityStream.jsm
          return searchShortcuts.join(",");
        },
      },
-Index: firefox-98.0.1/toolkit/mozapps/extensions/content/aboutaddons.html
-===================================================================
---- firefox-98.0.1.orig/toolkit/mozapps/extensions/content/aboutaddons.html
-+++ firefox-98.0.1/toolkit/mozapps/extensions/content/aboutaddons.html
-@@ -37,7 +37,8 @@
-     <div id="full">
-       <div id="sidebar">
-         <categories-box id="categories" orientation="vertical">
--          <button is="discover-button" viewid="addons://discover/" class="category" role="tab" name="discover"></button>
-+<!-- MagIns: Removing the Recommended section for about:addons
-+          <button is="discover-button" viewid="addons://discover/" class="category" role="tab" name="discover"></button>-->
-           <button is="category-button" viewid="addons://list/extension" class="category" role="tab" name="extension"></button>
-           <button is="category-button" viewid="addons://list/theme" class="category" role="tab" name="theme"></button>
-           <button is="category-button" viewid="addons://list/plugin" class="category" role="tab" name="plugin"></button>
-@@ -375,7 +376,7 @@
-     </template>
- 
-     <template name="recommended-extensions-section">
--      <h2 data-l10n-id="recommended-extensions-heading" class="header-name recommended-heading"></h2>
-+<!--      <h2 data-l10n-id="recommended-extensions-heading" class="header-name recommended-heading"></h2>-->
-       <taar-notice></taar-notice>
-       <recommended-addon-list type="extension" hide-installed></recommended-addon-list>
-       <footer is="recommended-footer" class="view-footer"></footer>
 Index: firefox-98.0.1/browser/base/content/utilityOverlay.js
 ===================================================================
 --- firefox-98.0.1.orig/browser/base/content/utilityOverlay.js

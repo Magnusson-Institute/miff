@@ -24,7 +24,19 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  
  // The URL for the privacy policy related to recommended extensions.
  pref("extensions.recommendations.privacyPolicyUrl", "https://www.mozilla.org/privacy/firefox/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_content=privacy-policy-link#addons");
-@@ -1438,7 +1445,11 @@ pref("browser.menu.showCharacterEncoding
+@@ -1148,7 +1155,10 @@ pref("browser.zoom.siteSpecific", true);
+ pref("browser.zoom.updateBackgroundTabs", true);
+ 
+ // The breakpad report server to link to in about:crashes
+-pref("breakpad.reportURL", "https://crash-stats.mozilla.org/report/index/");
++/* MagIns - Set an empty string for Mozilla's crash report URL
++            (Arkenfox 0350)
++pref("breakpad.reportURL", "https://crash-stats.mozilla.org/report/index/");*/
++pref("breakpad.reportURL", "");
+ 
+ // URL for "Learn More" for DataCollection
+ pref("toolkit.datacollection.infoURL",
+@@ -1438,7 +1448,11 @@ pref("browser.menu.showCharacterEncoding
  // This is a fallback value for when prompt callers do not specify a modalType.
  pref("prompts.defaultModalType", 3);
  
@@ -37,7 +49,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  // Fetch sponsored Top Sites from Mozilla Tiles Service (Contile)
  pref("browser.topsites.contile.enabled", true);
  pref("browser.topsites.contile.endpoint", "https://contile.services.mozilla.com/v1/tiles");
-@@ -1484,7 +1495,10 @@ pref("browser.newtabpage.activity-stream
+@@ -1484,7 +1498,10 @@ pref("browser.newtabpage.activity-stream
  // This url, if changed, MUST continue to point to an https url. Pulling arbitrary content to inject into
  // this page over http opens us up to a man-in-the-middle attack that we'd rather not face. If you are a downstream
  // repackager of this code using an alternate snippet url, please keep your users safe
@@ -49,7 +61,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  pref("browser.newtabpage.activity-stream.asrouter.providers.messaging-experiments", "{\"id\":\"messaging-experiments\",\"enabled\":true,\"type\":\"remote-experiments\",\"messageGroups\":[\"cfr\",\"aboutwelcome\",\"infobar\",\"spotlight\",\"moments-page\",\"pbNewtab\"],\"updateCycleInMs\":3600000}");
  
  // ASRouter user prefs
-@@ -1755,23 +1769,31 @@ pref("browser.translation.ui.show", fals
+@@ -1755,23 +1772,40 @@ pref("browser.translation.ui.show", fals
  pref("browser.translation.engine", "Google");
  
  // Telemetry settings.
@@ -58,9 +70,11 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
 -// Enables sending the shutdown ping when Firefox shuts down.
 -pref("toolkit.telemetry.shutdownPingSender.enabled", true);
 +/* MagIns - Determines if Telemetry pings can be archived locally.
++            (Arkenfox 0332)
 +pref("toolkit.telemetry.archive.enabled", true);*/
 +pref("toolkit.telemetry.archive.enabled", false);
 +/* MagIns - Enables sending the shutdown ping when Firefox shuts down.
++            (Arkenfox 0332)
 +pref("toolkit.telemetry.shutdownPingSender.enabled", true);*/
 +pref("toolkit.telemetry.shutdownPingSender.enabled", false);
  // Enables sending the shutdown ping using the pingsender from the first session.
@@ -74,44 +88,68 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
 -// Enables sending 'bhr' pings when the browser hangs.
 -pref("toolkit.telemetry.bhrPing.enabled", true);
 +/* MagIns - Enables sending a duplicate of the first shutdown ping from the first session.
++            (Arkenfox 0332)
 +pref("toolkit.telemetry.firstShutdownPing.enabled", true);*/
 +pref("toolkit.telemetry.firstShutdownPing.enabled", false);
 +/* MagIns - Enables sending the 'new-profile' ping on new profiles.
++            (Arkenfox 0332)
 +pref("toolkit.telemetry.newProfilePing.enabled", true);*/
 +pref("toolkit.telemetry.newProfilePing.enabled", false);
 +/* MagIns - Enables sending 'update' pings on Firefox updates.
++            (Arkenfox 0332)
 +pref("toolkit.telemetry.updatePing.enabled", true);*/
 +pref("toolkit.telemetry.updatePing.enabled", false);
 +/* MagIns - Enables sending 'bhr' pings when the browser hangs.
++            (Arkenfox 0332)
 +pref("toolkit.telemetry.bhrPing.enabled", true);*/
 +pref("toolkit.telemetry.bhrPing.enabled", false);
  
  // Ping Centre Telemetry settings.
 -pref("browser.ping-centre.telemetry", true);
-+/* MagIns
++/* MagIns - PingCentre is used by several System addons. This preference is superceded by
++            datareporting.healthreport.uploadEnabled, but we disable this preference for
++            defense in depth.
++            (Arkenfox 0334)
 +pref("browser.ping-centre.telemetry", true);*/
 +pref("browser.ping-centre.telemetry", false);
  pref("browser.ping-centre.log", false);
  
  // Enable GMP support in the addon manager.
-@@ -2000,7 +2022,9 @@ pref("browser.tabs.remote.warmup.maxTabs
+@@ -2000,7 +2034,10 @@ pref("browser.tabs.remote.warmup.maxTabs
  pref("browser.tabs.remote.warmup.unloadDelayMs", 2000);
  
  // For the about:tabcrashed page
 -pref("browser.tabs.crashReporting.sendReport", true);
 +/* MagIns - Disable Mozilla crash reports
++            (Arkenfox 0350)
 +pref("browser.tabs.crashReporting.sendReport", true);*/
 +pref("browser.tabs.crashReporting.sendReport", false);
  pref("browser.tabs.crashReporting.includeURL", false);
  
  // If true, unprivileged extensions may use experimental APIs on
-@@ -2147,8 +2171,12 @@ pref("app.normandy.run_interval_seconds"
+@@ -2138,17 +2175,26 @@ pref("browser.chrome.errorReporter.infoU
+      "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/nightly-error-collection");
+ 
+ // Normandy client preferences
+-pref("app.normandy.api_url", "https://normandy.cdn.mozilla.net/api/v1");
++/* MagIns - Normandy allows Mozilla to remotely change Firefox clients, primarily
++            for testing and studies. These include changing preferences permanently
++            and installing addons without prompting users.
++            (Arkenfox 0341)*/
++pref("app.normandy.api_url", "");
+ pref("app.normandy.dev_mode", false);
+-pref("app.normandy.enabled", true);
++pref("app.normandy.enabled", false);
+ pref("app.normandy.first_run", true);
+ pref("app.normandy.logging.level", 50); // Warn
+ pref("app.normandy.run_interval_seconds", 21600); // 6 hours
  pref("app.normandy.shieldLearnMoreUrl", "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/shield");
  pref("app.normandy.last_seen_buildid", "");
  pref("app.normandy.onsync_skew_sec", 600);
 +/* MagIns - By default, Firefox is allowed to install features and tools to your browser through
 +            studies. Users are often enrolled automatically, only prompted for participation when
-+            the study exceeds the default data collection policy.*/
++            the study exceeds the default data collection policy.
++            (Arkenfox 0340)*/
  #ifdef MOZ_DATA_REPORTING
 -  pref("app.shield.optoutstudies.enabled", true);
 +//  pref("app.shield.optoutstudies.enabled", true);
@@ -119,7 +157,23 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  #else
    pref("app.shield.optoutstudies.enabled", false);
  #endif
-@@ -2637,7 +2665,11 @@ pref("first-startup.timeout", 30000);
+@@ -2181,7 +2227,14 @@ pref("fission.frontend.simulate-messages
+ 
+ // Coverage ping is disabled by default.
+ pref("toolkit.coverage.enabled", false);
+-pref("toolkit.coverage.endpoint.base", "https://coverage.mozilla.org");
++/* MagIns - Coverage is a telemetry tool used to count "follow-on searches," which
++            begin in Firefox and continue on search engine pages. The ping is
++            disabled by default, and we remove the endpoint for redundancy. In
++            addition, explicitly set the hidden opt-out preference.
++            (Arkenfox 0333)
++pref("toolkit.coverage.endpoint.base", "https://coverage.mozilla.org");*/
++pref("toolkit.coverage.endpoint.base", "");
++pref("toolkit.coverage.opt-out", true);
+ 
+ // Discovery prefs
+ pref("browser.discovery.enabled", true);
+@@ -2637,7 +2690,11 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -132,7 +186,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  #endif
  
  // Test Prefs that do nothing for testing
-@@ -2675,3 +2707,129 @@ pref("browser.snapshots.score.InNavigati
+@@ -2675,3 +2732,122 @@ pref("browser.snapshots.score.InNavigati
  pref("browser.snapshots.score.IsOverlappingVisit", 3);
  pref("browser.snapshots.score.IsUserPersisted", 1);
  pref("browser.snapshots.score.IsUsedRemoved", -10);
@@ -189,13 +243,6 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
 +//2 = Accept for current session only
 +//3 = Accept for N days
 +pref("network.cookie.lifetimePolicy", 2);
-+
-+/* MagIns - Link prefetching allows browsers to load resources ahead of time that users
-+            are likely to need, based on rel="prefetch" parameter in HTML pages. While
-+            this can improve performance if the resource is accessed, it also creates a
-+            privacy leak by automatically connecting users to servers. Firefox sets this
-+            to true by default.*/
-+pref("network.prefetch-next", false);
 +
 +/* MagIns - This preference enables several different privacy protections, as part
 +            of Firefox's TOR Uplift project. These include:
@@ -267,7 +314,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
 ===================================================================
 --- firefox-98.0.1.orig/modules/libpref/init/all.js
 +++ firefox-98.0.1/modules/libpref/init/all.js
-@@ -808,8 +808,10 @@ pref("toolkit.sqlitejsm.loglevel", "Erro
+@@ -808,15 +808,24 @@ pref("toolkit.sqlitejsm.loglevel", "Erro
  pref("toolkit.tabbox.switchByScrolling", false);
  
  // Telemetry settings.
@@ -280,22 +327,105 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  // Telemetry server owner. Please change if you set toolkit.telemetry.server to a different server
  pref("toolkit.telemetry.server_owner", "Mozilla");
  // Determines whether full SQL strings are returned when they might contain sensitive info
-@@ -1731,8 +1733,12 @@ pref("network.dns.native-is-localhost",
+ // i.e. dynamically constructed SQL strings or SQL executed by addons against addon DBs
+ pref("toolkit.telemetry.debugSlowSql", false);
+ // Whether to use the unified telemetry behavior, requires a restart.
+-pref("toolkit.telemetry.unified", true);
++/* MagIns - This telemetry preference controls the behavior of the
++            toolkit.telemetry.enabled preference as part of Mozilla's production
++            process. When "unified" is true, the "enabled" preference controls
++            whether to record extended telemetry data. When "unified" is false,
++            "enabled" controls the whole telemetry module
++            (Arkenfox 0332)
++pref("toolkit.telemetry.unified", true);*/
++pref("toolkit.telemetry.unified", false);
+ // AsyncShutdown delay before crashing in case of shutdown freeze
+ #if !defined(MOZ_ASAN) && !defined(MOZ_TSAN)
+   pref("toolkit.asyncshutdown.crash_timeout", 60000); // 1 minute
+@@ -933,7 +942,11 @@ pref("view_source.editor.args", "");
+ pref("nglayout.enable_drag_images", true);
+ 
+ // URI fixup prefs
+-pref("browser.fixup.alternate.enabled", true);
++/* MagIns - By default, Firefox tries to fix "hostname not found" DNS errors
++            by adding the below elements. This is both a security and privacy
++            issue as it connects to unintended sites automatically.
++pref("browser.fixup.alternate.enabled", true);*/
++pref("browser.fixup.alternate.enabled", false);
+ pref("browser.fixup.alternate.prefix", "www.");
+ pref("browser.fixup.alternate.protocol", "https");
+ pref("browser.fixup.alternate.suffix", ".com");
+@@ -1390,7 +1403,12 @@ pref("network.http.network-changed.timeo
+ 
+ // The maximum number of current global half open sockets allowable
+ // when starting a new speculative connection.
+-pref("network.http.speculative-parallel-limit", 6);
++/* MagIns - By default, Firefox connects to sites when users start typing in the
++            search bar or hover over thumbnails on the New Tab Page. We disable
++            this feature to prevent privacy leaks.
++            (Arkenfox 0604)
++pref("network.http.speculative-parallel-limit", 6);*/
++pref("network.http.speculative-parallel-limit", 0);
+ 
+ // Whether or not to block requests for non head js/css items (e.g. media)
+ // while those elements load.
+@@ -1712,7 +1730,10 @@ pref("network.IDN.extra_blocked_chars",
+ pref("network.dns.ipv4OnlyDomains", "");
+ 
+ // This preference can be used to turn off IPv6 name lookups. See bug 68796.
+-pref("network.dns.disableIPv6", false);
++/* MagIns - IPv6 has the potential to leak user IP addresses with VPNs. We
++            disable this as part of hardening our VPN infrastructure.
++pref("network.dns.disableIPv6", false);*/
++pref("network.dns.disableIPv6", true);
+ 
+ // This is the number of dns cache entries allowed
+ pref("network.dnsCacheEntries", 400);
+@@ -1731,8 +1752,13 @@ pref("network.dns.native-is-localhost",
  // a revalidation in the background.
  pref("network.dnsCacheExpirationGracePeriod", 60);
  
 -// This preference can be used to turn off DNS prefetch.
 -pref("network.dns.disablePrefetch", false);
-+/* MagIns - DNS prefetching allows browser to predict which links users are likely to open.
-+            While this can improve performance if the link is accessed, it also creates a
-+            privacy leak by automatically connecting users to servers. Firefox enables DNS
-+            prefetching by default.
++/* MagIns - With DNS prefetching, sites can indicate to browsers that external domains
++            are likely to be needed by users. While it improves performance if the link
++            is accessed, it also creates a privacy leak by automatically connecting users
++            to third-party servers. Firefox enables DNS prefetching by default.
++            (Arkenfox 0602)
 +pref("network.dns.disablePrefetch", false);*/
 +pref("network.dns.disablePrefetch", true);
  
  // This preference controls whether .onion hostnames are
  // rejected before being given to DNS. RFC 7686
-@@ -3725,11 +3731,16 @@ pref("network.psl.onUpdate_notify", fals
+@@ -1755,7 +1781,13 @@ pref("network.dns.resolver-thread-extra-
+ 
+ // enables the prefetch service (i.e., prefetching of <link rel="next"> and
+ // <link rel="prefetch"> URLs).
+-pref("network.prefetch-next", true);
++/* MagIns - Link prefetching allows browsers to load resources ahead of time that users
++            are likely to need, based on rel="prefetch" parameter in HTML pages. While
++            this can improve performance if the resource is accessed, it also creates a
++            privacy leak by automatically connecting users to servers. Firefox sets this
++            to true by default.
++pref("network.prefetch-next", true);*/
++pref("network.prefetch-next", false);
+ 
+ // The following prefs pertain to the negotiate-auth extension (see bug 17578),
+ // which provides transparent Kerberos or NTLM authentication using the SPNEGO
+@@ -3630,7 +3662,11 @@ pref("font.size.monospace.x-math", 13);
+ // Login Manager prefs
+ pref("signon.rememberSignons",              true);
+ pref("signon.rememberSignons.visibilityToggle", true);
+-pref("signon.autofillForms",                true);
++/* MagIns - By default, Firefox autofills username and password on websites.
++            This creates a security flaw, where invisible login fields can
++            be injected and read user data.
++pref("signon.autofillForms",                true);*/
++pref("signon.autofillForms",                false);
+ pref("signon.autofillForms.autocompleteOff", true);
+ pref("signon.autofillForms.http",           false);
+ pref("signon.autologin.proxy",              false);
+@@ -3725,11 +3761,16 @@ pref("network.psl.onUpdate_notify", fals
  
  // All the Geolocation preferences are here.
  //
@@ -314,36 +444,73 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  #endif
  
  // Timeout to wait before sending the location request.
-@@ -3752,7 +3763,11 @@ pref("geo.provider.network.timeout", 600
+@@ -3737,27 +3778,41 @@ pref("geo.provider.network.timeToWaitBef
+ // Timeout for outbound network geolocation provider.
+ pref("geo.provider.network.timeout", 60000);
+ 
++/* MagIns - The following prefs control OS-level geolocation services. As part of disabling
++            geolocation in MiFF, we set these preferences to false.*/
+ #ifdef XP_MACOSX
+-  pref("geo.provider.use_corelocation", true);
++//  pref("geo.provider.use_corelocation", true);
++  pref("geo.provider.use_corelocation", false);
+ #endif
+ 
+ // Set to false if things are really broken.
+ #ifdef XP_WIN
+-  pref("geo.provider.ms-windows-location", true);
++//  pref("geo.provider.ms-windows-location", true);
++  pref("geo.provider.ms-windows-location", false);
+ #endif
+ 
+ #if defined(MOZ_WIDGET_GTK) && defined(MOZ_GPSD)
+-  pref("geo.provider.use_gpsd", true);
++//  pref("geo.provider.use_gpsd", true);
++  pref("geo.provider.use_gpsd", false);
+ #endif
  
  // Region
  pref("browser.region.log", false);
 -pref("browser.region.network.url", "https://location.services.mozilla.com/v1/country?key=%MOZILLA_API_KEY%");
 +/* MagIns - Mozilla's Location Service determines device location based on cell towers, WiFi
-+            access points, and Bluetooth beacons. As part of disabling geolocation in MiFF,
++            access points, and Bluetooth beacons. It then uses the region to curate content
++            and determine a user's "home" region. As part of disabling geolocation in MiFF,
 +            we remove the API endpoint from this preference.
 +pref("browser.region.network.url", "https://location.services.mozilla.com/v1/country?key=%MOZILLA_API_KEY%");*/
 +pref("browser.region.network.url", "");
  // Include wifi data in region request.
  pref("browser.region.network.scan", false);
  // Timeout for whole region request.
-@@ -3934,7 +3949,8 @@ pref("network.captive-portal-service.max
+ pref("browser.region.timeout", 5000);
+-pref("browser.region.update.enabled", true);
++/* MagIns - By default, Firefox will change a user's "home" region after detecting that a user
++            is outside their home region for a continuous period. We set this preference to
++            false to prevent Firefox from trying to update the user's region.
++pref("browser.region.update.enabled", true);*/
++pref("browser.region.update.enabled", false);
+ 
+ // Enable/Disable the device storage API for content
+ pref("device.storage.enabled", false);
+@@ -3934,7 +3989,11 @@ pref("network.captive-portal-service.max
  pref("network.captive-portal-service.backoffFactor", "5.0");
  pref("network.captive-portal-service.enabled", false);
  
 -pref("network.connectivity-service.enabled", true);
-+/* MagIns - Disable Network Connectivity checks*/
++/* MagIns - The network connectivity service works similarly to a captive portal
++            check, but additionally provides Mozilla about the user's network path
++            including TLS 1.3 and IPv6.
++            (Arkenfox 0361)*/
 +pref("network.connectivity-service.enabled", false);
  pref("network.connectivity-service.DNSv4.domain", "example.org");
  pref("network.connectivity-service.DNSv6.domain", "example.org");
  pref("network.connectivity-service.IPv4.url", "http://detectportal.firefox.com/success.txt?ipv4");
-@@ -4323,8 +4339,12 @@ pref("toolkit.aboutProcesses.profileDura
+@@ -4323,8 +4382,12 @@ pref("toolkit.aboutProcesses.profileDura
  //  * userChrome.css
  pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);
  
 +/* MagIns - The datareporting.policy.dataSubmissionEnabled preference is the master switch
 +            for sending telemetry data to Mozilla. When false, no telemetry is sent. By
-+            default, Firefox sets this to true.*/
++            default, Firefox sets this to true. (Arkenfox 0330)*/
  #ifdef MOZ_DATA_REPORTING
 -  pref("datareporting.policy.dataSubmissionEnabled", true);
 +//  pref("datareporting.policy.dataSubmissionEnabled", true);
@@ -351,7 +518,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
    pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
    pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
    pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
-@@ -4334,12 +4354,15 @@ pref("toolkit.legacyUserProfileCustomiza
+@@ -4334,12 +4397,15 @@ pref("toolkit.legacyUserProfileCustomiza
    pref("datareporting.policy.firstRunURL", "https://www.mozilla.org/privacy/firefox/");
  #endif
  

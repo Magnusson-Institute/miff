@@ -24,7 +24,17 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  
  // The URL for the privacy policy related to recommended extensions.
  pref("extensions.recommendations.privacyPolicyUrl", "https://www.mozilla.org/privacy/firefox/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_content=privacy-policy-link#addons");
-@@ -1148,7 +1155,10 @@ pref("browser.zoom.siteSpecific", true);
+@@ -475,6 +482,9 @@ pref("browser.urlbar.extension.timeout",
+ // searched for. If the string is resolved as a valid host, show a
+ // "Did you mean to go to 'host'" prompt.
+ // 0 - never resolve; 1 - use heuristics (default); 2 - always resolve
++/* MagIns - With the default behavior, searching for a single word will occasionally
++            leak the search term to the DNS provider.
++            (Arkenfox 0806)*/
+ pref("browser.urlbar.dnsResolveSingleWordsAfterSearch", 1);
+ 
+ // Whether the results panel should be kept open during IME composition.
+@@ -1148,7 +1158,10 @@ pref("browser.zoom.siteSpecific", true);
  pref("browser.zoom.updateBackgroundTabs", true);
  
  // The breakpad report server to link to in about:crashes
@@ -36,7 +46,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  
  // URL for "Learn More" for DataCollection
  pref("toolkit.datacollection.infoURL",
-@@ -1438,7 +1448,11 @@ pref("browser.menu.showCharacterEncoding
+@@ -1438,7 +1451,11 @@ pref("browser.menu.showCharacterEncoding
  // This is a fallback value for when prompt callers do not specify a modalType.
  pref("prompts.defaultModalType", 3);
  
@@ -49,7 +59,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  // Fetch sponsored Top Sites from Mozilla Tiles Service (Contile)
  pref("browser.topsites.contile.enabled", true);
  pref("browser.topsites.contile.endpoint", "https://contile.services.mozilla.com/v1/tiles");
-@@ -1484,7 +1498,10 @@ pref("browser.newtabpage.activity-stream
+@@ -1484,7 +1501,10 @@ pref("browser.newtabpage.activity-stream
  // This url, if changed, MUST continue to point to an https url. Pulling arbitrary content to inject into
  // this page over http opens us up to a man-in-the-middle attack that we'd rather not face. If you are a downstream
  // repackager of this code using an alternate snippet url, please keep your users safe
@@ -61,7 +71,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  pref("browser.newtabpage.activity-stream.asrouter.providers.messaging-experiments", "{\"id\":\"messaging-experiments\",\"enabled\":true,\"type\":\"remote-experiments\",\"messageGroups\":[\"cfr\",\"aboutwelcome\",\"infobar\",\"spotlight\",\"moments-page\",\"pbNewtab\"],\"updateCycleInMs\":3600000}");
  
  // ASRouter user prefs
-@@ -1755,23 +1772,40 @@ pref("browser.translation.ui.show", fals
+@@ -1755,23 +1775,40 @@ pref("browser.translation.ui.show", fals
  pref("browser.translation.engine", "Google");
  
  // Telemetry settings.
@@ -115,7 +125,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  pref("browser.ping-centre.log", false);
  
  // Enable GMP support in the addon manager.
-@@ -2000,7 +2034,10 @@ pref("browser.tabs.remote.warmup.maxTabs
+@@ -2000,7 +2037,10 @@ pref("browser.tabs.remote.warmup.maxTabs
  pref("browser.tabs.remote.warmup.unloadDelayMs", 2000);
  
  // For the about:tabcrashed page
@@ -127,7 +137,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  pref("browser.tabs.crashReporting.includeURL", false);
  
  // If true, unprivileged extensions may use experimental APIs on
-@@ -2138,17 +2175,26 @@ pref("browser.chrome.errorReporter.infoU
+@@ -2138,17 +2178,26 @@ pref("browser.chrome.errorReporter.infoU
       "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/nightly-error-collection");
  
  // Normandy client preferences
@@ -157,7 +167,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  #else
    pref("app.shield.optoutstudies.enabled", false);
  #endif
-@@ -2181,7 +2227,14 @@ pref("fission.frontend.simulate-messages
+@@ -2181,7 +2230,14 @@ pref("fission.frontend.simulate-messages
  
  // Coverage ping is disabled by default.
  pref("toolkit.coverage.enabled", false);
@@ -173,7 +183,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  
  // Discovery prefs
  pref("browser.discovery.enabled", true);
-@@ -2637,7 +2690,11 @@ pref("first-startup.timeout", 30000);
+@@ -2637,7 +2693,11 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -186,7 +196,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  #endif
  
  // Test Prefs that do nothing for testing
-@@ -2675,3 +2732,122 @@ pref("browser.snapshots.score.InNavigati
+@@ -2675,3 +2735,122 @@ pref("browser.snapshots.score.InNavigati
  pref("browser.snapshots.score.IsOverlappingVisit", 3);
  pref("browser.snapshots.score.IsUserPersisted", 1);
  pref("browser.snapshots.score.IsUsedRemoved", -10);
@@ -342,7 +352,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  // AsyncShutdown delay before crashing in case of shutdown freeze
  #if !defined(MOZ_ASAN) && !defined(MOZ_TSAN)
    pref("toolkit.asyncshutdown.crash_timeout", 60000); // 1 minute
-@@ -933,7 +942,11 @@ pref("view_source.editor.args", "");
+@@ -933,7 +942,12 @@ pref("view_source.editor.args", "");
  pref("nglayout.enable_drag_images", true);
  
  // URI fixup prefs
@@ -350,12 +360,13 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
 +/* MagIns - By default, Firefox tries to fix "hostname not found" DNS errors
 +            by adding the below elements. This is both a security and privacy
 +            issue as it connects to unintended sites automatically.
++            (Arkenfox 0802)
 +pref("browser.fixup.alternate.enabled", true);*/
 +pref("browser.fixup.alternate.enabled", false);
  pref("browser.fixup.alternate.prefix", "www.");
  pref("browser.fixup.alternate.protocol", "https");
  pref("browser.fixup.alternate.suffix", ".com");
-@@ -1390,7 +1403,12 @@ pref("network.http.network-changed.timeo
+@@ -1390,7 +1404,12 @@ pref("network.http.network-changed.timeo
  
  // The maximum number of current global half open sockets allowable
  // when starting a new speculative connection.
@@ -369,19 +380,20 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  
  // Whether or not to block requests for non head js/css items (e.g. media)
  // while those elements load.
-@@ -1712,7 +1730,10 @@ pref("network.IDN.extra_blocked_chars",
+@@ -1712,7 +1731,11 @@ pref("network.IDN.extra_blocked_chars",
  pref("network.dns.ipv4OnlyDomains", "");
  
  // This preference can be used to turn off IPv6 name lookups. See bug 68796.
 -pref("network.dns.disableIPv6", false);
 +/* MagIns - IPv6 has the potential to leak user IP addresses with VPNs. We
 +            disable this as part of hardening our VPN infrastructure.
++            (Arkenfox 0701)
 +pref("network.dns.disableIPv6", false);*/
 +pref("network.dns.disableIPv6", true);
  
  // This is the number of dns cache entries allowed
  pref("network.dnsCacheEntries", 400);
-@@ -1731,8 +1752,13 @@ pref("network.dns.native-is-localhost",
+@@ -1731,8 +1754,13 @@ pref("network.dns.native-is-localhost",
  // a revalidation in the background.
  pref("network.dnsCacheExpirationGracePeriod", 60);
  
@@ -397,7 +409,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  
  // This preference controls whether .onion hostnames are
  // rejected before being given to DNS. RFC 7686
-@@ -1755,7 +1781,13 @@ pref("network.dns.resolver-thread-extra-
+@@ -1755,7 +1783,13 @@ pref("network.dns.resolver-thread-extra-
  
  // enables the prefetch service (i.e., prefetching of <link rel="next"> and
  // <link rel="prefetch"> URLs).
@@ -412,7 +424,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  
  // The following prefs pertain to the negotiate-auth extension (see bug 17578),
  // which provides transparent Kerberos or NTLM authentication using the SPNEGO
-@@ -3630,7 +3662,11 @@ pref("font.size.monospace.x-math", 13);
+@@ -3630,7 +3664,11 @@ pref("font.size.monospace.x-math", 13);
  // Login Manager prefs
  pref("signon.rememberSignons",              true);
  pref("signon.rememberSignons.visibilityToggle", true);
@@ -425,7 +437,21 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  pref("signon.autofillForms.autocompleteOff", true);
  pref("signon.autofillForms.http",           false);
  pref("signon.autologin.proxy",              false);
-@@ -3725,11 +3761,16 @@ pref("network.psl.onUpdate_notify", fals
+@@ -3660,7 +3698,12 @@ pref("signon.showAutoCompleteOrigins",
+ 
+ // Satchel (Form Manager) prefs
+ pref("browser.formfill.debug",            false);
+-pref("browser.formfill.enable",           true);
++/* MagIns - This preference enables Form Autofill. This data is not securely stored on a user's
++            device. Additionally, there are security concerns with sites using hidden forms to
++            access autofill data. For these reasons, we disable Autofill.
++            (Arkenfox 0810)
++pref("browser.formfill.enable",           true);*/
++pref("browser.formfill.enable",           false);
+ pref("browser.formfill.expire_days",      180);
+ pref("browser.formfill.agedWeight",       2);
+ pref("browser.formfill.bucketSize",       1);
+@@ -3725,11 +3768,16 @@ pref("network.psl.onUpdate_notify", fals
  
  // All the Geolocation preferences are here.
  //
@@ -444,7 +470,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  #endif
  
  // Timeout to wait before sending the location request.
-@@ -3737,27 +3778,41 @@ pref("geo.provider.network.timeToWaitBef
+@@ -3737,27 +3785,41 @@ pref("geo.provider.network.timeToWaitBef
  // Timeout for outbound network geolocation provider.
  pref("geo.provider.network.timeout", 60000);
  
@@ -491,7 +517,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  
  // Enable/Disable the device storage API for content
  pref("device.storage.enabled", false);
-@@ -3934,7 +3989,11 @@ pref("network.captive-portal-service.max
+@@ -3934,7 +3996,11 @@ pref("network.captive-portal-service.max
  pref("network.captive-portal-service.backoffFactor", "5.0");
  pref("network.captive-portal-service.enabled", false);
  
@@ -504,7 +530,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
  pref("network.connectivity-service.DNSv4.domain", "example.org");
  pref("network.connectivity-service.DNSv6.domain", "example.org");
  pref("network.connectivity-service.IPv4.url", "http://detectportal.firefox.com/success.txt?ipv4");
-@@ -4323,8 +4382,12 @@ pref("toolkit.aboutProcesses.profileDura
+@@ -4323,8 +4389,12 @@ pref("toolkit.aboutProcesses.profileDura
  //  * userChrome.css
  pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);
  
@@ -518,7 +544,7 @@ Index: firefox-98.0.1/modules/libpref/init/all.js
    pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
    pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
    pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
-@@ -4334,12 +4397,15 @@ pref("toolkit.legacyUserProfileCustomiza
+@@ -4334,12 +4404,15 @@ pref("toolkit.legacyUserProfileCustomiza
    pref("datareporting.policy.firstRunURL", "https://www.mozilla.org/privacy/firefox/");
  #endif
  

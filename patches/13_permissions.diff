@@ -1,8 +1,8 @@
-Index: firefox-89.0.2/browser/base/content/browser.js
+Index: firefox-100.0.2/browser/base/content/browser.js
 ===================================================================
---- firefox-89.0.2.orig/browser/base/content/browser.js
-+++ firefox-89.0.2/browser/base/content/browser.js
-@@ -7612,6 +7612,13 @@ var CanvasPermissionPromptHelper = {
+--- firefox-100.0.2.orig/browser/base/content/browser.js
++++ firefox-100.0.2/browser/base/content/browser.js
+@@ -7785,6 +7785,13 @@ var CanvasPermissionPromptHelper = {
        );
      }
  
@@ -16,11 +16,11 @@ Index: firefox-89.0.2/browser/base/content/browser.js
      let mainAction = {
        label: gNavigatorBundle.getString("canvas.allow2"),
        accessKey: gNavigatorBundle.getString("canvas.allow2.accesskey"),
-Index: firefox-89.0.2/browser/app/profile/firefox.js
+Index: firefox-100.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-89.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-89.0.2/browser/app/profile/firefox.js
-@@ -2662,7 +2662,13 @@ pref("media.navigator.enabled", false);
+--- firefox-100.0.2.orig/browser/app/profile/firefox.js
++++ firefox-100.0.2/browser/app/profile/firefox.js
+@@ -2852,7 +2852,13 @@ pref("media.navigator.enabled", false);
  //1 = Prompt for each cookie
  //2 = Accept for current session only
  //3 = Accept for N days
@@ -33,14 +33,14 @@ Index: firefox-89.0.2/browser/app/profile/firefox.js
 +
 +pref("privacy.sanitize.sanitizeOnShutdown", true);
  
- /* MagIns - Link prefetching allows browsers to load resources ahead of time that users
-             are likely to need, based on rel="prefetch" parameter in HTML pages. While
-Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
+ /* MagIns - This preference enables several different privacy protections, as part
+             of Firefox's TOR Uplift project. These include:
+Index: firefox-100.0.2/browser/components/preferences/privacy.inc.xhtml
 ===================================================================
---- firefox-89.0.2.orig/browser/components/preferences/privacy.inc.xhtml
-+++ firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
-@@ -333,23 +333,34 @@
-       <hbox flex="1" id="deleteOnCloseNote" class="info-panel">
+--- firefox-100.0.2.orig/browser/components/preferences/privacy.inc.xhtml
++++ firefox-100.0.2/browser/components/preferences/privacy.inc.xhtml
+@@ -356,23 +356,34 @@
+         </hbox>
          <description flex="1" data-l10n-id="sitedata-delete-on-close-private-browsing" />
        </hbox>
 +<!-- MagIns - Remove the basic network.cookie.lifetimePolicy preference in favor of more granular privacy.clearOnShutdown.* preferences
@@ -75,7 +75,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
        <hbox>
          <button id="siteDataSettings"
                  is="highlightable-button"
-@@ -379,6 +390,24 @@
+@@ -402,6 +413,24 @@
                    permissions-exceptions-cookie-desc,
                  " />
        </hbox>
@@ -100,7 +100,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
      </vbox>
    </hbox>
  </groupbox>
-@@ -499,6 +528,7 @@
+@@ -534,6 +563,7 @@
            data-subcategory="form-autofill" hidden="true"></groupbox>
  
  <!-- History -->
@@ -108,7 +108,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
  <groupbox id="historyGroup" data-category="panePrivacy" hidden="true">
    <label><html:h2 data-l10n-id="history-header"/></label>
    <hbox align="center">
-@@ -549,34 +579,34 @@
+@@ -584,34 +614,34 @@
        </vbox>
        <vbox id="historyCustomPane">
          <vbox>
@@ -149,8 +149,8 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
          <button id="clearDataSettings"
                  is="highlightable-button"
                  class="accessory-button"
-@@ -593,7 +623,7 @@
-                   item-site-preferences.label,
+@@ -628,7 +658,7 @@
+                   item-site-settings.label,
                    item-offline-apps.label
                  "/>
 -      </hbox>
@@ -158,11 +158,11 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.inc.xhtml
      </vbox>
    </hbox>
  </groupbox>
-Index: firefox-89.0.2/browser/components/preferences/privacy.js
+Index: firefox-100.0.2/browser/components/preferences/privacy.js
 ===================================================================
---- firefox-89.0.2.orig/browser/components/preferences/privacy.js
-+++ firefox-89.0.2/browser/components/preferences/privacy.js
-@@ -566,11 +566,12 @@ var gPrivacyPane = {
+--- firefox-100.0.2.orig/browser/components/preferences/privacy.js
++++ firefox-100.0.2/browser/components/preferences/privacy.js
+@@ -562,11 +562,12 @@ var gPrivacyPane = {
        }
        return false;
      });
@@ -176,7 +176,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
      setEventListener(
        "cookieExceptions",
        "command",
-@@ -683,8 +684,9 @@ var gPrivacyPane = {
+@@ -684,8 +685,9 @@ var gPrivacyPane = {
      setSyncToPrefListener("blockCookiesMenu", () =>
        this.writeBlockCookiesFrom()
      );
@@ -187,8 +187,8 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
      setSyncFromPrefListener("savePasswords", () => this.readSavePasswords());
  
      let microControlHandler = el =>
-@@ -736,11 +738,12 @@ var gPrivacyPane = {
-     }
+@@ -721,11 +723,12 @@ var gPrivacyPane = {
+     this._initAddressBar();
  
      this.initSiteDataControls();
 +/* MagIns - Remove instance of clearSiteDataButton
@@ -201,7 +201,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
      setEventListener(
        "siteDataSettings",
        "command",
-@@ -1273,8 +1276,9 @@ var gPrivacyPane = {
+@@ -1274,8 +1277,9 @@ var gPrivacyPane = {
      let cookieExpirationLocked = Services.prefs.prefIsLocked(
        "network.cookie.lifetimePolicy"
      );
@@ -212,7 +212,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
      deleteOnCloseNote.hidden = !privateBrowsing;
  
      switch (behavior) {
-@@ -1489,7 +1493,8 @@ var gPrivacyPane = {
+@@ -1490,7 +1494,8 @@ var gPrivacyPane = {
    updatePrivacyMicroControls() {
      // Check the "Delete cookies when Firefox is closed" checkbox and disable the setting
      // when we're in auto private mode (or reset it back otherwise).
@@ -222,7 +222,7 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
  
      let clearDataSettings = document.getElementById("clearDataSettings");
  
-@@ -1863,10 +1868,10 @@ var gPrivacyPane = {
+@@ -1882,10 +1887,10 @@ var gPrivacyPane = {
    },
  
    toggleSiteData(shouldShow) {
@@ -235,11 +235,11 @@ Index: firefox-89.0.2/browser/components/preferences/privacy.js
    },
  
    showSiteDataLoading() {
-Index: firefox-89.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
+Index: firefox-100.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
 ===================================================================
---- firefox-89.0.2.orig/browser/locales/en-US/browser/preferences/preferences.ftl
-+++ firefox-89.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
-@@ -976,11 +976,11 @@ history-remember-label = { -brand-short-
+--- firefox-100.0.2.orig/browser/locales/en-US/browser/preferences/preferences.ftl
++++ firefox-100.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -1031,11 +1031,11 @@ history-remember-label = { -brand-short-
      .accesskey = w
  
  history-remember-option-all =
@@ -254,7 +254,7 @@ Index: firefox-89.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
  
  history-remember-description = { -brand-short-name } will remember your browsing, download, form, and search history.
  history-dontremember-description = { -brand-short-name } will use the same settings as private browsing, and will not remember any history as you browse the Web.
-@@ -998,7 +998,7 @@ history-remember-search-option =
+@@ -1053,7 +1053,7 @@ history-remember-search-option =
      .accesskey = f
  
  history-clear-on-close-option =
@@ -263,7 +263,7 @@ Index: firefox-89.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
      .accesskey = r
  
  history-clear-on-close-settings =
-@@ -1011,7 +1011,7 @@ history-clear-button =
+@@ -1066,7 +1066,7 @@ history-clear-button =
  
  ## Privacy Section - Site Data
  

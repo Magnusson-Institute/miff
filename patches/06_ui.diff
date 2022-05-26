@@ -1,7 +1,7 @@
-Index: firefox-98.0.1/browser/components/preferences/sync.inc.xhtml
+Index: firefox-100.0.2/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- firefox-98.0.1.orig/browser/components/preferences/sync.inc.xhtml
-+++ firefox-98.0.1/browser/components/preferences/sync.inc.xhtml
+--- firefox-100.0.2.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-100.0.2/browser/components/preferences/sync.inc.xhtml
 @@ -64,7 +64,7 @@
              <!-- logged in and verified and all is good -->
              <hbox id="fxaLoginVerified" align="center" flex="1">
@@ -24,10 +24,10 @@ Index: firefox-98.0.1/browser/components/preferences/sync.inc.xhtml
                  </hbox>
                  <hbox>
                    <html:a id="verifiedManage" class="openLink"
-Index: firefox-98.0.1/browser/components/preferences/sync.js
+Index: firefox-100.0.2/browser/components/preferences/sync.js
 ===================================================================
---- firefox-98.0.1.orig/browser/components/preferences/sync.js
-+++ firefox-98.0.1/browser/components/preferences/sync.js
+--- firefox-100.0.2.orig/browser/components/preferences/sync.js
++++ firefox-100.0.2/browser/components/preferences/sync.js
 @@ -217,9 +217,9 @@ var gSyncPane = {
        gSyncPane.signIn();
        return false;
@@ -58,10 +58,10 @@ Index: firefox-98.0.1/browser/components/preferences/sync.js
    },
  
    openManageFirefoxAccount(event) {
-Index: firefox-98.0.1/browser/components/newtab/lib/DefaultSites.jsm
+Index: firefox-100.0.2/browser/components/newtab/lib/DefaultSites.jsm
 ===================================================================
---- firefox-98.0.1.orig/browser/components/newtab/lib/DefaultSites.jsm
-+++ firefox-98.0.1/browser/components/newtab/lib/DefaultSites.jsm
+--- firefox-100.0.2.orig/browser/components/newtab/lib/DefaultSites.jsm
++++ firefox-100.0.2/browser/components/newtab/lib/DefaultSites.jsm
 @@ -8,39 +8,39 @@ const DEFAULT_SITES_MAP = new Map([
    // This first item is the global list fallback for any unexpected geos
    [
@@ -111,11 +111,11 @@ Index: firefox-98.0.1/browser/components/newtab/lib/DefaultSites.jsm
    ],
  ]);
  
-Index: firefox-98.0.1/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+Index: firefox-100.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 ===================================================================
---- firefox-98.0.1.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-+++ firefox-98.0.1/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-@@ -251,11 +251,14 @@ class AboutWelcomeParent extends JSWindo
+--- firefox-100.0.2.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ firefox-100.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+@@ -252,11 +252,14 @@ class AboutWelcomeParent extends JSWindo
          SpecialMessageActions.handleAction(data, browser);
          break;
        case "AWPage:FXA_METRICS_FLOW_URI":
@@ -132,10 +132,10 @@ Index: firefox-98.0.1/browser/components/newtab/aboutwelcome/AboutWelcomeParent.
          break;
        case "AWPage:GET_ATTRIBUTION_DATA":
          let attributionData = await AboutWelcomeDefaults.getAttributionContent();
-Index: firefox-98.0.1/browser/components/preferences/preferences.js
+Index: firefox-100.0.2/browser/components/preferences/preferences.js
 ===================================================================
---- firefox-98.0.1.orig/browser/components/preferences/preferences.js
-+++ firefox-98.0.1/browser/components/preferences/preferences.js
+--- firefox-100.0.2.orig/browser/components/preferences/preferences.js
++++ firefox-100.0.2/browser/components/preferences/preferences.js
 @@ -246,7 +246,7 @@ function init_all() {
      let helpButton = document.getElementById("helpButton");
      let helpUrl =
@@ -145,11 +145,11 @@ Index: firefox-98.0.1/browser/components/preferences/preferences.js
      helpButton.setAttribute("href", helpUrl);
  
      document.getElementById("addonsButton").addEventListener("click", e => {
-Index: firefox-98.0.1/browser/app/profile/firefox.js
+Index: firefox-100.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-98.0.1.orig/browser/app/profile/firefox.js
-+++ firefox-98.0.1/browser/app/profile/firefox.js
-@@ -289,16 +289,12 @@ pref("browser.shell.setDefaultPDFHandler
+--- firefox-100.0.2.orig/browser/app/profile/firefox.js
++++ firefox-100.0.2/browser/app/profile/firefox.js
+@@ -293,16 +293,12 @@ pref("browser.shell.setDefaultPDFHandler
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
  pref("browser.startup.page",                1);
@@ -168,8 +168,8 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  
  // Whether we should show the session-restore infobar on startup
  pref("browser.startup.couldRestoreSession.count", 0);
-@@ -2233,7 +2229,9 @@ pref("toolkit.coverage.enabled", false);
- pref("toolkit.coverage.endpoint.base", "https://coverage.mozilla.org");
+@@ -2283,7 +2279,9 @@ pref("toolkit.coverage.endpoint.base", "
+ pref("toolkit.coverage.opt-out", true);
  
  // Discovery prefs
 -pref("browser.discovery.enabled", true);
@@ -179,7 +179,7 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  pref("browser.discovery.containers.enabled", true);
  pref("browser.discovery.sites", "addons.mozilla.org");
  
-@@ -2729,6 +2727,13 @@ pref("browser.snapshots.score.IsOverlapp
+@@ -2786,6 +2784,13 @@ pref("browser.snapshots.score.IsOverlapp
  pref("browser.snapshots.score.IsUserPersisted", 1);
  pref("browser.snapshots.score.IsUsedRemoved", -10);
  
@@ -193,10 +193,10 @@ Index: firefox-98.0.1/browser/app/profile/firefox.js
  /* MagIns - The browser milestone records the version number of the last successful
              startup. After updates/upgrades, the user's homepage is changed to show
              a promotional page about the update. Setting this to "ignore", the value
-Index: firefox-98.0.1/toolkit/content/jar.mn
+Index: firefox-100.0.2/toolkit/content/jar.mn
 ===================================================================
---- firefox-98.0.1.orig/toolkit/content/jar.mn
-+++ firefox-98.0.1/toolkit/content/jar.mn
+--- firefox-100.0.2.orig/toolkit/content/jar.mn
++++ firefox-100.0.2/toolkit/content/jar.mn
 @@ -51,8 +51,6 @@ toolkit.jar:
     content/global/filepicker.properties
     content/global/customElements.js
@@ -206,11 +206,11 @@ Index: firefox-98.0.1/toolkit/content/jar.mn
     content/global/preferencesBindings.js
     content/global/process-content.js
     content/global/resetProfile.css
-Index: firefox-98.0.1/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+Index: firefox-100.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 ===================================================================
---- firefox-98.0.1.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-+++ firefox-98.0.1/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-@@ -1179,10 +1179,10 @@ function addUtmParams(url, utmTerm) {
+--- firefox-100.0.2.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ firefox-100.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+@@ -1396,10 +1396,10 @@ function addUtmParams(url, utmTerm) {
      returnUrl = new URL(url);
    }
  
@@ -223,10 +223,10 @@ Index: firefox-98.0.1/browser/components/newtab/aboutwelcome/content/aboutwelcom
    return returnUrl;
  }
  
-Index: firefox-98.0.1/browser/base/content/browser-menubar.inc
+Index: firefox-100.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- firefox-98.0.1.orig/browser/base/content/browser-menubar.inc
-+++ firefox-98.0.1/browser/base/content/browser-menubar.inc
+--- firefox-100.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-100.0.2/browser/base/content/browser-menubar.inc
 @@ -461,10 +461,11 @@
  #else
                            />
@@ -234,16 +234,16 @@ Index: firefox-98.0.1/browser/base/content/browser-menubar.inc
 +<!-- MagIns - Remove the "Submit Feedback" option in the Help menu
                  <menuitem id="feedbackPage"
                            oncommand="openFeedbackPage()"
-                           data-l10n-id="menu-help-feedback-page"
--                          appmenu-data-l10n-id="appmenu-help-feedback-page"/>
-+                          appmenu-data-l10n-id="appmenu-help-feedback-page"/>-->
+                           data-l10n-id="menu-help-share-ideas"
+-                          appmenu-data-l10n-id="appmenu-help-share-ideas"/>
++                          appmenu-data-l10n-id="appmenu-help-share-ideas"/>-->
                  <menuitem id="helpSafeMode"
                            oncommand="safeModeRestart();"
                            data-l10n-id="menu-help-enter-troubleshoot-mode2"
-Index: firefox-98.0.1/browser/components/newtab/lib/SearchShortcuts.jsm
+Index: firefox-100.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
 ===================================================================
---- firefox-98.0.1.orig/browser/components/newtab/lib/SearchShortcuts.jsm
-+++ firefox-98.0.1/browser/components/newtab/lib/SearchShortcuts.jsm
+--- firefox-100.0.2.orig/browser/components/newtab/lib/SearchShortcuts.jsm
++++ firefox-100.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
 @@ -8,28 +8,17 @@ const { Services } = ChromeUtils.import(
  // List of sites we match against Topsites in order to identify sites
  // that should be converted to search Topsites
@@ -273,10 +273,10 @@ Index: firefox-98.0.1/browser/components/newtab/lib/SearchShortcuts.jsm
    {
      keyword: "@wikipedia",
      shortURL: "wikipedia",
-Index: firefox-98.0.1/browser/components/newtab/lib/ActivityStream.jsm
+Index: firefox-100.0.2/browser/components/newtab/lib/ActivityStream.jsm
 ===================================================================
---- firefox-98.0.1.orig/browser/components/newtab/lib/ActivityStream.jsm
-+++ firefox-98.0.1/browser/components/newtab/lib/ActivityStream.jsm
+--- firefox-100.0.2.orig/browser/components/newtab/lib/ActivityStream.jsm
++++ firefox-100.0.2/browser/components/newtab/lib/ActivityStream.jsm
 @@ -317,7 +317,7 @@ const PREFS_CONFIG = new Map([
            return "";
          }
@@ -295,10 +295,10 @@ Index: firefox-98.0.1/browser/components/newtab/lib/ActivityStream.jsm
          return searchShortcuts.join(",");
        },
      },
-Index: firefox-98.0.1/browser/base/content/utilityOverlay.js
+Index: firefox-100.0.2/browser/base/content/utilityOverlay.js
 ===================================================================
---- firefox-98.0.1.orig/browser/base/content/utilityOverlay.js
-+++ firefox-98.0.1/browser/base/content/utilityOverlay.js
+--- firefox-100.0.2.orig/browser/base/content/utilityOverlay.js
++++ firefox-100.0.2/browser/base/content/utilityOverlay.js
 @@ -1032,9 +1032,11 @@ function openFeedbackPage() {
  }
  
@@ -312,10 +312,10 @@ Index: firefox-98.0.1/browser/base/content/utilityOverlay.js
  
    document.getElementById(
      "helpSafeMode"
-Index: firefox-98.0.1/services/settings/dumps/main/top-sites.json
+Index: firefox-100.0.2/services/settings/dumps/main/top-sites.json
 ===================================================================
---- firefox-98.0.1.orig/services/settings/dumps/main/top-sites.json
-+++ firefox-98.0.1/services/settings/dumps/main/top-sites.json
+--- firefox-100.0.2.orig/services/settings/dumps/main/top-sites.json
++++ firefox-100.0.2/services/settings/dumps/main/top-sites.json
 @@ -1,400 +1,5 @@
  {
    "data": [
@@ -718,10 +718,10 @@ Index: firefox-98.0.1/services/settings/dumps/main/top-sites.json
 +
    ]
  }
-Index: firefox-98.0.1/browser/components/newtab/lib/TopSitesFeed.jsm
+Index: firefox-100.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
 ===================================================================
---- firefox-98.0.1.orig/browser/components/newtab/lib/TopSitesFeed.jsm
-+++ firefox-98.0.1/browser/components/newtab/lib/TopSitesFeed.jsm
+--- firefox-100.0.2.orig/browser/components/newtab/lib/TopSitesFeed.jsm
++++ firefox-100.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
 @@ -582,6 +582,7 @@ this.TopSitesFeed = class TopSitesFeed {
     * @returns {Boolean} Did we insert any search shortcuts?
     */
@@ -739,10 +739,10 @@ Index: firefox-98.0.1/browser/components/newtab/lib/TopSitesFeed.jsm
      return false;
    }
  
-Index: firefox-98.0.1/browser/base/content/appmenu-viewcache.inc.xhtml
+Index: firefox-100.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
 ===================================================================
---- firefox-98.0.1.orig/browser/base/content/appmenu-viewcache.inc.xhtml
-+++ firefox-98.0.1/browser/base/content/appmenu-viewcache.inc.xhtml
+--- firefox-100.0.2.orig/browser/base/content/appmenu-viewcache.inc.xhtml
++++ firefox-100.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
 @@ -543,10 +543,12 @@
  
    <panelview id="PanelUI-fxa" class="PanelUI-subView" descriptionheightworkaround="true">
@@ -757,10 +757,10 @@ Index: firefox-98.0.1/browser/base/content/appmenu-viewcache.inc.xhtml
          <vbox flex="1">
            <label id="fxa-menu-header-title"
                   crop="end"
-Index: firefox-98.0.1/browser/base/content/default-bookmarks.html
+Index: firefox-100.0.2/browser/base/content/default-bookmarks.html
 ===================================================================
---- firefox-98.0.1.orig/browser/base/content/default-bookmarks.html
-+++ firefox-98.0.1/browser/base/content/default-bookmarks.html
+--- firefox-100.0.2.orig/browser/base/content/default-bookmarks.html
++++ firefox-100.0.2/browser/base/content/default-bookmarks.html
 @@ -19,11 +19,11 @@
      <!-- These localization links are not automatically applied to any XHR
           response body and must be applied manually as well.  They are included

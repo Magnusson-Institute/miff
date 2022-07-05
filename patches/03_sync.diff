@@ -1,18 +1,18 @@
-Index: firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-102.0/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
-@@ -427,11 +427,18 @@ FxAccountsClient.prototype = {
+--- firefox-102.0.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-102.0/services/fxaccounts/FxAccountsClient.jsm
+@@ -428,11 +428,18 @@ FxAccountsClient.prototype = {
+       key,
+       CommonUtils.byteStringToArrayBuffer(bundle.slice(0, -32))
      );
- 
-     let bundleMAC = CryptoUtils.digestBytes(bundle.slice(0, -32), hasher);
 +/* MagIns - Firefox stores a user's key B as doubly-wrapped. The bundle is unwrapped once on
 +            Mozilla servers after login, concatenated with the key A value, and sent to the
 +            user's browser. In transit, this is wrapped with values derived from the keyFetchToken.
 +            In our current Flask implementation, we only generate a keyFetchToken for code
 +            compatibility, and do not save it for later use. Thus, we do not wrap the key in
 +            transit, and cannot compare MAC values.
-     if (mac !== bundleMAC) {
+     if (mac !== CommonUtils.arrayBufferToByteString(bundleMAC)) {
        throw new Error("error unbundling encryption keys");
      }
  
@@ -22,10 +22,10 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsClient.jsm
  
      return {
        kA: keyAWrapB.slice(0, 32),
-Index: firefox-92.0/services/fxaccounts/FxAccountsKeys.jsm
+Index: firefox-102.0/services/fxaccounts/FxAccountsKeys.jsm
 ===================================================================
---- firefox-92.0.orig/services/fxaccounts/FxAccountsKeys.jsm
-+++ firefox-92.0/services/fxaccounts/FxAccountsKeys.jsm
+--- firefox-102.0.orig/services/fxaccounts/FxAccountsKeys.jsm
++++ firefox-102.0/services/fxaccounts/FxAccountsKeys.jsm
 @@ -364,10 +364,15 @@ class FxAccountsKeys {
        throw new Error("Signed in user changed while fetching keys!");
      }
@@ -43,10 +43,10 @@ Index: firefox-92.0/services/fxaccounts/FxAccountsKeys.jsm
  
      if (logPII) {
        log.debug("kBbytes: " + kBbytes);
-Index: firefox-92.0/services/common/tokenserverclient.js
+Index: firefox-102.0/services/common/tokenserverclient.js
 ===================================================================
---- firefox-92.0.orig/services/common/tokenserverclient.js
-+++ firefox-92.0/services/common/tokenserverclient.js
+--- firefox-102.0.orig/services/common/tokenserverclient.js
++++ firefox-102.0/services/common/tokenserverclient.js
 @@ -227,29 +227,44 @@ TokenServerClient.prototype = {
        );
      }
@@ -131,10 +131,10 @@ Index: firefox-92.0/services/common/tokenserverclient.js
      if (!headerVal) {
        return;
      }
-Index: firefox-92.0/services/sync/modules/resource.js
+Index: firefox-102.0/services/sync/modules/resource.js
 ===================================================================
---- firefox-92.0.orig/services/sync/modules/resource.js
-+++ firefox-92.0/services/sync/modules/resource.js
+--- firefox-102.0.orig/services/sync/modules/resource.js
++++ firefox-102.0/services/sync/modules/resource.js
 @@ -103,12 +103,28 @@ Resource.prototype = {
     * @returns {Headers}
     */

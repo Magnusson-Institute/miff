@@ -322,6 +322,7 @@ Index: firefox-102.0/browser/app/profile/firefox.js
 +//4 - Reserved (used to be Shadow mode)
 +//5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
 +pref("network.trr.mode", 5);
+\ No newline at end of file
 Index: firefox-102.0/modules/libpref/init/all.js
 ===================================================================
 --- firefox-102.0.orig/modules/libpref/init/all.js

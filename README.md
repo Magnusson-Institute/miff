@@ -14,9 +14,9 @@ We host latest builds on ``cdn.privacy.app``, updates are signed and
 provided as well (once you've installed MiFF, updates should "just
 work").
 
-* [Windows (v96.x)](https://cdn.privacy.app/miffrelease/MiFF-96.0.1.1.exe)
+* [Windows (v100.x)](https://cdn.privacy.app/miffrelease/MiFF-100.0.2.1.exe)
 * [MacOS (v89.x)](https://cdn.privacy.app/miffrelease/MiFF-89.0.0.1.en-US.mac.dmg)
-* [Linux (v92.x)](https://cdn.privacy.app/miffrelease/MiFF-92.0.0.1.tar.bz2)
+* [Linux (v100.x)](https://cdn.privacy.app/miffrelease/MiFF-100.0.2.1.tar.bz2)
 
 You can download/install the above and just use them straight off the bat.
 They should (hopefully) give you a more private browsing experience than
@@ -63,15 +63,35 @@ them](https://www.mozilla.org/en-US/firefox/releases/).[^1b]
 <summary><b>Click to expand/collapse</b></summary>
 <!-- MarkdownMiffVersions -->
 
+### v100.0.2.1
+
+Windows installer: https://cdn.privacy.app/miffrelease/MiFF-100.0.2.1.exe
+
+Linux: https://cdn.privacy.app/miffrelease/MiFF-100.0.2.1.tar.bz2
+
+Source: https://github.com/Magnusson-Institute/miff/releases/tag/v100.0.2.1
+
+Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/100.0.2.1/releasenotes/
+
+
+### v98.0.1.1
+
+Windows installer: https://cdn.privacy.app/miffrelease/MiFF-98.0.1.1.exe
+
+Source: https://github.com/Magnusson-Institute/miff/releases/tag/v98.0.1.1
+
+Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/98.0.1/releasenotes/
+
+
 ### v96.0.1.1
 
-*Latest* - binaries not packaged yet.
+Windows installer: https://cdn.privacy.app/miffrelease/MiFF-96.0.1.1.exe
 
-MiFF Source: https://github.com/Magnusson-Institute/miff/releases/tag/v96.0.1.1
+Linux: https://cdn.privacy.app/miffrelease/MiFF-96.0.1.1.tar.bz2
+
+Source: https://github.com/Magnusson-Institute/miff/releases/tag/v96.0.1.1
 
 Matching Firefox release notes: https://www.mozilla.org/en-US/firefox/96.0.1/releasenotes/
-
-Matching Firefox Source: https://archive.mozilla.org/pub/firefox/releases/96.0.1/source/firefox-96.0.1.source.tar.xz
 
 
 ### v92.0.0.1
@@ -219,11 +239,26 @@ You will need to run ``./mach build`` first, then apply patch 12 and
 beyond.
 
 There is an additional step if you are not working in a Windows
-environment. The first build creates an obj-\* folder, where all the
-generated files live. The name of this folder is different on each OS.
+environment. The initial build creates an obj-\* folder, where all the
+generated files live. The name of this folder is dependent on the OS.
 For non-Windows systems, create a symbolic link to your platform's
 obj-\* folder named ``obj-x86_64-pc-mingw32`` and the patch will
-apply correctly.
+apply correctly. The relevant files in this folder are ``primaryCert.h``
+and ``secondaryCert.h``.
+
+Updates are delivered through MAR (Mozilla ARchive) files. The MAR files
+are signed by an RSA private key with a corresponding signed certificate.
+
+The public key data is contained in the .h files listed above, represented
+in ``0x**`` hexadecimal octets. The following commands can be used to
+properly convert a PKCS7 certificate to hexadecimal:
+
+```
+bash
+openssl pkcs7 -print_certs -in CERTIFICATE.p7b -outform PEM -out CERTIFICATE.pem
+openssl x509 -inform PEM -in CERTIFICATE.pem -outform DER -out CERTIFICATE.cer
+xxd -i CERTIFICATE.cer
+```
 
 
 ## Working with the release patch (patch #99)

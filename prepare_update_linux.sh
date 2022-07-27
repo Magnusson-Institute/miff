@@ -1,5 +1,5 @@
 #!/bin/bash
-ROOTDIR="../m041"
+ROOTDIR="../miff"
 UPDATE_DIR=obj*linux*"/dist/firefox"
 
 # The version number is required for the MAR commands
@@ -41,7 +41,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     echo "=== Creating MAR"
     cd tmp
 
-    mar -J -c ../MiFF-$1.complete.mar -k "../../m041/private.pem" -H default -V $1 *
+    mar -J -c ../MiFF-$1.complete.mar -k "../../miff/private.pem" -H default -V $1 *
     cd ..
     echo "=== MAR complete"
     echo "=== Use these values for linux-update.xml in m021"
@@ -49,5 +49,5 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
     stat --format="%s" MiFF-$1.complete.mar
     rm -rf tmp
 else
-    { echo "You need to be at the root location of the browser, and '../m041' alongside you"; } 2> /dev/null
+    { echo "You need to be at the root location of the browser, and '../miff' alongside you"; } 2> /dev/null
 fi

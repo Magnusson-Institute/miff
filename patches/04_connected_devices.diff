@@ -1,7 +1,7 @@
-Index: firefox-100.0.2/browser/base/content/browser-sidebar.js
+Index: firefox-104.0.2/browser/base/content/browser-sidebar.js
 ===================================================================
---- firefox-100.0.2.orig/browser/base/content/browser-sidebar.js
-+++ firefox-100.0.2/browser/base/content/browser-sidebar.js
+--- firefox-104.0.2.orig/browser/base/content/browser-sidebar.js
++++ firefox-104.0.2/browser/base/content/browser-sidebar.js
 @@ -41,6 +41,8 @@ var SidebarUI = {
            triggerButtonId: "appMenuViewHistorySidebar",
          }),
@@ -20,10 +20,10 @@ Index: firefox-100.0.2/browser/base/content/browser-sidebar.js
      ]));
    },
  
-Index: firefox-100.0.2/browser/base/content/browser-sync.js
+Index: firefox-104.0.2/browser/base/content/browser-sync.js
 ===================================================================
---- firefox-100.0.2.orig/browser/base/content/browser-sync.js
-+++ firefox-100.0.2/browser/base/content/browser-sync.js
+--- firefox-104.0.2.orig/browser/base/content/browser-sync.js
++++ firefox-104.0.2/browser/base/content/browser-sync.js
 @@ -658,10 +658,10 @@ var gSync = {
        title = PluralForm.get(tabCount, string).replace("#1", tabCount);
      }
@@ -116,10 +116,10 @@ Index: firefox-100.0.2/browser/base/content/browser-sync.js
  
      if (hideItems || !hasASendableURI) {
        sendTabsToDevice.hidden = true;
-Index: firefox-100.0.2/browser/base/content/browser-menubar.inc
+Index: firefox-104.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- firefox-100.0.2.orig/browser/base/content/browser-menubar.inc
-+++ firefox-100.0.2/browser/base/content/browser-menubar.inc
+--- firefox-104.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-104.0.2/browser/base/content/browser-menubar.inc
 @@ -149,10 +149,11 @@
                                type="checkbox"
                                key="key_gotoHistory"
@@ -133,11 +133,11 @@ Index: firefox-100.0.2/browser/base/content/browser-menubar.inc
                    </menupopup>
                  </menu>
                  <menuseparator/>
-Index: firefox-100.0.2/browser/base/content/browser-context.inc
+Index: firefox-104.0.2/browser/base/content/browser-context.inc
 ===================================================================
---- firefox-100.0.2.orig/browser/base/content/browser-context.inc
-+++ firefox-100.0.2/browser/base/content/browser-context.inc
-@@ -112,13 +112,14 @@
+--- firefox-104.0.2.orig/browser/base/content/browser-context.inc
++++ firefox-104.0.2/browser/base/content/browser-context.inc
+@@ -111,13 +111,14 @@
        <menuitem id="context-copylink"
                  data-l10n-id="main-context-menu-copy-link-simple"
                  oncommand="gContextMenu.copyLink();"/>
@@ -153,7 +153,7 @@ Index: firefox-100.0.2/browser/base/content/browser-context.inc
        <menuseparator id="context-sep-sendlinktodevice" class="sync-ui-item"
                  hidden="true"/>
        <menuseparator id="context-sep-copylink"/>
-@@ -259,13 +260,14 @@
+@@ -261,13 +262,14 @@
        <menuitem id="context-pocket"
                  data-l10n-id="main-context-menu-save-to-pocket"
                  oncommand="Pocket.savePage(gContextMenu.browser, gContextMenu.browser.currentURI.spec, gContextMenu.browser.contentTitle);"/>
@@ -169,11 +169,11 @@ Index: firefox-100.0.2/browser/base/content/browser-context.inc
        <menu id="fill-login" hidden="true">
          <menupopup id="fill-login-popup" />
        </menu>
-Index: firefox-100.0.2/browser/components/customizableui/CustomizableWidgets.jsm
+Index: firefox-104.0.2/browser/components/customizableui/CustomizableWidgets.jsm
 ===================================================================
---- firefox-100.0.2.orig/browser/components/customizableui/CustomizableWidgets.jsm
-+++ firefox-100.0.2/browser/components/customizableui/CustomizableWidgets.jsm
-@@ -454,6 +454,7 @@ const CustomizableWidgets = [
+--- firefox-104.0.2.orig/browser/components/customizableui/CustomizableWidgets.jsm
++++ firefox-104.0.2/browser/components/customizableui/CustomizableWidgets.jsm
+@@ -477,6 +477,7 @@ const CustomizableWidgets = [
    },
  ];
  
@@ -181,7 +181,7 @@ Index: firefox-100.0.2/browser/components/customizableui/CustomizableWidgets.jsm
  if (Services.prefs.getBoolPref("identity.fxaccounts.enabled")) {
    CustomizableWidgets.push({
      id: "sync-button",
-@@ -526,7 +527,7 @@ if (!screenshotsDisabled) {
+@@ -549,7 +550,7 @@ if (!lazy.screenshotsDisabled) {
        }
      },
    });
@@ -190,10 +190,10 @@ Index: firefox-100.0.2/browser/components/customizableui/CustomizableWidgets.jsm
  
  let preferencesButton = {
    id: "preferences-button",
-Index: firefox-100.0.2/browser/components/preferences/sync.inc.xhtml
+Index: firefox-104.0.2/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- firefox-100.0.2.orig/browser/components/preferences/sync.inc.xhtml
-+++ firefox-100.0.2/browser/components/preferences/sync.inc.xhtml
+--- firefox-104.0.2.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-104.0.2/browser/components/preferences/sync.inc.xhtml
 @@ -196,10 +196,10 @@
                      <image class="sync-engine-image sync-engine-history"/>
                      <label data-l10n-id="sync-currently-syncing-history"/>
@@ -222,11 +222,11 @@ Index: firefox-100.0.2/browser/components/preferences/sync.inc.xhtml
    </vbox>
  </deck>
  </html:template>
-Index: firefox-100.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+Index: firefox-104.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.js
 ===================================================================
---- firefox-100.0.2.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.js
-+++ firefox-100.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.js
-@@ -10,7 +10,7 @@ Preferences.addAll([
+--- firefox-104.0.2.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.js
++++ firefox-104.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+@@ -8,7 +8,7 @@ Preferences.addAll([
    { id: "services.sync.engine.addons", type: "bool" },
    { id: "services.sync.engine.bookmarks", type: "bool" },
    { id: "services.sync.engine.history", type: "bool" },
@@ -235,10 +235,10 @@ Index: firefox-100.0.2/browser/components/preferences/dialogs/syncChooseWhatToSy
    { id: "services.sync.engine.prefs", type: "bool" },
    { id: "services.sync.engine.passwords", type: "bool" },
    { id: "services.sync.engine.addresses", type: "bool" },
-Index: firefox-100.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+Index: firefox-104.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
 ===================================================================
---- firefox-100.0.2.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
-+++ firefox-100.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+--- firefox-104.0.2.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
++++ firefox-104.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
 @@ -34,10 +34,11 @@
        <checkbox data-l10n-id="sync-engine-history"
                  preference="services.sync.engine.history"/>
@@ -252,11 +252,11 @@ Index: firefox-100.0.2/browser/components/preferences/dialogs/syncChooseWhatToSy
      <html:div class="sync-engine-passwords">
        <checkbox data-l10n-id="sync-engine-logins-passwords"
                  preference="services.sync.engine.passwords"/>
-Index: firefox-100.0.2/modules/libpref/init/all.js
+Index: firefox-104.0.2/modules/libpref/init/all.js
 ===================================================================
---- firefox-100.0.2.orig/modules/libpref/init/all.js
-+++ firefox-100.0.2/modules/libpref/init/all.js
-@@ -4416,7 +4416,9 @@ pref("services.common.log.logger.tokense
+--- firefox-104.0.2.orig/modules/libpref/init/all.js
++++ firefox-104.0.2/modules/libpref/init/all.js
+@@ -4232,7 +4232,9 @@ pref("services.common.log.logger.tokense
    pref("services.sync.engine.history", true);
    pref("services.sync.engine.passwords", true);
    pref("services.sync.engine.prefs", true);
@@ -264,13 +264,13 @@ Index: firefox-100.0.2/modules/libpref/init/all.js
 +/* MagIns - Disable tab syncing
 +  pref("services.sync.engine.tabs", true);*/
 +  pref("services.sync.engine.tabs", false);
-   pref("services.sync.engine.tabs.filteredSchemes", "about|resource|chrome|file|blob|moz-extension");
+   pref("services.sync.engine.tabs.filteredSchemes", "about|resource|chrome|file|blob|moz-extension|data");
  
    // The addresses and CC engines might not actually be available at all.
-Index: firefox-100.0.2/browser/components/preferences/sync.js
+Index: firefox-104.0.2/browser/components/preferences/sync.js
 ===================================================================
---- firefox-100.0.2.orig/browser/components/preferences/sync.js
-+++ firefox-100.0.2/browser/components/preferences/sync.js
+--- firefox-104.0.2.orig/browser/components/preferences/sync.js
++++ firefox-104.0.2/browser/components/preferences/sync.js
 @@ -106,11 +106,11 @@ var gSyncPane = {
  
      FxAccounts.config
@@ -285,10 +285,10 @@ Index: firefox-100.0.2/browser/components/preferences/sync.js
      // Links for mobile devices.
      for (let platform of ["android", "ios"]) {
        let url =
-Index: firefox-100.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
+Index: firefox-104.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
 ===================================================================
---- firefox-100.0.2.orig/browser/base/content/appmenu-viewcache.inc.xhtml
-+++ firefox-100.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
+--- firefox-104.0.2.orig/browser/base/content/appmenu-viewcache.inc.xhtml
++++ firefox-104.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
 @@ -577,15 +577,17 @@
                        data-l10n-id="appmenu-fxa-setup-sync"
                        oncommand="gSync.openPrefsFromFxaMenu('sync_settings', this);"/>
@@ -309,10 +309,10 @@ Index: firefox-100.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
        <toolbarbutton id="PanelUI-fxa-menu-sync-prefs-button"
                        class="subviewbutton"
                        data-l10n-id="fxa-menu-sync-settings"
-Index: firefox-100.0.2/browser/base/content/main-popupset.inc.xhtml
+Index: firefox-104.0.2/browser/base/content/main-popupset.inc.xhtml
 ===================================================================
---- firefox-100.0.2.orig/browser/base/content/main-popupset.inc.xhtml
-+++ firefox-100.0.2/browser/base/content/main-popupset.inc.xhtml
+--- firefox-104.0.2.orig/browser/base/content/main-popupset.inc.xhtml
++++ firefox-104.0.2/browser/base/content/main-popupset.inc.xhtml
 @@ -57,13 +57,15 @@
                    oncommand="gBrowser.replaceTabsWithWindow(TabContextMenu.contextTab);"/>
        </menupopup>
@@ -330,7 +330,7 @@ Index: firefox-100.0.2/browser/base/content/main-popupset.inc.xhtml
      <menu id="context_reopenInContainer"
            data-lazy-l10n-id="tab-context-open-in-new-container-tab"
            hidden="true">
-@@ -318,10 +320,11 @@
+@@ -302,10 +304,11 @@
                     class="subviewbutton"
                     key="key_gotoHistory"
                     oncommand="SidebarUI.show('viewHistorySidebar');"/>
@@ -343,7 +343,7 @@ Index: firefox-100.0.2/browser/base/content/main-popupset.inc.xhtml
      <toolbarseparator/>
      <!-- Extension toolbarbuttons go here. -->
      <toolbarseparator id="sidebar-extensions-separator"/>
-@@ -549,7 +552,7 @@
+@@ -539,7 +542,7 @@
    <tooltip id="dynamic-shortcut-tooltip"
             onpopupshowing="UpdateDynamicShortcutTooltipText(this);"/>
  
@@ -351,8 +351,8 @@ Index: firefox-100.0.2/browser/base/content/main-popupset.inc.xhtml
 +<!--  <menupopup id="SyncedTabsSidebarContext">
      <menuitem data-lazy-l10n-id="synced-tabs-context-open"
                id="syncedTabsOpenSelected" where="current"/>
-     <menuitem data-lazy-l10n-id="synced-tabs-context-open-in-new-tab"
-@@ -591,7 +594,7 @@
+     <menuitem data-lazy-l10n-id="synced-tabs-context-open-in-tab"
+@@ -587,7 +590,7 @@
      <menuseparator/>
      <menuitem data-lazy-l10n-id="synced-tabs-context-sync-now"
                id="syncedTabsRefreshFilter"/>

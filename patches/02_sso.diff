@@ -1,8 +1,8 @@
-Index: firefox-96.0.1/browser/app/profile/firefox.js
+Index: firefox-104.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-96.0.1.orig/browser/app/profile/firefox.js
-+++ firefox-96.0.1/browser/app/profile/firefox.js
-@@ -1500,7 +1500,10 @@ pref("browser.newtabpage.activity-stream
+--- firefox-104.0.2.orig/browser/app/profile/firefox.js
++++ firefox-104.0.2/browser/app/profile/firefox.js
+@@ -1540,7 +1540,10 @@ pref("browser.newtabpage.activity-stream
  #endif
  
  // The remote FxA root content URL for the Activity Stream firstrun page.
@@ -14,7 +14,7 @@ Index: firefox-96.0.1/browser/app/profile/firefox.js
  
  // The pref that controls if the search shortcuts experiment is on
  pref("browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts", true);
-@@ -1670,16 +1673,31 @@ pref("browser.uiCustomization.state", ""
+@@ -1720,16 +1723,31 @@ pref("browser.uiCustomization.state", ""
  pref("identity.fxaccounts.enabled", true);
  
  // The remote FxA root content URL. Must use HTTPS.
@@ -49,7 +49,7 @@ Index: firefox-96.0.1/browser/app/profile/firefox.js
  
  // Whether FxA pairing using QR codes is enabled.
  pref("identity.fxaccounts.pairing.enabled", true);
-@@ -1688,7 +1706,10 @@ pref("identity.fxaccounts.pairing.enable
+@@ -1738,7 +1756,10 @@ pref("identity.fxaccounts.pairing.enable
  pref("identity.fxaccounts.remote.pairing.uri", "wss://channelserver.services.mozilla.com");
  
  // Token server used by the FxA Sync identity.
@@ -61,11 +61,11 @@ Index: firefox-96.0.1/browser/app/profile/firefox.js
  
  // Auto-config URL for FxA self-hosters, makes an HTTP request to
  // [identity.fxaccounts.autoconfig.uri]/.well-known/fxa-client-configuration
-Index: firefox-96.0.1/modules/libpref/init/all.js
+Index: firefox-104.0.2/modules/libpref/init/all.js
 ===================================================================
---- firefox-96.0.1.orig/modules/libpref/init/all.js
-+++ firefox-96.0.1/modules/libpref/init/all.js
-@@ -4469,7 +4469,17 @@ pref("services.common.log.logger.tokense
+--- firefox-104.0.2.orig/modules/libpref/init/all.js
++++ firefox-104.0.2/modules/libpref/init/all.js
+@@ -4300,7 +4300,17 @@ pref("services.common.log.logger.tokense
    pref("services.sync.maxResyncs", 1);
  
    // The URL of the Firefox Accounts auth server backend
@@ -84,11 +84,11 @@ Index: firefox-96.0.1/modules/libpref/init/all.js
  
    // Percentage chance we skip an extension storage sync (kinto life support).
    pref("services.sync.extension-storage.skipPercentageChance", 50);
-Index: firefox-96.0.1/services/fxaccounts/FxAccountsCommon.js
+Index: firefox-104.0.2/services/fxaccounts/FxAccountsCommon.js
 ===================================================================
---- firefox-96.0.1.orig/services/fxaccounts/FxAccountsCommon.js
-+++ firefox-96.0.1/services/fxaccounts/FxAccountsCommon.js
-@@ -101,7 +101,12 @@ exports.COMMAND_SENDTAB = exports.COMMAN
+--- firefox-104.0.2.orig/services/fxaccounts/FxAccountsCommon.js
++++ firefox-104.0.2/services/fxaccounts/FxAccountsCommon.js
+@@ -100,7 +100,12 @@ exports.COMMAND_SENDTAB = exports.COMMAN
  exports.FX_OAUTH_CLIENT_ID = "5882386c6d801776";
  exports.SCOPE_PROFILE = "profile";
  exports.SCOPE_PROFILE_WRITE = "profile:write";
@@ -129,11 +129,11 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsCommon.js
  ]);
  
  // Fields we store in secure storage if it exists.
-Index: firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
+Index: firefox-104.0.2/services/fxaccounts/FxAccounts.jsm
 ===================================================================
---- firefox-96.0.1.orig/services/fxaccounts/FxAccounts.jsm
-+++ firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
-@@ -191,9 +191,13 @@ AccountState.prototype = {
+--- firefox-104.0.2.orig/services/fxaccounts/FxAccounts.jsm
++++ firefox-104.0.2/services/fxaccounts/FxAccounts.jsm
+@@ -192,9 +192,13 @@ AccountState.prototype = {
    },
  
    async updateUserAccountData(updatedFields) {
@@ -148,7 +148,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
          throw new Error(
            "The specified credentials aren't for the current user"
          );
-@@ -201,7 +205,8 @@ AccountState.prototype = {
+@@ -202,7 +206,8 @@ AccountState.prototype = {
        // We need to nuke uid as storage will complain if we try and
        // update it (even when the value is the same)
        updatedFields = Cu.cloneInto(updatedFields, {}); // clone it first
@@ -158,7 +158,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
      }
      if (!this.isCurrent) {
        return Promise.reject(new Error("Another user has signed in"));
-@@ -535,7 +540,9 @@ class FxAccounts {
+@@ -540,7 +545,9 @@ class FxAccounts {
    getSignedInUser() {
      // Note we don't return the session token, but use it to see if we
      // should fetch the profile.
@@ -169,7 +169,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
      const PROFILE_FIELDS = ["displayName", "avatar", "avatarDefault"];
      return this._withCurrentAccountState(async currentState => {
        const data = await currentState.getUserAccountData(ACCT_DATA_FIELDS);
-@@ -1221,6 +1228,9 @@ FxAccountsInternal.prototype = {
+@@ -1227,6 +1234,9 @@ FxAccountsInternal.prototype = {
    // We return a promise for testing only. Other callers can ignore this,
    // since verification polling continues in the background.
    async pollEmailStatus(currentState, sessionToken, why) {
@@ -179,7 +179,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
      log.debug("entering pollEmailStatus: " + why);
      let nextPollMs;
      try {
-@@ -1275,7 +1285,7 @@ FxAccountsInternal.prototype = {
+@@ -1281,7 +1291,7 @@ FxAccountsInternal.prototype = {
        sessionToken,
        nextPollMs,
        why
@@ -188,11 +188,11 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccounts.jsm
    },
  
    // Easy-to-mock testable method
-Index: firefox-96.0.1/services/fxaccounts/FxAccountsClient.jsm
+Index: firefox-104.0.2/services/fxaccounts/FxAccountsClient.jsm
 ===================================================================
---- firefox-96.0.1.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-96.0.1/services/fxaccounts/FxAccountsClient.jsm
-@@ -764,6 +764,9 @@ FxAccountsClient.prototype = {
+--- firefox-104.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
++++ firefox-104.0.2/services/fxaccounts/FxAccountsClient.jsm
+@@ -768,6 +768,9 @@ FxAccountsClient.prototype = {
        log.debug("Received new request during backoff, re-rejecting.");
        throw this.backoffError;
      }
@@ -202,7 +202,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsClient.jsm
      let response;
      try {
        response = await this.hawk.request(
-@@ -786,9 +789,22 @@ FxAccountsClient.prototype = {
+@@ -790,9 +793,22 @@ FxAccountsClient.prototype = {
          );
        }
        throw error;
@@ -211,7 +211,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsClient.jsm
 +    response.open(method, this.hawk.host + path, false);
 +    response.setRequestHeader("Accept", "application/json");
 +    let contentType = "text/plain";
-+    if (method == "POST" || method == "PUT" || method == "PATCH") {
++    if (method == "POST" || method == "PUT" || method == "PATCH"){
 +      contentType = "application/json";
 +      jsonPayload = JSON.stringify(jsonPayload);
      }
@@ -219,18 +219,18 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsClient.jsm
 +    response.send(jsonPayload);
 +
      try {
--      return JSON.parse(response.body);
+-      return { body: JSON.parse(response.body), headers: response.headers };
 +/* MagIns - Change the JSON parse to work with XHR
-+      return JSON.parse(response.body);*/
-+      return JSON.parse(response.responseText);
++      return { body: JSON.parse(response.body), headers: response.headers };*/
++      return { body: JSON.parse(response.responseText), headers: response.headers };
      } catch (error) {
        log.error("json parse error on response: " + response.body);
        // eslint-disable-next-line no-throw-literal
-Index: firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
+Index: firefox-104.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
 ===================================================================
---- firefox-96.0.1.orig/services/fxaccounts/FxAccountsProfileClient.jsm
-+++ firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
-@@ -162,12 +162,21 @@ FxAccountsProfileClient.prototype = {
+--- firefox-104.0.2.orig/services/fxaccounts/FxAccountsProfileClient.jsm
++++ firefox-104.0.2/services/fxaccounts/FxAccountsProfileClient.jsm
+@@ -158,12 +158,21 @@ FxAccountsProfileClient.prototype = {
     */
    async _rawRequest(path, method, token, etag = null, payload = null) {
      let profileDataUrl = this.serverURL + path;
@@ -255,7 +255,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
      }
  
      if (method != "GET" && method != "POST") {
-@@ -180,7 +189,9 @@ FxAccountsProfileClient.prototype = {
+@@ -176,7 +185,9 @@ FxAccountsProfileClient.prototype = {
        });
      }
      try {
@@ -266,7 +266,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
      } catch (error) {
        throw new FxAccountsProfileClientError({
          error: ERROR_NETWORK,
-@@ -191,10 +202,14 @@ FxAccountsProfileClient.prototype = {
+@@ -187,10 +198,14 @@ FxAccountsProfileClient.prototype = {
  
      let body = null;
      try {
@@ -283,7 +283,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
      } catch (e) {
        throw new FxAccountsProfileClientError({
          error: ERROR_PARSE,
-@@ -205,7 +220,9 @@ FxAccountsProfileClient.prototype = {
+@@ -201,7 +216,9 @@ FxAccountsProfileClient.prototype = {
      }
  
      // "response.success" means status code is 200
@@ -294,7 +294,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
        throw new FxAccountsProfileClientError({
          error: body.error || ERROR_UNKNOWN,
          errno: body.errno || ERRNO_UNKNOWN_ERROR,
-@@ -215,7 +232,10 @@ FxAccountsProfileClient.prototype = {
+@@ -211,7 +228,10 @@ FxAccountsProfileClient.prototype = {
      }
      return {
        body,
@@ -306,11 +306,11 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsProfileClient.jsm
      };
    },
  
-Index: firefox-96.0.1/services/fxaccounts/FxAccountsWebChannel.jsm
+Index: firefox-104.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
 ===================================================================
---- firefox-96.0.1.orig/services/fxaccounts/FxAccountsWebChannel.jsm
-+++ firefox-96.0.1/services/fxaccounts/FxAccountsWebChannel.jsm
-@@ -251,7 +251,7 @@ FxAccountsWebChannel.prototype = {
+--- firefox-104.0.2.orig/services/fxaccounts/FxAccountsWebChannel.jsm
++++ firefox-104.0.2/services/fxaccounts/FxAccountsWebChannel.jsm
+@@ -253,7 +253,7 @@ FxAccountsWebChannel.prototype = {
        case COMMAND_LOGOUT:
        case COMMAND_DELETE:
          this._helpers
@@ -319,7 +319,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsWebChannel.jsm
            .catch(error => this._sendError(error, message, sendingContext));
          break;
        case COMMAND_CAN_LINK_ACCOUNT:
-@@ -490,10 +490,10 @@ FxAccountsWebChannelHelpers.prototype =
+@@ -498,10 +498,10 @@ FxAccountsWebChannelHelpers.prototype =
     *
     * @param the uid of the account which have been logged out
     */
@@ -333,7 +333,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsWebChannel.jsm
        await fxa.telemetry.recordDisconnection(null, "webchannel");
        // true argument is `localOnly`, because server-side stuff
        // has already been taken care of by the content server
-@@ -658,9 +658,11 @@ FxAccountsWebChannelHelpers.prototype =
+@@ -666,9 +666,11 @@ FxAccountsWebChannelHelpers.prototype =
     */
    openSyncPreferences(browser, entryPoint) {
      let uri = "about:preferences";
@@ -346,11 +346,11 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsWebChannel.jsm
      uri += "#sync";
  
      browser.loadURI(uri, {
-Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
+Index: firefox-104.0.2/services/fxaccounts/FxAccountsStorage.jsm
 ===================================================================
---- firefox-96.0.1.orig/services/fxaccounts/FxAccountsStorage.jsm
-+++ firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
-@@ -156,7 +156,9 @@ FxAccountsStorageManager.prototype = {
+--- firefox-104.0.2.orig/services/fxaccounts/FxAccountsStorage.jsm
++++ firefox-104.0.2/services/fxaccounts/FxAccountsStorage.jsm
+@@ -157,7 +157,9 @@ FxAccountsStorageManager.prototype = {
      // We know we are initialized - this means our .cachedPlain is accurate
      // and doesn't need to be read (it was read if necessary by initialize).
      // So if there's no uid, there's no user signed in.
@@ -361,7 +361,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
        return null;
      }
      let result = {};
-@@ -205,12 +207,16 @@ FxAccountsStorageManager.prototype = {
+@@ -206,12 +208,16 @@ FxAccountsStorageManager.prototype = {
    // a different user, nor to set the user as signed-out.
    async updateAccountData(newFields) {
      await this._promiseInitialized;
@@ -380,7 +380,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
        throw new Error("Can't change uid");
      }
      log.debug("_updateAccountData with items", Object.keys(newFields));
-@@ -276,7 +282,9 @@ FxAccountsStorageManager.prototype = {
+@@ -277,7 +283,9 @@ FxAccountsStorageManager.prototype = {
      if (
        !got ||
        !got.accountData ||
@@ -391,7 +391,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
        got.version != DATA_FORMAT_VERSION
      ) {
        return false;
-@@ -316,7 +324,9 @@ FxAccountsStorageManager.prototype = {
+@@ -317,7 +325,9 @@ FxAccountsStorageManager.prototype = {
       the read data
    */
    async _doReadAndUpdateSecure() {
@@ -402,7 +402,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
      try {
        log.debug(
          "reading secure storage with existing",
-@@ -326,7 +336,7 @@ FxAccountsStorageManager.prototype = {
+@@ -327,7 +337,7 @@ FxAccountsStorageManager.prototype = {
        // updated cachedSecure before we've read it. That means that after we do
        // manage to read we must write back the merged data.
        let needWrite = Object.keys(this.cachedSecure).length != 0;
@@ -411,7 +411,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
        // and update our cached data with it - anything already in .cachedSecure
        // wins (including the fact it may be null or undefined, the latter
        // which means it will be removed from storage.
-@@ -369,6 +379,8 @@ FxAccountsStorageManager.prototype = {
+@@ -370,6 +380,8 @@ FxAccountsStorageManager.prototype = {
    async __write() {
      // Write everything back - later we could track what's actually dirty,
      // but for now we write it all.
@@ -420,7 +420,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
      log.debug("writing plain storage", Object.keys(this.cachedPlain));
      let toWritePlain = {
        version: DATA_FORMAT_VERSION,
-@@ -403,7 +415,7 @@ FxAccountsStorageManager.prototype = {
+@@ -404,7 +416,7 @@ FxAccountsStorageManager.prototype = {
        accountData: this.cachedSecure,
      };
      try {
@@ -429,7 +429,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
      } catch (ex) {
        if (!(ex instanceof this.secureStorage.STORAGE_LOCKED)) {
          throw ex;
-@@ -571,6 +583,8 @@ LoginManagerStorage.prototype = {
+@@ -572,6 +584,8 @@ LoginManagerStorage.prototype = {
        if (existingLogins.length) {
          Services.logins.modifyLogin(existingLogins[0], login);
        } else {
@@ -438,10 +438,10 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsStorage.jsm
          Services.logins.addLogin(login);
        }
        log.trace("finished write of user data to the login manager");
-Index: firefox-96.0.1/services/sync/modules/UIState.jsm
+Index: firefox-104.0.2/services/sync/modules/UIState.jsm
 ===================================================================
---- firefox-96.0.1.orig/services/sync/modules/UIState.jsm
-+++ firefox-96.0.1/services/sync/modules/UIState.jsm
+--- firefox-104.0.2.orig/services/sync/modules/UIState.jsm
++++ firefox-104.0.2/services/sync/modules/UIState.jsm
 @@ -171,9 +171,14 @@ const UIStateInternal = {
        } else {
          status = STATUS_SIGNED_IN;
@@ -458,11 +458,11 @@ Index: firefox-96.0.1/services/sync/modules/UIState.jsm
        // for better or worse, this module renames these attribues.
        state.avatarURL = userData.avatar;
        state.avatarIsDefault = userData.avatarDefault;
-Index: firefox-96.0.1/browser/base/content/browser-sync.js
+Index: firefox-104.0.2/browser/base/content/browser-sync.js
 ===================================================================
---- firefox-96.0.1.orig/browser/base/content/browser-sync.js
-+++ firefox-96.0.1/browser/base/content/browser-sync.js
-@@ -1206,9 +1206,9 @@ var gSync = {
+--- firefox-104.0.2.orig/browser/base/content/browser-sync.js
++++ firefox-104.0.2/browser/base/content/browser-sync.js
+@@ -1215,9 +1215,9 @@ var gSync = {
  
    async openFxAManagePageFromFxaMenu(panel = undefined) {
      this.emitFxaToolbarTelemetry("account_settings", panel);
@@ -474,11 +474,11 @@ Index: firefox-96.0.1/browser/base/content/browser-sync.js
      }
      this.openFxAManagePage(entryPoint);
    },
-Index: firefox-96.0.1/dom/push/PushService.jsm
+Index: firefox-104.0.2/dom/push/PushService.jsm
 ===================================================================
---- firefox-96.0.1.orig/dom/push/PushService.jsm
-+++ firefox-96.0.1/dom/push/PushService.jsm
-@@ -588,10 +588,15 @@ var PushService = {
+--- firefox-104.0.2.orig/dom/push/PushService.jsm
++++ firefox-104.0.2/dom/push/PushService.jsm
+@@ -600,10 +600,15 @@ var PushService = {
        this._db = this._service.newPushDB();
      }
  
@@ -495,11 +495,11 @@ Index: firefox-96.0.1/dom/push/PushService.jsm
    },
  
    /**
-Index: firefox-96.0.1/services/fxaccounts/FxAccountsConfig.jsm
+Index: firefox-104.0.2/services/fxaccounts/FxAccountsConfig.jsm
 ===================================================================
---- firefox-96.0.1.orig/services/fxaccounts/FxAccountsConfig.jsm
-+++ firefox-96.0.1/services/fxaccounts/FxAccountsConfig.jsm
-@@ -65,12 +65,13 @@ var FxAccountsConfig = {
+--- firefox-104.0.2.orig/services/fxaccounts/FxAccountsConfig.jsm
++++ firefox-104.0.2/services/fxaccounts/FxAccountsConfig.jsm
+@@ -66,12 +66,13 @@ var FxAccountsConfig = {
  
    async promiseConnectAccountURI(entrypoint, extraParams = {}) {
      return this._buildURL("", {
@@ -515,7 +515,7 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsConfig.jsm
      });
    },
  
-@@ -82,9 +83,9 @@ var FxAccountsConfig = {
+@@ -83,9 +84,9 @@ var FxAccountsConfig = {
    },
  
    async promiseManageURI(entrypoint, extraParams = {}) {
@@ -527,13 +527,13 @@ Index: firefox-96.0.1/services/fxaccounts/FxAccountsConfig.jsm
      });
    },
  
-@@ -131,7 +132,9 @@ var FxAccountsConfig = {
+@@ -132,7 +133,9 @@ var FxAccountsConfig = {
    },
  
    get defaultParams() {
--    return { context: CONTEXT_PARAM };
+-    return { context: lazy.CONTEXT_PARAM };
 +/* MagIns - Return an empty list for UI simplicity
-+    return { context: CONTEXT_PARAM };*/
++    return { context: lazy.CONTEXT_PARAM };*/
 +    return {};
    },
  

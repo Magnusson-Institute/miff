@@ -1,8 +1,8 @@
-Index: firefox-96.0.1/browser/components/preferences/search.js
+Index: firefox-104.0.2/browser/components/preferences/search.js
 ===================================================================
---- firefox-96.0.1.orig/browser/components/preferences/search.js
-+++ firefox-96.0.1/browser/components/preferences/search.js
-@@ -235,6 +235,9 @@ var gSearchPane = {
+--- firefox-104.0.2.orig/browser/components/preferences/search.js
++++ firefox-104.0.2/browser/components/preferences/search.js
+@@ -237,6 +237,9 @@ var gSearchPane = {
      // Now clean-up and rebuild the list.
      list.removeAllItems();
      gEngineView._engineStore._engines.forEach(e => {
@@ -12,7 +12,7 @@ Index: firefox-96.0.1/browser/components/preferences/search.js
        let item = list.appendItem(e.name);
        item.setAttribute(
          "class",
-@@ -247,7 +250,7 @@ var gSearchPane = {
+@@ -249,7 +252,7 @@ var gSearchPane = {
        if (e.name == currentEngine) {
          list.selectedItem = item;
        }
@@ -21,26 +21,56 @@ Index: firefox-96.0.1/browser/components/preferences/search.js
    },
  
    handleEvent(aEvent) {
-Index: firefox-96.0.1/toolkit/components/search/SearchService.jsm
+Index: firefox-104.0.2/toolkit/components/search/SearchService.sys.mjs
 ===================================================================
---- firefox-96.0.1.orig/toolkit/components/search/SearchService.jsm
-+++ firefox-96.0.1/toolkit/components/search/SearchService.jsm
-@@ -503,7 +503,7 @@ SearchService.prototype = {
-    *   The engine that is default.
-    */
-   _originalDefaultEngine(privateMode = false) {
--    let defaultEngine = this._getEngineByWebExtensionDetails(
-+/*    let defaultEngine = this._getEngineByWebExtensionDetails(
-       privateMode && this._searchPrivateDefault
-         ? this._searchPrivateDefault
-         : this._searchDefault
-@@ -521,7 +521,8 @@ SearchService.prototype = {
+--- firefox-104.0.2.orig/toolkit/components/search/SearchService.sys.mjs
++++ firefox-104.0.2/toolkit/components/search/SearchService.sys.mjs
+@@ -1155,6 +1155,12 @@ export class SearchService {
+       : this.#currentEngine;
  
-     // Something unexpected as happened. In order to recover the original
-     // default engine, use the first visible engine which is the best we can do.
--    return this._sortedVisibleEngines[0];
-+    return this._sortedVisibleEngines[0];*/
-+    return this._sortedVisibleEngines.filter(e=>e._name == "DuckDuckGo")[0];
-   },
+     if (currentEngine && !currentEngine.hidden) {
++/* MagIns - Firefox sets Google as the default search engine. When Google is the current engine, change the
++            default engine. We pass the phony engine "MagIns" to force a change to DuckDuckGo as the default
++            search engine.*/
++      if (currentEngine.name == "Google") {
++        return this.#findAndSetNewDefaultEngine({ privateMode: privateMode, excludeEngineName: "MagIns", });
++      }
+       return currentEngine;
+     }
  
-   /**
+@@ -2621,10 +2627,12 @@ export class SearchService {
+       ? this.appPrivateDefaultEngine
+       : this.appDefaultEngine;
+ 
++/* MagIns - Add an OR condition for the "MagIns" excludeEngineName to force a change to newDefault*/
+     if (
+       !newDefault ||
+       newDefault.hidden ||
+-      newDefault.name == excludeEngineName
++      newDefault.name == excludeEngineName ||
++      excludeEngineName == "MagIns"
+     ) {
+       let sortedEngines = this.#sortedVisibleEngines;
+       let generalSearchEngines = sortedEngines.filter(
+@@ -2632,9 +2640,18 @@ export class SearchService {
+       );
+ 
+       // then to the first visible general search engine that isn't excluded...
+-      let firstVisible = generalSearchEngines.find(
+-        e => e.name != excludeEngineName
+-      );
++/* MagIns - If there is no value for excludeEngineName (i.e. the default isn't being
++            changed by the user) set DuckDuckGo as the default search engine.*/
++      let firstVisible;
++      if (excludeEngineName == "MagIns"){
++        firstVisible = generalSearchEngines.find(
++          e => e.name == "DuckDuckGo"
++        );
++      } else {
++        firstVisible = generalSearchEngines.find(
++          e => e.name != excludeEngineName
++        );
++      }
+       if (firstVisible) {
+         newDefault = firstVisible;
+       } else if (newDefault) {

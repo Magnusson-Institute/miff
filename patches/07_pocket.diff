@@ -1,8 +1,8 @@
-Index: firefox-96.0.1/browser/base/content/browser-context.inc
+Index: firefox-104.0.2/browser/base/content/browser-context.inc
 ===================================================================
---- firefox-96.0.1.orig/browser/base/content/browser-context.inc
-+++ firefox-96.0.1/browser/base/content/browser-context.inc
-@@ -100,9 +100,9 @@
+--- firefox-104.0.2.orig/browser/base/content/browser-context.inc
++++ firefox-104.0.2/browser/base/content/browser-context.inc
+@@ -99,9 +99,9 @@
        <menuitem id="context-savelink"
                  data-l10n-id="main-context-menu-save-link"
                  oncommand="gContextMenu.saveLink();"/>
@@ -14,7 +14,7 @@ Index: firefox-96.0.1/browser/base/content/browser-context.inc
        <menuitem id="context-copyemail"
                  data-l10n-id="main-context-menu-copy-email"
                  oncommand="gContextMenu.copyEmail();"/>
-@@ -254,9 +254,10 @@
+@@ -259,9 +259,10 @@
        <menuitem id="context-savepage"
                  data-l10n-id="main-context-menu-page-save"
                  oncommand="gContextMenu.savePageAs();"/>
@@ -26,24 +26,25 @@ Index: firefox-96.0.1/browser/base/content/browser-context.inc
  <!-- MagIns - Remove "Send Page to Device" option from context menu
        <menu id="context-sendpagetodevice"
              class="sync-ui-item"
-Index: firefox-96.0.1/browser/components/BrowserGlue.jsm
+Index: firefox-104.0.2/browser/components/BrowserGlue.jsm
 ===================================================================
---- firefox-96.0.1.orig/browser/components/BrowserGlue.jsm
-+++ firefox-96.0.1/browser/components/BrowserGlue.jsm
-@@ -1337,7 +1337,7 @@ BrowserGlue.prototype = {
-       Normandy.init();
+--- firefox-104.0.2.orig/browser/components/BrowserGlue.jsm
++++ firefox-104.0.2/browser/components/BrowserGlue.jsm
+@@ -1276,7 +1276,8 @@ BrowserGlue.prototype = {
+       lazy.Normandy.init();
      }
  
--    SaveToPocket.init();
-+//    SaveToPocket.init();
+-    lazy.SaveToPocket.init();
++/* MagIns - Disable Pocket feature
++    lazy.SaveToPocket.init();*/
  
      AboutHomeStartupCache.init();
  
-Index: firefox-96.0.1/browser/components/newtab/lib/AboutPreferences.jsm
+Index: firefox-104.0.2/browser/components/newtab/lib/AboutPreferences.jsm
 ===================================================================
---- firefox-96.0.1.orig/browser/components/newtab/lib/AboutPreferences.jsm
-+++ firefox-96.0.1/browser/components/newtab/lib/AboutPreferences.jsm
-@@ -135,7 +135,8 @@ this.AboutPreferences = class AboutPrefe
+--- firefox-104.0.2.orig/browser/components/newtab/lib/AboutPreferences.jsm
++++ firefox-104.0.2/browser/components/newtab/lib/AboutPreferences.jsm
+@@ -136,7 +136,8 @@ class AboutPreferences {
      this.renderPreferences(window, [
        ...PREFS_BEFORE_SECTIONS(featureConfig),
        ...sections,
@@ -53,7 +54,7 @@ Index: firefox-96.0.1/browser/components/newtab/lib/AboutPreferences.jsm
      ]);
    }
  
-@@ -192,6 +193,9 @@ this.AboutPreferences = class AboutPrefe
+@@ -193,6 +194,9 @@ class AboutPreferences {
          shouldHidePref,
          eventSource,
        } = sectionData;
@@ -63,11 +64,11 @@ Index: firefox-96.0.1/browser/components/newtab/lib/AboutPreferences.jsm
        const { feed: name, titleString = {}, descString, nestedPrefs = [] } =
          prefData || {};
  
-Index: firefox-96.0.1/browser/components/newtab/lib/SectionsManager.jsm
+Index: firefox-104.0.2/browser/components/newtab/lib/SectionsManager.jsm
 ===================================================================
---- firefox-96.0.1.orig/browser/components/newtab/lib/SectionsManager.jsm
-+++ firefox-96.0.1/browser/components/newtab/lib/SectionsManager.jsm
-@@ -113,14 +113,14 @@ const BUILT_IN_SECTIONS = () => ({
+--- firefox-104.0.2.orig/browser/components/newtab/lib/SectionsManager.jsm
++++ firefox-104.0.2/browser/components/newtab/lib/SectionsManager.jsm
+@@ -127,14 +127,14 @@ const BUILT_IN_SECTIONS = ({ newtab, poc
            name: "section.highlights.includeDownloads",
            titleString: "home-prefs-highlights-option-most-recent-download",
          },
@@ -84,11 +85,11 @@ Index: firefox-96.0.1/browser/components/newtab/lib/SectionsManager.jsm
        ],
      },
      shouldHidePref: false,
-Index: firefox-96.0.1/browser/app/profile/firefox.js
+Index: firefox-104.0.2/browser/app/profile/firefox.js
 ===================================================================
---- firefox-96.0.1.orig/browser/app/profile/firefox.js
-+++ firefox-96.0.1/browser/app/profile/firefox.js
-@@ -1571,7 +1571,9 @@ pref("browser.newtabpage.activity-stream
+--- firefox-104.0.2.orig/browser/app/profile/firefox.js
++++ firefox-104.0.2/browser/app/profile/firefox.js
+@@ -1620,7 +1620,9 @@ pref("browser.newtabpage.activity-stream
  pref("browser.newtabpage.activity-stream.discoverystream.spocs.personalized", true);
  
  // User pref to show stories on newtab (feeds.system.topstories has to be set to true as well)
@@ -99,7 +100,7 @@ Index: firefox-96.0.1/browser/app/profile/firefox.js
  
  // The pref controls if search hand-off is enabled for Activity Stream.
  pref("browser.newtabpage.activity-stream.improvesearch.handoffToAwesomebar", true);
-@@ -2827,4 +2829,12 @@ pref("app.shield.optoutstudies.enabled",
+@@ -2919,4 +2921,12 @@ pref("dom.event.clipboardevents.enabled"
  //3 - Only. Only use TRR. Never use the native (This mode also requires the bootstrapAddress pref to be set)
  //4 - Reserved (used to be Shadow mode)
  //5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
@@ -115,10 +116,10 @@ Index: firefox-96.0.1/browser/app/profile/firefox.js
 +            Sites" section. This preference disables sponsored sites.*/
 +pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 \ No newline at end of file
-Index: firefox-96.0.1/browser/components/newtab/content-src/lib/link-menu-options.js
+Index: firefox-104.0.2/browser/components/newtab/content-src/lib/link-menu-options.js
 ===================================================================
---- firefox-96.0.1.orig/browser/components/newtab/content-src/lib/link-menu-options.js
-+++ firefox-96.0.1/browser/components/newtab/content-src/lib/link-menu-options.js
+--- firefox-104.0.2.orig/browser/components/newtab/content-src/lib/link-menu-options.js
++++ firefox-104.0.2/browser/components/newtab/content-src/lib/link-menu-options.js
 @@ -211,7 +211,8 @@ export const LinkMenuOptions = {
      }),
      userEvent: "UNPIN",
@@ -138,19 +139,19 @@ Index: firefox-96.0.1/browser/components/newtab/content-src/lib/link-menu-option
    EditTopSite: (site, index) => ({
      id: "newtab-menu-edit-topsites",
      icon: "edit",
-Index: firefox-96.0.1/browser/components/newtab/data/content/activity-stream.bundle.js
+Index: firefox-104.0.2/browser/components/newtab/data/content/activity-stream.bundle.js
 ===================================================================
---- firefox-96.0.1.orig/browser/components/newtab/data/content/activity-stream.bundle.js
-+++ firefox-96.0.1/browser/components/newtab/data/content/activity-stream.bundle.js
-@@ -4136,6 +4136,7 @@ const LinkMenuOptions = {
+--- firefox-104.0.2.orig/browser/components/newtab/data/content/activity-stream.bundle.js
++++ firefox-104.0.2/browser/components/newtab/data/content/activity-stream.bundle.js
+@@ -6492,6 +6492,7 @@ const LinkMenuOptions = {
      userEvent: "UNPIN"
    }),
    SaveToPocket: (site, index, eventSource = "CARDGRID") => ({
 +/* MagIns - Remove "Save Link to Pocket" entry from links on New Tab Home screen
      id: "newtab-menu-save-to-pocket",
      icon: "pocket-save",
-     action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
-@@ -4158,10 +4159,10 @@ const LinkMenuOptions = {
+     action: actionCreators.AlsoToMain({
+@@ -6514,10 +6515,10 @@ const LinkMenuOptions = {
          } : {})
        }]
      }),
@@ -161,9 +162,9 @@ Index: firefox-96.0.1/browser/components/newtab/data/content/activity-stream.bun
 -    id: "newtab-menu-delete-pocket",
 +/*    id: "newtab-menu-delete-pocket",
      icon: "pocket-delete",
-     action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
-       type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].DELETE_FROM_POCKET,
-@@ -4169,10 +4170,10 @@ const LinkMenuOptions = {
+     action: actionCreators.AlsoToMain({
+       type: actionTypes.DELETE_FROM_POCKET,
+@@ -6525,10 +6526,10 @@ const LinkMenuOptions = {
          pocket_id: site.pocket_id
        }
      }),
@@ -174,9 +175,9 @@ Index: firefox-96.0.1/browser/components/newtab/data/content/activity-stream.bun
 -    id: "newtab-menu-archive-pocket",
 +/*    id: "newtab-menu-archive-pocket",
      icon: "pocket-archive",
-     action: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionCreators"].AlsoToMain({
-       type: common_Actions_jsm__WEBPACK_IMPORTED_MODULE_0__["actionTypes"].ARCHIVE_FROM_POCKET,
-@@ -4180,7 +4181,7 @@ const LinkMenuOptions = {
+     action: actionCreators.AlsoToMain({
+       type: actionTypes.ARCHIVE_FROM_POCKET,
+@@ -6536,7 +6537,7 @@ const LinkMenuOptions = {
          pocket_id: site.pocket_id
        }
      }),

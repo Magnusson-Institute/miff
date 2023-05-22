@@ -576,6 +576,15 @@ instructions from the script, then make sure to start a new terminal so
 all the settings have taken effect.
 
 The various tooling specific to FF build will be set up by the above bootstrap in ``~/.mozbuild/``
+	
+If you have problems running the bootstrap (eg "no node" errors), you might want to try directly pulling with mercurial:
+
+```
+hg clone https://hg.mozilla.org/mozilla-central/ firefox-source
+cd firefox-source
+```
+	
+(See https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial.html)
 
 <!--
 The following is a bit outdated, it doesn't seem to be needed for

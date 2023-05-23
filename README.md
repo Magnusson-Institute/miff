@@ -583,6 +583,26 @@ If you have problems running the bootstrap (eg "no node" errors), you might want
 hg clone https://hg.mozilla.org/mozilla-central/ firefox-source
 cd firefox-source
 ```
+Then run `./mach bootstrap`
+	
+If you get an error like this:
+```
+	0:06.84 Installing bootstrapped toolchain in /path/to/user/.mozbuild/MacOSX13.0.sdk
+1:08.38 Traceback (most recent call last):
+1:08.38   File "/path/to/user/dev/institute/ff01/firefox-source/taskcluster/scripts/misc/unpack-sdk.py", line 63, in <module>
+1:08.38     unpack_sdk(*sys.argv[1:])
+1:08.39   File "/path/to/user/dev/institute/ff01/firefox-source/taskcluster/scripts/misc/unpack-sdk.py", line 29, in unpack_sdk
+1:08.39     raise Exception(f"(actual) {digest} != (expected) {sha256}")
+1:08.39 Exception: (actual) e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 != (expected) 06f4a045854c456a553a5ee6acf678fbe26c06296fc68054ae918c206134aa20
+1:08.47 ERROR: Command '['/path/to/user/dev/institute/ff01/firefox-source/obj-aarch64-apple-darwin22.3.0/_virtualenvs/build/bin/python', '/path/to/user/dev/institute/ff01/firefox-source/mach', '--log-no-times', 'python', '--virtualenv', 'build', '/path/to/user/dev/institute/ff01/firefox-source/taskcluster/scripts/misc/unpack-sdk.py', 'https://swcdn.apple.com/content/downloads/38/50/012-70652-A_2ZHIRHCHLN/f8b81s6tzlzrj0z67ynydjx4x1lwhr08ab/CLTools_macOSNMOS_SDK.pkg', '06f4a045854c456a553a5ee6acf678fbe26c06296fc68054ae918c206134aa20', 'Library/Developer/CommandLineTools/SDKs/MacOSX13.0.sdk', 'MacOSX13.0.sdk']' returned non-zero exit status 1.
+1:08.48 ERROR: If you can't fix the above, retry with --disable-bootstrap.
+*** Fix above errors and then restart with "./mach build"
+```
+make sure you have run ./mach bootstrap succesfully. If you have, create a mozconfig file in /firefox-source and put this line in there:
+```
+ac_add_options --with-macos-sdk=/path/to/macos/sdk
+```
+Replace `/path/to/macos/sdk` with the actual path to the macOS SDK you want to use.
 	
 (See https://firefox-source-docs.mozilla.org/contributing/vcs/mercurial.html)
 

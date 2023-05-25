@@ -1,21 +1,21 @@
-Index: firefox-104.0.2/browser/config/version.txt
+Index: mozilla-release/browser/config/version.txt
 ===================================================================
---- firefox-104.0.2.orig/browser/config/version.txt
-+++ firefox-104.0.2/browser/config/version.txt
+--- mozilla-release.orig/browser/config/version.txt
++++ mozilla-release/browser/config/version.txt
 @@ -1 +1 @@
--104.0.2
-+104.0.2.1
-Index: firefox-104.0.2/browser/config/version_display.txt
+-113.0.1
++113.0.1.1
+Index: mozilla-release/browser/config/version_display.txt
 ===================================================================
---- firefox-104.0.2.orig/browser/config/version_display.txt
-+++ firefox-104.0.2/browser/config/version_display.txt
+--- mozilla-release.orig/browser/config/version_display.txt
++++ mozilla-release/browser/config/version_display.txt
 @@ -1 +1 @@
--104.0.2
-+104.0.2.1
-Index: firefox-104.0.2/browser/config/linux_mozconfig
+-113.0.1
++113.0.1.1
+Index: mozilla-release/browser/config/linux_mozconfig
 ===================================================================
 --- /dev/null
-+++ firefox-104.0.2/browser/config/linux_mozconfig
++++ mozilla-release/browser/config/linux_mozconfig
 @@ -0,0 +1,12 @@
 +# This Source Code Form is subject to the terms of the Mozilla Public
 +# License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,10 +29,10 @@ Index: firefox-104.0.2/browser/config/linux_mozconfig
 +ac_add_options --with-google-safebrowsing-api-keyfile="/home/mi-linux/miff-dev/GoogleSB.txt"
 +
 +export MOZILLA_OFFICIAL=1
-Index: firefox-104.0.2/browser/config/win_mozconfig
+Index: mozilla-release/browser/config/win_mozconfig
 ===================================================================
 --- /dev/null
-+++ firefox-104.0.2/browser/config/win_mozconfig
++++ mozilla-release/browser/config/win_mozconfig
 @@ -0,0 +1,12 @@
 +# This Source Code Form is subject to the terms of the Mozilla Public
 +# License, v. 2.0. If a copy of the MPL was not distributed with this

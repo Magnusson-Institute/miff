@@ -1,8 +1,8 @@
-Index: firefox-104.0.2/browser/components/preferences/search.js
+Index: mozilla-release/browser/components/preferences/search.js
 ===================================================================
---- firefox-104.0.2.orig/browser/components/preferences/search.js
-+++ firefox-104.0.2/browser/components/preferences/search.js
-@@ -237,6 +237,9 @@ var gSearchPane = {
+--- mozilla-release.orig/browser/components/preferences/search.js
++++ mozilla-release/browser/components/preferences/search.js
+@@ -268,6 +268,9 @@ var gSearchPane = {
      // Now clean-up and rebuild the list.
      list.removeAllItems();
      gEngineView._engineStore._engines.forEach(e => {
@@ -12,7 +12,7 @@ Index: firefox-104.0.2/browser/components/preferences/search.js
        let item = list.appendItem(e.name);
        item.setAttribute(
          "class",
-@@ -249,7 +252,7 @@ var gSearchPane = {
+@@ -280,7 +283,7 @@ var gSearchPane = {
        if (e.name == currentEngine) {
          list.selectedItem = item;
        }
@@ -21,11 +21,11 @@ Index: firefox-104.0.2/browser/components/preferences/search.js
    },
  
    handleEvent(aEvent) {
-Index: firefox-104.0.2/toolkit/components/search/SearchService.sys.mjs
+Index: mozilla-release/toolkit/components/search/SearchService.sys.mjs
 ===================================================================
---- firefox-104.0.2.orig/toolkit/components/search/SearchService.sys.mjs
-+++ firefox-104.0.2/toolkit/components/search/SearchService.sys.mjs
-@@ -1155,6 +1155,12 @@ export class SearchService {
+--- mozilla-release.orig/toolkit/components/search/SearchService.sys.mjs
++++ mozilla-release/toolkit/components/search/SearchService.sys.mjs
+@@ -1194,6 +1194,12 @@ export class SearchService {
        : this.#currentEngine;
  
      if (currentEngine && !currentEngine.hidden) {
@@ -38,29 +38,32 @@ Index: firefox-104.0.2/toolkit/components/search/SearchService.sys.mjs
        return currentEngine;
      }
  
-@@ -2621,10 +2627,12 @@ export class SearchService {
+@@ -2741,20 +2747,35 @@ export class SearchService {
+    * @returns {nsISearchEngine|null}
+    *   The appropriate search engine, or null if one could not be determined.
+    */
+-  #findAndSetNewDefaultEngine({ privateMode }) {
++/* MagIns - Add another parameter to specificically remove certain search engines
++  #findAndSetNewDefaultEngine({ privateMode }) {*/
++  #findAndSetNewDefaultEngine({ privateMode, excludeEngineName = "" }) {
+     // First to the app default engine...
+     let newDefault = privateMode
        ? this.appPrivateDefaultEngine
        : this.appDefaultEngine;
  
-+/* MagIns - Add an OR condition for the "MagIns" excludeEngineName to force a change to newDefault*/
-     if (
-       !newDefault ||
-       newDefault.hidden ||
--      newDefault.name == excludeEngineName
-+      newDefault.name == excludeEngineName ||
-+      excludeEngineName == "MagIns"
-     ) {
+-    if (!newDefault || newDefault.hidden || newDefault.pendingRemoval) {
++// MagIns - Add an OR condition for the "MagIns" excludeEngineName to force a change to newDefault
++    if (!newDefault || newDefault.hidden || newDefault.pendingRemoval || excludeEngineName == "MagIns") {
        let sortedEngines = this.#sortedVisibleEngines;
        let generalSearchEngines = sortedEngines.filter(
-@@ -2632,9 +2640,18 @@ export class SearchService {
+         e => e.isGeneralPurposeEngine
        );
  
        // then to the first visible general search engine that isn't excluded...
--      let firstVisible = generalSearchEngines.find(
--        e => e.name != excludeEngineName
--      );
+-      let firstVisible = generalSearchEngines.find(e => !e.pendingRemoval);
 +/* MagIns - If there is no value for excludeEngineName (i.e. the default isn't being
-+            changed by the user) set DuckDuckGo as the default search engine.*/
++            changed by the user) set DuckDuckGo as the default search engine.
++      let firstVisible = generalSearchEngines.find(e => !e.pendingRemoval);*/
 +      let firstVisible;
 +      if (excludeEngineName == "MagIns"){
 +        firstVisible = generalSearchEngines.find(

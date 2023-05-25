@@ -1,67 +1,190 @@
-Index: firefox-104.0.2/browser/components/preferences/sync.inc.xhtml
+Index: mozilla-release/browser/app/profile/firefox.js
 ===================================================================
---- firefox-104.0.2.orig/browser/components/preferences/sync.inc.xhtml
-+++ firefox-104.0.2/browser/components/preferences/sync.inc.xhtml
-@@ -64,7 +64,7 @@
-             <!-- logged in and verified and all is good -->
-             <hbox id="fxaLoginVerified" align="center" flex="1">
-               <image id="openChangeProfileImage"
--                     class="fxaProfileImage actionable"
-+                     class="fxaProfileImage"
-                      role="button"
-                      data-l10n-id="sync-profile-picture"/>
-               <vbox flex="1" pack="center">
-@@ -73,10 +73,10 @@
-                     <html:h2 id="fxaDisplayNameHeading"/>
-                   </label>
-                   <label id="fxaEmailAddress" flex="1" crop="end"/>
--                  <button id="fxaUnlinkButton"
-+<!--                  <button id="fxaUnlinkButton"
-                           is="highlightable-button"
-                           class="accessory-button"
--                          data-l10n-id="sync-sign-out"/>
-+                          data-l10n-id="sync-sign-out"/>-->
-                 </hbox>
-                 <hbox>
-                   <html:a id="verifiedManage" class="openLink"
-Index: firefox-104.0.2/browser/components/preferences/sync.js
-===================================================================
---- firefox-104.0.2.orig/browser/components/preferences/sync.js
-+++ firefox-104.0.2/browser/components/preferences/sync.js
-@@ -217,9 +217,9 @@ var gSyncPane = {
-       gSyncPane.signIn();
-       return false;
-     });
--    setEventListener("fxaUnlinkButton", "command", function() {
-+/*    setEventListener("fxaUnlinkButton", "command", function() {
-       gSyncPane.unlinkFirefoxAccount(true);
--    });
-+    });*/
-     setEventListener(
-       "verifyFxaAccount",
-       "command",
-@@ -477,7 +477,7 @@ var gSyncPane = {
-   },
+--- mozilla-release.orig/browser/app/profile/firefox.js
++++ mozilla-release/browser/app/profile/firefox.js
+@@ -293,16 +293,12 @@ pref("browser.shell.setDefaultPDFHandler
+ // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
+ // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
+ pref("browser.startup.page",                1);
+-pref("browser.startup.homepage",            "about:home");
+-#ifdef NIGHTLY_BUILD
++pref("browser.startup.homepage",            "https://privacy.app/member");
+ pref("browser.startup.homepage.abouthome_cache.enabled", true);
+-#else
+-pref("browser.startup.homepage.abouthome_cache.enabled", false);
+-#endif
+ pref("browser.startup.homepage.abouthome_cache.loglevel", "Warn");
  
-   openChangeProfileImage(event) {
--    if (this.clickOrSpaceOrEnterPressed(event)) {
-+/*    if (this.clickOrSpaceOrEnterPressed(event)) {
-       FxAccounts.config
-         .promiseChangeAvatarURI(this._getEntryPoint())
-         .then(url => {
-@@ -488,7 +488,7 @@ var gSyncPane = {
-         });
-       // Prevent page from scrolling on the space key.
-       event.preventDefault();
--    }
-+    }*/
-   },
+ // Whether we should skip the homepage when opening the first-run page
+-pref("browser.startup.firstrunSkipsHomepage", true);
++pref("browser.startup.firstrunSkipsHomepage", false);
  
-   openManageFirefoxAccount(event) {
-Index: firefox-104.0.2/browser/components/newtab/lib/DefaultSites.jsm
+ // Whether we should show the session-restore infobar on startup
+ pref("browser.startup.couldRestoreSession.count", 0);
+@@ -2403,7 +2399,9 @@ pref("toolkit.coverage.endpoint.base", "
+ pref("toolkit.coverage.opt-out", true);
+ 
+ // Discovery prefs
+-pref("browser.discovery.enabled", true);
++/* MagIns - Disable personalized recommendations in about:addons (Arkenfox 0322)
++pref("browser.discovery.enabled", true);*/
++pref("browser.discovery.enabled", false);
+ pref("browser.discovery.containers.enabled", true);
+ pref("browser.discovery.sites", "addons.mozilla.org");
+ 
+@@ -2915,6 +2913,13 @@ pref("cookiebanners.ui.desktop.cfrVarian
+   pref("telemetry.fog.artifact_build", true);
+ #endif
+ 
++/* MagIns - Disable Recommendation pane in about:addons (Arkenfox 0320)*/
++pref("extensions.getAddons.showPane", false);
++
++/* MagIns - Disable recommendations in about:addons Extensions and Themes panes
++            (Arkenfox 0321)*/
++pref("extensions.htmlaboutaddons.recommendations.enabled", false);
++
+ /* MagIns - The browser milestone records the version number of the last successful
+             startup. After updates/upgrades, the user's homepage is changed to show
+             a promotional page about the update. Setting this to "ignore", the value
+Index: mozilla-release/browser/base/content/appmenu-viewcache.inc.xhtml
 ===================================================================
---- firefox-104.0.2.orig/browser/components/newtab/lib/DefaultSites.jsm
-+++ firefox-104.0.2/browser/components/newtab/lib/DefaultSites.jsm
+--- mozilla-release.orig/browser/base/content/appmenu-viewcache.inc.xhtml
++++ mozilla-release/browser/base/content/appmenu-viewcache.inc.xhtml
+@@ -535,10 +535,12 @@
+ 
+   <panelview id="PanelUI-fxa" class="PanelUI-subView">
+     <vbox id="PanelUI-fxa-menu" class="panel-subview-body">
++<!-- MagIns - Skip the submenu for FxA and go straight to /member. Original line:
++                     oncommand="gSync.clickFxAMenuHeaderButton(this);" -->
+       <toolbarbutton id="fxa-manage-account-button"
+                      align="center"
+                      class="subviewbutton"
+-                     oncommand="gSync.clickFxAMenuHeaderButton(this);">
++                     oncommand="gSync.openFxAManagePageFromFxaMenu(this);">
+         <vbox flex="1">
+           <label id="fxa-menu-header-title"
+                  crop="end"
+Index: mozilla-release/browser/base/content/browser-menubar.inc
+===================================================================
+--- mozilla-release.orig/browser/base/content/browser-menubar.inc
++++ mozilla-release/browser/base/content/browser-menubar.inc
+@@ -467,10 +467,11 @@
+ #else
+                           />
+ #endif
++<!-- MagIns - Remove the "Submit Feedback" option in the Help menu
+                 <menuitem id="feedbackPage"
+                           oncommand="openFeedbackPage()"
+                           data-l10n-id="menu-help-share-ideas"
+-                          appmenu-data-l10n-id="appmenu-help-share-ideas"/>
++                          appmenu-data-l10n-id="appmenu-help-share-ideas"/>-->
+                 <menuitem id="helpSafeMode"
+                           oncommand="safeModeRestart();"
+                           data-l10n-id="menu-help-enter-troubleshoot-mode2"
+Index: mozilla-release/browser/base/content/default-bookmarks.html
+===================================================================
+--- mozilla-release.orig/browser/base/content/default-bookmarks.html
++++ mozilla-release/browser/base/content/default-bookmarks.html
+@@ -19,11 +19,11 @@
+     <!-- These localization links are not automatically applied to any XHR
+          response body and must be applied manually as well.  They are included
+          so that viewing the file directly shows the results. -->
+-    <link rel="localization" href="branding/brand.ftl"/>
++<!--    <link rel="localization" href="branding/brand.ftl"/>
+     <link rel="localization" href="browser/profile/default-bookmarks.ftl"/>
+-    <title data-l10n-id="default-bookmarks-title">default-bookmarks-title</title>
++    <title data-l10n-id="default-bookmarks-title">default-bookmarks-title</title>-->
+ </head>
+-<body>
++<!--<body>
+ <h1 data-l10n-id="default-bookmarks-heading">default-bookmarks-heading</h1>
+ 
+ <dl><p>
+@@ -65,5 +65,5 @@
+         </dl><p>
+ #endif
+ </dl>
+-</body>
++</body>-->
+ </html>
+Index: mozilla-release/browser/base/content/utilityOverlay.js
+===================================================================
+--- mozilla-release.orig/browser/base/content/utilityOverlay.js
++++ mozilla-release/browser/base/content/utilityOverlay.js
+@@ -504,9 +504,11 @@ function openFeedbackPage() {
+ }
+ 
+ function buildHelpMenu() {
++/* MagIns - The Feedback entry is removed in browser-menubar.inc, comment out for
++            compatibility
+   document.getElementById(
+     "feedbackPage"
+-  ).disabled = !Services.policies.isAllowed("feedbackCommands");
++  ).disabled = !Services.policies.isAllowed("feedbackCommands");*/
+ 
+   document.getElementById(
+     "helpSafeMode"
+Index: mozilla-release/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+===================================================================
+--- mozilla-release.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ mozilla-release/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+@@ -178,9 +178,11 @@ class AboutWelcomeParent extends JSWindo
+         lazy.SpecialMessageActions.handleAction(data, browser);
+         break;
+       case "AWPage:FXA_METRICS_FLOW_URI":
+-        return lazy.FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");
++/* MagIns - We do not collect metrics, thus do not provide an endpoint for about:welcome metrics
++        return lazy.FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");*/
+       case "AWPage:TELEMETRY_EVENT":
+-        lazy.Telemetry.sendTelemetry(data);
++/* MagIns - Disable telemetry sending
++        lazy.Telemetry.sendTelemetry(data);*/
+         break;
+       case "AWPage:GET_ATTRIBUTION_DATA":
+         let attributionData = await lazy.AboutWelcomeDefaults.getAttributionContent();
+Index: mozilla-release/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+===================================================================
+--- mozilla-release.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ mozilla-release/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+@@ -1859,10 +1859,10 @@ function addUtmParams(url, utmTerm) {
+     returnUrl = new URL(url);
+   }
+ 
+-  Object.keys(BASE_PARAMS).forEach(key => {
++/*  Object.keys(BASE_PARAMS).forEach(key => {
+     returnUrl.searchParams.append(key, BASE_PARAMS[key]);
+   });
+-  returnUrl.searchParams.append("utm_term", utmTerm);
++  returnUrl.searchParams.append("utm_term", utmTerm);*/
+   return returnUrl;
+ }
+ 
+Index: mozilla-release/browser/components/newtab/lib/ActivityStream.jsm
+===================================================================
+--- mozilla-release.orig/browser/components/newtab/lib/ActivityStream.jsm
++++ mozilla-release/browser/components/newtab/lib/ActivityStream.jsm
+@@ -313,7 +313,7 @@ const PREFS_CONFIG = new Map([
+           return "";
+         }
+         const searchShortcuts = [];
+-        if (geo === "CN") {
++/*        if (geo === "CN") {
+           searchShortcuts.push("baidu");
+         } else if (["BY", "KZ", "RU", "TR"].includes(geo)) {
+           searchShortcuts.push("yandex");
+@@ -322,7 +322,7 @@ const PREFS_CONFIG = new Map([
+         }
+         if (["DE", "FR", "GB", "IT", "JP", "US"].includes(geo)) {
+           searchShortcuts.push("amazon");
+-        }
++        }*/
+         return searchShortcuts.join(",");
+       },
+     },
+Index: mozilla-release/browser/components/newtab/lib/DefaultSites.jsm
+===================================================================
+--- mozilla-release.orig/browser/components/newtab/lib/DefaultSites.jsm
++++ mozilla-release/browser/components/newtab/lib/DefaultSites.jsm
 @@ -8,39 +8,39 @@ const DEFAULT_SITES_MAP = new Map([
    // This first item is the global list fallback for any unexpected geos
    [
@@ -111,138 +234,10 @@ Index: firefox-104.0.2/browser/components/newtab/lib/DefaultSites.jsm
    ],
  ]);
  
-Index: firefox-104.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+Index: mozilla-release/browser/components/newtab/lib/SearchShortcuts.jsm
 ===================================================================
---- firefox-104.0.2.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-+++ firefox-104.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-@@ -252,11 +252,13 @@ class AboutWelcomeParent extends JSWindo
-         lazy.SpecialMessageActions.handleAction(data, browser);
-         break;
-       case "AWPage:FXA_METRICS_FLOW_URI":
--        return lazy.FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");
-+/* MagIns - We do not collect metrics, thus do not provide an endpoint for about:welcome metrics
-+        return lazy.FxAccounts.config.promiseMetricsFlowURI("aboutwelcome");*/
-       case "AWPage:IMPORTABLE_SITES":
-         return getImportableSites();
-       case "AWPage:TELEMETRY_EVENT":
--        lazy.Telemetry.sendTelemetry(data);
-+/* MagIns - Disable telemetry sending
-+        lazy.Telemetry.sendTelemetry(data);*/
-         break;
-       case "AWPage:GET_ATTRIBUTION_DATA":
-         let attributionData = await lazy.AboutWelcomeDefaults.getAttributionContent();
-Index: firefox-104.0.2/browser/components/preferences/preferences.js
-===================================================================
---- firefox-104.0.2.orig/browser/components/preferences/preferences.js
-+++ firefox-104.0.2/browser/components/preferences/preferences.js
-@@ -249,7 +249,7 @@ function init_all() {
-     let helpButton = document.getElementById("helpButton");
-     let helpUrl =
-       Services.urlFormatter.formatURLPref("app.support.baseURL") +
--      "preferences";
-+      "";
-     helpButton.setAttribute("href", helpUrl);
- 
-     document.getElementById("addonsButton").addEventListener("click", e => {
-Index: firefox-104.0.2/browser/app/profile/firefox.js
-===================================================================
---- firefox-104.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-104.0.2/browser/app/profile/firefox.js
-@@ -296,16 +296,12 @@ pref("browser.shell.setDefaultPDFHandler
- // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
- // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
- pref("browser.startup.page",                1);
--pref("browser.startup.homepage",            "about:home");
--#ifdef NIGHTLY_BUILD
-+pref("browser.startup.homepage",            "https://privacy.app/member");
- pref("browser.startup.homepage.abouthome_cache.enabled", true);
--#else
--pref("browser.startup.homepage.abouthome_cache.enabled", false);
--#endif
- pref("browser.startup.homepage.abouthome_cache.loglevel", "Warn");
- 
- // Whether we should skip the homepage when opening the first-run page
--pref("browser.startup.firstrunSkipsHomepage", true);
-+pref("browser.startup.firstrunSkipsHomepage", false);
- 
- // Whether we should show the session-restore infobar on startup
- pref("browser.startup.couldRestoreSession.count", 0);
-@@ -2312,7 +2308,9 @@ pref("toolkit.coverage.endpoint.base", "
- pref("toolkit.coverage.opt-out", true);
- 
- // Discovery prefs
--pref("browser.discovery.enabled", true);
-+/* MagIns - Disable personalized recommendations in about:addons (Arkenfox 0322)
-+pref("browser.discovery.enabled", true);*/
-+pref("browser.discovery.enabled", false);
- pref("browser.discovery.containers.enabled", true);
- pref("browser.discovery.sites", "addons.mozilla.org");
- 
-@@ -2794,6 +2792,13 @@ pref("browser.places.snapshots.expiratio
- // message id, the id of the last screen they saw, and whether they completed the tour
- pref("browser.browser.firefoxView.featureTour", "default, default, true");
- 
-+/* MagIns - Disable Recommendation pane in about:addons (Arkenfox 0320)*/
-+pref("extensions.getAddons.showPane", false);
-+
-+/* MagIns - Disable recommendations in about:addons Extensions and Themes panes
-+            (Arkenfox 0321)*/
-+pref("extensions.htmlaboutaddons.recommendations.enabled", false);
-+
- /* MagIns - The browser milestone records the version number of the last successful
-             startup. After updates/upgrades, the user's homepage is changed to show
-             a promotional page about the update. Setting this to "ignore", the value
-Index: firefox-104.0.2/toolkit/content/jar.mn
-===================================================================
---- firefox-104.0.2.orig/toolkit/content/jar.mn
-+++ firefox-104.0.2/toolkit/content/jar.mn
-@@ -51,8 +51,6 @@ toolkit.jar:
-    content/global/filepicker.properties
-    content/global/customElements.js
-    content/global/globalOverlay.js
--   content/global/mozilla.html
--   content/global/aboutMozilla.css
-    content/global/preferencesBindings.js
-    content/global/process-content.js
-    content/global/resetProfile.css
-Index: firefox-104.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-===================================================================
---- firefox-104.0.2.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-+++ firefox-104.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-@@ -1418,10 +1418,10 @@ function addUtmParams(url, utmTerm) {
-     returnUrl = new URL(url);
-   }
- 
--  Object.keys(BASE_PARAMS).forEach(key => {
-+/*  Object.keys(BASE_PARAMS).forEach(key => {
-     returnUrl.searchParams.append(key, BASE_PARAMS[key]);
-   });
--  returnUrl.searchParams.append("utm_term", utmTerm);
-+  returnUrl.searchParams.append("utm_term", utmTerm);*/
-   return returnUrl;
- }
- 
-Index: firefox-104.0.2/browser/base/content/browser-menubar.inc
-===================================================================
---- firefox-104.0.2.orig/browser/base/content/browser-menubar.inc
-+++ firefox-104.0.2/browser/base/content/browser-menubar.inc
-@@ -465,10 +465,11 @@
- #else
-                           />
- #endif
-+<!-- MagIns - Remove the "Submit Feedback" option in the Help menu
-                 <menuitem id="feedbackPage"
-                           oncommand="openFeedbackPage()"
-                           data-l10n-id="menu-help-share-ideas"
--                          appmenu-data-l10n-id="appmenu-help-share-ideas"/>
-+                          appmenu-data-l10n-id="appmenu-help-share-ideas"/>-->
-                 <menuitem id="helpSafeMode"
-                           oncommand="safeModeRestart();"
-                           data-l10n-id="menu-help-enter-troubleshoot-mode2"
-Index: firefox-104.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
-===================================================================
---- firefox-104.0.2.orig/browser/components/newtab/lib/SearchShortcuts.jsm
-+++ firefox-104.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
+--- mozilla-release.orig/browser/components/newtab/lib/SearchShortcuts.jsm
++++ mozilla-release/browser/components/newtab/lib/SearchShortcuts.jsm
 @@ -6,6 +6,7 @@
  // List of sites we match against Topsites in order to identify sites
  // that should be converted to search Topsites
@@ -276,49 +271,108 @@ Index: firefox-104.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
    {
      keyword: "@wikipedia",
      shortURL: "wikipedia",
-Index: firefox-104.0.2/browser/components/newtab/lib/ActivityStream.jsm
+Index: mozilla-release/browser/components/newtab/lib/TopSitesFeed.jsm
 ===================================================================
---- firefox-104.0.2.orig/browser/components/newtab/lib/ActivityStream.jsm
-+++ firefox-104.0.2/browser/components/newtab/lib/ActivityStream.jsm
-@@ -315,7 +315,7 @@ const PREFS_CONFIG = new Map([
-           return "";
-         }
-         const searchShortcuts = [];
--        if (geo === "CN") {
-+/*        if (geo === "CN") {
-           searchShortcuts.push("baidu");
-         } else if (["BY", "KZ", "RU", "TR"].includes(geo)) {
-           searchShortcuts.push("yandex");
-@@ -324,7 +324,7 @@ const PREFS_CONFIG = new Map([
-         }
-         if (["DE", "FR", "GB", "IT", "JP", "US"].includes(geo)) {
-           searchShortcuts.push("amazon");
--        }
-+        }*/
-         return searchShortcuts.join(",");
-       },
-     },
-Index: firefox-104.0.2/browser/base/content/utilityOverlay.js
-===================================================================
---- firefox-104.0.2.orig/browser/base/content/utilityOverlay.js
-+++ firefox-104.0.2/browser/base/content/utilityOverlay.js
-@@ -1058,9 +1058,11 @@ function openFeedbackPage() {
- }
+--- mozilla-release.orig/browser/components/newtab/lib/TopSitesFeed.jsm
++++ mozilla-release/browser/components/newtab/lib/TopSitesFeed.jsm
+@@ -593,6 +593,7 @@ class TopSitesFeed {
+    * @returns {Boolean} Did we insert any search shortcuts?
+    */
+   async _maybeInsertSearchShortcuts(plainPinnedSites) {
++/* MagIns - We do not want to pin any search engines for users
+     // Only insert shortcuts if the experiment is running
+     if (this.store.getState().Prefs.values[SEARCH_SHORTCUTS_EXPERIMENT]) {
+       // We don't want to insert shortcuts we've previously inserted
+@@ -664,7 +665,7 @@ class TopSitesFeed {
+         return true;
+       }
+     }
+-
++    */
+     return false;
+   }
  
- function buildHelpMenu() {
-+/* MagIns - The Feedback entry is removed in browser-menubar.inc, comment out for
-+            compatibility
-   document.getElementById(
-     "feedbackPage"
--  ).disabled = !Services.policies.isAllowed("feedbackCommands");
-+  ).disabled = !Services.policies.isAllowed("feedbackCommands");*/
- 
-   document.getElementById(
-     "helpSafeMode"
-Index: firefox-104.0.2/services/settings/dumps/main/top-sites.json
+Index: mozilla-release/browser/components/preferences/preferences.js
 ===================================================================
---- firefox-104.0.2.orig/services/settings/dumps/main/top-sites.json
-+++ firefox-104.0.2/services/settings/dumps/main/top-sites.json
+--- mozilla-release.orig/browser/components/preferences/preferences.js
++++ mozilla-release/browser/components/preferences/preferences.js
+@@ -271,7 +271,7 @@ function init_all() {
+     let helpButton = document.getElementById("helpButton");
+     let helpUrl =
+       Services.urlFormatter.formatURLPref("app.support.baseURL") +
+-      "preferences";
++      "";
+     helpButton.setAttribute("href", helpUrl);
+ 
+     document.getElementById("addonsButton").addEventListener("click", e => {
+Index: mozilla-release/browser/components/preferences/sync.inc.xhtml
+===================================================================
+--- mozilla-release.orig/browser/components/preferences/sync.inc.xhtml
++++ mozilla-release/browser/components/preferences/sync.inc.xhtml
+@@ -63,8 +63,10 @@
+ 
+                       <!-- logged in and verified and all is good -->
+                       <hbox id="fxaLoginVerified" align="center" flex="1">
++<!-- MagIns - Allowing users to set profile images would be a privacy leak,
++              so change fxaProfileImage to not be actionable.-->
+                           <image id="openChangeProfileImage"
+-                                 class="fxaProfileImage actionable"
++                                 class="fxaProfileImage"
+                                  role="button"
+                                  data-l10n-id="sync-profile-picture" />
+                           <vbox flex="1" pack="center">
+@@ -73,10 +75,12 @@
+                                       <html:h2 id="fxaDisplayNameHeading" />
+                                   </label>
+                                   <label id="fxaEmailAddress" flex="1" crop="end" />
++<!-- MagIns - Remove the Sign Out button, since we prefer users to logout
++              from the Flask app instead for client-server consistency.
+                                   <button id="fxaUnlinkButton"
+                                           is="highlightable-button"
+                                           class="accessory-button"
+-                                          data-l10n-id="sync-sign-out" />
++                                          data-l10n-id="sync-sign-out" />-->
+                               </hbox>
+                               <hbox>
+                                   <html:a id="verifiedManage" class="openLink" target="_blank"
+Index: mozilla-release/browser/components/preferences/sync.js
+===================================================================
+--- mozilla-release.orig/browser/components/preferences/sync.js
++++ mozilla-release/browser/components/preferences/sync.js
+@@ -215,9 +215,9 @@ var gSyncPane = {
+       gSyncPane.signIn();
+       return false;
+     });
+-    setEventListener("fxaUnlinkButton", "command", function() {
++/*    setEventListener("fxaUnlinkButton", "command", function() {
+       gSyncPane.unlinkFirefoxAccount(true);
+-    });
++    });*/
+     setEventListener(
+       "verifyFxaAccount",
+       "command",
+@@ -482,7 +482,7 @@ var gSyncPane = {
+   },
+ 
+   openChangeProfileImage(event) {
+-    if (this.clickOrSpaceOrEnterPressed(event)) {
++/*    if (this.clickOrSpaceOrEnterPressed(event)) {
+       FxAccounts.config
+         .promiseChangeAvatarURI(this._getEntryPoint())
+         .then(url => {
+@@ -493,7 +493,7 @@ var gSyncPane = {
+         });
+       // Prevent page from scrolling on the space key.
+       event.preventDefault();
+-    }
++    }*/
+   },
+ 
+   verifyFirefoxAccount() {
+Index: mozilla-release/services/settings/dumps/main/top-sites.json
+===================================================================
+--- mozilla-release.orig/services/settings/dumps/main/top-sites.json
++++ mozilla-release/services/settings/dumps/main/top-sites.json
 @@ -1,401 +1,6 @@
  {
    "data": [
@@ -722,68 +776,16 @@ Index: firefox-104.0.2/services/settings/dumps/main/top-sites.json
    ],
    "timestamp": 1647020600359
  }
-Index: firefox-104.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
+Index: mozilla-release/toolkit/content/jar.mn
 ===================================================================
---- firefox-104.0.2.orig/browser/components/newtab/lib/TopSitesFeed.jsm
-+++ firefox-104.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
-@@ -586,6 +586,7 @@ class TopSitesFeed {
-    * @returns {Boolean} Did we insert any search shortcuts?
-    */
-   async _maybeInsertSearchShortcuts(plainPinnedSites) {
-+/* MagIns - We do not want to pin any search engines for users
-     // Only insert shortcuts if the experiment is running
-     if (this.store.getState().Prefs.values[SEARCH_SHORTCUTS_EXPERIMENT]) {
-       // We don't want to insert shortcuts we've previously inserted
-@@ -657,7 +658,7 @@ class TopSitesFeed {
-         return true;
-       }
-     }
--
-+    */
-     return false;
-   }
- 
-Index: firefox-104.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
-===================================================================
---- firefox-104.0.2.orig/browser/base/content/appmenu-viewcache.inc.xhtml
-+++ firefox-104.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
-@@ -543,10 +543,12 @@
- 
-   <panelview id="PanelUI-fxa" class="PanelUI-subView" descriptionheightworkaround="true">
-     <vbox id="PanelUI-fxa-menu" class="panel-subview-body">
-+<!-- MagIns - Skip the submenu for FxA and go straight to /member. Original line:
-+                     oncommand="gSync.clickFxAMenuHeaderButton(this);" -->
-       <toolbarbutton id="fxa-manage-account-button"
-                      align="center"
-                      class="subviewbutton"
--                     oncommand="gSync.clickFxAMenuHeaderButton(this);">
-+                     oncommand="gSync.openFxAManagePageFromFxaMenu(this);">
-         <vbox flex="1">
-           <label id="fxa-menu-header-title"
-                  crop="end"
-Index: firefox-104.0.2/browser/base/content/default-bookmarks.html
-===================================================================
---- firefox-104.0.2.orig/browser/base/content/default-bookmarks.html
-+++ firefox-104.0.2/browser/base/content/default-bookmarks.html
-@@ -19,11 +19,11 @@
-     <!-- These localization links are not automatically applied to any XHR
-          response body and must be applied manually as well.  They are included
-          so that viewing the file directly shows the results. -->
--    <link rel="localization" href="branding/brand.ftl"/>
-+<!--    <link rel="localization" href="branding/brand.ftl"/>
-     <link rel="localization" href="browser/profile/default-bookmarks.ftl"/>
--    <title data-l10n-id="default-bookmarks-title">default-bookmarks-title</title>
-+    <title data-l10n-id="default-bookmarks-title">default-bookmarks-title</title>-->
- </head>
--<body>
-+<!--<body>
- <h1 data-l10n-id="default-bookmarks-heading">default-bookmarks-heading</h1>
- 
- <dl><p>
-@@ -55,5 +55,5 @@
-         </dl><p>
- #endif
- </dl>
--</body>
-+</body>-->
- </html>
+--- mozilla-release.orig/toolkit/content/jar.mn
++++ mozilla-release/toolkit/content/jar.mn
+@@ -56,8 +56,6 @@ toolkit.jar:
+    content/global/filepicker.properties
+    content/global/customElements.js
+    content/global/globalOverlay.js
+-   content/global/mozilla.html
+-   content/global/aboutMozilla.css
+    content/global/preferencesBindings.js
+    content/global/process-content.js
+    content/global/resetProfile.css

@@ -1,7 +1,7 @@
-Index: firefox-104.0.2/browser/app/profile/firefox.js
+Index: mozilla-release/browser/app/profile/firefox.js
 ===================================================================
---- firefox-104.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-104.0.2/browser/app/profile/firefox.js
+--- mozilla-release.orig/browser/app/profile/firefox.js
++++ mozilla-release/browser/app/profile/firefox.js
 @@ -36,12 +36,19 @@ pref("extensions.webextOptionalPermissio
  pref("extensions.postDownloadThirdPartyPrompt", true);
  
@@ -24,7 +24,7 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  
  // The URL for the privacy policy related to recommended extensions.
  pref("extensions.recommendations.privacyPolicyUrl", "https://www.mozilla.org/privacy/firefox/?utm_source=firefox-browser&utm_medium=firefox-browser&utm_content=privacy-policy-link#addons");
-@@ -510,6 +517,10 @@ pref("browser.urlbar.extension.timeout",
+@@ -549,6 +556,10 @@ pref("browser.urlbar.extension.timeout",
  // searched for. If the string is resolved as a valid host, show a
  // "Did you mean to go to 'host'" prompt.
  // 0 - never resolve; 1 - use heuristics (default); 2 - always resolve
@@ -35,7 +35,7 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  pref("browser.urlbar.dnsResolveSingleWordsAfterSearch", 0);
  
  // Whether the results panel should be kept open during IME composition.
-@@ -1190,7 +1201,10 @@ pref("browser.zoom.siteSpecific", true);
+@@ -1221,7 +1232,10 @@ pref("browser.zoom.siteSpecific", true);
  pref("browser.zoom.updateBackgroundTabs", true);
  
  // The breakpad report server to link to in about:crashes
@@ -47,7 +47,7 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  
  // URL for "Learn More" for DataCollection
  pref("toolkit.datacollection.infoURL",
-@@ -1488,7 +1502,11 @@ pref("browser.menu.showCharacterEncoding
+@@ -1512,7 +1526,11 @@ pref("browser.menu.showCharacterEncoding
  // This is a fallback value for when prompt callers do not specify a modalType.
  pref("prompts.defaultModalType", 3);
  
@@ -60,7 +60,7 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  // Fetch sponsored Top Sites from Mozilla Tiles Service (Contile)
  pref("browser.topsites.contile.enabled", true);
  pref("browser.topsites.contile.endpoint", "https://contile.services.mozilla.com/v1/tiles");
-@@ -1534,7 +1552,10 @@ pref("browser.newtabpage.activity-stream
+@@ -1558,7 +1576,10 @@ pref("browser.newtabpage.activity-stream
  // This url, if changed, MUST continue to point to an https url. Pulling arbitrary content to inject into
  // this page over http opens us up to a man-in-the-middle attack that we'd rather not face. If you are a downstream
  // repackager of this code using an alternate snippet url, please keep your users safe
@@ -72,7 +72,7 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  pref("browser.newtabpage.activity-stream.asrouter.providers.messaging-experiments", "{\"id\":\"messaging-experiments\",\"enabled\":true,\"type\":\"remote-experiments\",\"updateCycleInMs\":3600000}");
  
  // ASRouter user prefs
-@@ -1787,23 +1808,40 @@ pref("browser.translation.ui.show", fals
+@@ -1830,22 +1851,34 @@ pref("browser.translation.ui.show", fals
  pref("browser.translation.engine", "Google");
  
  // Telemetry settings.
@@ -88,6 +88,8 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
 +            (Arkenfox 0332)
 +pref("toolkit.telemetry.shutdownPingSender.enabled", true);*/
 +pref("toolkit.telemetry.shutdownPingSender.enabled", false);
+ // Enables using the `pingsender` background task.
+ pref("toolkit.telemetry.shutdownPingSender.backgroundtask.enabled", false);
  // Enables sending the shutdown ping using the pingsender from the first session.
  pref("toolkit.telemetry.shutdownPingSender.enabledFirstSession", false);
 -// Enables sending a duplicate of the first shutdown ping from the first session.
@@ -116,17 +118,8 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
 +pref("toolkit.telemetry.bhrPing.enabled", false);
  
  // Ping Centre Telemetry settings.
--pref("browser.ping-centre.telemetry", true);
-+/* MagIns - PingCentre is used by several System addons. This preference is superceded by
-+            datareporting.healthreport.uploadEnabled, but we disable this preference for
-+            defense in depth.
-+            (Arkenfox 0334)
-+pref("browser.ping-centre.telemetry", true);*/
-+pref("browser.ping-centre.telemetry", false);
- pref("browser.ping-centre.log", false);
- 
- // Enable GMP support in the addon manager.
-@@ -2043,7 +2081,10 @@ pref("browser.tabs.remote.warmup.maxTabs
+ pref("browser.ping-centre.telemetry", true);
+@@ -2092,7 +2125,10 @@ pref("browser.tabs.remote.warmup.maxTabs
  pref("browser.tabs.remote.warmup.unloadDelayMs", 2000);
  
  // For the about:tabcrashed page
@@ -138,7 +131,7 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  pref("browser.tabs.crashReporting.includeURL", false);
  
  // If true, unprivileged extensions may use experimental APIs on
-@@ -2188,17 +2229,26 @@ pref("browser.chrome.errorReporter.infoU
+@@ -2284,17 +2320,26 @@ pref("browser.chrome.errorReporter.infoU
       "https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/nightly-error-collection");
  
  // Normandy client preferences
@@ -168,7 +161,7 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  #else
    pref("app.shield.optoutstudies.enabled", false);
  #endif
-@@ -2231,7 +2281,14 @@ pref("app.normandy.onsync_skew_sec", 600
+@@ -2327,7 +2372,14 @@ pref("app.normandy.onsync_skew_sec", 600
  
  // Coverage ping is disabled by default.
  pref("toolkit.coverage.enabled", false);
@@ -184,7 +177,7 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  
  // Discovery prefs
  pref("browser.discovery.enabled", true);
-@@ -2657,7 +2714,11 @@ pref("first-startup.timeout", 30000);
+@@ -2750,7 +2802,11 @@ pref("first-startup.timeout", 30000);
  // The agent still runs as scheduled if this pref is disabled,
  // but it exits immediately before taking any action.
  #ifdef XP_WIN
@@ -197,10 +190,10 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
  #endif
  
  // Test Prefs that do nothing for testing
-@@ -2711,3 +2772,125 @@ pref("browser.places.snapshots.expiratio
- // If the user has seen the Firefox View feature tour this value reflects the tour
- // message id, the id of the last screen they saw, and whether they completed the tour
- pref("browser.browser.firefoxView.featureTour", "default, default, true");
+@@ -2837,3 +2893,125 @@ pref("cookiebanners.ui.desktop.cfrVarian
+ #ifdef MOZ_ARTIFACT_BUILDS
+   pref("telemetry.fog.artifact_build", true);
+ #endif
 +
 +/* MagIns - The browser milestone records the version number of the last successful
 +            startup. After updates/upgrades, the user's homepage is changed to show
@@ -324,11 +317,90 @@ Index: firefox-104.0.2/browser/app/profile/firefox.js
 +//5 - Off by choice. This is the same as 0 but marks it as done by choice and not done by default.
 +pref("network.trr.mode", 5);
 \ No newline at end of file
-Index: firefox-104.0.2/modules/libpref/init/all.js
+Index: mozilla-release/browser/components/preferences/privacy.inc.xhtml
 ===================================================================
---- firefox-104.0.2.orig/modules/libpref/init/all.js
-+++ firefox-104.0.2/modules/libpref/init/all.js
-@@ -677,15 +677,24 @@ pref("toolkit.sqlitejsm.loglevel", "Erro
+--- mozilla-release.orig/browser/components/preferences/privacy.inc.xhtml
++++ mozilla-release/browser/components/preferences/privacy.inc.xhtml
+@@ -492,6 +492,7 @@
+       <html:a id="relayIntegrationLearnMoreLink" class="learnMore"
+              data-l10n-id="relay-integration-learn-more-link"/>
+     </hbox>
++<!-- MagIns - Remove link to Firefox breach alerts
+     <hbox class="indent" id="breachAlertsBox" flex="1" align="center">
+       <checkbox id="breachAlerts"
+                 class="tail-with-learn-more"
+@@ -503,7 +504,7 @@
+               data-l10n-id="forms-breach-alerts-learn-more-link"
+               support-page="lockwise-alerts"
+       />
+-    </hbox>
++    </hbox>-->
+   </vbox>
+   <vbox>
+     <hbox id="masterPasswordRow" align="center">
+@@ -967,6 +968,8 @@
+ </groupbox>
+ 
+ <!-- Firefox Data Collection and Use -->
++<!-- MagIns - We have all data reporting disabled through preferences, so we remove the HTML elements from
++              preferences so that typical users easily enable data reporting accidentally.
+ <hbox id="dataCollectionCategory"
+       class="subcategory"
+       hidden="true"
+@@ -1068,7 +1071,7 @@
+                value="false"/>
+     </radiogroup>
+   </vbox>
+-</groupbox>
++</groupbox>-->
+ 
+ <hbox id="securityCategory"
+       class="subcategory"
+Index: mozilla-release/browser/components/preferences/privacy.js
+===================================================================
+--- mozilla-release.orig/browser/components/preferences/privacy.js
++++ mozilla-release/browser/components/preferences/privacy.js
+@@ -737,6 +737,8 @@ var gPrivacyPane = {
+ 
+     this.initDataCollection();
+ 
++/* MagIns - To prevent users from reenabling Telemetry uploads, we comment out the code
++            initiating those sections of the Preferences page.
+     if (AppConstants.MOZ_DATA_REPORTING) {
+       if (AppConstants.MOZ_CRASHREPORTER) {
+         this.initSubmitCrashes();
+@@ -756,7 +758,7 @@ var gPrivacyPane = {
+         this.initOptOutStudyCheckbox();
+       }
+       this.initAddonRecommendationsCheckbox();
+-    }
++    }*/
+ 
+     let signonBundle = document.getElementById("signonBundle");
+     let pkiBundle = document.getElementById("pkiBundle");
+@@ -2799,6 +2801,8 @@ var gPrivacyPane = {
+   },
+ 
+   initDataCollection() {
++/* MagIns - To prevent users from reenabling Telemetry uploads, we comment out the code
++            initiating those sections of the Preferences page.
+     if (
+       !AppConstants.MOZ_DATA_REPORTING &&
+       !NimbusFeatures.majorRelease2022.getVariable(
+@@ -2815,7 +2819,7 @@ var gPrivacyPane = {
+       "toolkit.datacollection.infoURL",
+       "dataCollectionPrivacyNotice"
+     );
+-    this.initPrivacySegmentation();
++    this.initPrivacySegmentation();*/
+   },
+ 
+   initSubmitCrashes() {
+Index: mozilla-release/modules/libpref/init/all.js
+===================================================================
+--- mozilla-release.orig/modules/libpref/init/all.js
++++ mozilla-release/modules/libpref/init/all.js
+@@ -636,15 +636,24 @@ pref("toolkit.sqlitejsm.loglevel", "Erro
  pref("toolkit.tabbox.switchByScrolling", false);
  
  // Telemetry settings.
@@ -353,10 +425,10 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
 +            (Arkenfox 0332)
 +pref("toolkit.telemetry.unified", true);*/
 +pref("toolkit.telemetry.unified", false);
- // AsyncShutdown delay before crashing in case of shutdown freeze
- #if !defined(MOZ_ASAN) && !defined(MOZ_TSAN)
-   pref("toolkit.asyncshutdown.crash_timeout", 60000); // 1 minute
-@@ -802,6 +811,11 @@ pref("view_source.editor.args", "");
+ 
+ // DAP related preferences
+ pref("toolkit.telemetry.dap_enabled", false);
+@@ -775,6 +784,11 @@ pref("view_source.editor.args", "");
  pref("nglayout.enable_drag_images", true);
  
  // URI fixup prefs
@@ -368,7 +440,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  pref("browser.fixup.alternate.enabled", false);
  pref("browser.fixup.alternate.prefix", "www.");
  pref("browser.fixup.alternate.protocol", "https");
-@@ -1271,7 +1285,12 @@ pref("network.http.network-changed.timeo
+@@ -1263,7 +1277,12 @@ pref("network.http.network-changed.timeo
  
  // The maximum number of current global half open sockets allowable
  // when starting a new speculative connection.
@@ -382,7 +454,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  
  // Whether or not to block requests for non head js/css items (e.g. media)
  // while those elements load.
-@@ -1570,7 +1589,11 @@ pref("network.IDN.extra_blocked_chars",
+@@ -1442,7 +1461,11 @@ pref("network.IDN.extra_blocked_chars",
  pref("network.dns.ipv4OnlyDomains", "");
  
  // This preference can be used to turn off IPv6 name lookups. See bug 68796.
@@ -395,7 +467,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  
  // This is the number of dns cache entries allowed
  pref("network.dnsCacheEntries", 400);
-@@ -1589,8 +1612,13 @@ pref("network.dns.native-is-localhost",
+@@ -1461,8 +1484,13 @@ pref("network.dns.native-is-localhost",
  // a revalidation in the background.
  pref("network.dnsCacheExpirationGracePeriod", 60);
  
@@ -411,7 +483,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  
  // This preference controls whether .onion hostnames are
  // rejected before being given to DNS. RFC 7686
-@@ -1613,7 +1641,13 @@ pref("network.dns.resolver-thread-extra-
+@@ -1485,7 +1513,13 @@ pref("network.dns.resolver-thread-extra-
  
  // enables the prefetch service (i.e., prefetching of <link rel="next"> and
  // <link rel="prefetch"> URLs).
@@ -426,7 +498,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  
  // The following prefs pertain to the negotiate-auth extension (see bug 17578),
  // which provides transparent Kerberos or NTLM authentication using the SPNEGO
-@@ -3423,7 +3457,11 @@ pref("font.size.monospace.x-math", 13);
+@@ -3161,7 +3195,11 @@ pref("font.size.monospace.x-math", 13);
  // Login Manager prefs
  pref("signon.rememberSignons",              true);
  pref("signon.rememberSignons.visibilityToggle", true);
@@ -439,7 +511,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  pref("signon.autofillForms.autocompleteOff", true);
  pref("signon.autofillForms.http",           false);
  pref("signon.autologin.proxy",              false);
-@@ -3454,7 +3492,12 @@ pref("signon.showAutoCompleteOrigins",
+@@ -3194,7 +3232,12 @@ pref("signon.signupDetection.enabled",
  
  // Satchel (Form Manager) prefs
  pref("browser.formfill.debug",            false);
@@ -453,7 +525,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  pref("browser.formfill.expire_days",      180);
  pref("browser.formfill.agedWeight",       2);
  pref("browser.formfill.bucketSize",       1);
-@@ -3519,11 +3562,16 @@ pref("network.psl.onUpdate_notify", fals
+@@ -3252,11 +3295,16 @@ pref("network.psl.onUpdate_notify", fals
  
  // All the Geolocation preferences are here.
  //
@@ -472,7 +544,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  #endif
  
  // Timeout to wait before sending the location request.
-@@ -3531,27 +3579,41 @@ pref("geo.provider.network.timeToWaitBef
+@@ -3264,27 +3312,41 @@ pref("geo.provider.network.timeToWaitBef
  // Timeout for outbound network geolocation provider.
  pref("geo.provider.network.timeout", 60000);
  
@@ -519,7 +591,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  
  // Enable/Disable the device storage API for content
  pref("device.storage.enabled", false);
-@@ -3727,7 +3789,11 @@ pref("network.captive-portal-service.max
+@@ -3458,7 +3520,11 @@ pref("network.captive-portal-service.max
  pref("network.captive-portal-service.backoffFactor", "5.0");
  pref("network.captive-portal-service.enabled", false);
  
@@ -532,7 +604,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
  pref("network.connectivity-service.DNSv4.domain", "example.org");
  pref("network.connectivity-service.DNSv6.domain", "example.org");
  pref("network.connectivity-service.IPv4.url", "http://detectportal.firefox.com/success.txt?ipv4");
-@@ -4112,8 +4178,12 @@ pref("toolkit.aboutProcesses.profileDura
+@@ -3860,8 +3926,12 @@ pref("toolkit.aboutProcesses.profileDura
  //  * userChrome.css
  pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);
  
@@ -546,7 +618,7 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
    pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", "0");
    pref("datareporting.policy.dataSubmissionPolicyAcceptedVersion", 0);
    pref("datareporting.policy.dataSubmissionPolicyBypassNotification", false);
-@@ -4123,12 +4193,15 @@ pref("toolkit.legacyUserProfileCustomiza
+@@ -3871,12 +3941,15 @@ pref("toolkit.legacyUserProfileCustomiza
    pref("datareporting.policy.firstRunURL", "https://www.mozilla.org/privacy/firefox/");
  #endif
  
@@ -563,66 +635,10 @@ Index: firefox-104.0.2/modules/libpref/init/all.js
    #endif
  #endif
  
-Index: firefox-104.0.2/browser/components/preferences/privacy.js
+Index: mozilla-release/toolkit/components/normandy/lib/ClientEnvironment.jsm
 ===================================================================
---- firefox-104.0.2.orig/browser/components/preferences/privacy.js
-+++ firefox-104.0.2/browser/components/preferences/privacy.js
-@@ -674,13 +674,13 @@ var gPrivacyPane = {
- 
-     this.initListenersForExtensionControllingPasswordManager();
-     // set up the breach alerts Learn More link with the correct URL
--    const breachAlertsLearnMoreLink = document.getElementById(
-+/*    const breachAlertsLearnMoreLink = document.getElementById(
-       "breachAlertsLearnMoreLink"
-     );
-     const breachAlertsLearnMoreUrl =
-       Services.urlFormatter.formatURLPref("app.support.baseURL") +
-       "lockwise-alerts";
--    breachAlertsLearnMoreLink.setAttribute("href", breachAlertsLearnMoreUrl);
-+    breachAlertsLearnMoreLink.setAttribute("href", breachAlertsLearnMoreUrl);*/
- 
-     this._initSafeBrowsing();
- 
-@@ -805,6 +805,8 @@ var gPrivacyPane = {
- 
-     this.initDataCollection();
- 
-+/* MagIns - To prevent users from reenabling Telemetry uploads, we comment out the code
-+            initiating those sections of the Preferences page.
-     if (AppConstants.MOZ_DATA_REPORTING) {
-       if (AppConstants.MOZ_CRASHREPORTER) {
-         this.initSubmitCrashes();
-@@ -824,7 +826,7 @@ var gPrivacyPane = {
-         this.initOptOutStudyCheckbox();
-       }
-       this.initAddonRecommendationsCheckbox();
--    }
-+    }*/
- 
-     let signonBundle = document.getElementById("signonBundle");
-     let pkiBundle = document.getElementById("pkiBundle");
-@@ -2733,6 +2735,8 @@ var gPrivacyPane = {
-   },
- 
-   initDataCollection() {
-+/* MagIns - To prevent users from reenabling Telemetry uploads, we comment out the code
-+            initiating those sections of the Preferences page.
-     if (
-       !AppConstants.MOZ_DATA_REPORTING &&
-       !Services.prefs.getBoolPref(
-@@ -2750,7 +2754,7 @@ var gPrivacyPane = {
-       "toolkit.datacollection.infoURL",
-       "dataCollectionPrivacyNotice"
-     );
--    this.initPrivacySegmentation();
-+    this.initPrivacySegmentation();*/
-   },
- 
-   initSubmitCrashes() {
-Index: firefox-104.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
-===================================================================
---- firefox-104.0.2.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm
-+++ firefox-104.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
+--- mozilla-release.orig/toolkit/components/normandy/lib/ClientEnvironment.jsm
++++ mozilla-release/toolkit/components/normandy/lib/ClientEnvironment.jsm
 @@ -52,7 +52,10 @@ class ClientEnvironment extends ClientEn
     */
    static async getClientClassification() {
@@ -635,61 +651,3 @@ Index: firefox-104.0.2/toolkit/components/normandy/lib/ClientEnvironment.jsm
      }
      return _classifyRequest;
    }
-Index: firefox-104.0.2/services/fxaccounts/FxAccountsClient.jsm
-===================================================================
---- firefox-104.0.2.orig/services/fxaccounts/FxAccountsClient.jsm
-+++ firefox-104.0.2/services/fxaccounts/FxAccountsClient.jsm
-@@ -546,7 +546,12 @@ FxAccountsClient.prototype = {
-    */
-   async registerDevice(sessionTokenHex, name, type, options = {}) {
-     let path = "/account/device";
--
-+/* MagIns - By default, Firefox reads the name of your device and sends it to their server
-+            when a device signs on to Sync for the first time. By setting the name to an
-+            empty string here, users can still name devices if they so choose but we do not
-+            collect this information by default. This feature will allow us to do alerts for
-+            Sync changes in the future.*/
-+    name = "";
-     let creds = await deriveHawkCredentials(sessionTokenHex, "sessionToken");
-     let body = { name, type };
- 
-Index: firefox-104.0.2/browser/components/preferences/privacy.inc.xhtml
-===================================================================
---- firefox-104.0.2.orig/browser/components/preferences/privacy.inc.xhtml
-+++ firefox-104.0.2/browser/components/preferences/privacy.inc.xhtml
-@@ -939,6 +939,8 @@
- </groupbox>
- 
- <!-- Firefox Data Collection and Use -->
-+<!-- MagIns - We have all data reporting disabled through preferences, so we remove the HTML elements from
-+              preferences so that typical users easily enable data reporting accidentally.
- <hbox id="dataCollectionCategory"
-       class="subcategory"
-       hidden="true"
-@@ -1023,21 +1025,21 @@
-   </vbox>
- #endif
-   <vbox id="privacySegmentationSection" data-subcategory="privacy-segmentation" hidden="true">
--    <hbox align="center">
-+    <hbox align="center"> -->
-       <!-- TODO: Bug 1752172, provisional copy  -->
--      <checkbox id="privacySegmentationCheck"
-+<!--      <checkbox id="privacySegmentationCheck"
-                 preference="browser.privacySegmentation.enabled"
-                 class="tail-with-learn-more"
-                 label="Always ask before enabling new features that use my data"
-                 accesskey="A">
--      </checkbox>
-+      </checkbox>-->
-       <!-- TODO: Bug 1752172, provisional copy  -->
--      <label id="privacy-segmentation-learn-more-link"
-+<!--      <label id="privacy-segmentation-learn-more-link"
-              class="learnMore"
-              is="text-link">Learn more</label>
-     </hbox>
-   </vbox>
--</groupbox>
-+</groupbox>-->
- 
- <hbox id="securityCategory"
-       class="subcategory"

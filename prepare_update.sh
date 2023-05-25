@@ -1,5 +1,5 @@
 #!/bin/bash
-ROOTDIR="../m041"
+ROOTDIR="../miff"
 INSTALLER_DIR=obj*"/dist/install/sea"
 UPDATE_DIR=obj*"/dist/firefox"
 
@@ -43,7 +43,7 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
 	echo "=== Creating MAR"
         cd tmp
         echo "Keyfile exists"
-        mar -J -c ../MiFF-$1.complete.mar -k "../../m041/csr.pem" -H default -V $1 *
+        mar -J -c ../MiFF-$1.complete.mar -k "../../miff/csr.pem" -H default -V $1 *
         cd ..
         echo "=== MAR complete"
 	echo "=== Use these values for update.xml in m021:"
@@ -52,5 +52,5 @@ if [[ -d $ROOTDIR ]] && [[ -d "./browser/branding" ]]; then
         rm -rf tmp
     fi
 else
-    { echo "You need to be at the root location of the browser, and '../m041' alongside you"; } 2> /dev/null
+    { echo "You need to be at the root location of the browser, and '../miff' alongside you"; } 2> /dev/null
 fi

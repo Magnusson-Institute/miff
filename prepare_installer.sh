@@ -1,5 +1,5 @@
 #!/bin/bash
-ROOTDIR="../m041"
+ROOTDIR="../miff"
 INSTALLER_DIR=obj*"/dist/install/sea"
 
 # m041 needs to be parallel, and we just sanity check the main browser target

@@ -1,17 +1,17 @@
-Index: firefox-112.0.2/browser/app/module.ver
+Index: mozilla-release/browser/app/module.ver
 ===================================================================
---- firefox-112.0.2.orig/browser/app/module.ver
-+++ firefox-112.0.2/browser/app/module.ver
+--- mozilla-release.orig/browser/app/module.ver
++++ mozilla-release/browser/app/module.ver
 @@ -5,4 +5,4 @@ WIN32_MODULE_PRODUCTVERSION_STRING=@MOZ_
  WIN32_MODULE_TRADEMARKS=Firefox is a Trademark of The Mozilla Foundation.
  WIN32_MODULE_DESCRIPTION=@MOZ_APP_DISPLAYNAME@
  WIN32_MODULE_PRODUCTNAME=@MOZ_APP_DISPLAYNAME@
 -WIN32_MODULE_NAME=@MOZ_APP_DISPLAYNAME@
 +WIN32_MODULE_NAME=MiFF
-Index: firefox-112.0.2/browser/branding/aurora/branding.nsi
+Index: mozilla-release/browser/branding/aurora/branding.nsi
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/aurora/branding.nsi
-+++ firefox-112.0.2/browser/branding/aurora/branding.nsi
+--- mozilla-release.orig/browser/branding/aurora/branding.nsi
++++ mozilla-release/browser/branding/aurora/branding.nsi
 @@ -8,12 +8,12 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -31,10 +31,10 @@ Index: firefox-112.0.2/browser/branding/aurora/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-devedition-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-devedition-latest"
-Index: firefox-112.0.2/browser/branding/aurora/locales/en-US/brand.ftl
+Index: mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/aurora/locales/en-US/brand.ftl
-+++ firefox-112.0.2/browser/branding/aurora/locales/en-US/brand.ftl
+--- mozilla-release.orig/browser/branding/aurora/locales/en-US/brand.ftl
++++ mozilla-release/browser/branding/aurora/locales/en-US/brand.ftl
 @@ -16,12 +16,19 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -61,10 +61,10 @@ Index: firefox-112.0.2/browser/branding/aurora/locales/en-US/brand.ftl
 +#-vendor-short-name = Mozilla
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: firefox-112.0.2/browser/branding/nightly/branding.nsi
+Index: mozilla-release/browser/branding/nightly/branding.nsi
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/nightly/branding.nsi
-+++ firefox-112.0.2/browser/branding/nightly/branding.nsi
+--- mozilla-release.orig/browser/branding/nightly/branding.nsi
++++ mozilla-release/browser/branding/nightly/branding.nsi
 @@ -8,11 +8,11 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -82,10 +82,10 @@ Index: firefox-112.0.2/browser/branding/nightly/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-nightly-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-nightly-latest"
-Index: firefox-112.0.2/browser/branding/nightly/locales/en-US/brand.ftl
+Index: mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/nightly/locales/en-US/brand.ftl
-+++ firefox-112.0.2/browser/branding/nightly/locales/en-US/brand.ftl
+--- mozilla-release.orig/browser/branding/nightly/locales/en-US/brand.ftl
++++ mozilla-release/browser/branding/nightly/locales/en-US/brand.ftl
 @@ -16,12 +16,18 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -111,10 +111,10 @@ Index: firefox-112.0.2/browser/branding/nightly/locales/en-US/brand.ftl
 +#-vendor-short-name = Mozilla
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: firefox-112.0.2/browser/branding/official/branding.nsi
+Index: mozilla-release/browser/branding/official/branding.nsi
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/official/branding.nsi
-+++ firefox-112.0.2/browser/branding/official/branding.nsi
+--- mozilla-release.orig/browser/branding/official/branding.nsi
++++ mozilla-release/browser/branding/official/branding.nsi
 @@ -8,12 +8,12 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -133,10 +133,10 @@ Index: firefox-112.0.2/browser/branding/official/branding.nsi
  
  ; The OFFICIAL define is a workaround to support different urls for Release and
  ; Beta since they share the same branding when building with other branches that
-Index: firefox-112.0.2/browser/branding/official/locales/en-US/brand.ftl
+Index: mozilla-release/browser/branding/official/locales/en-US/brand.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/official/locales/en-US/brand.ftl
-+++ firefox-112.0.2/browser/branding/official/locales/en-US/brand.ftl
+--- mozilla-release.orig/browser/branding/official/locales/en-US/brand.ftl
++++ mozilla-release/browser/branding/official/locales/en-US/brand.ftl
 @@ -16,12 +16,18 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -162,10 +162,10 @@ Index: firefox-112.0.2/browser/branding/official/locales/en-US/brand.ftl
 +#-vendor-short-name = Mozilla
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = Firefox and the Firefox logos are trademarks of the Mozilla Foundation.
-Index: firefox-112.0.2/browser/branding/official/locales/en-US/brand.properties
+Index: mozilla-release/browser/branding/official/locales/en-US/brand.properties
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/official/locales/en-US/brand.properties
-+++ firefox-112.0.2/browser/branding/official/locales/en-US/brand.properties
+--- mozilla-release.orig/browser/branding/official/locales/en-US/brand.properties
++++ mozilla-release/browser/branding/official/locales/en-US/brand.properties
 @@ -2,6 +2,14 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -185,10 +185,10 @@ Index: firefox-112.0.2/browser/branding/official/locales/en-US/brand.properties
 +# MagIns - Add a new variable syncBrandShortName to remove brand name from Sync
 +syncBrandShortName=Sync
 \ No newline at end of file
-Index: firefox-112.0.2/browser/branding/unofficial/branding.nsi
+Index: mozilla-release/browser/branding/unofficial/branding.nsi
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/unofficial/branding.nsi
-+++ firefox-112.0.2/browser/branding/unofficial/branding.nsi
+--- mozilla-release.orig/browser/branding/unofficial/branding.nsi
++++ mozilla-release/browser/branding/unofficial/branding.nsi
 @@ -8,11 +8,11 @@
  
  # BrandFullNameInternal is used for some registry and file system values
@@ -206,10 +206,10 @@ Index: firefox-112.0.2/browser/branding/unofficial/branding.nsi
  
  !define URLStubDownloadX86 "https://download.mozilla.org/?os=win&lang=${AB_CD}&product=firefox-latest"
  !define URLStubDownloadAMD64 "https://download.mozilla.org/?os=win64&lang=${AB_CD}&product=firefox-latest"
-Index: firefox-112.0.2/browser/branding/unofficial/locales/en-US/brand.ftl
+Index: mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/branding/unofficial/locales/en-US/brand.ftl
-+++ firefox-112.0.2/browser/branding/unofficial/locales/en-US/brand.ftl
+--- mozilla-release.orig/browser/branding/unofficial/locales/en-US/brand.ftl
++++ mozilla-release/browser/branding/unofficial/locales/en-US/brand.ftl
 @@ -16,12 +16,19 @@
  ## For further details, consult:
  ## https://mozilla-l10n.github.io/styleguides/mozilla_general/#brands-copyright-and-trademark
@@ -236,10 +236,10 @@ Index: firefox-112.0.2/browser/branding/unofficial/locales/en-US/brand.ftl
 +#-vendor-short-name = Mozilla
 +-vendor-short-name = Magnusson Institute
  trademarkInfo = { " " }
-Index: firefox-112.0.2/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
+Index: mozilla-release/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
 ===================================================================
---- firefox-112.0.2.orig/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
-+++ firefox-112.0.2/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
+--- mozilla-release.orig/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
++++ mozilla-release/browser/components/privatebrowsing/content/aboutPrivateBrowsing.html
 @@ -60,6 +60,7 @@
        </div>
      </div>
@@ -256,10 +256,10 @@ Index: firefox-112.0.2/browser/components/privatebrowsing/content/aboutPrivateBr
 +    </div>-->
    </body>
  </html>
-Index: firefox-112.0.2/browser/installer/windows/Makefile.in
+Index: mozilla-release/browser/installer/windows/Makefile.in
 ===================================================================
---- firefox-112.0.2.orig/browser/installer/windows/Makefile.in
-+++ firefox-112.0.2/browser/installer/windows/Makefile.in
+--- mozilla-release.orig/browser/installer/windows/Makefile.in
++++ mozilla-release/browser/installer/windows/Makefile.in
 @@ -55,7 +55,7 @@ else
  PPL_LOCALE_ARGS=$(call EXPAND_LOCALE_SRCDIR,browser/locales)/installer
  endif
@@ -269,10 +269,10 @@ Index: firefox-112.0.2/browser/installer/windows/Makefile.in
  	$(RM) -r $(CONFIG_DIR)
  	$(MKDIR) $(CONFIG_DIR)
  	$(INSTALL) $(addprefix $(srcdir)/,$(INSTALLER_FILES)) $(CONFIG_DIR)
-Index: firefox-112.0.2/browser/installer/windows/app.tag
+Index: mozilla-release/browser/installer/windows/app.tag
 ===================================================================
---- firefox-112.0.2.orig/browser/installer/windows/app.tag
-+++ firefox-112.0.2/browser/installer/windows/app.tag
+--- mozilla-release.orig/browser/installer/windows/app.tag
++++ mozilla-release/browser/installer/windows/app.tag
 @@ -1,4 +1,4 @@
  ;!@Install@!UTF-8!
 -Title="Mozilla Firefox"
@@ -281,10 +281,10 @@ Index: firefox-112.0.2/browser/installer/windows/app.tag
 +RunProgram="MiFFInstaller.exe"
  ;!@InstallEnd@!
 \ No newline at end of file
-Index: firefox-112.0.2/browser/installer/windows/nsis/defines.nsi.in
+Index: mozilla-release/browser/installer/windows/nsis/defines.nsi.in
 ===================================================================
---- firefox-112.0.2.orig/browser/installer/windows/nsis/defines.nsi.in
-+++ firefox-112.0.2/browser/installer/windows/nsis/defines.nsi.in
+--- mozilla-release.orig/browser/installer/windows/nsis/defines.nsi.in
++++ mozilla-release/browser/installer/windows/nsis/defines.nsi.in
 @@ -21,25 +21,25 @@
  !endif
  
@@ -318,10 +318,10 @@ Index: firefox-112.0.2/browser/installer/windows/nsis/defines.nsi.in
  !endif
  
  ; The C++ defines in `nsNativeAppSupportWin.h` are 1-based.  The Windows
-Index: firefox-112.0.2/browser/installer/windows/nsis/installer.nsi
+Index: mozilla-release/browser/installer/windows/nsis/installer.nsi
 ===================================================================
---- firefox-112.0.2.orig/browser/installer/windows/nsis/installer.nsi
-+++ firefox-112.0.2/browser/installer/windows/nsis/installer.nsi
+--- mozilla-release.orig/browser/installer/windows/nsis/installer.nsi
++++ mozilla-release/browser/installer/windows/nsis/installer.nsi
 @@ -98,8 +98,8 @@ Var PostSigningData
  !include common.nsh
  !include locales.nsi
@@ -359,10 +359,10 @@ Index: firefox-112.0.2/browser/installer/windows/nsis/installer.nsi
  
    StrCpy $R9 "true"
    StrCpy $PreventRebootRequired "false"
-Index: firefox-112.0.2/browser/locales/en-US/browser/aboutLogins.ftl
+Index: mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/locales/en-US/browser/aboutLogins.ftl
-+++ firefox-112.0.2/browser/locales/en-US/browser/aboutLogins.ftl
+--- mozilla-release.orig/browser/locales/en-US/browser/aboutLogins.ftl
++++ mozilla-release/browser/locales/en-US/browser/aboutLogins.ftl
 @@ -83,7 +83,9 @@ about-logins-list-section-week = Last 7
  about-logins-login-intro-heading-logged-out2 = Looking for your saved logins? Turn on sync or import them.
  about-logins-login-intro-heading-logged-in = No synced logins found.
@@ -374,10 +374,10 @@ Index: firefox-112.0.2/browser/locales/en-US/browser/aboutLogins.ftl
  login-intro-instructions-fxa-settings = Go to Settings > Sync > Turn on syncing… Select the Logins and passwords checkbox.
  login-intro-instructions-fxa-passwords-help = Visit <a data-l10n-name="passwords-help-link">passwords support</a> for more help.
  about-logins-intro-browser-only-import = If your logins are saved in another browser, you can <a data-l10n-name="import-link">import them into { -brand-product-name }</a>
-Index: firefox-112.0.2/browser/locales/en-US/browser/branding/sync-brand.ftl
+Index: mozilla-release/browser/locales/en-US/browser/branding/sync-brand.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/locales/en-US/browser/branding/sync-brand.ftl
-+++ firefox-112.0.2/browser/locales/en-US/browser/branding/sync-brand.ftl
+--- mozilla-release.orig/browser/locales/en-US/browser/branding/sync-brand.ftl
++++ mozilla-release/browser/locales/en-US/browser/branding/sync-brand.ftl
 @@ -6,6 +6,6 @@
  # and kept in English.
  -fxaccount-brand-name =
@@ -387,10 +387,10 @@ Index: firefox-112.0.2/browser/locales/en-US/browser/branding/sync-brand.ftl
 +        [sentence] Magnusson Institute account
 +       *[title] Magnusson Institute Account
      }
-Index: firefox-112.0.2/browser/locales/en-US/browser/menubar.ftl
+Index: mozilla-release/browser/locales/en-US/browser/menubar.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/locales/en-US/browser/menubar.ftl
-+++ firefox-112.0.2/browser/locales/en-US/browser/menubar.ftl
+--- mozilla-release.orig/browser/locales/en-US/browser/menubar.ftl
++++ mozilla-release/browser/locales/en-US/browser/menubar.ftl
 @@ -263,7 +263,7 @@ menu-tools-sync-now =
      .label = Sync Now
      .accesskey = o
@@ -400,11 +400,11 @@ Index: firefox-112.0.2/browser/locales/en-US/browser/menubar.ftl
      .accesskey = R
  menu-tools-browser-tools =
      .label = Browser Tools
-Index: firefox-112.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
+Index: mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/locales/en-US/browser/preferences/preferences.ftl
-+++ firefox-112.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
-@@ -840,7 +840,7 @@ sync-signedout-account-signin3 =
+--- mozilla-release.orig/browser/locales/en-US/browser/preferences/preferences.ftl
++++ mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -846,7 +846,7 @@ sync-signedout-account-signin3 =
  #
  # They can be moved within the sentence as needed to adapt
  # to your language, but should not be changed or translated.
@@ -413,7 +413,7 @@ Index: firefox-112.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
  
  ## Firefox Account - Signed in
  
-@@ -948,7 +948,7 @@ sync-engine-creditcards =
+@@ -956,7 +956,7 @@ sync-engine-creditcards =
  
  sync-engine-addons =
      .label = Add-ons
@@ -422,10 +422,10 @@ Index: firefox-112.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
      .accesskey = A
  
  sync-engine-settings =
-Index: firefox-112.0.2/browser/locales/en-US/chrome/browser/accounts.properties
+Index: mozilla-release/browser/locales/en-US/chrome/browser/accounts.properties
 ===================================================================
---- firefox-112.0.2.orig/browser/locales/en-US/chrome/browser/accounts.properties
-+++ firefox-112.0.2/browser/locales/en-US/chrome/browser/accounts.properties
+--- mozilla-release.orig/browser/locales/en-US/chrome/browser/accounts.properties
++++ mozilla-release/browser/locales/en-US/chrome/browser/accounts.properties
 @@ -3,7 +3,7 @@
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
@@ -444,10 +444,26 @@ Index: firefox-112.0.2/browser/locales/en-US/chrome/browser/accounts.properties
  
  # LOCALIZATION NOTE (otherDeviceConnectedBody, otherDeviceConnectedBody.noDeviceName)
  # These strings are used in a notification shown when a new device joins the
-Index: firefox-112.0.2/toolkit/mozapps/installer/windows/nsis/makensis.mk
+Index: mozilla-release/toolkit/locales/en-US/toolkit/branding/brandings.ftl
 ===================================================================
---- firefox-112.0.2.orig/toolkit/mozapps/installer/windows/nsis/makensis.mk
-+++ firefox-112.0.2/toolkit/mozapps/installer/windows/nsis/makensis.mk
+--- mozilla-release.orig/toolkit/locales/en-US/toolkit/branding/brandings.ftl
++++ mozilla-release/toolkit/locales/en-US/toolkit/branding/brandings.ftl
+@@ -35,7 +35,10 @@
+ 
+ # ”Home" can be localized, “Firefox” must be treated as a brand
+ # and kept in English.
+--firefox-home-brand-name = Firefox Home
++# MagIns - Remove Firefox brand name from Home. Other instances of Firefox
++#		   are left to signify their potential privacy leakage.
++#-firefox-home-brand-name = Firefox Home
++-firefox-home-brand-name = Home
+ 
+ # View" can be localized, “Firefox” must be treated as a brand
+ # and kept in English.
+Index: mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
+===================================================================
+--- mozilla-release.orig/toolkit/mozapps/installer/windows/nsis/makensis.mk
++++ mozilla-release/toolkit/mozapps/installer/windows/nsis/makensis.mk
 @@ -52,7 +52,7 @@ CUSTOM_UI = \
  	nsisui.exe \
  	$(NULL)

@@ -1,8 +1,8 @@
-Index: firefox-112.0.2/browser/app/profile/firefox.js
+Index: mozilla-release/browser/app/profile/firefox.js
 ===================================================================
---- firefox-112.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-112.0.2/browser/app/profile/firefox.js
-@@ -2973,7 +2973,13 @@ pref("media.navigator.enabled", false);
+--- mozilla-release.orig/browser/app/profile/firefox.js
++++ mozilla-release/browser/app/profile/firefox.js
+@@ -2984,7 +2984,13 @@ pref("media.navigator.enabled", false);
  //1 = Prompt for each cookie
  //2 = Accept for current session only
  //3 = Accept for N days
@@ -17,11 +17,11 @@ Index: firefox-112.0.2/browser/app/profile/firefox.js
  
  /* MagIns - This preference enables several different privacy protections, as part
              of Firefox's TOR Uplift project. These include:
-Index: firefox-112.0.2/browser/base/content/browser.js
+Index: mozilla-release/browser/base/content/browser.js
 ===================================================================
---- firefox-112.0.2.orig/browser/base/content/browser.js
-+++ firefox-112.0.2/browser/base/content/browser.js
-@@ -7477,6 +7477,13 @@ var CanvasPermissionPromptHelper = {
+--- mozilla-release.orig/browser/base/content/browser.js
++++ mozilla-release/browser/base/content/browser.js
+@@ -7465,6 +7465,13 @@ var CanvasPermissionPromptHelper = {
        );
      }
  
@@ -35,11 +35,11 @@ Index: firefox-112.0.2/browser/base/content/browser.js
      let mainAction = {
        label: gNavigatorBundle.getString("canvas.allow2"),
        accessKey: gNavigatorBundle.getString("canvas.allow2.accesskey"),
-Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
+Index: mozilla-release/browser/components/preferences/privacy.inc.xhtml
 ===================================================================
---- firefox-112.0.2.orig/browser/components/preferences/privacy.inc.xhtml
-+++ firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
-@@ -368,10 +368,12 @@
+--- mozilla-release.orig/browser/components/preferences/privacy.inc.xhtml
++++ mozilla-release/browser/components/preferences/privacy.inc.xhtml
+@@ -366,10 +366,12 @@
          </hbox>
          <description flex="1" data-l10n-id="sitedata-delete-on-close-private-browsing" />
        </hbox>
@@ -53,7 +53,7 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
                    flex="1" />
        </hbox>
      </vbox>
-@@ -649,142 +651,137 @@
+@@ -647,142 +649,137 @@
                  data-section-label,
                  item-site-settings.label,
                  item-offline-apps.label
@@ -168,18 +168,18 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
 -  <label id="openSearchEnginePreferences" is="text-link"
 -         data-l10n-id="addressbar-suggestions-settings"/>
 -</groupbox>
--
++              " />
++                </vbox>
++            </hbox>
++        </groupbox>
+ 
 -<hbox id="permissionsCategory"
 -      class="subcategory"
 -      hidden="true"
 -      data-category="panePrivacy">
 -  <html:h1 data-l10n-id="permissions-header"/>
 -</hbox>
-+              " />
-+                </vbox>
-+            </hbox>
-+        </groupbox>
- 
+-
 -<!-- Permissions -->
 -<groupbox id="permissionsGroup" data-category="panePrivacy" hidden="true" data-subcategory="permissions">
 -  <label class="search-header" hidden="true"><html:h2 data-l10n-id="permissions-header"/></label>
@@ -325,7 +325,7 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
                    permissions-remove.label,
                    permissions-remove-all.label,
                    permissions-site-location-window2.title,
-@@ -792,20 +789,20 @@
+@@ -790,20 +787,20 @@
                    permissions-site-location-disable-label,
                    permissions-site-location-disable-desc,
                  " />
@@ -359,7 +359,7 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
                    permissions-remove.label,
                    permissions-remove-all.label,
                    permissions-site-camera-window2.title,
-@@ -813,20 +810,20 @@
+@@ -811,20 +808,20 @@
                    permissions-site-camera-disable-label,
                    permissions-site-camera-disable-desc,
                  " />
@@ -393,7 +393,88 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
                    permissions-remove.label,
                    permissions-remove-all.label,
                    permissions-site-microphone-window2.title,
-@@ -863,44 +860,44 @@
+@@ -832,47 +829,46 @@
+                   permissions-site-microphone-disable-label,
+                   permissions-site-microphone-disable-desc,
+                 " />
+-      </hbox>
+-    </hbox>
++                    </hbox>
++                </hbox>
+ 
+-    <hbox id="speakerSettingsRow" align="center" role="group" aria-labelledby="speakerPermissionsLabel">
+-      <description flex="1">
+-        <image class="speaker-icon permission-icon" />
+-        <label id="speakerPermissionsLabel" data-l10n-id="permissions-speaker"/>
+-      </description>
+-      <hbox pack="end">
+-        <button id="speakerSettingsButton"
+-                is="highlightable-button"
+-                class="accessory-button"
+-                data-l10n-id="permissions-speaker-settings"
+-                search-l10n-ids="
++                <hbox id="speakerSettingsRow" align="center" role="group" aria-labelledby="speakerPermissionsLabel">
++                    <description flex="1">
++                        <image class="speaker-icon permission-icon" />
++                        <label id="speakerPermissionsLabel" data-l10n-id="permissions-speaker" />
++                    </description>
++                    <hbox pack="end">
++                        <button id="speakerSettingsButton"
++                                is="highlightable-button"
++                                class="accessory-button"
++                                data-l10n-id="permissions-speaker-settings"
++                                search-l10n-ids="
+                   permissions-remove.label,
+                   permissions-remove-all.label,
+                   permissions-site-speaker-window.title,
+                   permissions-site-speaker-desc,
+                 " />
+-      </hbox>
+-    </hbox>
++                    </hbox>
++                </hbox>
+ 
+-    <hbox id="notificationSettingsRow" align="center" role="group" aria-labelledby="notificationPermissionsLabel">
+-      <description flex="1">
+-        <image class="desktop-notification-icon permission-icon" />
+-        <label id="notificationPermissionsLabel"
+-               class="tail-with-learn-more"
+-               data-l10n-id="permissions-notification"/>
+-        <html:a is="moz-support-link"
+-                id="notificationPermissionsLearnMore"
+-                class="learnMore"
+-                data-l10n-id="permissions-notification-link"
+-                support-page="push"
+-        />
+-      </description>
+-      <hbox pack="end">
+-        <button id="notificationSettingsButton"
+-                is="highlightable-button"
+-                class="accessory-button"
+-                data-l10n-id="permissions-notification-settings"
+-                search-l10n-ids="
++                <hbox id="notificationSettingsRow" align="center" role="group" aria-labelledby="notificationPermissionsLabel">
++                    <description flex="1">
++                        <image class="desktop-notification-icon permission-icon" />
++                        <label id="notificationPermissionsLabel"
++                               class="tail-with-learn-more"
++                               data-l10n-id="permissions-notification" />
++                        <html:a is="moz-support-link"
++                                id="notificationPermissionsLearnMore"
++                                class="learnMore"
++                                data-l10n-id="permissions-notification-link"
++                                support-page="push" />
++                    </description>
++                    <hbox pack="end">
++                        <button id="notificationSettingsButton"
++                                is="highlightable-button"
++                                class="accessory-button"
++                                data-l10n-id="permissions-notification-settings"
++                                search-l10n-ids="
+                   permissions-remove.label,
+                   permissions-remove-all.label,
+                   permissions-site-notification-window2.title,
+@@ -880,44 +876,44 @@
                    permissions-site-notification-disable-label,
                    permissions-site-notification-disable-desc,
                  " />
@@ -469,7 +550,377 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
                    permissions-remove.label,
                    permissions-remove-all.label,
                    permissions-site-xr-window2.title,
-@@ -1113,13 +1110,13 @@
+@@ -925,38 +921,38 @@
+                   permissions-site-xr-disable-label,
+                   permissions-site-xr-disable-desc,
+                 " />
+-      </hbox>
+-    </hbox>
+-  </vbox>
+-
+-  <separator />
+-
+-  <hbox data-subcategory="permissions-block-popups">
+-    <checkbox id="popupPolicy" preference="dom.disable_open_during_load"
+-              data-l10n-id="permissions-block-popups"
+-              flex="1" />
+-    <button id="popupPolicyButton"
+-            is="highlightable-button"
+-            class="accessory-button"
+-            data-l10n-id="permissions-block-popups-exceptions-button"
+-            data-l10n-attrs="searchkeywords"
+-            search-l10n-ids="
++                    </hbox>
++                </hbox>
++            </vbox>
++
++            <separator />
++
++            <hbox data-subcategory="permissions-block-popups">
++                <checkbox id="popupPolicy" preference="dom.disable_open_during_load"
++                          data-l10n-id="permissions-block-popups"
++                          flex="1" />
++                <button id="popupPolicyButton"
++                        is="highlightable-button"
++                        class="accessory-button"
++                        data-l10n-id="permissions-block-popups-exceptions-button"
++                        data-l10n-attrs="searchkeywords"
++                        search-l10n-ids="
+               permissions-address,
+               permissions-exceptions-popup-window2.title,
+               permissions-exceptions-popup-desc,
+             " />
+-  </hbox>
++            </hbox>
+ 
+-  <hbox id="addonInstallBox">
+-    <checkbox id="warnAddonInstall"
+-              data-l10n-id="permissions-addon-install-warning"
+-              preference="xpinstall.whitelist.required"
+-              flex="1" />
+-    <button id="addonExceptions"
+-            is="highlightable-button"
+-            class="accessory-button"
+-            data-l10n-id="permissions-addon-exceptions"
+-            search-l10n-ids="
++            <hbox id="addonInstallBox">
++                <checkbox id="warnAddonInstall"
++                          data-l10n-id="permissions-addon-install-warning"
++                          preference="xpinstall.whitelist.required"
++                          flex="1" />
++                <button id="addonExceptions"
++                        is="highlightable-button"
++                        class="accessory-button"
++                        data-l10n-id="permissions-addon-exceptions"
++                        search-l10n-ids="
+               permissions-address,
+               permissions-allow.label,
+               permissions-remove.label,
+@@ -964,160 +960,159 @@
+               permissions-exceptions-addons-window2.title,
+               permissions-exceptions-addons-desc,
+             " />
+-  </hbox>
++            </hbox>
+ 
+-</groupbox>
++        </groupbox>
+ 
+-<!-- Firefox Data Collection and Use -->
+-<!-- MagIns - We have all data reporting disabled through preferences, so we remove the HTML elements from
+-              preferences so that typical users easily enable data reporting accidentally.
+-<hbox id="dataCollectionCategory"
+-      class="subcategory"
+-      hidden="true"
+-      data-category="panePrivacy">
+-  <html:h1 data-l10n-id="collection-header"/>
+-</hbox>
+-
+-<groupbox id="dataCollectionGroup" data-category="panePrivacy" hidden="true">
+-  <label class="search-header" hidden="true"><html:h2 data-l10n-id="collection-header"/></label>
+-
+-  <description>
+-    <label class="tail-with-learn-more" data-l10n-id="collection-description"/>
+-    <html:a id="dataCollectionPrivacyNotice"
+-           class="learnMore"
+-           data-l10n-id="collection-privacy-notice"/>
+-  </description>
+-#ifdef MOZ_DATA_REPORTING
+-  <description>
+-    <hbox id="telemetry-container" class="info-box-container smaller-font-size" hidden="true">
+-      <hbox class="info-icon-container">
+-        <html:img class="info-icon"></html:img>
+-      </hbox>
+-      <hbox align="center" flex="1">
+-        <html:span id="telemetryDisabledDescription" class="tail-with-learn-more"
+-                   data-l10n-id="collection-health-report-telemetry-disabled"/>
+-        <html:a is="moz-support-link"
+-                id="telemetryDataDeletionLearnMore"
+-                class="learnMore text-link"
+-                data-l10n-id="collection-health-report-telemetry-disabled-link"/>
+-      </hbox>
++        <!-- Firefox Data Collection and Use -->
++        <!-- MagIns - We have all data reporting disabled through preferences, so we remove the HTML elements from
++                  preferences so that typical users easily enable data reporting accidentally.
++    <hbox id="dataCollectionCategory"
++          class="subcategory"
++          hidden="true"
++          data-category="panePrivacy">
++      <html:h1 data-l10n-id="collection-header"/>
+     </hbox>
+-  </description>
+-  <vbox data-subcategory="reports">
+-    <description flex="1">
+-      <checkbox id="submitHealthReportBox"
+-                data-l10n-id="collection-health-report"
+-                class="tail-with-learn-more"/>
+-      <html:a id="FHRLearnMore"
+-             class="learnMore"
+-             data-l10n-id="collection-health-report-link"/>
+-      <vbox class="indent">
++
++    <groupbox id="dataCollectionGroup" data-category="panePrivacy" hidden="true">
++      <label class="search-header" hidden="true"><html:h2 data-l10n-id="collection-header"/></label>
++
++      <description>
++        <label class="tail-with-learn-more" data-l10n-id="collection-description"/>
++        <html:a id="dataCollectionPrivacyNotice"
++               class="learnMore"
++               data-l10n-id="collection-privacy-notice"/>
++      </description>
++    #ifdef MOZ_DATA_REPORTING
++      <description>
++        <hbox id="telemetry-container" class="info-box-container smaller-font-size" hidden="true">
++          <hbox class="info-icon-container">
++            <html:img class="info-icon"></html:img>
++          </hbox>
++          <hbox align="center" flex="1">
++            <html:span id="telemetryDisabledDescription" class="tail-with-learn-more"
++                       data-l10n-id="collection-health-report-telemetry-disabled"/>
++            <html:a is="moz-support-link"
++                    id="telemetryDataDeletionLearnMore"
++                    class="learnMore text-link"
++                    data-l10n-id="collection-health-report-telemetry-disabled-link"/>
++          </hbox>
++        </hbox>
++      </description>
++      <vbox data-subcategory="reports">
++        <description flex="1">
++          <checkbox id="submitHealthReportBox"
++                    data-l10n-id="collection-health-report"
++                    class="tail-with-learn-more"/>
++          <html:a id="FHRLearnMore"
++                 class="learnMore"
++                 data-l10n-id="collection-health-report-link"/>
++          <vbox class="indent">
++            <hbox align="center">
++              <checkbox id="addonRecommendationEnabled"
++                        class="tail-with-learn-more"
++                        data-l10n-id="addon-recommendations"/>
++              <html:a is="moz-support-link"
++                      id="addonRecommendationLearnMore"
++                      class="learnMore"
++                      data-l10n-id="addon-recommendations-link"
++                      support-page="personalized-addons"
++              />
++            </hbox>
++          </vbox>
++        </description>
++    #ifndef MOZ_TELEMETRY_REPORTING
++      <description id="TelemetryDisabledDesc"
++        class="indent tip-caption" control="telemetryGroup"
++        data-l10n-id="collection-health-report-disabled"/>
++    #endif
++
++    #ifdef MOZ_NORMANDY
+         <hbox align="center">
+-          <checkbox id="addonRecommendationEnabled"
++          <checkbox id="optOutStudiesEnabled"
+                     class="tail-with-learn-more"
+-                    data-l10n-id="addon-recommendations"/>
+-          <html:a is="moz-support-link"
+-                  id="addonRecommendationLearnMore"
++                    data-l10n-id="collection-studies"/>
++          <html:a id="viewShieldStudies"
++                  href="about:studies"
++                  useoriginprincipal="true"
+                   class="learnMore"
+-                  data-l10n-id="addon-recommendations-link"
+-                  support-page="personalized-addons"
+-          />
++                  data-l10n-id="collection-studies-link"/>
+         </hbox>
+-      </vbox>
+-    </description>
+-#ifndef MOZ_TELEMETRY_REPORTING
+-  <description id="TelemetryDisabledDesc"
+-    class="indent tip-caption" control="telemetryGroup"
+-    data-l10n-id="collection-health-report-disabled"/>
+-#endif
+-
+-#ifdef MOZ_NORMANDY
+-    <hbox align="center">
+-      <checkbox id="optOutStudiesEnabled"
+-                class="tail-with-learn-more"
+-                data-l10n-id="collection-studies"/>
+-      <html:a id="viewShieldStudies"
+-              href="about:studies"
+-              useoriginprincipal="true"
+-              class="learnMore"
+-              data-l10n-id="collection-studies-link"/>
+-    </hbox>
+-#endif
++    #endif
+ 
+-#ifdef MOZ_CRASHREPORTER
+-    <hbox align="center" class="checkbox-row">
+-      <html:input type="checkbox"
+-                id="automaticallySubmitCrashesBox"
+-                preference="browser.crashReports.unsubmittedCheck.autoSubmit2"/>
+-      <label for="automaticallySubmitCrashesBox"
+-                id="crashReporterLabel"
+-                data-l10n-id="collection-backlogged-crash-reports-with-link">
+-        <html:a data-l10n-name="crash-reports-link" id="crashReporterLearnMore" target="_blank"/>
+-      </label>
+-    </hbox>
+-#endif
+-  </vbox>
+-#endif
+-  <vbox id="privacySegmentationSection" data-subcategory="privacy-segmentation" hidden="true">
+-    <label>
+-      <html:h2 data-l10n-id="privacy-segmentation-section-header"/>
+-    </label>
+-    <label data-l10n-id="privacy-segmentation-section-description"/>
+-    <radiogroup id="privacyDataFeatureRecommendationRadioGroup" preference="browser.dataFeatureRecommendations.enabled">
+-        <radio id="privacyDataFeatureRecommendationEnabled"
+-               data-l10n-id="privacy-segmentation-radio-off"
+-               value="true"/>
+-        <radio id="privacyDataFeatureRecommendationDisabled"
+-               data-l10n-id="privacy-segmentation-radio-on"
+-               value="false"/>
+-    </radiogroup>
+-  </vbox>
+-</groupbox>-->
++    #ifdef MOZ_CRASHREPORTER
++        <hbox align="center" class="checkbox-row">
++          <html:input type="checkbox"
++                    id="automaticallySubmitCrashesBox"
++                    preference="browser.crashReports.unsubmittedCheck.autoSubmit2"/>
++          <label for="automaticallySubmitCrashesBox"
++                    id="crashReporterLabel"
++                    data-l10n-id="collection-backlogged-crash-reports-with-link">
++            <html:a data-l10n-name="crash-reports-link" id="crashReporterLearnMore" target="_blank"/>
++          </label>
++        </hbox>
++    #endif
++      </vbox>
++    #endif
++      <vbox id="privacySegmentationSection" data-subcategory="privacy-segmentation" hidden="true">
++        <label>
++          <html:h2 data-l10n-id="privacy-segmentation-section-header"/>
++        </label>
++        <label data-l10n-id="privacy-segmentation-section-description"/>
++        <radiogroup id="privacyDataFeatureRecommendationRadioGroup" preference="browser.dataFeatureRecommendations.enabled">
++            <radio id="privacyDataFeatureRecommendationEnabled"
++                   data-l10n-id="privacy-segmentation-radio-off"
++                   value="true"/>
++            <radio id="privacyDataFeatureRecommendationDisabled"
++                   data-l10n-id="privacy-segmentation-radio-on"
++                   value="false"/>
++        </radiogroup>
++      </vbox>
++    </groupbox>-->
+ 
+-<hbox id="securityCategory"
+-      class="subcategory"
+-      hidden="true"
+-      data-category="panePrivacy">
+-  <html:h1 data-l10n-id="security-header"/>
+-</hbox>
+-
+-<!-- addons, forgery (phishing) UI Security -->
+-<groupbox id="browsingProtectionGroup" data-category="panePrivacy" hidden="true">
+-  <label><html:h2 data-l10n-id="security-browsing-protection"/></label>
+-  <hbox align = "center">
+-    <checkbox id="enableSafeBrowsing"
+-              data-l10n-id="security-enable-safe-browsing"
+-              class="tail-with-learn-more"/>
+-    <html:a is="moz-support-link"
+-            id="enableSafeBrowsingLearnMore"
+-            class="learnMore"
+-            data-l10n-id="security-enable-safe-browsing-link"
+-            support-page="phishing-malware"
+-    />
+-  </hbox>
+-  <vbox class="indent">
+-    <checkbox id="blockDownloads"
+-              data-l10n-id="security-block-downloads"/>
+-    <checkbox id="blockUncommonUnwanted"
+-              data-l10n-id="security-block-uncommon-software"/>
+-  </vbox>
+-</groupbox>
++        <hbox id="securityCategory"
++              class="subcategory"
++              hidden="true"
++              data-category="panePrivacy">
++            <html:h1 data-l10n-id="security-header" />
++        </hbox>
+ 
+-<!-- Certificates -->
+-<groupbox id="certSelection" data-category="panePrivacy" hidden="true">
+-  <label><html:h2 data-l10n-id="certs-header"/></label>
+-  <hbox align="start">
+-    <checkbox id="enableOCSP"
+-              data-l10n-id="certs-enable-ocsp"
+-              preference="security.OCSP.enabled"
+-              flex="1" />
+-    <vbox align="end">
+-      <button id="viewCertificatesButton"
+-              is="highlightable-button"
+-              class="accessory-button"
+-              data-l10n-id="certs-view"
+-              preference="security.disable_button.openCertManager"
+-              search-l10n-ids="
++        <!-- addons, forgery (phishing) UI Security -->
++        <groupbox id="browsingProtectionGroup" data-category="panePrivacy" hidden="true">
++            <label><html:h2 data-l10n-id="security-browsing-protection" /></label>
++            <hbox align="center">
++                <checkbox id="enableSafeBrowsing"
++                          data-l10n-id="security-enable-safe-browsing"
++                          class="tail-with-learn-more" />
++                <html:a is="moz-support-link"
++                        id="enableSafeBrowsingLearnMore"
++                        class="learnMore"
++                        data-l10n-id="security-enable-safe-browsing-link"
++                        support-page="phishing-malware" />
++            </hbox>
++            <vbox class="indent">
++                <checkbox id="blockDownloads"
++                          data-l10n-id="security-block-downloads" />
++                <checkbox id="blockUncommonUnwanted"
++                          data-l10n-id="security-block-uncommon-software" />
++            </vbox>
++        </groupbox>
++
++        <!-- Certificates -->
++        <groupbox id="certSelection" data-category="panePrivacy" hidden="true">
++            <label><html:h2 data-l10n-id="certs-header" /></label>
++            <hbox align="start">
++                <checkbox id="enableOCSP"
++                          data-l10n-id="certs-enable-ocsp"
++                          preference="security.OCSP.enabled"
++                          flex="1" />
++                <vbox align="end">
++                    <button id="viewCertificatesButton"
++                            is="highlightable-button"
++                            class="accessory-button"
++                            data-l10n-id="certs-view"
++                            preference="security.disable_button.openCertManager"
++                            search-l10n-ids="
+                 certmgr-tab-mine.label,
+                 certmgr-tab-people.label,
+                 certmgr-tab-servers.label,
+@@ -1131,13 +1126,13 @@
                  certmgr-view.label,
                  certmgr-export.label,
                  certmgr-delete.label
@@ -490,7 +941,7 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
                  devmgr-window.title,
                  devmgr-devlist.label,
                  devmgr-header-details.label,
-@@ -1129,46 +1126,45 @@
+@@ -1147,46 +1142,45 @@
                  devmgr-button-changepw.label,
                  devmgr-button-load.label,
                  devmgr-button-unload.label
@@ -570,10 +1021,10 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.inc.xhtml
 +        </groupbox>
  
  </html:template>
-Index: firefox-112.0.2/browser/components/preferences/privacy.js
+Index: mozilla-release/browser/components/preferences/privacy.js
 ===================================================================
---- firefox-112.0.2.orig/browser/components/preferences/privacy.js
-+++ firefox-112.0.2/browser/components/preferences/privacy.js
+--- mozilla-release.orig/browser/components/preferences/privacy.js
++++ mozilla-release/browser/components/preferences/privacy.js
 @@ -563,11 +563,12 @@ var gPrivacyPane = {
        }
        return false;
@@ -588,7 +1039,7 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.js
      setEventListener(
        "cookieExceptions",
        "command",
-@@ -685,7 +686,8 @@ var gPrivacyPane = {
+@@ -693,7 +694,8 @@ var gPrivacyPane = {
        this.ensurePrivacyMicroControlUncheckedWhenDisabled(el);
      setSyncFromPrefListener("rememberHistory", microControlHandler);
      setSyncFromPrefListener("rememberForms", microControlHandler);
@@ -598,7 +1049,7 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.js
  
      setSyncFromPrefListener("popupPolicy", () =>
        this.updateButtons("popupPolicyButton", "dom.disable_open_during_load")
-@@ -714,11 +716,12 @@ var gPrivacyPane = {
+@@ -722,11 +724,12 @@ var gPrivacyPane = {
      this._initAddressBar();
  
      this.initSiteDataControls();
@@ -612,7 +1063,7 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.js
      setEventListener(
        "siteDataSettings",
        "command",
-@@ -1342,7 +1345,8 @@ var gPrivacyPane = {
+@@ -1350,7 +1353,8 @@ var gPrivacyPane = {
    dependentControls: [
      "rememberHistory",
      "rememberForms",
@@ -622,7 +1073,7 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.js
      "clearDataSettings",
    ],
  
-@@ -1900,10 +1904,10 @@ var gPrivacyPane = {
+@@ -1908,10 +1912,10 @@ var gPrivacyPane = {
    },
  
    toggleSiteData(shouldShow) {
@@ -635,11 +1086,11 @@ Index: firefox-112.0.2/browser/components/preferences/privacy.js
    },
  
    showSiteDataLoading() {
-Index: firefox-112.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
+Index: mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
 ===================================================================
---- firefox-112.0.2.orig/browser/locales/en-US/browser/preferences/preferences.ftl
-+++ firefox-112.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
-@@ -1063,11 +1063,11 @@ history-remember-label = { -brand-short-
+--- mozilla-release.orig/browser/locales/en-US/browser/preferences/preferences.ftl
++++ mozilla-release/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -1071,11 +1071,11 @@ history-remember-label = { -brand-short-
      .accesskey = w
  
  history-remember-option-all =
@@ -654,7 +1105,7 @@ Index: firefox-112.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
  
  history-remember-description = { -brand-short-name } will remember your browsing, download, form, and search history.
  history-dontremember-description = { -brand-short-name } will use the same settings as private browsing, and will not remember any history as you browse the Web.
-@@ -1085,7 +1085,7 @@ history-remember-search-option =
+@@ -1093,7 +1093,7 @@ history-remember-search-option =
      .accesskey = f
  
  history-clear-on-close-option =
@@ -663,7 +1114,7 @@ Index: firefox-112.0.2/browser/locales/en-US/browser/preferences/preferences.ftl
      .accesskey = r
  
  history-clear-on-close-settings =
-@@ -1098,7 +1098,7 @@ history-clear-button =
+@@ -1106,7 +1106,7 @@ history-clear-button =
  
  ## Privacy Section - Site Data
  

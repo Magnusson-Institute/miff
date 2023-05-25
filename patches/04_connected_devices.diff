@@ -1,8 +1,8 @@
-Index: mozilla-release/browser/base/content/appmenu-viewcache.inc.xhtml
+Index: firefox-112.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
 ===================================================================
---- mozilla-release.orig/browser/base/content/appmenu-viewcache.inc.xhtml
-+++ mozilla-release/browser/base/content/appmenu-viewcache.inc.xhtml
-@@ -570,15 +570,17 @@
+--- firefox-112.0.2.orig/browser/base/content/appmenu-viewcache.inc.xhtml
++++ firefox-112.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
+@@ -572,15 +572,17 @@
                        data-l10n-id="appmenu-fxa-setup-sync"
                        oncommand="gSync.openPrefsFromFxaMenu('sync_settings', this);"/>
        <!-- The `Connect Another Device` button is disabled by default until the user logs into Sync. -->
@@ -22,10 +22,10 @@ Index: mozilla-release/browser/base/content/appmenu-viewcache.inc.xhtml
        <toolbarbutton id="PanelUI-fxa-menu-sync-prefs-button"
                        class="subviewbutton"
                        data-l10n-id="fxa-menu-sync-settings"
-Index: mozilla-release/browser/base/content/browser-context.inc
+Index: firefox-112.0.2/browser/base/content/browser-context.inc
 ===================================================================
---- mozilla-release.orig/browser/base/content/browser-context.inc
-+++ mozilla-release/browser/base/content/browser-context.inc
+--- firefox-112.0.2.orig/browser/base/content/browser-context.inc
++++ firefox-112.0.2/browser/base/content/browser-context.inc
 @@ -111,13 +111,14 @@
        <menuitem id="context-copylink"
                  data-l10n-id="main-context-menu-copy-link-simple"
@@ -58,10 +58,10 @@ Index: mozilla-release/browser/base/content/browser-context.inc
        <menu id="fill-login" hidden="true">
          <menupopup id="fill-login-popup" />
        </menu>
-Index: mozilla-release/browser/base/content/browser-menubar.inc
+Index: firefox-112.0.2/browser/base/content/browser-menubar.inc
 ===================================================================
---- mozilla-release.orig/browser/base/content/browser-menubar.inc
-+++ mozilla-release/browser/base/content/browser-menubar.inc
+--- firefox-112.0.2.orig/browser/base/content/browser-menubar.inc
++++ firefox-112.0.2/browser/base/content/browser-menubar.inc
 @@ -149,10 +149,11 @@
                                type="checkbox"
                                key="key_gotoHistory"
@@ -75,10 +75,10 @@ Index: mozilla-release/browser/base/content/browser-menubar.inc
                    </menupopup>
                  </menu>
                  <menuseparator/>
-Index: mozilla-release/browser/base/content/browser-sidebar.js
+Index: firefox-112.0.2/browser/base/content/browser-sidebar.js
 ===================================================================
---- mozilla-release.orig/browser/base/content/browser-sidebar.js
-+++ mozilla-release/browser/base/content/browser-sidebar.js
+--- firefox-112.0.2.orig/browser/base/content/browser-sidebar.js
++++ firefox-112.0.2/browser/base/content/browser-sidebar.js
 @@ -41,6 +41,8 @@ var SidebarUI = {
            triggerButtonId: "appMenuViewHistorySidebar",
          }),
@@ -97,11 +97,11 @@ Index: mozilla-release/browser/base/content/browser-sidebar.js
      ]));
    },
  
-Index: mozilla-release/browser/base/content/browser-sync.js
+Index: firefox-112.0.2/browser/base/content/browser-sync.js
 ===================================================================
---- mozilla-release.orig/browser/base/content/browser-sync.js
-+++ mozilla-release/browser/base/content/browser-sync.js
-@@ -650,10 +650,10 @@ var gSync = {
+--- firefox-112.0.2.orig/browser/base/content/browser-sync.js
++++ firefox-112.0.2/browser/base/content/browser-sync.js
+@@ -654,10 +654,10 @@ var gSync = {
        title = PluralForm.get(tabCount, string).replace("#1", tabCount);
      }
  
@@ -114,7 +114,7 @@ Index: mozilla-release/browser/base/content/browser-sync.js
    },
  
    showSendToDeviceView(anchor) {
-@@ -821,12 +821,14 @@ var gSync = {
+@@ -825,12 +825,14 @@ var gSync = {
  
      this.enableSendTabIfValidTab();
  
@@ -130,7 +130,7 @@ Index: mozilla-release/browser/base/content/browser-sync.js
  
      if (anchor.getAttribute("open") == "true") {
        PanelUI.hide();
-@@ -855,10 +857,12 @@ var gSync = {
+@@ -859,10 +861,12 @@ var gSync = {
        "fxa-menu-header-description"
      );
  
@@ -144,7 +144,7 @@ Index: mozilla-release/browser/base/content/browser-sync.js
  
      const syncSetupButtonEl = PanelMultiView.getViewNode(
        document,
-@@ -882,7 +886,8 @@ var gSync = {
+@@ -886,7 +890,8 @@ var gSync = {
        "fxa-menu-turn-on-sync-default"
      );
  
@@ -154,7 +154,7 @@ Index: mozilla-release/browser/base/content/browser-sync.js
      syncNowButtonEl.hidden = true;
      fxaMenuAccountButtonEl.classList.remove("subviewbutton-nav");
      fxaMenuAccountButtonEl.removeAttribute("closemenu");
-@@ -925,7 +930,7 @@ var gSync = {
+@@ -929,7 +934,7 @@ var gSync = {
          mainWindowEl.style.removeProperty("--avatar-image-url");
        }
  
@@ -163,7 +163,7 @@ Index: mozilla-release/browser/base/content/browser-sync.js
  
        if (state.syncEnabled) {
          syncNowButtonEl.removeAttribute("hidden");
-@@ -950,6 +955,8 @@ var gSync = {
+@@ -954,6 +959,8 @@ var gSync = {
    },
  
    enableSendTabIfValidTab() {
@@ -172,7 +172,7 @@ Index: mozilla-release/browser/base/content/browser-sync.js
      // All tabs selected must be sendable for the Send Tab button to be enabled
      // on the FxA menu.
      let canSendAllURIs = gBrowser.selectedTabs.every(
-@@ -959,7 +966,7 @@ var gSync = {
+@@ -963,7 +970,7 @@ var gSync = {
      PanelMultiView.getViewNode(
        document,
        "PanelUI-fxa-menu-sendtab-button"
@@ -181,7 +181,7 @@ Index: mozilla-release/browser/base/content/browser-sync.js
    },
  
    emitFxaToolbarTelemetry(type, panel) {
-@@ -1569,8 +1576,9 @@ var gSync = {
+@@ -1573,8 +1580,9 @@ var gSync = {
      const enabled = !this.sendTabConfiguredAndLoading && hasASendableURI;
      const hideItems = this.shouldHideSendContextMenuItems(enabled);
  
@@ -193,10 +193,10 @@ Index: mozilla-release/browser/base/content/browser-sync.js
  
      if (hideItems || !hasASendableURI) {
        sendTabsToDevice.hidden = true;
-Index: mozilla-release/browser/base/content/main-popupset.inc.xhtml
+Index: firefox-112.0.2/browser/base/content/main-popupset.inc.xhtml
 ===================================================================
---- mozilla-release.orig/browser/base/content/main-popupset.inc.xhtml
-+++ mozilla-release/browser/base/content/main-popupset.inc.xhtml
+--- firefox-112.0.2.orig/browser/base/content/main-popupset.inc.xhtml
++++ firefox-112.0.2/browser/base/content/main-popupset.inc.xhtml
 @@ -57,13 +57,15 @@
                    oncommand="gBrowser.replaceTabsWithWindow(TabContextMenu.contextTab);"/>
        </menupopup>
@@ -245,10 +245,10 @@ Index: mozilla-release/browser/base/content/main-popupset.inc.xhtml
  
    <hbox id="statuspanel" inactive="true" hidden="true">
      <label id="statuspanel-label"
-Index: mozilla-release/browser/components/customizableui/CustomizableWidgets.jsm
+Index: firefox-112.0.2/browser/components/customizableui/CustomizableWidgets.jsm
 ===================================================================
---- mozilla-release.orig/browser/components/customizableui/CustomizableWidgets.jsm
-+++ mozilla-release/browser/components/customizableui/CustomizableWidgets.jsm
+--- firefox-112.0.2.orig/browser/components/customizableui/CustomizableWidgets.jsm
++++ firefox-112.0.2/browser/components/customizableui/CustomizableWidgets.jsm
 @@ -467,6 +467,7 @@ const CustomizableWidgets = [
    },
  ];
@@ -266,10 +266,10 @@ Index: mozilla-release/browser/components/customizableui/CustomizableWidgets.jsm
  
  let preferencesButton = {
    id: "preferences-button",
-Index: mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+Index: firefox-112.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.js
 ===================================================================
---- mozilla-release.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.js
-+++ mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.js
+--- firefox-112.0.2.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.js
++++ firefox-112.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.js
 @@ -8,7 +8,7 @@ Preferences.addAll([
    { id: "services.sync.engine.addons", type: "bool" },
    { id: "services.sync.engine.bookmarks", type: "bool" },
@@ -279,11 +279,11 @@ Index: mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSy
    { id: "services.sync.engine.prefs", type: "bool" },
    { id: "services.sync.engine.passwords", type: "bool" },
    { id: "services.sync.engine.addresses", type: "bool" },
-Index: mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+Index: firefox-112.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
 ===================================================================
---- mozilla-release.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
-+++ mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
-@@ -35,10 +35,11 @@
+--- firefox-112.0.2.orig/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
++++ firefox-112.0.2/browser/components/preferences/dialogs/syncChooseWhatToSync.xhtml
+@@ -34,10 +34,11 @@
        <checkbox data-l10n-id="sync-engine-history"
                  preference="services.sync.engine.history"/>
      </html:div>
@@ -296,369 +296,20 @@ Index: mozilla-release/browser/components/preferences/dialogs/syncChooseWhatToSy
      <html:div class="sync-engine-passwords">
        <checkbox data-l10n-id="sync-engine-logins-passwords"
                  preference="services.sync.engine.passwords"/>
-Index: mozilla-release/browser/components/preferences/sync.inc.xhtml
+Index: firefox-112.0.2/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- mozilla-release.orig/browser/components/preferences/sync.inc.xhtml
-+++ mozilla-release/browser/components/preferences/sync.inc.xhtml
-@@ -54,192 +54,193 @@
-   </groupbox>
- 
-   <vbox id="hasFxaAccount">
--    <hbox>
--      <vbox id="fxaContentWrapper" flex="1">
--        <groupbox id="fxaGroup">
--          <label class="search-header" hidden="true"><html:h2 data-l10n-id="pane-sync-title3"/></label>
--
--          <deck id="fxaLoginStatus" flex="1">
--
--            <!-- logged in and verified and all is good -->
--            <hbox id="fxaLoginVerified" align="center" flex="1">
--              <image id="openChangeProfileImage"
--                     class="fxaProfileImage actionable"
--                     role="button"
--                     data-l10n-id="sync-profile-picture"/>
--              <vbox flex="1" pack="center">
--                <hbox flex="1" align="baseline">
--                  <label id="fxaDisplayName" hidden="true">
--                    <html:h2 id="fxaDisplayNameHeading"/>
-+      <hbox>
-+          <vbox id="fxaContentWrapper" flex="1">
-+              <groupbox id="fxaGroup">
-+                  <label class="search-header" hidden="true"><html:h2 data-l10n-id="pane-sync-title3" /></label>
-+
-+                  <deck id="fxaLoginStatus" flex="1">
-+
-+                      <!-- logged in and verified and all is good -->
-+                      <hbox id="fxaLoginVerified" align="center" flex="1">
-+                          <image id="openChangeProfileImage"
-+                                 class="fxaProfileImage actionable"
-+                                 role="button"
-+                                 data-l10n-id="sync-profile-picture" />
-+                          <vbox flex="1" pack="center">
-+                              <hbox flex="1" align="baseline">
-+                                  <label id="fxaDisplayName" hidden="true">
-+                                      <html:h2 id="fxaDisplayNameHeading" />
-+                                  </label>
-+                                  <label id="fxaEmailAddress" flex="1" crop="end" />
-+                                  <button id="fxaUnlinkButton"
-+                                          is="highlightable-button"
-+                                          class="accessory-button"
-+                                          data-l10n-id="sync-sign-out" />
-+                              </hbox>
-+                              <hbox>
-+                                  <html:a id="verifiedManage" class="openLink" target="_blank"
-+                                          data-l10n-id="sync-manage-account" />
-+                              </hbox>
-+                          </vbox>
-+                      </hbox>
-+
-+                      <!-- logged in to an unverified account -->
-+                      <hbox id="fxaLoginUnverified">
-+                          <vbox>
-+                              <image class="fxaProfileImage" />
-+                          </vbox>
-+                          <vbox flex="1" pack="center">
-+                              <hbox align="center">
-+                                  <image class="fxaLoginRejectedWarning" />
-+                                  <description flex="1"
-+                                               class="l10nArgsEmailAddress"
-+                                               data-l10n-id="sync-signedin-unverified"
-+                                               data-l10n-args='{"email": ""}' />
-+                              </hbox>
-+                              <hbox class="fxaAccountBoxButtons">
-+                                  <button id="verifyFxaAccount"
-+                                          is="highlightable-button"
-+                                          data-l10n-id="sync-resend-verification" />
-+                                  <button id="unverifiedUnlinkFxaAccount"
-+                                          is="highlightable-button"
-+                                          data-l10n-id="sync-remove-account" />
-+                              </hbox>
-+                          </vbox>
-+                      </hbox>
-+
-+                      <!-- logged in locally but server rejected credentials -->
-+                      <hbox id="fxaLoginRejected">
-+                          <vbox>
-+                              <image class="fxaProfileImage" />
-+                          </vbox>
-+                          <vbox flex="1" pack="center">
-+                              <hbox align="center">
-+                                  <image class="fxaLoginRejectedWarning" />
-+                                  <description flex="1"
-+                                               class="l10nArgsEmailAddress"
-+                                               data-l10n-id="sync-signedin-login-failure"
-+                                               data-l10n-args='{"email": ""}' />
-+                              </hbox>
-+                              <hbox class="fxaAccountBoxButtons">
-+                                  <button id="rejectReSignIn"
-+                                          is="highlightable-button"
-+                                          data-l10n-id="sync-sign-in" />
-+                                  <button id="rejectUnlinkFxaAccount"
-+                                          is="highlightable-button"
-+                                          data-l10n-id="sync-remove-account" />
-+                              </hbox>
-+                          </vbox>
-+                      </hbox>
-+                  </deck>
-+              </groupbox>
-+
-+              <groupbox>
-+                  <label control="fxaSyncComputerName">
-+                      <html:h2 data-l10n-id="sync-device-name-header" />
-                   </label>
--                  <label id="fxaEmailAddress" flex="1" crop="end"/>
--                  <button id="fxaUnlinkButton"
--                          is="highlightable-button"
--                          class="accessory-button"
--                          data-l10n-id="sync-sign-out"/>
--                </hbox>
--                <hbox>
--                  <html:a id="verifiedManage" class="openLink" target="_blank"
--                          data-l10n-id="sync-manage-account"/>
--                </hbox>
--              </vbox>
--            </hbox>
--
--            <!-- logged in to an unverified account -->
--            <hbox id="fxaLoginUnverified">
--              <vbox>
--                <image class="fxaProfileImage"/>
--              </vbox>
--              <vbox flex="1" pack="center">
--                <hbox align="center">
--                  <image class="fxaLoginRejectedWarning"/>
--                  <description flex="1"
--                    class="l10nArgsEmailAddress"
--                    data-l10n-id="sync-signedin-unverified"
--                    data-l10n-args='{"email": ""}'/>
--                </hbox>
--                <hbox class="fxaAccountBoxButtons">
--                  <button id="verifyFxaAccount"
--                          is="highlightable-button"
--                          data-l10n-id="sync-resend-verification"/>
--                  <button id="unverifiedUnlinkFxaAccount"
--                          is="highlightable-button"
--                          data-l10n-id="sync-remove-account"/>
--                </hbox>
--              </vbox>
--            </hbox>
--
--            <!-- logged in locally but server rejected credentials -->
--            <hbox id="fxaLoginRejected">
--              <vbox>
--                <image class="fxaProfileImage"/>
--              </vbox>
--              <vbox flex="1" pack="center">
--                <hbox align="center">
--                  <image class="fxaLoginRejectedWarning"/>
--                  <description flex="1"
--                    class="l10nArgsEmailAddress"
--                    data-l10n-id="sync-signedin-login-failure"
--                    data-l10n-args='{"email": ""}'/>
--                </hbox>
--                <hbox class="fxaAccountBoxButtons">
--                  <button id="rejectReSignIn"
--                          is="highlightable-button"
--                          data-l10n-id="sync-sign-in"/>
--                  <button id="rejectUnlinkFxaAccount"
--                          is="highlightable-button"
--                          data-l10n-id="sync-remove-account"/>
--                </hbox>
--              </vbox>
--            </hbox>
--          </deck>
--        </groupbox>
--
--        <groupbox>
--          <label control="fxaSyncComputerName">
--            <html:h2 data-l10n-id="sync-device-name-header"/>
--          </label>
--          <hbox id="fxaDeviceName">
--            <html:input id="fxaSyncComputerName" type="text" disabled="true"/>
--            <button id="fxaChangeDeviceName"
--                    is="highlightable-button"
--                    class="needs-account-ready"
--                    data-l10n-id="sync-device-name-change"/>
--            <button id="fxaCancelChangeDeviceName"
--                    is="highlightable-button"
--                    data-l10n-id="sync-device-name-cancel"
--                    hidden="true"/>
--            <button id="fxaSaveChangeDeviceName"
--                    is="highlightable-button"
--                    data-l10n-id="sync-device-name-save"
--                    hidden="true"/>
--          </hbox>
--        </groupbox>
--
--        <groupbox>
--          <deck id="syncStatus" flex="1">
--            <!-- sync not yet configured. -->
--            <vbox id="syncNotConfigured">
--              <label>
--                <html:h2 data-l10n-id="prefs-syncing-off"/>
--              </label>
--              <hbox class="sync-group info-box-container">
--                <vbox flex="1">
--                  <label data-l10n-id="prefs-sync-offer-setup-label2"/>
--                </vbox>
--                <vbox>
--                  <button id="syncSetup"
--                          is="highlightable-button"
--                          class="accessory-button needs-account-ready"
--                          data-l10n-id="prefs-sync-turn-on-syncing"/>
--                </vbox>
--              </hbox>
--            </vbox>
--
--            <vbox id="syncConfigured">
--              <hbox>
--                <html:h2 data-l10n-id="prefs-syncing-on"/>
--                <spacer flex="1"/>
--                <button id="syncNow"
--                        class="accessory-button needs-account-ready"
--                        data-l10n-id="prefs-sync-now"
--                        data-l10n-attrs="labelnotsyncing, accesskeynotsyncing, labelsyncing"/>
--              </hbox>
--              <vbox class="sync-group info-box-container sync-configured">
--                <label data-l10n-id="sync-syncing-across-devices-heading"/>
--                <html:div class="sync-engines-list">
--                  <html:div engine_preference="services.sync.engine.bookmarks">
--                    <image class="sync-engine-image sync-engine-bookmarks"/>
--                    <label data-l10n-id="sync-currently-syncing-bookmarks"/>
--                  </html:div>
--                  <html:div engine_preference="services.sync.engine.history">
--                    <image class="sync-engine-image sync-engine-history"/>
--                    <label data-l10n-id="sync-currently-syncing-history"/>
--                  </html:div>
--                  <html:div engine_preference="services.sync.engine.tabs">
--                    <image class="sync-engine-image sync-engine-tabs"/>
--                    <label data-l10n-id="sync-currently-syncing-tabs"/>
--                  </html:div>
--                  <html:div engine_preference="services.sync.engine.passwords">
--                    <image class="sync-engine-image sync-engine-passwords"/>
--                    <label data-l10n-id="sync-currently-syncing-logins-passwords"/>
--                  </html:div>
--                  <html:div engine_preference="services.sync.engine.addresses">
--                    <image class="sync-engine-image sync-engine-addresses"/>
--                    <label data-l10n-id="sync-currently-syncing-addresses"/>
--                  </html:div>
--                  <html:div engine_preference="services.sync.engine.creditcards">
--                    <image class="sync-engine-image sync-engine-creditcards"/>
--                    <label data-l10n-id="sync-currently-syncing-creditcards"/>
--                  </html:div>
--                  <html:div engine_preference="services.sync.engine.addons">
--                    <image class="sync-engine-image sync-engine-addons"/>
--                    <label data-l10n-id="sync-currently-syncing-addons"/>
--                  </html:div>
--                  <html:div engine_preference="services.sync.engine.prefs">
--                    <image class="sync-engine-image sync-engine-prefs"/>
--                    <label data-l10n-id="sync-currently-syncing-settings"/>
--                  </html:div>
--                </html:div>
--                <hbox>
--                  <button id="syncChangeOptions"
--                          is="highlightable-button"
--                          data-l10n-id="sync-change-options"/>
--                  <spacer flex="1"/>
--                </hbox>
--              </vbox>
--            </vbox>
--          </deck>
--        </groupbox>
-+                  <hbox id="fxaDeviceName">
-+                      <html:input id="fxaSyncComputerName" type="text" disabled="true" />
-+                      <button id="fxaChangeDeviceName"
-+                              is="highlightable-button"
-+                              class="needs-account-ready"
-+                              data-l10n-id="sync-device-name-change" />
-+                      <button id="fxaCancelChangeDeviceName"
-+                              is="highlightable-button"
-+                              data-l10n-id="sync-device-name-cancel"
-+                              hidden="true" />
-+                      <button id="fxaSaveChangeDeviceName"
-+                              is="highlightable-button"
-+                              data-l10n-id="sync-device-name-save"
-+                              hidden="true" />
-+                  </hbox>
-+              </groupbox>
-+
-+              <groupbox>
-+                  <deck id="syncStatus" flex="1">
-+                      <!-- sync not yet configured. -->
-+                      <vbox id="syncNotConfigured">
-+                          <label>
-+                              <html:h2 data-l10n-id="prefs-syncing-off" />
-+                          </label>
-+                          <hbox class="sync-group info-box-container">
-+                              <vbox flex="1">
-+                                  <label data-l10n-id="prefs-sync-offer-setup-label2" />
-+                              </vbox>
-+                              <vbox>
-+                                  <button id="syncSetup"
-+                                          is="highlightable-button"
-+                                          class="accessory-button needs-account-ready"
-+                                          data-l10n-id="prefs-sync-turn-on-syncing" />
-+                              </vbox>
-+                          </hbox>
-+                      </vbox>
-+
-+                      <vbox id="syncConfigured">
-+                          <hbox>
-+                              <html:h2 data-l10n-id="prefs-syncing-on" />
-+                              <spacer flex="1" />
-+                              <button id="syncNow"
-+                                      class="accessory-button needs-account-ready"
-+                                      data-l10n-id="prefs-sync-now"
-+                                      data-l10n-attrs="labelnotsyncing, accesskeynotsyncing, labelsyncing" />
-+                          </hbox>
-+                          <vbox class="sync-group info-box-container sync-configured">
-+                              <label data-l10n-id="sync-syncing-across-devices-heading" />
-+                              <html:div class="sync-engines-list">
-+                                  <html:div engine_preference="services.sync.engine.bookmarks">
-+                                      <image class="sync-engine-image sync-engine-bookmarks" />
-+                                      <label data-l10n-id="sync-currently-syncing-bookmarks" />
-+                                  </html:div>
-+                                  <html:div engine_preference="services.sync.engine.history">
-+                                      <image class="sync-engine-image sync-engine-history" />
-+                                      <label data-l10n-id="sync-currently-syncing-history" />
-+                                  </html:div>
-+                                  <!--                  <html:div engine_preference="services.sync.engine.tabs">
-+                                                    <image class="sync-engine-image sync-engine-tabs"/>
-+                                                    <label data-l10n-id="sync-currently-syncing-tabs"/>
-+                                                  </html:div>-->
-+                                  <html:div engine_preference="services.sync.engine.passwords">
-+                                      <image class="sync-engine-image sync-engine-passwords" />
-+                                      <label data-l10n-id="sync-currently-syncing-logins-passwords" />
-+                                  </html:div>
-+                                  <html:div engine_preference="services.sync.engine.addresses">
-+                                      <image class="sync-engine-image sync-engine-addresses" />
-+                                      <label data-l10n-id="sync-currently-syncing-addresses" />
-+                                  </html:div>
-+                                  <html:div engine_preference="services.sync.engine.creditcards">
-+                                      <image class="sync-engine-image sync-engine-creditcards" />
-+                                      <label data-l10n-id="sync-currently-syncing-creditcards" />
-+                                  </html:div>
-+                                  <html:div engine_preference="services.sync.engine.addons">
-+                                      <image class="sync-engine-image sync-engine-addons" />
-+                                      <label data-l10n-id="sync-currently-syncing-addons" />
-+                                  </html:div>
-+                                  <html:div engine_preference="services.sync.engine.prefs">
-+                                      <image class="sync-engine-image sync-engine-prefs" />
-+                                      <label data-l10n-id="sync-currently-syncing-settings" />
-+                                  </html:div>
-+                              </html:div>
-+                              <hbox>
-+                                  <button id="syncChangeOptions"
-+                                          is="highlightable-button"
-+                                          data-l10n-id="sync-change-options" />
-+                                  <spacer flex="1" />
-+                              </hbox>
-+                          </vbox>
-+                      </vbox>
-+                  </deck>
-+              </groupbox>
-+          </vbox>
-+      </hbox>
+--- firefox-112.0.2.orig/browser/components/preferences/sync.inc.xhtml
++++ firefox-112.0.2/browser/components/preferences/sync.inc.xhtml
+@@ -233,12 +233,14 @@
+         </groupbox>
+       </vbox>
+     </hbox>
+-    <vbox align="start">
+-      <label id="connect-another-device"
+-             is="text-link"
+-             class="fxaMobilePromo"
+-             data-l10n-id="sync-connect-another-device"/>
+-    </vbox>
 +      <!-- MagIns - Remove the Connect Another Device link from the Sync preferences page
 +        <vbox align="start">
 +          <html:a id="connect-another-device"
@@ -667,24 +318,13 @@ Index: mozilla-release/browser/components/preferences/sync.inc.xhtml
 +                 target="_blank"
 +                 data-l10n-id="sync-connect-another-device"/>
 +        </vbox>-->
-       </vbox>
--    </hbox>
--    <vbox align="start">
--      <html:a id="connect-another-device"
--             is="text-link"
--             class="fxaMobilePromo"
--             target="_blank"
--             data-l10n-id="sync-connect-another-device"/>
--    </vbox>
--  </vbox>
--</deck>
--</html:template>
-+    </deck>
-+    </html:template>
-Index: mozilla-release/browser/components/preferences/sync.js
+   </vbox>
+ </deck>
+ </html:template>
+Index: firefox-112.0.2/browser/components/preferences/sync.js
 ===================================================================
---- mozilla-release.orig/browser/components/preferences/sync.js
-+++ mozilla-release/browser/components/preferences/sync.js
+--- firefox-112.0.2.orig/browser/components/preferences/sync.js
++++ firefox-112.0.2/browser/components/preferences/sync.js
 @@ -106,11 +106,11 @@ var gSyncPane = {
  
      FxAccounts.config
@@ -699,11 +339,11 @@ Index: mozilla-release/browser/components/preferences/sync.js
      // Links for mobile devices.
      for (let platform of ["android", "ios"]) {
        let url =
-Index: mozilla-release/modules/libpref/init/all.js
+Index: firefox-112.0.2/modules/libpref/init/all.js
 ===================================================================
---- mozilla-release.orig/modules/libpref/init/all.js
-+++ mozilla-release/modules/libpref/init/all.js
-@@ -3980,7 +3980,9 @@ pref("services.common.log.logger.tokense
+--- firefox-112.0.2.orig/modules/libpref/init/all.js
++++ firefox-112.0.2/modules/libpref/init/all.js
+@@ -3986,7 +3986,9 @@ pref("services.common.log.logger.tokense
    pref("services.sync.engine.history", true);
    pref("services.sync.engine.passwords", true);
    pref("services.sync.engine.prefs", true);

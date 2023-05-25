@@ -1,7 +1,7 @@
-Index: firefox-112.0.2/browser/app/profile/firefox.js
+Index: mozilla-release/browser/app/profile/firefox.js
 ===================================================================
---- firefox-112.0.2.orig/browser/app/profile/firefox.js
-+++ firefox-112.0.2/browser/app/profile/firefox.js
+--- mozilla-release.orig/browser/app/profile/firefox.js
++++ mozilla-release/browser/app/profile/firefox.js
 @@ -293,16 +293,12 @@ pref("browser.shell.setDefaultPDFHandler
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
@@ -21,7 +21,7 @@ Index: firefox-112.0.2/browser/app/profile/firefox.js
  
  // Whether we should show the session-restore infobar on startup
  pref("browser.startup.couldRestoreSession.count", 0);
-@@ -2401,7 +2397,9 @@ pref("toolkit.coverage.endpoint.base", "
+@@ -2403,7 +2399,9 @@ pref("toolkit.coverage.endpoint.base", "
  pref("toolkit.coverage.opt-out", true);
  
  // Discovery prefs
@@ -32,8 +32,8 @@ Index: firefox-112.0.2/browser/app/profile/firefox.js
  pref("browser.discovery.containers.enabled", true);
  pref("browser.discovery.sites", "addons.mozilla.org");
  
-@@ -2904,6 +2902,13 @@ pref("cookiebanners.ui.desktop.cfrVarian
-   pref("browser.swipe.navigation-icon-max-radius", 20);
+@@ -2915,6 +2913,13 @@ pref("cookiebanners.ui.desktop.cfrVarian
+   pref("telemetry.fog.artifact_build", true);
  #endif
  
 +/* MagIns - Disable Recommendation pane in about:addons (Arkenfox 0320)*/
@@ -46,11 +46,11 @@ Index: firefox-112.0.2/browser/app/profile/firefox.js
  /* MagIns - The browser milestone records the version number of the last successful
              startup. After updates/upgrades, the user's homepage is changed to show
              a promotional page about the update. Setting this to "ignore", the value
-Index: firefox-112.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
+Index: mozilla-release/browser/base/content/appmenu-viewcache.inc.xhtml
 ===================================================================
---- firefox-112.0.2.orig/browser/base/content/appmenu-viewcache.inc.xhtml
-+++ firefox-112.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
-@@ -537,10 +537,12 @@
+--- mozilla-release.orig/browser/base/content/appmenu-viewcache.inc.xhtml
++++ mozilla-release/browser/base/content/appmenu-viewcache.inc.xhtml
+@@ -535,10 +535,12 @@
  
    <panelview id="PanelUI-fxa" class="PanelUI-subView">
      <vbox id="PanelUI-fxa-menu" class="panel-subview-body">
@@ -64,10 +64,10 @@ Index: firefox-112.0.2/browser/base/content/appmenu-viewcache.inc.xhtml
          <vbox flex="1">
            <label id="fxa-menu-header-title"
                   crop="end"
-Index: firefox-112.0.2/browser/base/content/browser-menubar.inc
+Index: mozilla-release/browser/base/content/browser-menubar.inc
 ===================================================================
---- firefox-112.0.2.orig/browser/base/content/browser-menubar.inc
-+++ firefox-112.0.2/browser/base/content/browser-menubar.inc
+--- mozilla-release.orig/browser/base/content/browser-menubar.inc
++++ mozilla-release/browser/base/content/browser-menubar.inc
 @@ -467,10 +467,11 @@
  #else
                            />
@@ -81,10 +81,10 @@ Index: firefox-112.0.2/browser/base/content/browser-menubar.inc
                  <menuitem id="helpSafeMode"
                            oncommand="safeModeRestart();"
                            data-l10n-id="menu-help-enter-troubleshoot-mode2"
-Index: firefox-112.0.2/browser/base/content/default-bookmarks.html
+Index: mozilla-release/browser/base/content/default-bookmarks.html
 ===================================================================
---- firefox-112.0.2.orig/browser/base/content/default-bookmarks.html
-+++ firefox-112.0.2/browser/base/content/default-bookmarks.html
+--- mozilla-release.orig/browser/base/content/default-bookmarks.html
++++ mozilla-release/browser/base/content/default-bookmarks.html
 @@ -19,11 +19,11 @@
      <!-- These localization links are not automatically applied to any XHR
           response body and must be applied manually as well.  They are included
@@ -107,11 +107,11 @@ Index: firefox-112.0.2/browser/base/content/default-bookmarks.html
 -</body>
 +</body>-->
  </html>
-Index: firefox-112.0.2/browser/base/content/utilityOverlay.js
+Index: mozilla-release/browser/base/content/utilityOverlay.js
 ===================================================================
---- firefox-112.0.2.orig/browser/base/content/utilityOverlay.js
-+++ firefox-112.0.2/browser/base/content/utilityOverlay.js
-@@ -505,9 +505,11 @@ function openFeedbackPage() {
+--- mozilla-release.orig/browser/base/content/utilityOverlay.js
++++ mozilla-release/browser/base/content/utilityOverlay.js
+@@ -504,9 +504,11 @@ function openFeedbackPage() {
  }
  
  function buildHelpMenu() {
@@ -124,10 +124,10 @@ Index: firefox-112.0.2/browser/base/content/utilityOverlay.js
  
    document.getElementById(
      "helpSafeMode"
-Index: firefox-112.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+Index: mozilla-release/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 ===================================================================
---- firefox-112.0.2.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
-+++ firefox-112.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
+--- mozilla-release.orig/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
++++ mozilla-release/browser/components/newtab/aboutwelcome/AboutWelcomeParent.jsm
 @@ -178,9 +178,11 @@ class AboutWelcomeParent extends JSWindo
          lazy.SpecialMessageActions.handleAction(data, browser);
          break;
@@ -142,11 +142,11 @@ Index: firefox-112.0.2/browser/components/newtab/aboutwelcome/AboutWelcomeParent
          break;
        case "AWPage:GET_ATTRIBUTION_DATA":
          let attributionData = await lazy.AboutWelcomeDefaults.getAttributionContent();
-Index: firefox-112.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+Index: mozilla-release/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
 ===================================================================
---- firefox-112.0.2.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-+++ firefox-112.0.2/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
-@@ -1821,10 +1821,10 @@ function addUtmParams(url, utmTerm) {
+--- mozilla-release.orig/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
++++ mozilla-release/browser/components/newtab/aboutwelcome/content/aboutwelcome.bundle.js
+@@ -1859,10 +1859,10 @@ function addUtmParams(url, utmTerm) {
      returnUrl = new URL(url);
    }
  
@@ -159,10 +159,10 @@ Index: firefox-112.0.2/browser/components/newtab/aboutwelcome/content/aboutwelco
    return returnUrl;
  }
  
-Index: firefox-112.0.2/browser/components/newtab/lib/ActivityStream.jsm
+Index: mozilla-release/browser/components/newtab/lib/ActivityStream.jsm
 ===================================================================
---- firefox-112.0.2.orig/browser/components/newtab/lib/ActivityStream.jsm
-+++ firefox-112.0.2/browser/components/newtab/lib/ActivityStream.jsm
+--- mozilla-release.orig/browser/components/newtab/lib/ActivityStream.jsm
++++ mozilla-release/browser/components/newtab/lib/ActivityStream.jsm
 @@ -313,7 +313,7 @@ const PREFS_CONFIG = new Map([
            return "";
          }
@@ -181,10 +181,10 @@ Index: firefox-112.0.2/browser/components/newtab/lib/ActivityStream.jsm
          return searchShortcuts.join(",");
        },
      },
-Index: firefox-112.0.2/browser/components/newtab/lib/DefaultSites.jsm
+Index: mozilla-release/browser/components/newtab/lib/DefaultSites.jsm
 ===================================================================
---- firefox-112.0.2.orig/browser/components/newtab/lib/DefaultSites.jsm
-+++ firefox-112.0.2/browser/components/newtab/lib/DefaultSites.jsm
+--- mozilla-release.orig/browser/components/newtab/lib/DefaultSites.jsm
++++ mozilla-release/browser/components/newtab/lib/DefaultSites.jsm
 @@ -8,39 +8,39 @@ const DEFAULT_SITES_MAP = new Map([
    // This first item is the global list fallback for any unexpected geos
    [
@@ -234,10 +234,10 @@ Index: firefox-112.0.2/browser/components/newtab/lib/DefaultSites.jsm
    ],
  ]);
  
-Index: firefox-112.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
+Index: mozilla-release/browser/components/newtab/lib/SearchShortcuts.jsm
 ===================================================================
---- firefox-112.0.2.orig/browser/components/newtab/lib/SearchShortcuts.jsm
-+++ firefox-112.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
+--- mozilla-release.orig/browser/components/newtab/lib/SearchShortcuts.jsm
++++ mozilla-release/browser/components/newtab/lib/SearchShortcuts.jsm
 @@ -6,6 +6,7 @@
  // List of sites we match against Topsites in order to identify sites
  // that should be converted to search Topsites
@@ -271,11 +271,11 @@ Index: firefox-112.0.2/browser/components/newtab/lib/SearchShortcuts.jsm
    {
      keyword: "@wikipedia",
      shortURL: "wikipedia",
-Index: firefox-112.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
+Index: mozilla-release/browser/components/newtab/lib/TopSitesFeed.jsm
 ===================================================================
---- firefox-112.0.2.orig/browser/components/newtab/lib/TopSitesFeed.jsm
-+++ firefox-112.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
-@@ -587,6 +587,7 @@ class TopSitesFeed {
+--- mozilla-release.orig/browser/components/newtab/lib/TopSitesFeed.jsm
++++ mozilla-release/browser/components/newtab/lib/TopSitesFeed.jsm
+@@ -593,6 +593,7 @@ class TopSitesFeed {
     * @returns {Boolean} Did we insert any search shortcuts?
     */
    async _maybeInsertSearchShortcuts(plainPinnedSites) {
@@ -283,7 +283,7 @@ Index: firefox-112.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
      // Only insert shortcuts if the experiment is running
      if (this.store.getState().Prefs.values[SEARCH_SHORTCUTS_EXPERIMENT]) {
        // We don't want to insert shortcuts we've previously inserted
-@@ -658,7 +659,7 @@ class TopSitesFeed {
+@@ -664,7 +665,7 @@ class TopSitesFeed {
          return true;
        }
      }
@@ -292,11 +292,11 @@ Index: firefox-112.0.2/browser/components/newtab/lib/TopSitesFeed.jsm
      return false;
    }
  
-Index: firefox-112.0.2/browser/components/preferences/preferences.js
+Index: mozilla-release/browser/components/preferences/preferences.js
 ===================================================================
---- firefox-112.0.2.orig/browser/components/preferences/preferences.js
-+++ firefox-112.0.2/browser/components/preferences/preferences.js
-@@ -272,7 +272,7 @@ function init_all() {
+--- mozilla-release.orig/browser/components/preferences/preferences.js
++++ mozilla-release/browser/components/preferences/preferences.js
+@@ -271,7 +271,7 @@ function init_all() {
      let helpButton = document.getElementById("helpButton");
      let helpUrl =
        Services.urlFormatter.formatURLPref("app.support.baseURL") +
@@ -305,40 +305,40 @@ Index: firefox-112.0.2/browser/components/preferences/preferences.js
      helpButton.setAttribute("href", helpUrl);
  
      document.getElementById("addonsButton").addEventListener("click", e => {
-Index: firefox-112.0.2/browser/components/preferences/sync.inc.xhtml
+Index: mozilla-release/browser/components/preferences/sync.inc.xhtml
 ===================================================================
---- firefox-112.0.2.orig/browser/components/preferences/sync.inc.xhtml
-+++ firefox-112.0.2/browser/components/preferences/sync.inc.xhtml
+--- mozilla-release.orig/browser/components/preferences/sync.inc.xhtml
++++ mozilla-release/browser/components/preferences/sync.inc.xhtml
 @@ -63,8 +63,10 @@
  
-             <!-- logged in and verified and all is good -->
-             <hbox id="fxaLoginVerified" align="center" flex="1">
-+              <!-- MagIns - Allowing users to set profile images would be a privacy leak,
+                       <!-- logged in and verified and all is good -->
+                       <hbox id="fxaLoginVerified" align="center" flex="1">
++<!-- MagIns - Allowing users to set profile images would be a privacy leak,
 +              so change fxaProfileImage to not be actionable.-->
-               <image id="openChangeProfileImage"
--                     class="fxaProfileImage actionable"
-+                     class="fxaProfileImage"
-                      role="button"
-                      data-l10n-id="sync-profile-picture"/>
-               <vbox flex="1" pack="center">
+                           <image id="openChangeProfileImage"
+-                                 class="fxaProfileImage actionable"
++                                 class="fxaProfileImage"
+                                  role="button"
+                                  data-l10n-id="sync-profile-picture" />
+                           <vbox flex="1" pack="center">
 @@ -73,10 +75,12 @@
-                     <html:h2 id="fxaDisplayNameHeading"/>
-                   </label>
-                   <label id="fxaEmailAddress" flex="1" crop="end"/>
+                                       <html:h2 id="fxaDisplayNameHeading" />
+                                   </label>
+                                   <label id="fxaEmailAddress" flex="1" crop="end" />
 +<!-- MagIns - Remove the Sign Out button, since we prefer users to logout
 +              from the Flask app instead for client-server consistency.
-                   <button id="fxaUnlinkButton"
-                           is="highlightable-button"
-                           class="accessory-button"
--                          data-l10n-id="sync-sign-out"/>
-+                          data-l10n-id="sync-sign-out"/>-->
-                 </hbox>
-                 <hbox>
-                   <html:a id="verifiedManage" class="openLink" target="_blank"
-Index: firefox-112.0.2/browser/components/preferences/sync.js
+                                   <button id="fxaUnlinkButton"
+                                           is="highlightable-button"
+                                           class="accessory-button"
+-                                          data-l10n-id="sync-sign-out" />
++                                          data-l10n-id="sync-sign-out" />-->
+                               </hbox>
+                               <hbox>
+                                   <html:a id="verifiedManage" class="openLink" target="_blank"
+Index: mozilla-release/browser/components/preferences/sync.js
 ===================================================================
---- firefox-112.0.2.orig/browser/components/preferences/sync.js
-+++ firefox-112.0.2/browser/components/preferences/sync.js
+--- mozilla-release.orig/browser/components/preferences/sync.js
++++ mozilla-release/browser/components/preferences/sync.js
 @@ -215,9 +215,9 @@ var gSyncPane = {
        gSyncPane.signIn();
        return false;
@@ -369,10 +369,10 @@ Index: firefox-112.0.2/browser/components/preferences/sync.js
    },
  
    verifyFirefoxAccount() {
-Index: firefox-112.0.2/services/settings/dumps/main/top-sites.json
+Index: mozilla-release/services/settings/dumps/main/top-sites.json
 ===================================================================
---- firefox-112.0.2.orig/services/settings/dumps/main/top-sites.json
-+++ firefox-112.0.2/services/settings/dumps/main/top-sites.json
+--- mozilla-release.orig/services/settings/dumps/main/top-sites.json
++++ mozilla-release/services/settings/dumps/main/top-sites.json
 @@ -1,401 +1,6 @@
  {
    "data": [
@@ -776,11 +776,11 @@ Index: firefox-112.0.2/services/settings/dumps/main/top-sites.json
    ],
    "timestamp": 1647020600359
  }
-Index: firefox-112.0.2/toolkit/content/jar.mn
+Index: mozilla-release/toolkit/content/jar.mn
 ===================================================================
---- firefox-112.0.2.orig/toolkit/content/jar.mn
-+++ firefox-112.0.2/toolkit/content/jar.mn
-@@ -54,8 +54,6 @@ toolkit.jar:
+--- mozilla-release.orig/toolkit/content/jar.mn
++++ mozilla-release/toolkit/content/jar.mn
+@@ -56,8 +56,6 @@ toolkit.jar:
     content/global/filepicker.properties
     content/global/customElements.js
     content/global/globalOverlay.js
